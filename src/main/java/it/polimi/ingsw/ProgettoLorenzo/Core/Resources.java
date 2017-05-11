@@ -3,11 +3,14 @@ package it.polimi.ingsw.ProgettoLorenzo.Core;
 import com.google.gson.JsonObject;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 
+// FIXME This class suffers from a very rare form of DRY violation.
+// FIXME Breeding code is nice, but this is not a rabbit family.
+
 public class Resources {
-    //private Map<String, Integer> resourcesList = new HashMap<>();
     private final int coin;
     private final int wood;
     private final int stone;
@@ -15,6 +18,8 @@ public class Resources {
     private final int victoryPoint;
     private final int militaryPoint;
     private final int faithPoint;
+
+    private Map<String, Integer> resourcesList = new HashMap<>();
 
     private Resources(
             final int coin,
@@ -31,6 +36,14 @@ public class Resources {
         this.victoryPoint = victoryPoint;
         this.militaryPoint = militaryPoint;
         this.faithPoint = faithPoint;
+
+        this.resourcesList.put("coin", this.coin);
+        this.resourcesList.put("wood", this.wood);
+        this.resourcesList.put("stone", this.stone);
+        this.resourcesList.put("servant", this.servant);
+        this.resourcesList.put("victoryPoint", this.victoryPoint);
+        this.resourcesList.put("militaryPoint", this.militaryPoint);
+        this.resourcesList.put("faithPoint", this.faithPoint);
     }
 
 
@@ -87,9 +100,7 @@ public class Resources {
 
 
     public static Resources fromJson(JsonObject src) {
-        // FIXME find a nicer way to do this
-
-        System.out.println(src);
+        System.out.println(src);  // XXX DEBUG
         // FIXME the following can of course fail if any of those fields is not
         // present.  Instead if it is non-existent it should just skip it (so
         // the field will be set to 0).
@@ -108,19 +119,20 @@ public class Resources {
 
     private String appendIfNotZero(String key, int value) {
         if (value != 0) {
-            return key + value;
+            return key + ": " + value;
         }
         return "";
     }
 
     @Override
     public String toString() {
-        String out = new String("");
+        String out = "";
 
-        System.out.println(this.coin);
-        System.out.println(this.wood);
-        System.out.println(this.stone);
-        //this.resourcesList.forEach((key, value) -> out.concat(appendIfNotZero(key, value)));
+        Iterator it = this.resourcesList.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            out = out + this.appendIfNotZero(pair.getKey().toString(), (int)pair.getValue());
+        }
         return out;
     }
 }
