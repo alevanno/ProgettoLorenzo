@@ -9,13 +9,93 @@
             }
         ],
         "immediateActions": {
-            "concilPrivilege": 1
-        },
+            "resources": {
+                "coins": 5
+            },
+            "councilPrivilege": 1,
+            "production": 3,
+            "pickCard": {
+                "type": "any",
+                "value": 7,
+                "discount": [
+                    {
+                        "stone": 1,
+                        "wood": 1
+                    }
+                ]
+            },
+            "multiplier": {
+                "type": "character",
+                "bonus": {
+                    "victoryPoint": 2
+                }
+            }
+       },
         "permanentActions": {
+            "harvest": {
+                "value": 3,
+                "resources": {
+                    "stone": 3,
+                    "coin": 2
+                },
+                "councilPrivilege": 1
+            },
+            "final": {
+                "victoryPoints": 5
+            },
             "cardsValue": {
                 "type": "characters",
                 "modifier": 2
-            }
+            },
+            "production": {
+                "value": 3,
+                "multiplier": {
+                    "type": "building",
+                    "bonus": {
+                        "coin": 1
+                    }
+                },
+                "resources": {
+                    "stone": 3,
+                    "coin": 2
+                },
+                "councilPrivilege": 1
+                "produce": [
+                    {
+                        "src": [
+                            {
+                                "stone": 1
+                            },
+                            {
+                                "wood": 1
+                            }
+                        ],
+                        "dest": [
+                            {
+                                "respurces": {
+                                    "coin": 3
+                                }
+                            },
+                            {
+                                "councilPrivilege": 1
+                            }
+                        ]
+                    }
+                ]
+            ,
+            "towerBonus": {
+                "type": "character",
+                "plusValue": 2
+                "discount": [
+                    {
+                        "stone": 1,
+                        "wood": 1
+                    }
+                ]
+            },
+            "harvestPlusValue": 2,
+            "productionPlusValue": 2,
+            "boycottInstantTowerBonus": false
         }
     }
 ]

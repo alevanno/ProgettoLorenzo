@@ -117,7 +117,7 @@ public class Resources {
         //this.resourcesList.forEach((key, value) -> value = src.get(key).getAsInt());
     }
 
-    private String appendIfNotZero(String key, int value) {
+    private static String appendIfNotZero(String key, int value) {
         if (value != 0) {
             return key + ": " + value;
         }
