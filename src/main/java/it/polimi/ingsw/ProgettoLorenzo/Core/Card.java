@@ -6,9 +6,7 @@ import java.util.Scanner;
 
 import com.google.gson.*;
 
-/**
- * Created by Alessandro on 10/05/2017.
- */
+
 public abstract class Card extends Action {
     public final String cardName;  // FIXME make me private
     private final List<Resources> cardCost = new ArrayList<>();
@@ -24,7 +22,7 @@ public abstract class Card extends Action {
         this.cardPeriod = src.get("period").getAsString();
         for (int i=0; i < src.get("cost").getAsJsonArray().size() ; i++) {
             // FIXME way too many getAsFoo()....
-            this.cardCost.add(new Resources(src.get("cost").getAsJsonArray().get(i).getAsJsonObject()));
+            this.cardCost.add(Resources.fromJson(src.get("cost").getAsJsonArray().get(i).getAsJsonObject()));
         }
     }
 
