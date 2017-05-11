@@ -1,0 +1,23 @@
+[
+    {
+        "name": "Knight",
+        "period": 1,
+        "type": "characters",
+        "cost": [
+            {
+                "coin": 2,
+                "stone": 0,
+                "wood": 0
+            }
+        ],
+        "immediateActions": {
+            "concilPrivilege": 1
+        },
+        "permanentActions": {
+            "cardsValue": {
+                "type": "characters",
+                "modifier": 2
+            }
+        }
+    }
+]
