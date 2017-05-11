@@ -90,10 +90,17 @@ public class Resources {
         // FIXME find a nicer way to do this
 
         System.out.println(src);
+        // FIXME the following can of course fail if any of those fields is not
+        // present.  Instead if it is non-existent it should just skip it (so
+        // the field will be set to 0).
         return new ResBuilder()
             .coin(src.get("coin").getAsInt())
             .wood(src.get("wood").getAsInt())
             .stone(src.get("stone").getAsInt())
+            .servant(src.get("servant").getAsInt())
+            .victoryPoint(src.get("victoryPoint").getAsInt())
+            .militaryPoint(src.get("militaryPoint").getAsInt())
+            .faithPoint(src.get("faithPoint").getAsInt())
             .build();
 
         //this.resourcesList.forEach((key, value) -> value = src.get(key).getAsInt());

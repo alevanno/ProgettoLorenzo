@@ -7,7 +7,11 @@
             {
                 "coin": 2,
                 "stone": 0,
-                "wood": 0
+                "wood": 0,
+                "servant": 0,
+                "victoryPoint": 0,
+                "militaryPoint": 0,
+                "faithPoint": 0
             }
         ],
         "immediateActions": {
