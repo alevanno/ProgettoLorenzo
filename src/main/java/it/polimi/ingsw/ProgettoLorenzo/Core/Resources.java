@@ -105,13 +105,13 @@ public class Resources {
         // present.  Instead if it is non-existent it should just skip it (so
         // the field will be set to 0).
         return new ResBuilder()
-            .coin(src.get("coin").getAsInt())
-            .wood(src.get("wood").getAsInt())
-            .stone(src.get("stone").getAsInt())
-            .servant(src.get("servant").getAsInt())
-            .victoryPoint(src.get("victoryPoint").getAsInt())
-            .militaryPoint(src.get("militaryPoint").getAsInt())
-            .faithPoint(src.get("faithPoint").getAsInt())
+            .coin(Utils.returnZeroIfMissing(src, "coin"))
+            .wood(Utils.returnZeroIfMissing(src,"wood"))
+            .stone(Utils.returnZeroIfMissing(src,"stone"))
+            .servant(Utils.returnZeroIfMissing(src,"servant"))
+            .victoryPoint(Utils.returnZeroIfMissing(src,"victoryPoint"))
+            .militaryPoint(Utils.returnZeroIfMissing(src,"militaryPoint"))
+            .faithPoint(Utils.returnZeroIfMissing(src,"faithPoint"))
             .build();
 
         //this.resourcesList.forEach((key, value) -> value = src.get(key).getAsInt());
