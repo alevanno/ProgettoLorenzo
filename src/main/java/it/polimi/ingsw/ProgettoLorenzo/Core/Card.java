@@ -27,6 +27,7 @@ public abstract class Card extends Action {
     }
 
     public Resources getCardCost() {
+        // FIXME this crashes if size == 0
         if (this.cardCost.size() > 1) {
             System.out.println("You can choose what to pay:");
             for(Resources item: this.cardCost) {
