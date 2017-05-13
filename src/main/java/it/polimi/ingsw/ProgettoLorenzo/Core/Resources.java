@@ -116,6 +116,19 @@ public class Resources {
         //this.resourcesList.forEach((key, value) -> value = src.get(key).getAsInt());
     }
 
+
+    public Resources merge(Resources op) {
+        return new ResBuilder()
+            .coin(this.coin + op.coin)
+            .wood(this.wood + op.wood)
+            .stone(this.stone + op.stone)
+            .servant(this.servant + op.servant)
+            .victoryPoint(this.victoryPoint + op.victoryPoint)
+            .militaryPoint(this.militaryPoint + op.militaryPoint)
+            .faithPoint(this.faithPoint + op.faithPoint)
+            .build();
+    }
+
     private static String appendIfNotZero(String key, int value) {
         if (value != 0) {
             return key + ": " + value;
