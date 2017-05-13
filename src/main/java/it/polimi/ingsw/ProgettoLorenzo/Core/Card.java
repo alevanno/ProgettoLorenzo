@@ -24,19 +24,24 @@ public abstract class Card extends Action {
             this.cardCost.add(Resources.fromJson(src.get("cost").getAsJsonArray().get(i).getAsJsonObject()));
         }
 
-        Iterator imm = src.get("immediateActions").getAsJsonObject().entrySet().iterator();
-        while(imm.hasNext()){
-            Map.Entry pair = (Map.Entry) imm.next();
-            immediateEff.put(pair.getKey().toString(), (JsonElement)pair.getValue());
+        JsonElement obj = src.get("immediateActions");
+        if (obj != null) {
+            Iterator imm = obj.getAsJsonObject().entrySet().iterator();
+            while (imm.hasNext()) {
+                Map.Entry pair = (Map.Entry) imm.next();
+                immediateEff.put(pair.getKey().toString(), (JsonElement) pair.getValue());
+            }
         }
 
 
-        Iterator per = src.get("permanentActions").getAsJsonObject().entrySet().iterator();
-        while(per.hasNext()){
-            Map.Entry pair = (Map.Entry) per.next();
-            permanentEff.put(pair.getKey().toString(), (JsonElement)pair.getValue());
+        obj = src.get("permanentAction");
+        if (obj != null) {
+            Iterator per = obj.getAsJsonObject().entrySet().iterator();
+            while (per.hasNext()) {
+                Map.Entry pair = (Map.Entry) per.next();
+                permanentEff.put(pair.getKey().toString(), (JsonElement) pair.getValue());
+            }
         }
-
     }
 
     public Resources getCardCost() {
