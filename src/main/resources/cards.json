@@ -6,6 +6,9 @@
         "cost": [
             {
                 "coin": 2
+            },
+            {
+                "militaryPoint": 5
             }
         ],
         "immediateActions": {
