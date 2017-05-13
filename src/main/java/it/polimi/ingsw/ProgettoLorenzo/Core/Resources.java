@@ -129,22 +129,20 @@ public class Resources {
             .build();
     }
 
-    private static String appendIfNotZero(String key, int value) {
-        if (value != 0) {
-            return key + ": " + value;
-        }
-        return "";
-    }
-
     @Override
     public String toString() {
-        String out = "";
+        String out = "{";
 
         Iterator it = this.resourcesList.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
-            out = out + this.appendIfNotZero(pair.getKey().toString(), (int)pair.getValue());
+            boolean i = false;
+            if ((int)pair.getValue() != 0) {
+                if (i) { out += ","; }
+                out += pair.getKey().toString() + ": " + pair.getValue();
+            }
         }
+        out += "}";
         return out;
     }
 }

@@ -13,6 +13,7 @@ public class Foo {
         String filename = classLoader.getResource("cards.json").getFile();
         JsonArray data = new JsonParser().parse(new FileReader(filename)).getAsJsonArray();
         Deck deck = new Deck();
+        new TerrainCard(data.get(0).getAsJsonObject()).print();
         for (int i = 0; i < data.size(); i++){
             deck.add(new TerrainCard(data.get(i).getAsJsonObject()));
         }
