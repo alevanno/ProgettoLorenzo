@@ -19,7 +19,7 @@ public abstract class Card extends Action {
         this.cardType = src.get("type").getAsString();
         this.cardPeriod = src.get("period").getAsString();
 
-        for (int i=0; i < src.get("cost").getAsJsonArray().size() ; i++) {
+        for (int i = 0; i < src.get("cost").getAsJsonArray().size(); i++) {
             // FIXME way too many getAsFoo()....
             this.cardCost.add(Resources.fromJson(src.get("cost").getAsJsonArray().get(i).getAsJsonObject()));
         }
@@ -48,14 +48,19 @@ public abstract class Card extends Action {
         // FIXME this crashes if size == 0
         if (this.cardCost.size() > 1) {
             System.out.println("You can choose what to pay:");
-            for(Resources item: this.cardCost) {
-               System.out.println(item.toString());
+            for (Resources item : this.cardCost) {
+                System.out.println(item.toString());
             }
             System.out.print("Insert number: ");
             Scanner in = new Scanner(System.in);
             return this.cardCost.get(in.nextInt());
         }
         return this.cardCost.get(0);
+    }
+
+    @Override
+    public String toString() {
+        return this.cardName;
     }
 }
 
