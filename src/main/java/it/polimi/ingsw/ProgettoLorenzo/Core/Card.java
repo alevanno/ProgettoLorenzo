@@ -1,8 +1,7 @@
 package it.polimi.ingsw.ProgettoLorenzo.Core;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
+
 import com.google.gson.*;
 
 
@@ -12,17 +11,32 @@ public abstract class Card extends Action {
 
     private final String cardType;
     private final String cardPeriod;
-    //private final JsonArray immediateEff;
-    //private final JsonArray permanentEff;
+    public final Map<String, JsonElement> immediateEff = new HashMap<>();
+    public final Map<String, JsonElement> permanentEff = new HashMap<>();
 
     public Card(JsonObject src) {
         this.cardName = src.get("name").getAsString();
         this.cardType = src.get("type").getAsString();
         this.cardPeriod = src.get("period").getAsString();
+
         for (int i=0; i < src.get("cost").getAsJsonArray().size() ; i++) {
             // FIXME way too many getAsFoo()....
             this.cardCost.add(Resources.fromJson(src.get("cost").getAsJsonArray().get(i).getAsJsonObject()));
         }
+
+        Iterator imm = src.get("immediateActions").getAsJsonObject().entrySet().iterator();
+        while(imm.hasNext()){
+            Map.Entry pair = (Map.Entry) imm.next();
+            immediateEff.put(pair.getKey().toString(), (JsonElement)pair.getValue());
+        }
+
+
+        Iterator per = src.get("permanentActions").getAsJsonObject().entrySet().iterator();
+        while(per.hasNext()){
+            Map.Entry pair = (Map.Entry) per.next();
+            permanentEff.put(pair.getKey().toString(), (JsonElement)pair.getValue());
+        }
+
     }
 
     public Resources getCardCost() {
@@ -39,5 +53,15 @@ public abstract class Card extends Action {
         return this.cardCost.get(0);
     }
 }
+
+
+
+
+
+
+
+
+
+
 
 
