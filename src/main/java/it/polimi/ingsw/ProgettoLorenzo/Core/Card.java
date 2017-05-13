@@ -6,13 +6,13 @@ import com.google.gson.*;
 
 
 public abstract class Card extends Action {
-    public final String cardName;  // FIXME make me private
-    private final List<Resources> cardCost = new ArrayList<>();
+    public final String cardName;
+    public final String cardType;
+    public final String cardPeriod;
 
-    private final String cardType;
-    private final String cardPeriod;
-    public final Map<String, JsonElement> immediateEff = new HashMap<>();
-    public final Map<String, JsonElement> permanentEff = new HashMap<>();
+    private final List<Resources> cardCost = new ArrayList<>();
+    private final Map<String, JsonElement> immediateEff = new HashMap<>();
+    private final Map<String, JsonElement> permanentEff = new HashMap<>();
 
     public Card(JsonObject src) {
         this.cardName = src.get("name").getAsString();

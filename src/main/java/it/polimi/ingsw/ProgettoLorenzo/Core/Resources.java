@@ -11,13 +11,13 @@ import java.util.Map;
 // FIXME Breeding code is nice, but this is not a rabbit family.
 
 public class Resources {
-    private final int coin;
-    private final int wood;
-    private final int stone;
-    private final int servant;
-    private final int victoryPoint;
-    private final int militaryPoint;
-    private final int faithPoint;
+    public final int coin;
+    public final int wood;
+    public final int stone;
+    public final int servant;
+    public final int victoryPoint;
+    public final int militaryPoint;
+    public final int faithPoint;
 
     private Map<String, Integer> resourcesList = new HashMap<>();
 
@@ -100,7 +100,6 @@ public class Resources {
 
 
     public static Resources fromJson(JsonObject src) {
-        System.out.println(src);  // XXX DEBUG
         // FIXME the following can of course fail if any of those fields is not
         // present.  Instead if it is non-existent it should just skip it (so
         // the field will be set to 0).
