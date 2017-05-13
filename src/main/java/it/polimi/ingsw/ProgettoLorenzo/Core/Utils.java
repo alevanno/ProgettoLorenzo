@@ -5,11 +5,12 @@ import com.google.gson.JsonObject;
 
 public class Utils {
     public static int returnZeroIfMissing(JsonObject src, String key) {
-        try {
-            // .get() returns null if the key is missing, and would cause
-            // getAsInt to throw a NullPointerException
-            return src.get(key).getAsInt();
-        } catch (NullPointerException e) {
+        // .get() returns null if the key is missing, and would cause
+        // getAsInt to throw a NullPointerException
+        JsonElement tmp = src.get(key);
+        if (tmp != null) {
+            return tmp.getAsInt();
+        } else {
             return 0;
         }
     }
