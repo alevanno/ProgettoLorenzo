@@ -8,6 +8,7 @@ public class Player {
     public final String playerColour;
     public Resources currentRes;
     private List<FamilyMember> familyMemberList = new ArrayList<>();
+    private Deck cards = new Deck();
 
     public Player(String name, String colour) {
         this.playerName = name;
@@ -21,6 +22,19 @@ public class Player {
                     new FamilyMember(this, 1, "orange")
             );
         }
+    }
+
+    protected void addCard(Card toadd) {
+        this.cards.add(toadd);
+    }
+
+    public Deck listCards() {
+        // FIXME really this way?
+        return this.cards;
+    }
+
+    protected Card takeCard(int idx) {
+        return this.cards.remove(idx);
     }
 
     public List<FamilyMember> getAvaliableFamilyMembers() {
