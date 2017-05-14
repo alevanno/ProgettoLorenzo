@@ -19,12 +19,17 @@ public abstract class Card extends Action {
         this.cardType = src.get("type").getAsString();
         this.cardPeriod = src.get("period").getAsString();
 
-        for (int i = 0; i < src.get("cost").getAsJsonArray().size(); i++) {
-            // FIXME way too many getAsFoo()....
-            this.cardCost.add(Resources.fromJson(src.get("cost").getAsJsonArray().get(i).getAsJsonObject()));
+        JsonElement obj = src.get("cost");
+        if (obj != null) {
+            Iterator cos = obj.getAsJsonArray().iterator();
+            while (cos.hasNext()) {
+                this.cardCost.add(
+                        Resources.fromJson((JsonObject)cos.next())
+                );
+            }
         }
 
-        JsonElement obj = src.get("immediateActions");
+        obj = src.get("immediateActions");
         if (obj != null) {
             Iterator imm = obj.getAsJsonObject().entrySet().iterator();
             while (imm.hasNext()) {
