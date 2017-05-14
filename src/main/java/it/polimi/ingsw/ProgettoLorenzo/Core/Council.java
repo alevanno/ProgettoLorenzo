@@ -11,7 +11,7 @@ public class Council extends Action {
     private List<FamilyMember> playerOrder = new ArrayList<FamilyMember>();
     private final List<Resources> privilegeChoices;
     public final Resources bonusEntry;
-    Set<Resources> set = new HashSet<>();
+    Set<Resources> privilegeSet = new HashSet<>();
 
     public Council () throws FileNotFoundException {
         ClassLoader classLoader = Council.class.getClassLoader();
@@ -30,20 +30,19 @@ public class Council extends Action {
         }
     }
 
-    public Set<Resources> chooseMultiPrivilege(int prvs) {
-
+    public Set<Resources> chooseMultiPrivilege(int privileges) {
         while(true) {
-            if (this.set.size() == prvs) {
+            if (this.privilegeSet.size() == privileges) {
                 break;
             }
             Resources res = this.choosePrivilege();
-            if (this.set.contains(res)) {
+            if (this.privilegeSet.contains(res)) {
                 System.out.print("Invalid choise! Please select a right privilege: ");
-                return chooseMultiPrivilege(prvs);
+                return chooseMultiPrivilege(privileges);
             }
-            this.set.add(res);
+            this.privilegeSet.add(res);
         }
-        return this.set;
+        return this.privilegeSet;
     }
 
     public Resources choosePrivilege() {  // FIXME maybe make static somehow?

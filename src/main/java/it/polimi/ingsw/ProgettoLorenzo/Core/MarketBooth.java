@@ -41,8 +41,7 @@ public class MarketBooth {
         return this.familyMember;
     }
 
-    //this is the generic claimSpace that returns the resources bonus to claim
-    //FIXME handle the multi-different-privilege choise (maybe in Council?)
+    //this is the generic claimSpace that returns the resources bonuses to claim
     public List<Resources> claimSpace(FamilyMember fam) throws FileNotFoundException {
         this.familyMember = fam;
         if (councilPrivilege == 2) {
