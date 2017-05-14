@@ -63,6 +63,15 @@ public abstract class Card extends Action {
         return this.cardCost.get(0);
     }
 
+    public void actionBuilder() {
+        this.addAction(
+                new ResourcesAction("cost", this.getCardCost().inverse())
+        );
+
+        // FIXME this has to create a BaseAction's for all the actions
+        // we're interested in.
+    }
+
     @Override
     public String toString() {
         return this.cardName;
