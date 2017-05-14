@@ -29,8 +29,7 @@ public class Player {
     }
 
     public Deck listCards() {
-        // FIXME really this way?
-        return this.cards;
+        return this.cards.listCards();
     }
 
     protected Card takeCard(int idx) {
