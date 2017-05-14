@@ -28,7 +28,8 @@ public class ResourcesTest {
     @Test(expected = NumberFormatException.class)
     public void createFromJsonStringInsteadOfInt() {
         String jsonString = "{'coin': 'bugcatcher'}";
-        new Gson().fromJson(jsonString, JsonObject.class);
+        JsonObject obj = new Gson().fromJson(jsonString, JsonObject.class);
+        Resources.fromJson(obj);
     }
 
     @Test
