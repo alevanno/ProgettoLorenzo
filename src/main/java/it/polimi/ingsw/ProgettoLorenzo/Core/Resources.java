@@ -129,6 +129,18 @@ public class Resources {
             .build();
     }
 
+    public Resources inverse() {
+        return new ResBuilder()
+            .coin(-this.coin)
+            .wood(-this.wood)
+            .stone(-this.stone)
+            .servant(-this.servant)
+            .victoryPoint(-this.victoryPoint)
+            .militaryPoint(-this.militaryPoint)
+            .faithPoint(-this.faithPoint)
+            .build();
+    }
+
     @Override
     public String toString() {
         String out = "{";
