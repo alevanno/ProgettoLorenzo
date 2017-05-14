@@ -3,9 +3,13 @@ package it.polimi.ingsw.ProgettoLorenzo.Core;
 
 public class FamilyMember {
 
+    private Player parent;
+    private int actionValue;
     private String skinColor;
 
-    public FamilyMember(String skinColor){
+    public FamilyMember(Player parent, int actionValue, String skinColor) {
+        this.parent = parent;
+        this.actionValue = actionValue;
         this.skinColor = skinColor;
     }
 
