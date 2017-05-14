@@ -1,11 +1,12 @@
 package it.polimi.ingsw.ProgettoLorenzo.Core;
 
 import java.util.List;
+import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Collections;
 
 
-public class Deck {
+public class Deck implements Iterator {
     private List<Card> cards;
 
     public Deck() {
@@ -30,6 +31,11 @@ public class Deck {
 
     public int size() {
         return this.cards.size();
+    }
+
+    @Override
+    public Iterator<Card> iterator() {
+        return this.cards.iterator();
     }
 
     @Override
