@@ -134,12 +134,13 @@ public class Resources {
         String out = "{";
 
         Iterator it = this.resourcesList.entrySet().iterator();
+        boolean i = false;
         while (it.hasNext()) {
             Map.Entry pair = (Map.Entry)it.next();
-            boolean i = false;
             if ((int)pair.getValue() != 0) {
-                if (i) { out += ","; }
+                if (i) { out += ", "; }
                 out += pair.getKey().toString() + ": " + pair.getValue();
+                i = true;
             }
         }
         out += "}";
