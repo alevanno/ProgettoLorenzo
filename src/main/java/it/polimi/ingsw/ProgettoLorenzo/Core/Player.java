@@ -9,6 +9,7 @@ public class Player {
     public Resources currentRes;
     private List<FamilyMember> familyMemberList = new ArrayList<>();
     private Deck cards = new Deck();
+    public BonusTile BonusT;
 
     public Player(String name, String colour) {
         this.playerName = name;
@@ -24,6 +25,8 @@ public class Player {
         }
     }
 
+    public void setBonusTile(BonusTile bt) {this.BonusT = bt;}
+
     protected void addCard(Card toadd) {
         this.cards.add(toadd);
     }
@@ -36,7 +39,7 @@ public class Player {
         return this.cards.remove(idx);
     }
 
-    public List<FamilyMember> getAvaliableFamilyMembers() {
+    public List<FamilyMember> getAvailableFamilyMembers() {
         return this.familyMemberList;
     }
     //public void finalCount() {}

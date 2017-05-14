@@ -11,8 +11,8 @@ public abstract class Card extends Action {
     public final String cardPeriod;
 
     private final List<Resources> cardCost = new ArrayList<>();
-    private final Map<String, JsonElement> immediateEff = new HashMap<>();
-    private final Map<String, JsonElement> permanentEff = new HashMap<>();
+    public final Map<String, JsonElement> immediateEff = new HashMap<>();
+    public final Map<String, JsonElement> permanentEff = new HashMap<>();
 
     public Card(JsonObject src) {
         this.cardName = src.get("name").getAsString();

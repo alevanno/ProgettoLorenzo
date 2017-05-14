@@ -18,7 +18,7 @@ public class Council extends Action {
         String filename = classLoader.getResource("council.json").getFile();
         JsonObject data = new JsonParser().parse(new FileReader(filename))
                 .getAsJsonObject();
-       this.bonusEntry = Resources.fromJson(data.get("bonusEntry")
+        this.bonusEntry = Resources.fromJson(data.get("bonusEntry")
                .getAsJsonObject());
 
         Iterator it = data.get("privileges").getAsJsonArray().iterator();

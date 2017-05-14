@@ -1,0 +1,62 @@
+[
+    {
+        "number": 0,
+        "productionRes": {
+            "victoryPoint": 1,
+            "coin": 2
+        },
+        "harvestRes": {
+            "wood": 1,
+            "stone": 1,
+            "servant": 1
+        }
+    },
+    {
+        "number": 1,
+        "productionRes": {
+            "servant": 1,
+            "coin": 2
+        },
+        "harvestRes": {
+            "wood": 1,
+            "stone": 1,
+            "victoryPoint": 1
+        }
+    },
+    {
+        "number": 2,
+        "productionRes": {
+            "servant": 1,
+            "victoryPoint": 2
+        },
+        "harvestRes": {
+            "wood": 1,
+            "stone": 1,
+            "coin": 1
+        }
+    },
+    {
+        "number": 3,
+        "productionRes": {
+            "servant": 2,
+            "coin": 1
+        },
+        "harvestRes": {
+            "wood": 1,
+            "stone": 1,
+            "victoryPoint": 1
+        }
+    },
+    {
+        "number": 4,
+        "productionRes": {
+            "victoryPoint": 2,
+            "coin": 1
+        },
+        "harvestRes": {
+            "wood": 1,
+            "stone": 1,
+            "servant": 1
+        }
+    }
+]

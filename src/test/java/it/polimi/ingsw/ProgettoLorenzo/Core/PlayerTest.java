@@ -10,7 +10,7 @@ public class PlayerTest {
     public void testFamilyMemberBirth() {
         Player p1 = new Player("test", "red");
         p1.familyMembersBirth();
-        assertEquals(4, p1.getAvaliableFamilyMembers().size());
+        assertEquals(4, p1.getAvailableFamilyMembers().size());
     }
 
     @Test
