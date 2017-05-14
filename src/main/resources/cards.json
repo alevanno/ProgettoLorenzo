@@ -84,21 +84,21 @@
                             }
                         ]
                     }
-                ],
-                "towerBonus": {
-                    "type": "character",
-                    "plusValue": 2,
-                    "discount": [
-                        {
-                            "stone": 1,
-                            "wood": 1
-                        }
-                    ]
-                },
-                "harvestPlusValue": 2,
-                "productionPlusValue": 2,
-                "boycottInstantTowerBonus": false
-            }
+                ]
+            },
+            "towerBonus": {
+                "type": "character",
+                "plusValue": 2,
+                "discount": [
+                    {
+                        "stone": 1,
+                        "wood": 1
+                    }
+                ]
+            },
+            "harvestPlusValue": 2,
+            "productionPlusValue": 2,
+            "boycottInstantTowerBonus": false
         }
     }
 ]
