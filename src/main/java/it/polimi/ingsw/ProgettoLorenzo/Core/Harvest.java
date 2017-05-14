@@ -37,14 +37,18 @@ public class Harvest {
                     tempDeck.add(i);
                 }
             }
+            //risorse dalla bonusTile
             harvRes.merge(p.BonusT.getHarvestRes());
+            //risorse dalle carte
             for (Card i : tempDeck) {
                 Resources tmp = Resources.fromJson(i.permanentEff.get("harvest")
                         .getAsJsonObject().get("resources").getAsJsonObject());
                 harvRes.merge(tmp);
             }
+            //gestisce il caso CouncilPrivilege
             for (Card i : tempDeck) {
-                JsonObject tmp = i.permanentEff.get("harvest").getAsJsonObject().get("councilPrivilege").getAsJsonObject();
+                JsonObject tmp = i.permanentEff.get("harvest").getAsJsonObject()
+                        .get("councilPrivilege").getAsJsonObject();
                 if (tmp != null) {
                     harvRes.merge(new Council().choosePrivilege());
                 }
