@@ -1,9 +1,8 @@
 package it.polimi.ingsw.ProgettoLorenzo.Core;
 
-import org.junit.Test;
-
 import java.io.FileNotFoundException;
 
+import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
@@ -16,7 +15,6 @@ public class MarketTest {
     }
 
     @Test
-
     public void familyMParameter() throws FileNotFoundException {
         Market market = new Market();
         FamilyMember fam = new FamilyMember(new Player("Pino", "Red"),1,"Red");
