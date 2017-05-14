@@ -24,7 +24,7 @@ public class Council extends Action {
                .getAsJsonObject());
 
         Iterator it = data.get("privileges").getAsJsonArray().iterator();
-        privilegeChoices = new ArrayList<>();
+        this.privilegeChoices = new ArrayList<>();
         while (it.hasNext()) {
             this.privilegeChoices.add(
                     Resources.fromJson((JsonObject)it.next())
