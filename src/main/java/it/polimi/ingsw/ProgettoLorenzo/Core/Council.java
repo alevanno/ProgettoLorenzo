@@ -5,15 +5,13 @@ import com.google.gson.JsonParser;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Council extends Action {
     private List<FamilyMember> playerOrder = new ArrayList<FamilyMember>();
     private final List<Resources> privilegeChoices;
     public final Resources bonusEntry;
+    Set<Resources> set = new HashSet<>();
 
     public Council () throws FileNotFoundException {
         ClassLoader classLoader = Council.class.getClassLoader();
@@ -30,7 +28,22 @@ public class Council extends Action {
                     Resources.fromJson((JsonObject)it.next())
             );
         }
+    }
 
+    public Set<Resources> chooseMultiPrivilege(int prvs) {
+
+        while(true) {
+            if (this.set.size() == prvs) {
+                break;
+            }
+            Resources res = this.choosePrivilege();
+            if (this.set.contains(res)) {
+                System.out.print("Invalid choise! Please select a right privilege: ");
+                return chooseMultiPrivilege(prvs);
+            }
+            this.set.add(res);
+        }
+        return this.set;
     }
 
     public Resources choosePrivilege() {  // FIXME maybe make static somehow?

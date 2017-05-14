@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class MarketBooth {
     private List<Resources> bonus = new ArrayList<>();
@@ -41,9 +42,7 @@ public class MarketBooth {
     public List<Resources> claimSpace(FamilyMember fam) throws FileNotFoundException {
         this.familyMember = fam;
         if (councilPrivilege == 2) {
-            for (int i = 0; i < 2; i++) {
-                bonus.add(tempCouncil.choosePrivilege());
-            }
+            bonus.addAll(tempCouncil.chooseMultiPrivilege(councilPrivilege));
         }
         return bonus;
     }
