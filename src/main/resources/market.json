@@ -1,0 +1,21 @@
+{
+    "firstBooth": {
+
+        "coin": 5
+    },
+
+    "secondBooth": {
+
+        "servant": 5
+    },
+
+    "thirdBooth": {
+
+        "militaryPoint": 3,
+        "coin": 2
+    },
+
+    "fourthBooth": {
+        "privileges": 2
+    }
+}
