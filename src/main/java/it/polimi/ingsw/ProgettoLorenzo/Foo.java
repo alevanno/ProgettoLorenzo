@@ -1,6 +1,7 @@
 package it.polimi.ingsw.ProgettoLorenzo;
 
 import com.google.gson.*;
+import it.polimi.ingsw.ProgettoLorenzo.Core.Council;
 import it.polimi.ingsw.ProgettoLorenzo.Core.Deck;
 import it.polimi.ingsw.ProgettoLorenzo.Core.TerrainCard;
 
@@ -20,6 +21,9 @@ public class Foo {
         System.out.println(deck);
         deck.shuffleCards();
         System.out.println(deck);
+
+        Council council = new Council();
+        System.out.println(council.choosePrivilege());
     }
 
 }

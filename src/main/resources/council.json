@@ -1,0 +1,23 @@
+{
+    "bonusEntry": {
+        "coin": 1
+    },
+    "privileges": [
+        {
+            "wood": 1,
+            "stone": 1
+        },
+        {
+            "servant": 2
+        },
+        {
+            "coin": 2
+        },
+        {
+            "victoryPoint": 2
+        },
+        {
+            "faithPoint": 1
+        }
+    ]
+}
