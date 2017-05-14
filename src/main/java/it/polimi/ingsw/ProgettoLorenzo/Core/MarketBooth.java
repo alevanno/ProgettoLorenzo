@@ -22,8 +22,6 @@ public class MarketBooth {
             councilPrivilege = 0;
             bonus.add(Resources.fromJson(src));
         }
-
-
     }
 
     public List<Resources> getBonus() {
