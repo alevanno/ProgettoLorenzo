@@ -15,7 +15,8 @@ public class Foo {
         Card test = new TerrainCard(data.get(0).getAsJsonObject());
         test.actionBuilder();
         Player player = new Player("Pino", "Red");
-        //test.apply(player);
+        test.setPlayer(player);
+        test.apply();
         System.out.println(player.currentRes);
     }
 
