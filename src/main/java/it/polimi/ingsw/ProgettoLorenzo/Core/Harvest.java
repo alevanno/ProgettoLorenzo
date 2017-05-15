@@ -9,17 +9,17 @@ import java.util.List;
 
 public class Harvest {
     private FamilyMember mainProduction;
-    private List<FamilyMember> secondaryProduction = new(ArrayList);
+    private List<FamilyMember> secondaryProduction = new ArrayList<>();
 
     public void claimFamMain(FamilyMember fam) {
         this.mainProduction = fam;
-        harv(fam.parent, fam.actionValue);
+        //harv(fam.parent, fam.actionValue);
     }
     //FIXME non gestisce l'incremento azione con servitori
 
     public void claimFamSec(FamilyMember fam) {
         this.secondaryProduction.add(fam);
-        harv(fam.parent, fam.ActionValue);
+        //harv(fam.parent, fam.ActionValue);
     }
 
     public void harv(Player p, int value) throws FileNotFoundException {

@@ -19,7 +19,7 @@ public abstract class Action {
         this.actions.clear();
     }
 
-    public void apply() {
+    public void apply(Player p) {
         for (int i=0; i < this.actions.size(); i++) {
             this.actions.get(i).apply(this.player);
         }
