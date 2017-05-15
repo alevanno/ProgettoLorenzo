@@ -19,7 +19,7 @@ public class MarketTest {
         Market market = new Market();
         FamilyMember fam = new FamilyMember(new Player("Pino", "Red"),1,"Red");
         market.booths.get(0).claimSpace(fam);
-        assertNotNull(market.booths.get(0).getFamilyMember());
+        assertNotNull(market.booths.get(0).getFamMember());
     }
 
 }

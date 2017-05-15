@@ -9,8 +9,8 @@ public class PlayerTest {
     @Test
     public void testFamilyMemberBirth() {
         Player p1 = new Player("test", "red");
-        p1.familyMembersBirth();
-        assertEquals(4, p1.getAvailableFamilyMembers().size());
+        p1.famMembersBirth();
+        assertEquals(4, p1.getAvailableFamMembers().size());
     }
 
     @Test

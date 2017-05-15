@@ -7,9 +7,9 @@ public class Player {
     public final String playerName;
     public final String playerColour;
     public Resources currentRes;
-    private List<FamilyMember> familyMemberList = new ArrayList<>();
+    private List<FamilyMember> famMemberList = new ArrayList<>();
     private Deck cards = new Deck();
-    public BonusTile BonusT;
+    public BonusTile bonusT;
 
     public Player(String name, String colour) {
         this.playerName = name;
@@ -17,15 +17,15 @@ public class Player {
         this.currentRes = new Resources.ResBuilder().build();  // 0 resources
     }
 
-    protected void familyMembersBirth() {
+    protected void famMembersBirth() {
         for (int i=0; i<4; i++) {
-            this.familyMemberList.add(
+            this.famMemberList.add(
                     new FamilyMember(this, 1, "orange")
             );
         }
     }
 
-    public void setBonusTile(BonusTile bt) {this.BonusT = bt;}
+    public void setBonusTile(BonusTile bt) {this.bonusT = bt;}
 
     protected void addCard(Card toadd) {
         this.cards.add(toadd);
@@ -39,8 +39,8 @@ public class Player {
         return this.cards.remove(idx);
     }
 
-    public List<FamilyMember> getAvailableFamilyMembers() {
-        return this.familyMemberList;
+    public List<FamilyMember> getAvailableFamMembers() {
+        return this.famMemberList;
     }
     //public void finalCount() {}
 }

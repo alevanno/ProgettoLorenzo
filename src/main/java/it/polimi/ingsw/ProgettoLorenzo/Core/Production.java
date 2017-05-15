@@ -1,5 +1,8 @@
 package it.polimi.ingsw.ProgettoLorenzo.Core;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,8 +28,8 @@ public class Production extends Action {
             System.out.println("You need an action value of at least 1");
             //TODO deve restituire errore al livello superiore
         } else {
-            //leggere le carte di player che hanno effetto permanente produzione
-            //escludere quelle di valore superiore all'azione compiuta
+            //filters the current player's deck, keeping Cards with permanentEffect=production
+            //excludes Cards having too high of an action value
             for (Card i : p.listCards()) {
                 if (i.permanentEff.containsKey("production") &&
                     i.permanentEff.get("production").getAsJsonObject().get("value").getAsInt() <= value) {
@@ -34,14 +37,28 @@ public class Production extends Action {
                 }
             }
             //TODO proporre scelte
-            //TODO moltiplicatori
-            //risorse dalla bonusTile
-            prodRes.merge(p.BonusT.getProductionRes());
+            //handles the "multiplier" type of production
+            for (Card i : tempDeck) {
+                JsonObject mult = i.permanentEff.get("production")
+                        .getAsJsonObject().get("multiplier").getAsJsonObject();
+                if (mult != null) {
+                    String tmpType = mult.get("type").getAsString();
+                    Resources tmpRes = Resources.fromJson(mult.get("bonus").getAsJsonObject());
+                    int count = 0;
+                    for (Card c : p.listCards()) {
+                        if (c.cardType == tmpType) { count++; }
+                    }
+                    prodRes.merge(tmpRes.multiplyRes(count));
+                }
+            }
 
-            //risorse dalle carte
+            //resources given by BonusTile
+            prodRes.merge(p.bonusT.getProductionRes());
+
+            //resources given by static Cards
             for (Card i : tempDeck) {
                 Resources tmp = Resources.fromJson(i.permanentEff.get("production")
-                        .getAsJsonObject().get("production").getAsJsonObject());
+                        .getAsJsonObject().get("resources").getAsJsonObject());
                 prodRes.merge(tmp);
             }
         }

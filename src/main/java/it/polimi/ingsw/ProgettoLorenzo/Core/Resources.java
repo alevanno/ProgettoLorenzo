@@ -141,6 +141,18 @@ public class Resources {
             .build();
     }
 
+    public Resources multiplyRes(int mult) {
+        return new ResBuilder()
+                .coin(this.coin * mult)
+                .wood(this.wood * mult)
+                .stone(this.stone * mult)
+                .servant(this.servant * mult)
+                .victoryPoint(this.victoryPoint * mult)
+                .militaryPoint(this.militaryPoint * mult)
+                .faithPoint(this.faithPoint * mult)
+                .build();
+    }
+
     @Override
     public String toString() {
         String out = "{";

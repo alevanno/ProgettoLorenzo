@@ -5,12 +5,11 @@ import com.google.gson.JsonObject;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class MarketBooth {
     private List<Resources> bonus = new ArrayList<>();
     private int councilPrivilege;
-    private FamilyMember familyMember;
+    private FamilyMember famMember;
 
     public MarketBooth(JsonObject src) throws FileNotFoundException {
         String privilege = "privileges";
@@ -31,13 +30,13 @@ public class MarketBooth {
         return councilPrivilege;
     }
 
-    public FamilyMember getFamilyMember() {
-        return this.familyMember;
+    public FamilyMember getFamMember() {
+        return this.famMember;
     }
 
     //this is the generic claimSpace that returns the resources bonuses to claim
     public List<Resources> claimSpace(FamilyMember fam) throws FileNotFoundException {
-        this.familyMember = fam;
+        this.famMember = fam;
         if (councilPrivilege == 2) {
             bonus.addAll(new Council().chooseMultiPrivilege(councilPrivilege));
         }

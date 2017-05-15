@@ -8,17 +8,17 @@ import java.util.List;
 
 
 public class Harvest {
-    private FamilyMember mainProduction;
-    private List<FamilyMember> secondaryProduction = new ArrayList<>();
+    private FamilyMember mainHarvest;
+    private List<FamilyMember> secondaryHarvest = new ArrayList<>();
 
     public void claimFamMain(FamilyMember fam) {
-        this.mainProduction = fam;
+        this.mainHarvest = fam;
         //harv(fam.parent, fam.actionValue);
     }
     //FIXME non gestisce l'incremento azione con servitori
 
     public void claimFamSec(FamilyMember fam) {
-        this.secondaryProduction.add(fam);
+        this.secondaryHarvest.add(fam);
         //harv(fam.parent, fam.ActionValue);
     }
 
@@ -38,7 +38,7 @@ public class Harvest {
                 }
             }
             //risorse dalla bonusTile
-            harvRes.merge(p.BonusT.getHarvestRes());
+            harvRes.merge(p.bonusT.getHarvestRes());
             //risorse dalle carte
             for (Card i : tempDeck) {
                 Resources tmp = Resources.fromJson(i.permanentEff.get("harvest")
