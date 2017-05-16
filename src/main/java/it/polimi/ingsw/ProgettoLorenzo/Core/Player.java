@@ -17,12 +17,17 @@ public class Player {
         this.currentRes = new Resources.ResBuilder().build();  // 0 resources
     }
 
-    protected void famMembersBirth() {
-        for (int i=0; i<4; i++) {
-            this.famMemberList.add(
-                    new FamilyMember(this, 1, "orange")
-            );
-        }
+    public void famMembersBirth() {
+
+        this.famMemberList.add(
+                new FamilyMember(this, 1, "Orange"));
+        this.famMemberList.add(
+                new FamilyMember(this, 1, "Black"));
+        this.famMemberList.add(
+                new FamilyMember(this, 1, "White"));
+        this.famMemberList.add(
+                new FamilyMember(this, 1, "Blank"));
+
     }
 
     public void setBonusTile(BonusTile bt) {this.bonusT = bt;}

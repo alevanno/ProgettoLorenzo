@@ -16,8 +16,23 @@ public class Foo {
         test.actionBuilder();
         Player player = new Player("Pino", "Red");
         test.setPlayer(player);
+        player.famMembersBirth();
         test.apply();
         System.out.println(player.currentRes);
+        Council counc = new Council();
+        counc.claimSpace(player.getAvailableFamMembers().get(0));
+        counc.setPlayer(player);
+        counc.apply();
+        System.out.println(player.currentRes);
+        Market market = new Market();
+        MarketBooth booth = market.getBooths().get(3); //try with the MultiPriv
+        booth.setPlayer(player);
+        booth.claimSpace(player.getAvailableFamMembers().get(1));
+        booth.apply();
+        System.out.println(player.currentRes);
+
+
     }
+
 
 }

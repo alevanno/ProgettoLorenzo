@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MarketBooth {
+public class MarketBooth extends Action {
     private List<Resources> bonus = new ArrayList<>();
     private int councilPrivilege;
     private FamilyMember famMember;
@@ -14,32 +14,39 @@ public class MarketBooth {
     public MarketBooth(JsonObject src) throws FileNotFoundException {
         String privilege = "privileges";
         if (src.get(privilege) != null) {
-            councilPrivilege = 2;
+            this.councilPrivilege = 2;
 
         } else {
-            councilPrivilege = 0;
-            bonus.add(Resources.fromJson(src));
+            this.councilPrivilege = 0;
+            this.bonus.add(Resources.fromJson(src));
         }
     }
 
     public List<Resources> getBonus() {
-        return bonus;
+        return this.bonus;
     }
 
     public int getCouncilPrivilege() {
-        return councilPrivilege;
+        return this.councilPrivilege;
     }
 
     public FamilyMember getFamMember() {
         return this.famMember;
     }
 
-    //this is the generic claimSpace that returns the resources bonuses to claim
-    public List<Resources> claimSpace(FamilyMember fam) throws FileNotFoundException {
+    //actionBuilder for MarketBooth class
+    public void claimSpace(FamilyMember fam) throws FileNotFoundException {
         this.famMember = fam;
-        if (councilPrivilege == 2) {
-            bonus.addAll(new Council().chooseMultiPrivilege(councilPrivilege));
+        System.out.println(this.famMember.getSkinColor() + " family member of "
+                + this.famMember.getParent().playerColour
+                + " player placed in a Market Booth ");
+        if (this.councilPrivilege == 2) {
+            this.bonus.addAll(new Council().chooseMultiPrivilege(this.councilPrivilege));
         }
-        return bonus;
+        for (Resources res : this.bonus) {
+            this.addAction(new ResourcesAction("market booth action",
+                    res));
+        }
+
     }
 }

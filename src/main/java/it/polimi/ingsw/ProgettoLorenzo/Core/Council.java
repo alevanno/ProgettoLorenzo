@@ -11,6 +11,7 @@ public class Council extends Action {
     private List<FamilyMember> playerOrder = new ArrayList<FamilyMember>();
     private final List<Resources> privilegeChoices;
     public final Resources bonusEntry;
+    private FamilyMember famMember;
     Set<Resources> privilegeSet = new HashSet<>();
 
     public Council () throws FileNotFoundException {
@@ -54,5 +55,17 @@ public class Council extends Action {
         Scanner in = new Scanner(System.in);
         int res = in.nextInt();
         return this.privilegeChoices.get(res-1);
+    }
+
+    //actionBuilder for Council class
+    public void claimSpace(FamilyMember fam) {
+        this.famMember = fam;
+        System.out.println(this.famMember.getSkinColor() + " family member of " + this.famMember.getParent().playerColour
+        + " player placed in Council Palace");
+        this.addAction(new ResourcesAction("bonus entry from Council", this.bonusEntry));
+        Set<Resources> resSet = chooseMultiPrivilege(1);
+        for(Resources res : resSet) {
+            this.addAction(new ResourcesAction("resources from Council", res));
+        }
     }
 }
