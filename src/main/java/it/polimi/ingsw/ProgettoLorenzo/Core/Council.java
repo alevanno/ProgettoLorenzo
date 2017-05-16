@@ -11,6 +11,7 @@ public class Council extends Action {
     private List<FamilyMember> playerOrder = new ArrayList<FamilyMember>();
     private final List<Resources> privilegeChoices;
     public final Resources bonusEntry;
+    private FamilyMember famMember;
     Set<Resources> privilegeSet = new HashSet<>();
 
     public Council () throws FileNotFoundException {
@@ -54,4 +55,9 @@ public class Council extends Action {
         int res = in.nextInt();
         return this.privilegeChoices.get(res-1);
     }
+
+    public void setFamMember(FamilyMember fam) {
+        this.famMember = fam;
+    }
+
 }
