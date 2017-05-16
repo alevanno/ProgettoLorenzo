@@ -56,7 +56,7 @@ public class Council extends Action {
         return this.privilegeChoices.get(res-1);
     }
 
-    public void setFamMember(FamilyMember fam) {
+    public void claimSpace(FamilyMember fam) {
         this.famMember = fam;
     }
 
