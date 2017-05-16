@@ -1,8 +1,8 @@
 package it.polimi.ingsw.ProgettoLorenzo.Core;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class Production extends Action {
         //prod(fam.parent, fam.ActionValue);
     }
 
-    public void prod(Player p, int value) {
+    public void prod(Player p, int value) throws FileNotFoundException {
         Deck tempDeck = new Deck();
         Resources prodRes = new Resources.ResBuilder().build();
         if (value < 1) {
@@ -37,6 +37,10 @@ public class Production extends Action {
                 }
             }
             //TODO proporre scelte
+            for (Card i : tempDeck) {
+
+            }
+
             //handles the "multiplier" type of production
             for (Card i : tempDeck) {
                 JsonObject mult = i.permanentEff.get("production")
@@ -54,6 +58,14 @@ public class Production extends Action {
 
             //resources given by BonusTile
             prodRes.merge(p.bonusT.getProductionRes());
+
+            //councilPrivilege given by static Cards
+            for (Card i : tempDeck) {
+                  int priv = i.permanentEff.get("production")
+                        .getAsJsonObject().get("councilPrivilege").getAsInt();
+                  Set<Resources> privRes = (new Council().chooseMultiPrivilege(priv));
+                prodRes.merge(privRes);
+            }
 
             //resources given by static Cards
             for (Card i : tempDeck) {
