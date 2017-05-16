@@ -24,4 +24,8 @@ public class FamilyMember {
     public Player getParent() {
         return parent;
     }
+
+    public int getActionValue() {
+        return actionValue;
+    }
 }
