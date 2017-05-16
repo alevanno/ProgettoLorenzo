@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class Market extends Action {
+public class Market {
 
     List<MarketBooth> booths = new ArrayList<>();
 
@@ -42,7 +42,7 @@ public class Market extends Action {
 
         }
         Scanner in = new Scanner(System.in);
-        System.out.println(booths.get(in.nextInt() - 1).claimSpace(fam));
+        booths.get(in.nextInt() - 1).claimSpace(fam);
 
     }
 }

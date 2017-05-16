@@ -48,6 +48,7 @@ public class Harvest extends Action {
             for (Resources r : privRes) {
                 this.addAction(new ResourcesAction("HarvCouncilPrivilege", r));
             }
+        }
     }
 
     public void harv(Player player, int value) throws FileNotFoundException {

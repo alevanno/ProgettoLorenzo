@@ -24,7 +24,12 @@ public class Foo {
         counc.setPlayer(player);
         counc.apply();
         System.out.println(player.currentRes);
-
+        Market market = new Market();
+        MarketBooth booth = market.getBooths().get(3); //try with the MultiPriv
+        booth.setPlayer(player);
+        booth.claimSpace(player.getAvailableFamMembers().get(1));
+        booth.apply();
+        System.out.println(player.currentRes);
 
 
     }

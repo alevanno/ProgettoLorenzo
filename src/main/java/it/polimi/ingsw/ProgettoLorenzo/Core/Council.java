@@ -57,6 +57,7 @@ public class Council extends Action {
         return this.privilegeChoices.get(res-1);
     }
 
+    //actionBuilder for Council class
     public void claimSpace(FamilyMember fam) {
         this.famMember = fam;
         System.out.println(this.famMember.getSkinColor() + " family member of " + this.famMember.getParent().playerColour
@@ -66,10 +67,5 @@ public class Council extends Action {
         for(Resources res : resSet) {
             this.addAction(new ResourcesAction("resources from Council", res));
         }
-
-
     }
-
-
-
 }

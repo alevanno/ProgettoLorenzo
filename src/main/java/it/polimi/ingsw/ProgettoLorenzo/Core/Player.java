@@ -18,11 +18,16 @@ public class Player {
     }
 
     public void famMembersBirth() {
-        for (int i=0; i<4; i++) {
-            this.famMemberList.add(
-                    new FamilyMember(this, 1, "Orange")
-            );
-        }
+
+        this.famMemberList.add(
+                new FamilyMember(this, 1, "Orange"));
+        this.famMemberList.add(
+                new FamilyMember(this, 1, "Black"));
+        this.famMemberList.add(
+                new FamilyMember(this, 1, "White"));
+        this.famMemberList.add(
+                new FamilyMember(this, 1, "Blank"));
+
     }
 
     public void setBonusTile(BonusTile bt) {this.bonusT = bt;}
