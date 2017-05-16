@@ -20,4 +20,8 @@ public class FamilyMember {
     public void setSkinColor(String skinColor) {
         this.skinColor = skinColor;
     }
+
+    public Player getParent() {
+        return parent;
+    }
 }

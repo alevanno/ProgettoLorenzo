@@ -17,10 +17,10 @@ public class Player {
         this.currentRes = new Resources.ResBuilder().build();  // 0 resources
     }
 
-    protected void famMembersBirth() {
+    public void famMembersBirth() {
         for (int i=0; i<4; i++) {
             this.famMemberList.add(
-                    new FamilyMember(this, 1, "orange")
+                    new FamilyMember(this, 1, "Orange")
             );
         }
     }
