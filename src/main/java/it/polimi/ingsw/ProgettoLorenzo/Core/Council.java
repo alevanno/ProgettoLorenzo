@@ -59,6 +59,17 @@ public class Council extends Action {
 
     public void claimSpace(FamilyMember fam) {
         this.famMember = fam;
+        System.out.println(this.famMember.getSkinColor() + " family member of " + this.famMember.getParent().playerColour
+        + " player placed in Council Palace");
+        this.addAction(new ResourcesAction("bonus entry from Council", this.bonusEntry));
+        Set<Resources> resSet = chooseMultiPrivilege(1);
+        for(Resources res : resSet) {
+            this.addAction(new ResourcesAction("resources from Council", res));
+        }
+
+
     }
+
+
 
 }

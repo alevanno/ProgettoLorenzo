@@ -16,8 +16,18 @@ public class Foo {
         test.actionBuilder();
         Player player = new Player("Pino", "Red");
         test.setPlayer(player);
+        player.famMembersBirth();
         test.apply();
         System.out.println(player.currentRes);
+        Council counc = new Council();
+        counc.claimSpace(player.getAvailableFamMembers().get(0));
+        counc.setPlayer(player);
+        counc.apply();
+        System.out.println(player.currentRes);
+
+
+
     }
+
 
 }
