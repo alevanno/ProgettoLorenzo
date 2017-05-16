@@ -37,8 +37,9 @@ public class Council extends Action {
                 break;
             }
             Resources res = this.choosePrivilege();
+            //Doesn't allow the player to select the same privilege as before
             if (this.privilegeSet.contains(res)) {
-                System.out.print("Invalid choise! Please select a right privilege: ");
+                System.out.print("Invalid choice! Please select a different privilege: ");
                 return chooseMultiPrivilege(privileges);
             }
             this.privilegeSet.add(res);

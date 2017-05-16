@@ -29,23 +29,24 @@ public class Harvest {
             System.out.println("You need an action value of at least 1");
             //TODO deve restituire errore al livello superiore
         } else {
-            //leggere le carte di player che hanno effetto permanente raccolto
-            //escludere quelle di valore superiore all'azione compiuta
+            //filters the current player's deck, keeping Cards with permanentEffect=harvest
+            //excludes Cards having too high of an action value
             for (Card i : p.listCards()) {
                 if (i.permanentEff.containsKey("harvest") &&
                         i.permanentEff.get("harvest").getAsJsonObject().get("value").getAsInt() <= value) {
                     tempDeck.add(i);
                 }
             }
-            //risorse dalla bonusTile
+            //resources given by BonusTile
             harvRes.merge(p.bonusT.getHarvestRes());
-            //risorse dalle carte
+
+            //resources given by static Cards
             for (Card i : tempDeck) {
                 Resources tmp = Resources.fromJson(i.permanentEff.get("harvest")
                         .getAsJsonObject().get("resources").getAsJsonObject());
                 harvRes.merge(tmp);
             }
-            //gestisce il caso CouncilPrivilege
+            //SINGLE councilPrivilege given by static Cards
             for (Card i : tempDeck) {
                 JsonObject tmp = i.permanentEff.get("harvest").getAsJsonObject()
                         .get("councilPrivilege").getAsJsonObject();
