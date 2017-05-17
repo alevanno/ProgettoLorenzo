@@ -45,13 +45,22 @@ public class Council extends Action {
     }
 
     public Resources choosePrivilege() {  // FIXME maybe make static somehow?
+        int i = 1;
+        int res;
         System.out.println("You can chose a privilege between: ");
-        for (int i = 1; i-1 < this.privilegeChoices.size(); i++) {
+        for (; i-1 < this.privilegeChoices.size(); i++) {
             System.out.printf("%d: %s%n", i, this.privilegeChoices.get(i-1));
         }
-        Scanner in = new Scanner(System.in);
-        int res = in.nextInt();
-        return this.privilegeChoices.get(res-1);
+        do {
+            System.out.println("Please input a number between 1 and " + String.valueOf(i-1));
+            Scanner in = new Scanner(System.in);
+            while (!in.hasNextInt()) {
+                in.next();
+                System.out.println("Please input an int");
+            }
+            res = in.nextInt();
+        } while (res < 1 || res > i-1);
+        return this.privilegeChoices.get(res - 1);
     }
 
     //actionBuilder for Council class

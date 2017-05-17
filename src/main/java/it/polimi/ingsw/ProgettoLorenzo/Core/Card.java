@@ -53,6 +53,10 @@ public class Card extends Action {
         }
     }
 
+    public String getCardName() {
+        return cardName;
+    }
+
     public Resources getCardCost() {
         if (this.cardCost.size() > 1) {
             System.out.println("You can choose what to pay:");

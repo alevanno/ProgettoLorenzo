@@ -38,7 +38,7 @@ public class Harvest extends Action {
         for (Card i : tempDeck) {
             Resources tmp = Resources.fromJson(base(i).get("resources").getAsJsonObject());
             this.addAction(new ResourcesAction("Resources", tmp));
-            System.out.println("Harvest: Card INSERIRE NOME gave " + tmp.toString());
+            System.out.println("Harvest: Card " + i.getCardName() + " gave " + tmp.toString());
         }
     }
 
@@ -46,9 +46,9 @@ public class Harvest extends Action {
         //councilPrivilege given by static Cards
         for (Card i : tempDeck) {
             int priv = base(i).get("councilPrivilege").getAsInt();
+            System.out.println("Harvest: Card " + i.getCardName() + " gave " + String.valueOf(priv) + " Council privilege");
             Set<Resources> privRes = (new Council().chooseMultiPrivilege(priv));
             for (Resources r : privRes) {
-                System.out.println("Harvest: Card INSERIRE NOME gave a Council privilege");
                 this.addAction(new ResourcesAction("HarvCouncilPrivilege", r));
                 System.out.println("Harvest: Council privilege gave " + r.toString());
             }

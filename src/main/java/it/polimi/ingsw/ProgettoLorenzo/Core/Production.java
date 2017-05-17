@@ -41,6 +41,7 @@ public class Production extends Action {
                 }
                 prodRes.merge(tmpRes.multiplyRes(count));
                 this.addAction(new ResourcesAction("ProdMultiplier", tmpRes.multiplyRes(count)));
+                System.out.println("Production: Multiplier Card " + i.getCardName() + " gave " + tmpRes.toString());
             }
         }
     }
