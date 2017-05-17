@@ -66,12 +66,13 @@ public class Council extends Action {
     //actionBuilder for Council class
     public void claimSpace(FamilyMember fam) {
         this.famMember = fam;
+        Player p = fam.getParent();
         System.out.println(this.famMember.getSkinColor() + " family member of " + this.famMember.getParent().playerColour
         + " player placed in Council Palace");
-        this.addAction(new ResourcesAction("bonus entry from Council", this.bonusEntry));
-        Set<Resources> resSet = chooseMultiPrivilege(1);
-        for(Resources res : resSet) {
-            this.addAction(new ResourcesAction("resources from Council", res));
-        }
+        this.addAction(new ResourcesAction(
+                "bonus entry from Council", this.bonusEntry, p));
+        // FIXME make the number of privilege selectable?
+        this.addAction(new ResourcesAction(
+                "Council privilege", this.choosePrivilege(), p));
     }
 }

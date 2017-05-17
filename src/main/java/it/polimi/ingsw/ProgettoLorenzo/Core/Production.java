@@ -27,7 +27,7 @@ public class Production extends Action {
         return i.permanentEff.get("production").getAsJsonObject();
     }
 
-    private void prodMultiplier(Deck tempDeck) {
+    private void prodMultiplier(Deck tempDeck, Player player) {
         //handles the "multiplier" type of production
         Resources prodRes = new Resources.ResBuilder().build();
         for (Card i : tempDeck) {
@@ -40,7 +40,8 @@ public class Production extends Action {
                     if (c.cardType.equals(tmpType)) { count++; }
                 }
                 prodRes.merge(tmpRes.multiplyRes(count));
-                this.addAction(new ResourcesAction("ProdMultiplier", tmpRes.multiplyRes(count)));
+                this.addAction(new ResourcesAction(
+                        "ProdMultiplier", tmpRes.multiplyRes(count), player));
                 System.out.println("Production: Multiplier Card " + i.getCardName() + " gave " + tmpRes.toString());
             }
         }
@@ -64,36 +65,37 @@ public class Production extends Action {
         }
     }
 
-    private void prodBonusTile() {
+    private void prodBonusTile(Player player) {
         //resources given by BonusTile
-        this.addAction(new ResourcesAction("BonusTile", player.bonusT.getProductionRes()));
+        this.addAction(new ResourcesAction(
+                "BonusTile", player.bonusT.getProductionRes(), player));
         System.out.println("Production: Bonus Tile gave " + player.bonusT.getProductionRes().toString());
     }
 
-    private void prodStaticCards(Deck tempDeck) {
+    private void prodStaticCards(Deck tempDeck, Player player) {
         //resources given by static Cards
         for (Card i : tempDeck) {
             Resources tmp = Resources.fromJson(base(i).get("resources").getAsJsonObject());
-            this.addAction(new ResourcesAction("Resources", tmp));
+            this.addAction(new ResourcesAction("Resources", tmp, player));
             System.out.println("Production: Cards gave " + tmp.toString());
         }
     }
 
-    private void prodCouncPriv(Deck tempDeck) throws FileNotFoundException {
+    private void prodCouncPriv(Deck tempDeck, Player player) {
         //councilPrivilege given by static Cards
         for (Card i : tempDeck) {
             int priv = base(i).get("councilPrivilege").getAsInt();
             Set<Resources> privRes = (new Council().chooseMultiPrivilege(priv));
             for (Resources r : privRes) {
-                this.addAction(new ResourcesAction("ProdCouncilPrivilege", r));
+                this.addAction(new ResourcesAction(
+                        "ProdCouncilPrivilege", r, player));
                 System.out.println("Production: Cards gave " + r.toString());
             }
         }
     }
 
 
-    public void prod(Player player, int value) throws FileNotFoundException {
-        this.setPlayer(player);
+    public void prod(Player player, int value) {
         Deck tempDeck = new Deck();
 
         if (value < 1) {
@@ -110,9 +112,9 @@ public class Production extends Action {
         }
         //Chiamare tutte le funzioni
         //prodConversion(tempDeck);
-        prodMultiplier(tempDeck);
-        prodBonusTile();
-        prodStaticCards(tempDeck);
-        prodCouncPriv(tempDeck);
+        prodMultiplier(tempDeck, player);
+        prodBonusTile(player);
+        prodStaticCards(tempDeck, player);
+        prodCouncPriv(tempDeck, player);
     }
 }

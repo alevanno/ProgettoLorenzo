@@ -71,9 +71,10 @@ public class Card extends Action {
         return this.cardCost.get(0);
     }
 
-    public void actionBuilder() {
+    public void actionBuilder(Player player) {
         this.addAction(
-                new ResourcesAction("cost", this.getCardCost().inverse())
+                new ResourcesAction(
+                        "cost", this.getCardCost().inverse(), player)
         );
 
         // FIXME this has to create a BaseAction's for all the actions
@@ -85,15 +86,3 @@ public class Card extends Action {
         return this.cardName;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-

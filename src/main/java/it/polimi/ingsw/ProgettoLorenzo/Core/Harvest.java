@@ -29,27 +29,29 @@ public class Harvest extends Action {
 
     private void harvBonusTile(Player player) {
         //resources given by bonusTile
-        this.addAction(new ResourcesAction("BonusTile", player.bonusT.getHarvestRes()));
+        this.addAction(new ResourcesAction(
+                "BonusTile", player.bonusT.getHarvestRes(), player));
         System.out.println("Harvest: The Player's BonusTile gave " + player.bonusT.getHarvestRes().toString());
     }
 
-    private void harvStaticCards(Deck tempDeck) {
+    private void harvStaticCards(Deck tempDeck, Player player) {
         //resources given by static Cards
         for (Card i : tempDeck) {
             Resources tmp = Resources.fromJson(base(i).get("resources").getAsJsonObject());
-            this.addAction(new ResourcesAction("Resources", tmp));
+            this.addAction(new ResourcesAction("Resources", tmp, player));
             System.out.println("Harvest: Card " + i.getCardName() + " gave " + tmp.toString());
         }
     }
 
-    private void harvCouncPriv(Deck tempDeck) {
+    private void harvCouncPriv(Deck tempDeck, Player player) {
         //councilPrivilege given by static Cards
         for (Card i : tempDeck) {
             int priv = base(i).get("councilPrivilege").getAsInt();
             System.out.println("Harvest: Card " + i.getCardName() + " gave " + String.valueOf(priv) + " Council privilege");
             Set<Resources> privRes = (new Council().chooseMultiPrivilege(priv));
             for (Resources r : privRes) {
-                this.addAction(new ResourcesAction("HarvCouncilPrivilege", r));
+                this.addAction(new ResourcesAction(
+                        "HarvCouncilPrivilege", r, player));
                 System.out.println("Harvest: Council privilege gave " + r.toString());
             }
         }
@@ -73,7 +75,7 @@ public class Harvest extends Action {
             }
         }
         harvBonusTile(player);
-        harvStaticCards(tempDeck);
-        harvCouncPriv(tempDeck);
+        harvStaticCards(tempDeck, player);
+        harvCouncPriv(tempDeck, player);
     }
 }

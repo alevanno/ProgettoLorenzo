@@ -7,20 +7,22 @@ abstract class BaseAction {
         this.actionName = name;
     }
 
-    public abstract void apply(Player pl);
+    public abstract void apply();
 }
 
 
 class ResourcesAction extends BaseAction {
-    private Resources op;
+    private final Resources op;
+    private final Player player;
 
-    public ResourcesAction (String name, Resources op) {
+    protected ResourcesAction (String name, Resources op, Player p) {
         super(name);
         this.op = op;
+        this.player = p;
     }
 
-    public void apply(Player pl) {
-        pl.currentRes = pl.currentRes.merge(this.op);
+    public void apply() {
+         this.player.currentRes = this.player.currentRes.merge(this.op);
     }
 
     @Override

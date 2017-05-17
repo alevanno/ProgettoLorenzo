@@ -19,14 +19,15 @@ public class Floor extends Action {
     //player puts there its famMemb & take Card and the eventually bonus
     //FIXME it handles only Card's ResourcesAction
     public void claimFloor(FamilyMember fam) {
+        Player p = fam.getParent();
         this.famMember = fam;
         System.out.println(this.famMember.getSkinColor() + " family member of "
                 + this.famMember.getParent().playerColour
                 + " player placed in " + this.floorNumber + " floor of "
                 + this.parentTower.getTowerNumber() + " tower");
-        this.addAction(new ResourcesAction("floor bonus", this.bonus));
+        this.addAction(new ResourcesAction("floor bonus", this.bonus, p));
         //FIXME temporary
-        this.floorCard.actionBuilder();
+        this.floorCard.actionBuilder(p);
         this.famMember.getParent().addCard(this.removeCard(this.floorNumber));
     }
 
@@ -36,4 +37,3 @@ public class Floor extends Action {
         return retCard;
     }
 }
-
