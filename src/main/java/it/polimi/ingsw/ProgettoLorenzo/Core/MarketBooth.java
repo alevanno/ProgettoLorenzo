@@ -11,7 +11,7 @@ public class MarketBooth extends Action {
     private int councilPrivilege;
     private FamilyMember famMember;
 
-    public MarketBooth(JsonObject src) throws FileNotFoundException {
+    public MarketBooth(JsonObject src) {
         String privilege = "privileges";
         if (src.get(privilege) != null) {
             this.councilPrivilege = 2;
@@ -35,7 +35,7 @@ public class MarketBooth extends Action {
     }
 
     //actionBuilder for MarketBooth class
-    public void claimSpace(FamilyMember fam) throws FileNotFoundException {
+    public void claimSpace(FamilyMember fam) {
         this.famMember = fam;
         System.out.println(this.famMember.getSkinColor() + " family member of "
                 + this.famMember.getParent().playerColour

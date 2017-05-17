@@ -16,11 +16,8 @@ public class Market {
 
 
 
-    public Market() throws FileNotFoundException {
-        ClassLoader classLoader = Council.class.getClassLoader();
-        String resources = classLoader.getResource("market.json").getFile();
-        JsonObject data = new JsonParser().parse(new FileReader(resources))
-               .getAsJsonObject();
+    public Market()  {
+        JsonObject data = Utils.getJsonObject("market.json");
         booths.add(new MarketBooth(data.get("firstBooth").getAsJsonObject()));
         booths.add(new MarketBooth(data.get("secondBooth").getAsJsonObject()));
         booths.add(new MarketBooth(data.get("thirdBooth").getAsJsonObject()));
@@ -31,7 +28,7 @@ public class Market {
         return booths;
     }
 
-    public void putFamMember(FamilyMember fam) throws FileNotFoundException{
+    public void putFamMember(FamilyMember fam) {
         System.out.println("Where do you want to put your Family Member?: ");
         for (int i = 1; i-1 < 4; i++) {
             if (i == 4) {

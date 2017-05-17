@@ -14,11 +14,8 @@ public class Council extends Action {
     private FamilyMember famMember;
     Set<Resources> privilegeSet = new HashSet<>();
 
-    public Council () throws FileNotFoundException {
-        ClassLoader classLoader = Council.class.getClassLoader();
-        String filename = classLoader.getResource("council.json").getFile();
-        JsonObject data = new JsonParser().parse(new FileReader(filename))
-                .getAsJsonObject();
+    public Council() {
+        JsonObject data = Utils.getJsonObject("council.json");
         this.bonusEntry = Resources.fromJson(data.get("bonusEntry")
                .getAsJsonObject());
 

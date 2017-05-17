@@ -6,7 +6,7 @@ import java.util.List;
 public class Player {
     public final String playerName;
     public final String playerColour;
-    public Resources currentRes;
+    public Resources currentRes;  // FIXME make private
     private List<FamilyMember> famMemberList = new ArrayList<>();
     private Deck cards = new Deck();
     public BonusTile bonusT;
@@ -32,7 +32,7 @@ public class Player {
 
     public void setBonusTile(BonusTile bt) {this.bonusT = bt;}
 
-    protected void addCard(Card toadd) {
+    public void addCard(Card toadd) {
         this.cards.add(toadd);
     }
 
