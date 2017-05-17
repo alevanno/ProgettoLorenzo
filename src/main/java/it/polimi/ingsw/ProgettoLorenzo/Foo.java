@@ -25,7 +25,7 @@ public class Foo {
         booth.claimSpace(player.getAvailableFamMembers().get(1));
         booth.apply();
         System.out.println(player.currentRes);
-        List<Card> tmpList = new ArrayList<>();
+        Deck tmpList = new Deck();
         tmpList.add(test);
         tmpList.add(test);
         tmpList.add(test);

@@ -10,13 +10,14 @@ public class Tower {
     private int towerNumber;
     private List<Floor> floors = new ArrayList<>();
 
-    public Tower(int towerNumber, List<Card> cardList) {
+    public Tower(int towerNumber, Deck cardList) {
         this.towerNumber = towerNumber;
         JsonArray data = Utils.getJsonArray("tower.json");
         //FIXME make me prettier
         for(int i = 0; i < data.size(); i++) {
-            floors.add(new Floor(Resources.fromJson(data.get(i).getAsJsonObject()),
-                    cardList.get(i), this, i + 1));
+            floors.add(new Floor(
+                    Resources.fromJson(data.get(i).getAsJsonObject()),
+                    cardList.remove(0), this, i + 1));
         }
     }
 
