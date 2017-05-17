@@ -100,9 +100,6 @@ public class Resources {
 
 
     public static Resources fromJson(JsonObject src) {
-        // FIXME the following can of course fail if any of those fields is not
-        // present.  Instead if it is non-existent it should just skip it (so
-        // the field will be set to 0).
         return new ResBuilder()
             .coin(Utils.returnZeroIfMissing(src, "coin"))
             .wood(Utils.returnZeroIfMissing(src,"wood"))
