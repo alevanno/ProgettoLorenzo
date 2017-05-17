@@ -5,7 +5,7 @@ import java.util.*;
 import com.google.gson.*;
 
 
-public abstract class Card extends Action {
+public class Card extends Action {
     public final String cardName;
     public final String cardType;
     public final String cardPeriod;
@@ -13,6 +13,7 @@ public abstract class Card extends Action {
     private final List<Resources> cardCost = new ArrayList<>();
     public final Map<String, JsonElement> immediateEff = new HashMap<>();
     public final Map<String, JsonElement> permanentEff = new HashMap<>();
+
 
     public Card(JsonObject src) {
         this.cardName = src.get("name").getAsString();
