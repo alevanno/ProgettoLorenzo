@@ -2,11 +2,7 @@ package it.polimi.ingsw.ProgettoLorenzo.Core;
 
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,12 +10,9 @@ public class Tower {
     private int towerNumber;
     private List<Floor> floors = new ArrayList<>();
 
-    public Tower(int towerNumber, List<Card> cardList) throws FileNotFoundException {
+    public Tower(int towerNumber, List<Card> cardList) {
         this.towerNumber = towerNumber;
-        ClassLoader classLoader = Council.class.getClassLoader();
-        String resources = classLoader.getResource("tower.json").getFile();
-        JsonArray data = new JsonParser().parse(new FileReader(resources))
-                .getAsJsonArray();
+        JsonArray data = Utils.getJsonArray("tower.json");
         //FIXME make me prettier
         for(int i = 0; i < data.size(); i++) {
             floors.add(new Floor(Resources.fromJson(data.get(i).getAsJsonObject()),

@@ -2,7 +2,6 @@ package it.polimi.ingsw.ProgettoLorenzo.Core;
 
 
 public class Floor extends Action {
-
     private Resources bonus;
     private FamilyMember famMember;
     private Card floorCard;
