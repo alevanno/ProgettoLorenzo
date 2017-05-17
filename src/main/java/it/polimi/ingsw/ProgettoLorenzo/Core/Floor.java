@@ -27,7 +27,7 @@ public class Floor extends Action {
                 + this.parentTower.getTowerNumber() + " tower");
         this.addAction(new ResourcesAction("floor bonus", this.bonus, p));
         //FIXME temporary
-        this.floorCard.actionBuilder(p);
+        this.floorCard.costActionBuilder(p);
         this.famMember.getParent().addCard(this.removeCard(this.floorNumber));
     }
 
