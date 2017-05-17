@@ -17,7 +17,7 @@ public class Floor extends Action {
         this.floorNumber = floorNumber;
     }
 
-    //player puts there his famMemb & take Card and the eventually bonus
+    //player puts there its famMemb & take Card and the eventually bonus
     //FIXME it handles only Card's ResourcesAction
     public void claimFloor(FamilyMember fam) {
         this.famMember = fam;
@@ -32,8 +32,9 @@ public class Floor extends Action {
     }
 
     public Card removeCard(int indx) {
-        return this.parentTower.getCardList().remove(indx);
+        Card retCard = this.floorCard;
+        this.floorCard = null;
+        return retCard;
     }
-
 }
 

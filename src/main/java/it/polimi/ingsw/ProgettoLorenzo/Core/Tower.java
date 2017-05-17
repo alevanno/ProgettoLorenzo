@@ -12,12 +12,10 @@ import java.util.List;
 
 public class Tower {
     private int towerNumber;
-    private List<Card> cardList = new ArrayList<>();
     private List<Floor> floors = new ArrayList<>();
 
     public Tower(int towerNumber, List<Card> cardList) throws FileNotFoundException {
         this.towerNumber = towerNumber;
-        this.cardList = cardList;
         ClassLoader classLoader = Council.class.getClassLoader();
         String resources = classLoader.getResource("tower.json").getFile();
         JsonArray data = new JsonParser().parse(new FileReader(resources))
@@ -31,10 +29,6 @@ public class Tower {
 
     public int getTowerNumber() {
         return towerNumber;
-    }
-
-    public List<Card> getCardList() {
-        return cardList;
     }
 
     public List<Floor> getFloors() {

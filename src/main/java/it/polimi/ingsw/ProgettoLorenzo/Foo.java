@@ -4,6 +4,8 @@ import com.google.gson.*;
 import it.polimi.ingsw.ProgettoLorenzo.Core.*;
 
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Foo {
 
@@ -12,7 +14,7 @@ public class Foo {
         String filename = classLoader.getResource("cards.json").getFile();
         JsonArray data = new JsonParser().parse(new FileReader(filename))
                 .getAsJsonArray();
-        Card test = new TerrainCard(data.get(0).getAsJsonObject());
+        Card test = new Card(data.get(0).getAsJsonObject());
         test.actionBuilder();
         Player player = new Player("Pino", "Red");
         test.setPlayer(player);
@@ -30,7 +32,17 @@ public class Foo {
         booth.claimSpace(player.getAvailableFamMembers().get(1));
         booth.apply();
         System.out.println(player.currentRes);
-
+        List<Card> tmpList = new ArrayList<>();
+        tmpList.add(test);
+        tmpList.add(test);
+        tmpList.add(test);
+        tmpList.add(test);
+        Tower tower = new Tower(1, tmpList);
+        Floor testFloor = tower.getFloors().get(0);
+        testFloor.claimFloor(player.getAvailableFamMembers().get(2));
+        testFloor.setPlayer(player);
+        testFloor.apply();
+        System.out.println(player.currentRes);
 
     }
 
