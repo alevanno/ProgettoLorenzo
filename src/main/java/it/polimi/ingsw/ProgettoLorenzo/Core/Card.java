@@ -22,11 +22,15 @@ public class Card extends Action {
 
         JsonElement obj = src.get("cost");
         if (obj != null) {
-            Iterator cos = obj.getAsJsonArray().iterator();
-            while (cos.hasNext()) {
-                this.cardCost.add(
-                        Resources.fromJson((JsonObject)cos.next())
-                );
+            if (obj.getAsJsonArray().size() == 0) {
+                this.cardCost.add(new Resources.ResBuilder().build());
+            } else {
+                Iterator cos = obj.getAsJsonArray().iterator();
+                while (cos.hasNext()) {
+                    this.cardCost.add(
+                            Resources.fromJson((JsonObject) cos.next())
+                    );
+                }
             }
         }
 
@@ -39,7 +43,6 @@ public class Card extends Action {
             }
         }
 
-
         obj = src.get("permanentAction");
         if (obj != null) {
             Iterator per = obj.getAsJsonObject().entrySet().iterator();
@@ -51,7 +54,6 @@ public class Card extends Action {
     }
 
     public Resources getCardCost() {
-        // FIXME this crashes if size == 0
         if (this.cardCost.size() > 1) {
             System.out.println("You can choose what to pay:");
             for (Resources item : this.cardCost) {
@@ -59,6 +61,7 @@ public class Card extends Action {
             }
             System.out.print("Insert number: ");
             Scanner in = new Scanner(System.in);
+            // FIXME be safe about people typing non-numbers
             return this.cardCost.get(in.nextInt());
         }
         return this.cardCost.get(0);
