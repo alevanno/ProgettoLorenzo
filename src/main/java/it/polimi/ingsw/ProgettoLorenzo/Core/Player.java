@@ -32,7 +32,7 @@ public class Player {
 
     public void setBonusTile(BonusTile bt) {this.bonusT = bt;}
 
-    protected void addCard(Card toadd) {
+    public void addCard(Card toadd) {
         this.cards.add(toadd);
     }
 

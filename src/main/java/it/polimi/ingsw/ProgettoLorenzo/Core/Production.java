@@ -1,5 +1,7 @@
 package it.polimi.ingsw.ProgettoLorenzo.Core;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -35,7 +37,7 @@ public class Production extends Action {
                 Resources tmpRes = Resources.fromJson(mult.get("bonus").getAsJsonObject());
                 int count = 0;
                 for (Card c : player.listCards()) {
-                    if (c.cardType == tmpType) { count++; }
+                    if (c.cardType.equals(tmpType)) { count++; }
                 }
                 prodRes.merge(tmpRes.multiplyRes(count));
                 this.addAction(new ResourcesAction("ProdMultiplier", tmpRes.multiplyRes(count)));
@@ -43,13 +45,28 @@ public class Production extends Action {
         }
     }
 
-    private void prodMultChoices(Deck tempDeck) {
+    private void prodConversion(Deck tempDeck) {
         //TODO
+        for (Card i : tempDeck) {
+            JsonArray arr = base(i).get("conversion").getAsJsonArray();
+            for (JsonElement conv : arr) {
+                JsonArray src = conv.getAsJsonObject().get("src").getAsJsonArray();
+                JsonArray dest = conv.getAsJsonObject().get("dest").getAsJsonArray();
+                List<Resources> resSrc = new ArrayList<>();
+                for (JsonElement a : src) {
+                        resSrc.add(Resources.fromJson(a.getAsJsonObject()));
+                }
+
+                //gestire scelta origine se l'array contiene più di un elem
+                //gestire scelta destinazione come sopra
+            }
+        }
     }
 
     private void prodBonusTile() {
         //resources given by BonusTile
         this.addAction(new ResourcesAction("BonusTile", player.bonusT.getProductionRes()));
+        System.out.println("Production: Bonus Tile gave " + player.bonusT.getProductionRes().toString());
     }
 
     private void prodStaticCards(Deck tempDeck) {
@@ -57,6 +74,7 @@ public class Production extends Action {
         for (Card i : tempDeck) {
             Resources tmp = Resources.fromJson(base(i).get("resources").getAsJsonObject());
             this.addAction(new ResourcesAction("Resources", tmp));
+            System.out.println("Production: Cards gave " + tmp.toString());
         }
     }
 
@@ -67,6 +85,7 @@ public class Production extends Action {
             Set<Resources> privRes = (new Council().chooseMultiPrivilege(priv));
             for (Resources r : privRes) {
                 this.addAction(new ResourcesAction("ProdCouncilPrivilege", r));
+                System.out.println("Production: Cards gave " + r.toString());
             }
         }
     }
@@ -84,13 +103,13 @@ public class Production extends Action {
         //excludes Cards having too high of an action value
         for (Card i : player.listCards()) {
             if (i.permanentEff.containsKey("production") &&
-                    i.permanentEff.get("production").getAsJsonObject().get("value").getAsInt() <= value) {
+                    base(i).get("value").getAsInt() <= value) {
                 tempDeck.add(i);
             }
         }
         //Chiamare tutte le funzioni
+        //prodConversion(tempDeck);
         prodMultiplier(tempDeck);
-        prodMultChoices(tempDeck);
         prodBonusTile();
         prodStaticCards(tempDeck);
         prodCouncPriv(tempDeck);

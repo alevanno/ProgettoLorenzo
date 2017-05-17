@@ -8,6 +8,22 @@ public class Foo {
     public static void main(String[] args) {
         JsonArray data = Utils.getJsonArray("cards.json");
         Card test = new Card(data.get(0).getAsJsonObject());
+        Player p1 = new Player("Ciccio", "Red");
+        JsonArray databt = Utils.getJsonArray("bonusTile.json");
+        BonusTile testbt = new BonusTile(databt.get(0).getAsJsonObject());
+        p1.setBonusTile(testbt);
+        System.out.println("foo " + p1.bonusT.getHarvestRes().toString());
+
+        p1.addCard(test);
+        int val = 5;
+        Harvest h = new Harvest();
+        h.harv(p1, val);
+    }
+        /*ClassLoader classLoader = Foo.class.getClassLoader();
+        String filename = classLoader.getResource("cards.json").getFile();
+        JsonArray data = new JsonParser().parse(new FileReader(filename))
+                .getAsJsonArray();
+        Card test = new Card(data.get(0).getAsJsonObject());
         test.actionBuilder();
         Player player = new Player("Pino", "Red");
         test.setPlayer(player);
@@ -37,7 +53,7 @@ public class Foo {
         testFloor.apply();
         System.out.println(player.currentRes);
 
-    }
+    }*/
 
 
 }
