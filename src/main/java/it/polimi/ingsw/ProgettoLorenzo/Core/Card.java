@@ -81,8 +81,7 @@ public class Card extends Action {
 
     public void immediateActionBuilder(Player player) {
         this.addAction(
-                new NullAction();
-        );
+                new NullAction());
     }
 
         // FIXME this has to create a BaseAction's for all the actions

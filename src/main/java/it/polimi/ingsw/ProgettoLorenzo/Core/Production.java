@@ -58,6 +58,10 @@ public class Production extends Action {
                 for (JsonElement a : src) {
                         resSrc.add(Resources.fromJson(a.getAsJsonObject()));
                 }
+                System.out.println( Production: );
+                for (Resources r : resSrc) {
+
+                }
 
                 //gestire scelta origine se l'array contiene più di un elem
                 //gestire scelta destinazione come sopra
@@ -69,7 +73,7 @@ public class Production extends Action {
         //resources given by BonusTile
         this.addAction(new ResourcesAction(
                 "BonusTile", player.bonusT.getProductionRes(), player));
-        System.out.println("Production: Bonus Tile gave " + player.bonusT.getProductionRes().toString());
+        System.out.println("Production: The Player's BonusTile gave " + player.bonusT.getProductionRes().toString());
     }
 
     private void prodStaticCards(Deck tempDeck, Player player) {
@@ -77,7 +81,7 @@ public class Production extends Action {
         for (Card i : tempDeck) {
             Resources tmp = Resources.fromJson(base(i).get("resources").getAsJsonObject());
             this.addAction(new ResourcesAction("Resources", tmp, player));
-            System.out.println("Production: Cards gave " + tmp.toString());
+            System.out.println("Production: Card " + i.toString() + " gave " + tmp.toString());
         }
     }
 
@@ -89,7 +93,7 @@ public class Production extends Action {
             for (Resources r : privRes) {
                 this.addAction(new ResourcesAction(
                         "ProdCouncilPrivilege", r, player));
-                System.out.println("Production: Cards gave " + r.toString());
+                System.out.println("Production: Card " + i.toString() + " gave " + r.toString());
             }
         }
     }

@@ -43,7 +43,7 @@ public class Council extends Action {
         return this.privilegeSet;
     }
 
-    public Resources choosePrivilege() {  // FIXME maybe make static somehow?
+    public Resources choosePrivilege() {
         int i = 1;
         int res;
         System.out.println("You can chose a privilege between: ");
