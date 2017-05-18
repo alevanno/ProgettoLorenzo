@@ -7,8 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tower {
-    private int towerNumber;
-    private List<Floor> floors = new ArrayList<>();
+    private final int towerNumber;
+    private final List<Floor> floors = new ArrayList<>();
 
     public Tower(int towerNumber, Deck cardList) {
         this.towerNumber = towerNumber;

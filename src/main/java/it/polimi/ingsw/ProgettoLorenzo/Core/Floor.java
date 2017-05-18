@@ -2,11 +2,11 @@ package it.polimi.ingsw.ProgettoLorenzo.Core;
 
 
 public class Floor extends Action {
-    private Resources bonus;
+    private final Resources bonus;
+    private final int floorNumber;
+    private final Tower parentTower;
     private FamilyMember famMember;
     private Card floorCard;
-    private int floorNumber;
-    private Tower parentTower;
 
 
     public Floor(Resources bonus, Card card, Tower tower, int floorNumber) {
@@ -17,23 +17,22 @@ public class Floor extends Action {
     }
 
     //player puts there its famMemb & take Card and the eventually bonus
-    //FIXME it handles only Card's ResourcesAction
     public void claimFloor(FamilyMember fam) {
         Player p = fam.getParent();
-        this.famMember = fam;
-        System.out.println(this.famMember.getSkinColor() + " family member of "
-                + this.famMember.getParent().playerColour
-                + " player placed in " + this.floorNumber + " floor of "
-                + this.parentTower.getTowerNumber() + " tower");
+        this.addAction(new TakeFamilyMember(fam));
+        this.addAction(new PlaceFamilyMemberInFloor(fam, this));
         this.addAction(new ResourcesAction("floor bonus", this.bonus, p));
-        //FIXME temporary
+        this.addAction(new NestedAction(this.floorCard));
         this.floorCard.costActionBuilder(p);
-        this.famMember.getParent().addCard(this.removeCard(this.floorNumber));
+        this.floorCard.immediateActionBuilder(p);
+        this.addAction(new CardFromFloorAction(this.floorCard, this, p));
     }
 
-    public Card removeCard(int indx) {
-        Card retCard = this.floorCard;
+    protected void placeFamilyMember(FamilyMember f) {
+        this.famMember = f;
+    }
+
+    public void removeCard() {
         this.floorCard = null;
-        return retCard;
     }
 }
