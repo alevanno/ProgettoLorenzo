@@ -39,3 +39,16 @@ class ResourcesAction extends BaseAction {
         return "+ " + this.actionName + ": " + this.op;
     }
 }
+
+class TakeFamilyMember extends BaseAction {
+    private final FamilyMember famMember;
+
+    public TakeFamilyMember(FamilyMember famMember) {
+        super("Remove family member from the Player");
+        this.famMember = famMember;
+    }
+
+    public void apply() {
+        this.famMember.getParent().takeFamilyMember(this.famMember);
+    }
+}

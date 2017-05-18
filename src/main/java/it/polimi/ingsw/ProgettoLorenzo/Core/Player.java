@@ -47,5 +47,11 @@ public class Player {
     public List<FamilyMember> getAvailableFamMembers() {
         return this.famMemberList;
     }
+
+    protected void takeFamilyMember(FamilyMember famMember) {
+        if (!this.famMemberList.remove(famMember)) {
+            System.exit(1);
+        }
+    }
     //public void finalCount() {}
 }
