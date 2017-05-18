@@ -52,3 +52,18 @@ class TakeFamilyMember extends BaseAction {
         this.famMember.getParent().takeFamilyMember(this.famMember);
     }
 }
+
+class PlaceFamilyMemberInCouncil extends BaseAction {
+    private final FamilyMember famMember;
+    private final Council dest;
+
+    public PlaceFamilyMemberInCouncil(FamilyMember famMember, Council c) {
+        super("Add a FamilyMember in the Council");
+        this.famMember = famMember;
+        this.dest = c;
+    }
+
+    public void apply() {
+        this.dest.placeFamilyMember(this.famMember);
+    }
+}

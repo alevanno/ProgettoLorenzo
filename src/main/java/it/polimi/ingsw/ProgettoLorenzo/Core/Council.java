@@ -11,7 +11,6 @@ public class Council extends Action {
     private List<FamilyMember> playerOrder = new ArrayList<FamilyMember>();
     private final List<Resources> privilegeChoices;
     public final Resources bonusEntry;
-    private FamilyMember famMember;
     Set<Resources> privilegeSet = new HashSet<>();
 
     public Council() {
@@ -65,14 +64,17 @@ public class Council extends Action {
 
     //actionBuilder for Council class
     public void claimSpace(FamilyMember fam) {
-        this.famMember = fam;
         Player p = fam.getParent();
-        System.out.println(this.famMember.getSkinColor() + " family member of " + this.famMember.getParent().playerColour
-        + " player placed in Council Palace");
+        this.addAction(new TakeFamilyMember(fam));
+        this.addAction(new PlaceFamilyMemberInCouncil(fam, this));
         this.addAction(new ResourcesAction(
                 "bonus entry from Council", this.bonusEntry, p));
         // FIXME make the number of privilege selectable?
         this.addAction(new ResourcesAction(
                 "Council privilege", this.choosePrivilege(), p));
+    }
+
+    protected void placeFamilyMember(FamilyMember f) {
+        this.playerOrder.add(f);
     }
 }
