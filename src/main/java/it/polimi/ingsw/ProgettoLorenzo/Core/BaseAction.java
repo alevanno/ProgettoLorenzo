@@ -10,6 +10,15 @@ abstract class BaseAction {
     public abstract void apply();
 }
 
+class NullAction extends BaseAction {
+    protected NullAction() {
+        super("Null action.  To be implemented.  XXX");
+    }
+
+    public void apply() {
+        // empty
+    }
+}
 
 class ResourcesAction extends BaseAction {
     private final Resources op;
