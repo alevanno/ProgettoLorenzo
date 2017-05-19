@@ -123,3 +123,24 @@ class PlaceFamilyMemberInCouncil extends BaseAction {
         this.dest.placeFamilyMember(this.famMember);
     }
 }
+
+class PlaceFamilyMemberInBooth extends BaseAction {
+    private final FamilyMember famMember;
+    private final MarketBooth dest;
+
+    public PlaceFamilyMemberInBooth(FamilyMember famMember, MarketBooth m) {
+        super("Add a FamilyMember in somewhere in the Market");
+        this.famMember = famMember;
+        this.dest = m;
+    }
+
+    public void apply() {
+        this.dest.placeFamilyMember(this.famMember);
+    }
+
+    @Override
+    public String toString() {
+        return "Family member move: " + this.famMember + " → " + this.dest;
+    }
+
+}

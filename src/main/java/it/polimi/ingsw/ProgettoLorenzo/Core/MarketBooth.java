@@ -34,19 +34,19 @@ public class MarketBooth extends Action {
         return this.famMember;
     }
 
+    protected void placeFamilyMember(FamilyMember f) {
+        this.famMember = f;
+    }
+
     //actionBuilder for MarketBooth class
     public void claimSpace(FamilyMember fam) {
-        this.famMember = fam;
-        System.out.println(this.famMember.getSkinColor() + " family member of "
-                + this.famMember.getParent().playerColour
-                + " player placed in a Market Booth ");
-        if (this.councilPrivilege == 2) {
-            this.bonus.addAll(new Council().chooseMultiPrivilege(this.councilPrivilege));
-        }
+        Player p = fam.getParent();
+        this.addAction(new TakeFamilyMember(fam));
+        this.addAction(new PlaceFamilyMemberInBooth(fam, this));
+        this.bonus.addAll(new Council().chooseMultiPrivilege(this.councilPrivilege));
         for (Resources res : this.bonus) {
             this.addAction(new ResourcesAction(
-                    "market booth action", res, fam.getParent()));
+                    "MarketBooth ction", res, fam.getParent()));
         }
-
     }
 }
