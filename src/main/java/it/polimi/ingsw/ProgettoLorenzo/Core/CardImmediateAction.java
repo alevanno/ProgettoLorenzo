@@ -11,7 +11,7 @@ public class CardImmediateAction extends Action {
 
         if (card.immediateEff.containsKey("resources")) {
             Resources tmp = Resources.fromJson(card.immediateEff.get("resources").getAsJsonObject());
-            this.addAction(new ResourcesAction("Resources", tmp, pl));
+            this.addAction(new ResourcesAction("ImmResources", tmp, pl));
             System.out.println("ImmediateAction: Card " + card.getCardName() + " gave " + tmp.toString());
         }
 
@@ -21,32 +21,34 @@ public class CardImmediateAction extends Action {
             for (Resources r : privRes) {
                 this.addAction(new ResourcesAction(
                         "ImmActCouncilPrivilege", r, pl));
-                System.out.println("Production: Card " + card.getCardName() + " gave " + r.toString());
+                System.out.println("ImmediateAction: Card " + card.getCardName() + " gave " + r.toString());
+            }
         }
 
-            if (card.immediateEff.containsKey("production")) {
-                int value = card.immediateEff.get("production").getAsInt();
-                new Production().prod(pl, value);
-            }
+        if (card.immediateEff.containsKey("production")) {
+            int value = card.immediateEff.get("production").getAsInt();
+            new Production().prod(pl, value);
+        }
+
+
             //TODO to handle pickCard we have first to discuss the cardCostHandling
             if(card.immediateEff.containsKey("pickCard")) {
 
-            }
+        }
 
-            if(card.immediateEff.containsKey("multiplier")) {
-                Resources prodRes = new Resources.ResBuilder().build();
-                JsonObject mult = card.immediateEff.get("multiplier").getAsJsonObject();
-                String tmpType = mult.get("type").getAsString();
-                Resources tmpRes = Resources.fromJson(mult.get("bonus").getAsJsonObject());
-                int count = 0;
-                for (Card c : pl.listCards()) {
-                    if (c.cardType.equals(tmpType)) { count++; }
-                }
-                prodRes.merge(tmpRes.multiplyRes(count));
-                this.addAction(new ResourcesAction(
-                        "ProdMultiplier", tmpRes.multiplyRes(count), pl));
-                System.out.println("Production: Multiplier Card " + card.getCardName() + " gave " + tmpRes.toString());
+        if(card.immediateEff.containsKey("multiplier")) {
+            Resources prodRes = new Resources.ResBuilder().build();
+            JsonObject mult = card.immediateEff.get("multiplier").getAsJsonObject();
+            String tmpType = mult.get("type").getAsString();
+            Resources tmpRes = Resources.fromJson(mult.get("bonus").getAsJsonObject());
+            int count = 0;
+            for (Card c : pl.listCards()) {
+                if (c.cardType.equals(tmpType)) { count++; }
             }
+            prodRes.merge(tmpRes.multiplyRes(count));
+            this.addAction(new ResourcesAction(
+                    "ImmMultiplier", tmpRes.multiplyRes(count), pl));
+            System.out.println("ImmediateAction: Multiplier Card " + card.getCardName() + " gave " + tmpRes.toString());
         }
     }
 }

@@ -13,7 +13,7 @@
         ],
         "immediateActions": {
             "resources": {
-                "coins": 5
+                "coin": 5
             },
             "councilPrivilege": 1,
             "production": 3,

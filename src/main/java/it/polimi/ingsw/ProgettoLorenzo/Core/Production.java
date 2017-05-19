@@ -58,7 +58,7 @@ public class Production extends Action {
                 for (JsonElement a : src) {
                         resSrc.add(Resources.fromJson(a.getAsJsonObject()));
                 }
-                System.out.println( Production: );
+                //System.out.println( Production: );
                 for (Resources r : resSrc) {
 
                 }
