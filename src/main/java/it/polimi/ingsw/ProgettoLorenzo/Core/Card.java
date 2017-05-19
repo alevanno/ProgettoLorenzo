@@ -65,8 +65,12 @@ public class Card extends Action {
             }
             System.out.print("Insert number: ");
             Scanner in = new Scanner(System.in);
-            // FIXME be safe about people typing non-numbers
-            return this.cardCost.get(in.nextInt());
+            while (!in.hasNextInt()) {
+                in.next();
+                System.out.println("Please input an int");
+            }
+            int choice = in.nextInt();
+            return this.cardCost.get(choice);
         }
         return this.cardCost.get(0);
     }

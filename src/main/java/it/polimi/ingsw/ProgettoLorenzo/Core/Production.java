@@ -4,9 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class Production extends Action {
     private FamilyMember mainProduction;
@@ -47,27 +45,51 @@ public class Production extends Action {
         }
     }
 
-    private void prodConversion(Deck tempDeck) {
+    private void prodConversion(Deck tempDeck, Player player) {
         //TODO
         for (Card i : tempDeck) {
             JsonArray arr = base(i).get("conversion").getAsJsonArray();
-            for (JsonElement conv : arr) {
+            for (JsonElement conv : arr) { //SINGOLA CONV
                 JsonArray src = conv.getAsJsonObject().get("src").getAsJsonArray();
                 JsonArray dest = conv.getAsJsonObject().get("dest").getAsJsonArray();
                 List<Resources> resSrc = new ArrayList<>();
+                System.out.println("Production: Card " + i.getCardName() + " allows you to convert some resources");
                 for (JsonElement a : src) {
-                        resSrc.add(Resources.fromJson(a.getAsJsonObject()));
+                    resSrc.add(Resources.fromJson(a.getAsJsonObject()));
                 }
-                //System.out.println( Production: );
-                for (Resources r : resSrc) {
-
+                Resources resDest = Resources.fromJson(dest.get(0).getAsJsonObject().get("resources").getAsJsonObject());
+                int p = dest.get(1).getAsJsonObject().get("councilPrivilege").getAsInt();
+                System.out.println("Available conversions:  \n0: None");
+                int count = 1;
+                for (Resources r1 : resSrc) {
+                    if(resDest != null) {
+                        System.out.println(String.valueOf(count) + ": " + r1.toString() + " -> " + resDest.toString());
+                        count++;
+                    } else if (p != 0) {
+                        System.out.println(String.valueOf(count) + ": " + r1.toString() + " -> " + String.valueOf(p) +" CouncilPrivilege");
+                        count++;
+                    }
                 }
-
-                //gestire scelta origine se l'array contiene più di un elem
-                //gestire scelta destinazione come sopra
+                System.out.println("Insert an int between 0 and " + resSrc.size());
+                Scanner in = new Scanner(System.in);
+                int choice = in.nextInt();
+                if (choice == 0) {}
+                else if (choice != 0) {
+                    this.addAction(new ResourcesAction("Conversion source", resSrc.get(choice-1).inverse(), player));
+                    if((resDest != null)) {
+                        this.addAction(new ResourcesAction("Conversion dest", resDest, player));
+                    } else if (p != 0) {
+                        Set<Resources> privRes = (new Council().chooseMultiPrivilege(p));
+                        for (Resources r : privRes) {
+                            this.addAction(new ResourcesAction(
+                                    "Coversion CouncilPrivilege", r, player));
+                        }
+                    }
+                }
             }
         }
     }
+
 
     private void prodBonusTile(Player player) {
         //resources given by BonusTile
@@ -81,7 +103,7 @@ public class Production extends Action {
         for (Card i : tempDeck) {
             Resources tmp = Resources.fromJson(base(i).get("resources").getAsJsonObject());
             this.addAction(new ResourcesAction("Resources", tmp, player));
-            System.out.println("Production: Card " + i.toString() + " gave " + tmp.toString());
+            System.out.println("Production: Card " + i.getCardName() + " gave " + tmp.toString());
         }
     }
 
@@ -89,11 +111,12 @@ public class Production extends Action {
         //councilPrivilege given by static Cards
         for (Card i : tempDeck) {
             int priv = base(i).get("councilPrivilege").getAsInt();
+            System.out.println("Production: Card " + i.getCardName() + " gave " + String.valueOf(priv) + " Council privilege");
             Set<Resources> privRes = (new Council().chooseMultiPrivilege(priv));
             for (Resources r : privRes) {
                 this.addAction(new ResourcesAction(
                         "ProdCouncilPrivilege", r, player));
-                System.out.println("Production: Card " + i.toString() + " gave " + r.toString());
+                System.out.println("Production: Council privilege gave " + r.toString());
             }
         }
     }
@@ -115,10 +138,10 @@ public class Production extends Action {
             }
         }
         //Chiamare tutte le funzioni
-        //prodConversion(tempDeck);
-        prodMultiplier(tempDeck, player);
+        prodConversion(tempDeck, player);
+        /*prodMultiplier(tempDeck, player);
         prodBonusTile(player);
         prodStaticCards(tempDeck, player);
-        prodCouncPriv(tempDeck, player);
+        prodCouncPriv(tempDeck, player);*/
     }
 }

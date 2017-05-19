@@ -129,7 +129,7 @@ class PlaceFamilyMemberInBooth extends BaseAction {
     private final MarketBooth dest;
 
     public PlaceFamilyMemberInBooth(FamilyMember famMember, MarketBooth m) {
-        super("Add a FamilyMember in somewhere in the Market");
+        super("Add a FamilyMember somewhere in the Market");
         this.famMember = famMember;
         this.dest = m;
     }
@@ -142,5 +142,24 @@ class PlaceFamilyMemberInBooth extends BaseAction {
     public String toString() {
         return "Family member move: " + this.famMember + " → " + this.dest;
     }
+}
 
+class PlaceFamMemberInProd extends BaseAction {
+    private final FamilyMember famMember;
+    private final Production dest;
+
+    public PlaceFamMemberInProd(FamilyMember famMember, Production p) {
+        super("Add a FamilyMember in the Production area");
+        this.famMember = famMember;
+        this.dest = p;
+    }
+
+    public void apply() {
+        //this.dest.placeFamilyMember(this.famMember);
+    }
+
+    @Override
+    public String toString() {
+        return "Family member move: " + this.famMember + " → " + this.dest;
+    }
 }
