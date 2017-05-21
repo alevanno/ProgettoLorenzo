@@ -46,7 +46,7 @@ public class Production extends Action {
     }
 
     private void prodConversion(Deck tempDeck, Player player) {
-        //TODO
+        //conversions provided by cards
         for (Card i : tempDeck) {
             JsonArray arr = base(i).get("conversion").getAsJsonArray();
             for (JsonElement conv : arr) { //SINGOLA CONV
@@ -70,19 +70,30 @@ public class Production extends Action {
                         count++;
                     }
                 }
-                System.out.println("Insert an int between 0 and " + resSrc.size());
-                Scanner in = new Scanner(System.in);
-                int choice = in.nextInt();
+                int choice;
+                do {
+                    System.out.println("Input an int between 0 and " + resSrc.size());
+                    Scanner in = new Scanner(System.in);
+                    while (!in.hasNextInt()) {
+                        in.next();
+                        System.out.println("Please input an int");
+                    }
+                    choice = in.nextInt();
+                } while (choice < 0 || choice > resSrc.size());
+
                 if (choice == 0) {}
                 else if (choice != 0) {
                     this.addAction(new ResourcesAction("Conversion source", resSrc.get(choice-1).inverse(), player));
+                    System.out.println("Conversion removed " + resSrc.get(choice-1));
                     if((resDest != null)) {
                         this.addAction(new ResourcesAction("Conversion dest", resDest, player));
+                        System.out.println("Conversion added " + resDest.toString());
                     } else if (p != 0) {
                         Set<Resources> privRes = (new Council().chooseMultiPrivilege(p));
                         for (Resources r : privRes) {
                             this.addAction(new ResourcesAction(
-                                    "Coversion CouncilPrivilege", r, player));
+                                    "Conversion CouncilPrivilege", r, player));
+                            System.out.println("Conversion gave a privilege, which gave " + r.toString());
                         }
                     }
                 }
@@ -139,9 +150,9 @@ public class Production extends Action {
         }
         //Chiamare tutte le funzioni
         prodConversion(tempDeck, player);
-        /*prodMultiplier(tempDeck, player);
+        prodMultiplier(tempDeck, player);
         prodBonusTile(player);
         prodStaticCards(tempDeck, player);
-        prodCouncPriv(tempDeck, player);*/
+        prodCouncPriv(tempDeck, player);
     }
 }

@@ -16,7 +16,8 @@
                 "coin": 5
             },
             "councilPrivilege": 1,
-            "production": 3,
+            "immediateProd": 3,
+            "immediateHarv": 3,
             "pickCard": {
                 "type": "any",
                 "value": 7,

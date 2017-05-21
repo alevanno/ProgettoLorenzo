@@ -14,6 +14,7 @@ public class Game {
         this.turn();
     }
 
+
     private void resetBoard() {
         this.board = new Board(this.unhandledCards);
     }

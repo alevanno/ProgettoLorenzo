@@ -25,14 +25,19 @@ public class CardImmediateAction extends Action {
             }
         }
 
-        if (card.immediateEff.containsKey("production")) {
-            int value = card.immediateEff.get("production").getAsInt();
+        if (card.immediateEff.containsKey("immediateProd")) {
+            int value = card.immediateEff.get("immediateProd").getAsInt();
+            new Production().prod(pl, value);
+        }
+
+        if (card.immediateEff.containsKey("immediateHarv")) {
+            int value = card.immediateEff.get("immediateHarv").getAsInt();
             new Production().prod(pl, value);
         }
 
 
-            //TODO to handle pickCard we have first to discuss the cardCostHandling
-            if(card.immediateEff.containsKey("pickCard")) {
+        //TODO to handle pickCard we have first to discuss the cardCostHandling
+        if(card.immediateEff.containsKey("pickCard")) {
 
         }
 
