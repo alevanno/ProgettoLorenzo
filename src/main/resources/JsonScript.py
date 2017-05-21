@@ -21,16 +21,14 @@ try:
 except FileNotFoundError:
     total = []
 
-period = sys.argv[1]
-card_type = sys.argv[2]
 
 while True:
     new = {}
-    new["name"] = input("Insert name: ")
+    new["name"] = input("Insert card name: ")
     if new["name"] == '0':
         break
-    new["period"] = period
-    new["type"] = card_type
+    new["period"] = int(input("Insert card period "))
+    new["type"] = "characters"
     try:
         num_costs = int(input("How many costs?: "))
     except ValueError:
@@ -45,7 +43,7 @@ while True:
         tmp = input("res/counc/pickC/mult: ")
         if tmp == "res":
             ia["resources"] = ask_cost()
-        elif tmp == "conc":
+        elif tmp == "counc":
             ia["councilPrivilege"] = int(input("Insert councilPrivilege: "))
         elif tmp == "pickC":
             ia["pickCard"] = {}
@@ -73,7 +71,6 @@ while True:
             if tmp == "yes":
                 pa["harvest"]["councilPrivilege"] = int(input("Insert councilPrivilege: "))
         elif tmp == "purpleFinal":
-            pa["purpleFinal"] = {}
             pa["purpleFinal"] = ask_cost()
         elif tmp == "cardsV":
             pa["cardsValue"] = {}
@@ -87,38 +84,18 @@ while True:
                 tmp = input("multiplier/resources/councilP/conversion: ")
                 if tmp == "multiplier":
                     pa["production"]["multiplier"] = {}
-                    pa["production"]["multiplier"]["type"] = int(input("Insert multiplier type: "))
-                    print("Insert multiplier Bonus: ")
+                    pa["production"]["multiplier"]["type"] = input("Insert multiplier card type: ")
+                    print("Insert multiplier res Bonus: ")
                     pa["production"]["multiplier"]["bonus"] = ask_cost()
                 elif tmp == "resources":
                     print("Insert production resources: ")
                     pa["production"]["resources"] = ask_cost()
                 elif tmp == "councilP":
                     pa["production"]["councilPrivilege"] = int(input("Insert councilPrivilege: "))
-                elif tmp == "conversion":
-                    pa["production"]["conversion"] = []
-                    paPP = pa["production"]["conversion"]
-                    while True:
-                        conversion_instance = {}
-                        conversion_instance["src"] = []
-                        print("Insert source resources: ")
-                        tmp = ask_cost()
-                        conversion_instance["src"].append(tmp)
-                        conversion_instance["dest"] = []
-                        print("Insert destination resources: ")
-                        tmp = ask_cost()
-                        conversion_instance["dest"].append(tmp)
-                        tmp = {int(input("Insert councilPrivilege: "))}
-                        conversion_instance["dest"].append(tmp)
-                        paPP.append(conversion_instance)
-                        another = input("second Alternative?: ")
-                        if another == "yes":
-                            continue
-                        elif another == "no":
-                            break
                 elif tmp == '0':
                     break
         elif tmp == "towerB":
+            pa["towerBonus"] = {}
             pa["towerBonus"]["type"] = input("Insert towerBonus type: ")
             pa["towerBonus"]["plusValue"] = int(input("Insert towerBonus plusValue: "))
             print("Insert towerBonus discount: ")
@@ -126,10 +103,13 @@ while True:
             for i in range(0,num_costs):
                 pa["towerBonus"]["discount"] = ask_cost()
         elif tmp == "harvestPV":
+            pa["harvestPlusValue"] = {}
             pa["harvestPlusValue"] == int(input("insert harvestPlusValue: "))
         elif tmp == "prodPV":
+            pa["productionPlusValue"] = {}
             pa["productionPlusValue"] = int(input("Insert productionPlusValue: "))
         elif tmp == "boycottTB":
+            pa["boycottInstantTowerBonus"] = {}
             pa["boycottInstantTowerBonus"] = bool(input("Insert boycottInstantTowerBonus: "))
         elif tmp == '0':
             break

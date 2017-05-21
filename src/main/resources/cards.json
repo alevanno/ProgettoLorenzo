@@ -1,0 +1,1449 @@
+[
+    {
+        "cost": [],
+        "immediateAction": {},
+        "name": "Avamposto Commerciale",
+        "period": 1,
+        "permanentAction": {
+            "harvest": {
+                "resources": {
+                    "coin": 1
+                },
+                "value": 1
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [],
+        "immediateAction": {
+            "resources": {
+                "wood": 1
+            }
+        },
+        "name": "Bosco",
+        "period": 1,
+        "permanentAction": {
+            "harvest": {
+                "resources": {
+                    "wood": 1
+                },
+                "value": 2
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [],
+        "immediateAction": {},
+        "name": "Borgo",
+        "period": 1,
+        "permanentAction": {
+            "harvest": {
+                "resources": {
+                    "coin": 1,
+                    "servant": 1
+                },
+                "value": 3
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [],
+        "immediateAction": {
+            "resources": {
+                "stone": 2
+            }
+        },
+        "name": "Cava di Ghiaia",
+        "period": 1,
+        "permanentAction": {
+            "harvest": {
+                "resources": {
+                    "stone": 2
+                },
+                "value": 4
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [],
+        "immediateAction": {
+            "resources": {
+                "wood": 1
+            }
+        },
+        "name": "Foresta",
+        "period": 1,
+        "permanentAction": {
+            "harvest": {
+                "resources": {
+                    "wood": 3
+                },
+                "value": 5
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [],
+        "immediateAction": {
+            "resources": {
+                "militaryPoint": 2,
+                "servant": 1
+            }
+        },
+        "name": "Monastero",
+        "period": 1,
+        "permanentAction": {
+            "harvest": {
+                "resources": {
+                    "faithPoint": 1,
+                    "stone": 1
+                },
+                "value": 6
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [],
+        "immediateAction": {},
+        "name": "Rocca",
+        "period": 1,
+        "permanentAction": {
+            "harvest": {
+                "resources": {
+                    "militaryPoint": 2,
+                    "stone": 1
+                },
+                "value": 5
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [],
+        "immediateAction": {
+            "resources": {
+                "coin": 3
+            }
+        },
+        "name": "Citt\u00e0",
+        "period": 1,
+        "permanentAction": {
+            "harvest": {
+                "councilPrivilege": 1,
+                "resources": {},
+                "value": 6
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [],
+        "immediateAction": {
+            "resources": {
+                "coin": 1
+            }
+        },
+        "name": "Miniera d'Oro",
+        "period": 2,
+        "permanentAction": {
+            "harvest": {
+                "resources": {
+                    "coin": 2
+                },
+                "value": 1
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [],
+        "immediateAction": {
+            "resources": {
+                "servant": 2,
+                "stone": 1
+            }
+        },
+        "name": "Villaggio Montano",
+        "period": 2,
+        "permanentAction": {
+            "harvest": {
+                "resources": {
+                    "servant": 1,
+                    "stone": 2
+                },
+                "value": 4
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [],
+        "immediateAction": {
+            "resources": {
+                "servant": 2,
+                "stone": 1
+            }
+        },
+        "name": "Villaggio Minerario",
+        "period": 2,
+        "permanentAction": {
+            "harvest": {
+                "resources": {
+                    "servant": 1,
+                    "stone": 2
+                },
+                "value": 4
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [],
+        "immediateAction": {
+            "resources": {
+                "wood": 1
+            }
+        },
+        "name": "Cava di Pietra",
+        "period": 2,
+        "permanentAction": {
+            "harvest": {
+                "resources": {
+                    "stone": 3
+                },
+                "value": 3
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [],
+        "immediateAction": {
+            "resources": {
+                "servant": 2,
+                "wood": 1
+            }
+        },
+        "name": "Possedimento",
+        "period": 2,
+        "permanentAction": {
+            "harvest": {
+                "resources": {
+                    "coin": 1,
+                    "wood": 2
+                },
+                "value": 4
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [],
+        "immediateAction": {
+            "resources": {
+                "faithPoint": 1
+            }
+        },
+        "name": "Eremo",
+        "period": 2,
+        "permanentAction": {
+            "harvest": {
+                "resources": {
+                    "faithPoint": 1
+                },
+                "value": 2
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [],
+        "immediateAction": {},
+        "name": "Maniero",
+        "period": 2,
+        "permanentAction": {
+            "harvest": {
+                "resources": {
+                    "militaryPoint": 2,
+                    "servant": 2
+                },
+                "value": 5
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [],
+        "immediateAction": {
+            "resources": {
+                "coin": 4
+            }
+        },
+        "name": "Ducato",
+        "period": 2,
+        "permanentAction": {
+            "harvest": {
+                "resources": {
+                    "coin": 1,
+                    "stone": 1,
+                    "wood": 2
+                },
+                "value": 6
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [],
+        "immediateAction": {
+            "resources": {
+                "coin": 1,
+                "servant": 1
+            }
+        },
+        "name": "Citt\u00e0 Mercantile",
+        "period": 3,
+        "permanentAction": {
+            "harvest": {
+                "resources": {
+                    "coin": 3
+                },
+                "value": 1
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [],
+        "immediateAction": {
+            "resources": {
+                "victoryPoint": 1,
+                "wood": 1
+            }
+        },
+        "name": "Tenuta",
+        "period": 3,
+        "permanentAction": {
+            "harvest": {
+                "resources": {
+                    "victoryPoint": 2,
+                    "wood": 2
+                },
+                "value": 3
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [],
+        "immediateAction": {
+            "resources": {
+                "militaryPoint": 2
+            }
+        },
+        "name": "Colonia",
+        "period": 3,
+        "permanentAction": {
+            "harvest": {
+                "resources": {
+                    "victoryPoint": 4,
+                    "wood": 1
+                },
+                "value": 5
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [],
+        "immediateAction": {
+            "resources": {
+                "victoryPoint": 3
+            }
+        },
+        "name": "Cava di Marmo",
+        "period": 3,
+        "permanentAction": {
+            "harvest": {
+                "resources": {
+                    "stone": 2,
+                    "victoryPoint": 1
+                },
+                "value": 2
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [],
+        "immediateAction": {
+            "councilPrivilege": 1,
+            "resources": {
+                "stone": 1
+            }
+        },
+        "name": "Provincia",
+        "period": 3,
+        "permanentAction": {
+            "harvest": {
+                "resources": {
+                    "stone": 1,
+                    "victoryPoint": 4
+                },
+                "value": 6
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [],
+        "immediateAction": {
+            "resources": {
+                "faithPoint": 1
+            }
+        },
+        "name": "Santuario",
+        "period": 3,
+        "permanentAction": {
+            "harvest": {
+                "resources": {
+                    "coin": 1,
+                    "faithPoint": 1
+                },
+                "value": 1
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [],
+        "immediateAction": {
+            "resources": {
+                "coin": 2,
+                "victoryPoint": 2
+            }
+        },
+        "name": "Castello",
+        "period": 3,
+        "permanentAction": {
+            "harvest": {
+                "resources": {
+                    "militaryPoint": 3,
+                    "servant": 1
+                },
+                "value": 4
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [],
+        "immediateAction": {
+            "resources": {
+                "militaryPoint": 2,
+                "servant": 1
+            }
+        },
+        "name": "Citt\u00e0 Fortificata",
+        "period": 3,
+        "permanentAction": {
+            "harvest": {
+                "resources": {
+                    "militaryPoint": 1,
+                    "servant": 2
+                },
+                "value": 2
+            }
+        },
+        "type": "territories"
+    },
+    {
+        "cost": [
+            {
+                "stone": 3,
+                "wood": 1
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "victoryPoint": 5
+            }
+        },
+        "name": "Zecca",
+        "period": 1,
+        "permanentAction": {
+            "production": {
+                "multiplier": {
+                    "bonus": {
+                        "coin": 1
+                    },
+                    "type": "buildings"
+                },
+                "value": 5
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "stone": 1,
+                "wood": 3
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "victoryPoint": 5
+            }
+        },
+        "name": "Esattoria",
+        "period": 1,
+        "permanentAction": {
+            "production": {
+                "multiplier": {
+                    "bonus": {
+                        "coin": 1
+                    },
+                    "type": "territories"
+                },
+                "value": 5
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "coin": 2,
+                "stone": 2
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "victoryPoint": 6
+            }
+        },
+        "name": "Arco di Trionfo",
+        "period": 1,
+        "permanentAction": {
+            "production": {
+                "multiplier": {
+                    "bonus": {
+                        "victoryPoint": 1
+                    },
+                    "type": "ventures"
+                },
+                "value": 6
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "coin": 2,
+                "wood": 2
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "victoryPoint": 6
+            }
+        },
+        "name": "Teatro",
+        "period": 1,
+        "permanentAction": {
+            "production": {
+                "multiplier": {
+                    "bonus": {
+                        "victoryPoint": 1
+                    },
+                    "type": "characters"
+                },
+                "value": 6
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "coin": 1,
+                "wood": 2
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "victoryPoint": 3
+            }
+        },
+        "name": "Falegnameria",
+        "period": 1,
+        "permanentAction": {
+            "production": {
+                "conversion": [
+                    {}
+                ],
+                "value": 4
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "coin": 1,
+                "stone": 2
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "victoryPoint": 2
+            }
+        },
+        "name": "Tagliapietre",
+        "period": 1,
+        "permanentAction": {
+            "production": {
+                "value": 3
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "wood": 2
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "faithPoint": 1
+            }
+        },
+        "name": "Cappella",
+        "period": 1,
+        "permanentAction": {
+            "production": {
+                "value": 2
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "stone": 2
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "victoryPoint": 1
+            }
+        },
+        "name": "Residenza",
+        "period": 1,
+        "permanentAction": {
+            "production": {
+                "value": 1
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "stone": 1,
+                "wood": 2
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "victoryPoint": 3
+            }
+        },
+        "name": "Mercato",
+        "period": 2,
+        "permanentAction": {
+            "production": {
+                "value": 3
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "wood": 3
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "victoryPoint": 4
+            }
+        },
+        "name": "Tesoreria",
+        "period": 2,
+        "permanentAction": {
+            "production": {
+                "value": 3
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "wood": 4
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "victoryPoint": 5
+            }
+        },
+        "name": "Gilda dei Pittori",
+        "period": 2,
+        "permanentAction": {
+            "production": {
+                "value": 4
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "stone": 4
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "victoryPoint": 6
+            }
+        },
+        "name": "Gilda degli Scultori",
+        "period": 2,
+        "permanentAction": {
+            "production": {
+                "value": 5
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "stone": 2,
+                "wood": 1
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "victoryPoint": 4
+            }
+        },
+        "name": "Gilda dei Costruttori",
+        "period": 2,
+        "permanentAction": {
+            "production": {
+                "value": 4
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "stone": 3
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "faithPoint": 1,
+                "victoryPoint": 2
+            }
+        },
+        "name": "Battistero",
+        "period": 2,
+        "permanentAction": {
+            "production": {
+                "value": 2
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "stone": 1,
+                "wood": 1
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "victoryPoint": 3
+            }
+        },
+        "name": "Caserma",
+        "period": 2,
+        "permanentAction": {
+            "production": {
+                "value": 1
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "coin": 2,
+                "stone": 2,
+                "wood": 2
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "victoryPoint": 8
+            }
+        },
+        "name": "Fortezza",
+        "period": 2,
+        "permanentAction": {
+            "production": {
+                "resources": {
+                    "militaryPoint": 2,
+                    "victoryPoint": 2
+                },
+                "value": 6
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "coin": 3,
+                "stone": 3,
+                "wood": 1
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "victoryPoint": 7
+            }
+        },
+        "name": "Banca",
+        "period": 3,
+        "permanentAction": {
+            "production": {
+                "resources": {
+                    "coin": 5
+                },
+                "value": 2
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "coin": 4,
+                "wood": 3
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "victoryPoint": 8
+            }
+        },
+        "name": "Fiera",
+        "period": 3,
+        "permanentAction": {
+            "production": {
+                "value": 4
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "servant": 2,
+                "stone": 2,
+                "wood": 4
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "victoryPoint": 10
+            }
+        },
+        "name": "Giardino",
+        "period": 3,
+        "permanentAction": {
+            "production": {
+                "resources": {
+                    "victoryPoint": 3
+                },
+                "value": 1
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "coin": 2,
+                "stone": 4,
+                "wood": 2
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "victoryPoint": 9
+            }
+        },
+        "name": "Castelletto",
+        "period": 3,
+        "permanentAction": {
+            "production": {
+                "councilPrivilege": 1,
+                "resources": {
+                    "victoryPoint": 2
+                },
+                "value": 5
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "coin": 3,
+                "stone": 1,
+                "wood": 3
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "victoryPoint": 9
+            }
+        },
+        "name": "Palazzo",
+        "period": 3,
+        "permanentAction": {
+            "production": {
+                "value": 6
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "stone": 4,
+                "wood": 1
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "faithPoint": 1,
+                "victoryPoint": 5
+            }
+        },
+        "name": "Basilica",
+        "period": 3,
+        "permanentAction": {
+            "production": {
+                "value": 1
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "servant": 1,
+                "stone": 2,
+                "wood": 2
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "victoryPoint": 7
+            }
+        },
+        "name": "Accademia Militare",
+        "period": 3,
+        "permanentAction": {
+            "production": {
+                "value": 3
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "stone": 4,
+                "wood": 4
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "faithPoint": 3,
+                "victoryPoint": 7
+            }
+        },
+        "name": "Cattedrale",
+        "period": 3,
+        "permanentAction": {
+            "production": {
+                "resources": {
+                    "victoryPoint": 1
+                },
+                "value": 2
+            }
+        },
+        "type": "buildings"
+    },
+    {
+        "cost": [
+            {
+                "coin": 2
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "militaryPoint": 3
+            }
+        },
+        "name": "Condottiero",
+        "period": 1,
+        "permanentAction": {
+            "towerBonus": {
+                "plusValue": 2,
+                "type": "territories"
+            }
+        },
+        "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 4
+            }
+        ],
+        "immediateAction": {},
+        "name": "Costruttore",
+        "period": 1,
+        "permanentAction": {
+            "towerBonus": {
+                "discount": {
+                    "stone": 1
+                },
+                "plusValue": 2,
+                "type": "buildings"
+            }
+        },
+        "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 4
+            }
+        ],
+        "immediateAction": {},
+        "name": "Dama",
+        "period": 1,
+        "permanentAction": {
+            "towerBonus": {
+                "discount": {
+                    "coin": 1
+                },
+                "plusValue": 2,
+                "type": "characters"
+            }
+        },
+        "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 2
+            }
+        ],
+        "immediateAction": {
+            "councilPrivilege": 1
+        },
+        "name": "Cavaliere",
+        "period": 1,
+        "permanentAction": {
+            "towerBonus": {
+                "plusValue": 2,
+                "type": "ventures"
+            }
+        },
+        "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 3
+            }
+        ],
+        "immediateAction": {},
+        "name": "Contadino",
+        "period": 1,
+        "permanentAction": {
+            "harvestPlusValue": {}
+        },
+        "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 3
+            }
+        ],
+        "immediateAction": {},
+        "name": "Artigiano",
+        "period": 1,
+        "permanentAction": {
+            "productionPlusValue": 2
+        },
+        "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 2
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "faithPoint": 4
+            }
+        },
+        "name": "Predicatore",
+        "period": 1,
+        "permanentAction": {
+            "boycottInstantTowerBonus": true
+        },
+        "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 3
+            }
+        ],
+        "immediateAction": {
+            "pickCard": {
+                "type": "any",
+                "value": 4
+            },
+            "resources": {
+                "faithPoint": 1
+            }
+        },
+        "name": "Badessa",
+        "period": 1,
+        "permanentAction": {},
+        "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 4
+            }
+        ],
+        "immediateAction": {
+            "pickCard": {
+                "type": "territories",
+                "value": 6
+            },
+            "resources": {
+                "militaryPoint": 2
+            }
+        },
+        "name": "Capitano",
+        "period": 2,
+        "permanentAction": {},
+        "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 4
+            }
+        ],
+        "immediateAction": {
+            "pickCard": {
+                "discount": {
+                    "stone": 1,
+                    "wood": 1
+                },
+                "type": "buildings",
+                "value": 6
+            }
+        },
+        "name": "Architetto",
+        "period": 2,
+        "permanentAction": {},
+        "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 3
+            }
+        ],
+        "immediateAction": {
+            "pickCard": {
+                "discount": {
+                    "coin": 2
+                },
+                "type": "characters",
+                "value": 6
+            }
+        },
+        "name": "Mecenate",
+        "period": 2,
+        "permanentAction": {},
+        "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 4
+            }
+        ],
+        "immediateAction": {
+            "councilPrivilege": 1,
+            "pickCard": {
+                "type": "ventures",
+                "value": 6
+            }
+        },
+        "name": "Eroe",
+        "period": 2,
+        "permanentAction": {},
+        "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 4
+            }
+        ],
+        "immediateAction": {},
+        "name": "Fattore",
+        "period": 2,
+        "permanentAction": {
+            "harvestPlusValue": {}
+        },
+        "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 4
+            }
+        ],
+        "immediateAction": {},
+        "name": "Studioso",
+        "period": 2,
+        "permanentAction": {
+            "productionPlusValue": 3
+        },
+        "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 5
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "faithPoint": 3
+            }
+        },
+        "name": "Messo Papale",
+        "period": 2,
+        "permanentAction": {},
+        "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 5
+            }
+        ],
+        "immediateAction": {
+            "councilPrivilege": 3
+        },
+        "name": "Messo Reale",
+        "period": 2,
+        "permanentAction": {},
+        "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 6
+            }
+        ],
+        "immediateAction": {
+            "multiplier": {
+                "bonus": {
+                    "victoryPoint": 2
+                },
+                "type": "territories"
+            }
+        },
+        "name": "Nobile",
+        "period": 3,
+        "permanentAction": {},
+        "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 6
+            }
+        ],
+        "immediateAction": {
+            "multiplier": {
+                "bonus": {
+                    "victoryPoint": 2
+                },
+                "type": "buiildings"
+            }
+        },
+        "name": "Governatore",
+        "period": 3,
+        "permanentAction": {},
+        "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 7
+            }
+        ],
+        "immediateAction": {
+            "multiplier": {
+                "bonus": {
+                    "victoryPoint": 2
+                },
+                "type": "characters"
+            }
+        },
+        "name": "Cortigiana",
+        "period": 3,
+        "permanentAction": {},
+        "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 6
+            }
+        ],
+        "immediateAction": {
+            "multiplier": {
+                "bonus": {
+                    "victoryPoint": 2
+                },
+                "type": "ventures"
+            }
+        },
+        "name": "Araldo",
+        "period": 3,
+        "permanentAction": {},
+        "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 4
+            }
+        ],
+        "immediateAction": {
+            "immediateHarv": 4,
+            "resources": {
+                "faithPoint": 2
+            }
+        },
+        "name": "Cardinale",
+        "period": 3,
+        "permanentAction": {},
+        "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 5
+            }
+        ],
+        "immediateAction": {
+            "immediateProd": 4,
+            "resources": {
+                "faithPoint": 1
+            }
+        },
+        "name": "Vescovo",
+        "period": 3,
+        "permanentAction": {},
+        "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 5
+            }
+        ],
+        "immediateAction": {
+            "resMultiplier": {
+                "bonus": {
+                    "victoryPoint": 1
+                },
+                "resSource": {
+                    "militaryPoint": 2
+                }
+            }
+        },
+        "name": "Generale",
+        "period": 3,
+        "permanentAction": {},
+        "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 6
+            }
+        ],
+        "immediateAction": {
+            "councilPrivilege": 1,
+            "pickCard": {
+                "type": "any",
+                "value": 7
+            }
+        },
+        "name": "Ambasciatore",
+        "period": 3,
+        "permanentAction": {},
+        "type": "characters"
+    }
+]
