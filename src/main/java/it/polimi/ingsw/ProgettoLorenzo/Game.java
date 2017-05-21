@@ -21,7 +21,7 @@ public class Game {
 
     private void loadCards() {
         // FIXME ....lol......
-        JsonObject data0 = Utils.getJsonArray("cards.json")
+        JsonObject data0 = Utils.getJsonArray("cardsModel.json")
                 .get(0).getAsJsonObject();
         this.unhandledCards.add(new Card(data0));
         this.unhandledCards.add(new Card(data0));
