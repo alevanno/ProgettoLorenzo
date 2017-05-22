@@ -1,5 +1,7 @@
 package it.polimi.ingsw.ProgettoLorenzo;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.ProgettoLorenzo.Core.*;
 
@@ -24,13 +26,10 @@ public class Game {
     }
 
     private void loadCards() {
-        // FIXME ....lol......
-        JsonObject data0 = Utils.getJsonArray("cardsModel.json")
-                .get(0).getAsJsonObject();
-        this.unhandledCards.add(new Card(data0));
-        this.unhandledCards.add(new Card(data0));
-        this.unhandledCards.add(new Card(data0));
-        this.unhandledCards.add(new Card(data0));
+        JsonArray cardsData = Utils.getJsonArray("cards.json");
+        for (JsonElement c : cardsData) {
+            this.unhandledCards.add(new Card(c.getAsJsonObject()));
+        }
     }
 
     private void turn() {
