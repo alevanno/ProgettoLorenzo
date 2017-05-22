@@ -34,11 +34,11 @@
                 "bonus": {
                     "victoryPoint": 2
                 }
-            }
+            },
             "resMultiplier": {
                 "resSource": {
                     "militaryPoint": 1
-                }
+                },
                 "bonus": {
                     "victoryPoint": 1
                 }
