@@ -13,7 +13,7 @@ def ask_cost():
             new_cost[i] = 0
     return dict((x, y) for x, y in new_cost.items() if y != 0)
 
-datafile = "ciao.json"
+datafile = "cards.json"
 
 try:
     with open(datafile) as f:
@@ -28,7 +28,7 @@ while True:
     if new["name"] == '0':
         break
     new["period"] = int(input("Insert card period "))
-    new["type"] = "characters"
+    new["type"] = "ventures"
     try:
         num_costs = int(input("How many costs?: "))
     except ValueError:
@@ -36,6 +36,11 @@ while True:
     new["cost"] = []
     for i in range(0, num_costs):
         new["cost"].append(ask_cost())
+        if new["type"] == "ventures":
+            try:
+                new["minMilitaryPoint"] = int(input("Insert minMilitaryPoint: "))
+            except ValueError:
+                pass
     new["immediateAction"] = {}
     ia = new["immediateAction"]
     print("Insert immediateAction: ")

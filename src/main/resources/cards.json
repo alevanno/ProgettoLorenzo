@@ -1445,5 +1445,523 @@
         "period": 3,
         "permanentAction": {},
         "type": "characters"
+    },
+    {
+        "cost": [
+            {
+                "coin": 4
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "militaryPoint": 5
+            }
+        },
+        "name": "Ingaggiare Reclute",
+        "period": 1,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 4
+            }
+        },
+        "type": "ventures"
+    },
+    {
+        "cost": [
+            {
+                "coin": 1,
+                "stone": 1,
+                "wood": 1
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "faithPoint": 1
+            }
+        },
+        "name": "Riparare la Chiesa",
+        "period": 1,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 5
+            }
+        },
+        "type": "ventures"
+    },
+    {
+        "cost": [
+            {
+                "stone": 3
+            }
+        ],
+        "immediateAction": {
+            "councilPrivilege": 1,
+            "resources": {
+                "militaryPoint": 2
+            }
+        },
+        "name": "Costruire le Mura",
+        "period": 1,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 3
+            }
+        },
+        "type": "ventures"
+    },
+    {
+        "cost": [
+            {
+                "stone": 2,
+                "wood": 2
+            }
+        ],
+        "immediateAction": {
+            "councilPrivilege": 2
+        },
+        "name": "Innalzare una Statua",
+        "period": 1,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 4
+            }
+        },
+        "type": "ventures"
+    },
+    {
+        "cost": [
+            {
+                "militaryPoint": 2
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "coin": 3
+            }
+        },
+        "minMilitaryPoint": 3,
+        "name": "Campagna Militare",
+        "period": 1,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 5
+            }
+        },
+        "type": "ventures"
+    },
+    {
+        "cost": [
+            {
+                "wood": 3
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "servant": 4
+            }
+        },
+        "name": "Ospitare i Mendicanti",
+        "period": 1,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 4
+            }
+        },
+        "type": "ventures"
+    },
+    {
+        "cost": [
+            {
+                "militaryPoint": 3
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "faithPoint": 2
+            }
+        },
+        "minMilitaryPoint": 5,
+        "name": "Combattere le Eresie",
+        "period": 1,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 5
+            }
+        },
+        "type": "ventures"
+    },
+    {
+        "cost": [
+            {
+                "militaryPoint": 2
+            },
+            {
+                "coin": 2,
+                "stone": 1,
+                "wood": 1
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "faithPoint": 3
+            }
+        },
+        "minMilitaryPoint": 4,
+        "name": "Sostegno al Vescovo",
+        "period": 1,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 1
+            }
+        },
+        "type": "ventures"
+    },
+    {
+        "cost": [
+            {
+                "coin": 6
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "militaryPoint": 6
+            }
+        },
+        "name": "Ingaggiare Soldati",
+        "period": 2,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 5
+            }
+        },
+        "type": "ventures"
+    },
+    {
+        "cost": [
+            {
+                "coin": 2,
+                "stone": 2,
+                "wood": 2
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "faithPoint": 2
+            }
+        },
+        "name": "Riparare l'Abbazia",
+        "period": 2,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 6
+            }
+        },
+        "type": "ventures"
+    },
+    {
+        "cost": [
+            {
+                "stone": 4
+            }
+        ],
+        "immediateAction": {
+            "councilPrivilege": 1,
+            "resources": {
+                "militaryPoint": 3
+            }
+        },
+        "name": "Costruire i Bastioni",
+        "period": 2,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 2
+            }
+        },
+        "type": "ventures"
+    },
+    {
+        "cost": [
+            {
+                "militaryPoint": 3
+            }
+        ],
+        "immediateAction": {
+            "councilPrivilege": 1,
+            "resources": {
+                "coin": 5
+            }
+        },
+        "minMilitaryPoint": 6,
+        "name": "Supporto al Re",
+        "period": 2,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 3
+            }
+        },
+        "type": "ventures"
+    },
+    {
+        "cost": [
+            {
+                "coin": 3,
+                "servant": 2
+            }
+        ],
+        "immediateAction": {
+            "immediateHarv": 4
+        },
+        "name": "Scavare Canalizzazioni",
+        "period": 2,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 5
+            }
+        },
+        "type": "ventures"
+    },
+    {
+        "cost": [
+            {
+                "wood": 4
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "servant": 5
+            }
+        },
+        "name": "Accogliere gli Stranieri",
+        "period": 2,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 4
+            }
+        },
+        "type": "ventures"
+    },
+    {
+        "cost": [
+            {
+                "militaryPoint": 4
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "coin": 5,
+                "faithPoint": 1
+            }
+        },
+        "minMilitaryPoint": 8,
+        "name": "Crociata",
+        "period": 2,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 5
+            }
+        },
+        "type": "ventures"
+    },
+    {
+        "cost": [
+            {
+                "militaryPoint": 4
+            },
+            {
+                "coin": 3,
+                "stone": 2,
+                "wood": 2
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "faithPoint": 3
+            }
+        },
+        "minMilitaryPoint": 7,
+        "name": "Sostegno al Cardinale",
+        "period": 2,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 4
+            }
+        },
+        "type": "ventures"
+    },
+    {
+        "cost": [
+            {
+                "coin": 8
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "militaryPoint": 7
+            }
+        },
+        "name": "Ingaggiare i Mercenari",
+        "period": 3,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 6
+            }
+        },
+        "type": "ventures"
+    },
+    {
+        "cost": [
+            {
+                "coin": 3,
+                "stone": 3,
+                "wood": 3
+            }
+        ],
+        "immediateAction": {
+            "pickCard": {
+                "type": "any",
+                "value": 7
+            },
+            "resources": {
+                "faithPoint": 1
+            }
+        },
+        "name": "Riparare la Cattedrale",
+        "period": 3,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 5
+            }
+        },
+        "type": "ventures"
+    },
+    {
+        "cost": [
+            {
+                "stone": 6
+            }
+        ],
+        "immediateAction": {
+            "councilPrivilege": 1,
+            "resources": {
+                "militaryPoint": 4
+            }
+        },
+        "name": "Costruire le Torri",
+        "period": 3,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 4
+            }
+        },
+        "type": "ventures"
+    },
+    {
+        "cost": [
+            {
+                "wood": 6
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "faithPoint": 3
+            }
+        },
+        "name": "Commissionare Arte Sacra",
+        "period": 3,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 3
+            }
+        },
+        "type": "ventures"
+    },
+    {
+        "cost": [
+            {
+                "militaryPoint": 6
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "coin": 3,
+                "stone": 3,
+                "wood": 3
+            }
+        },
+        "minMilitaryPoint": 12,
+        "name": "Conquista Militare",
+        "period": 3,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 7
+            }
+        },
+        "type": "ventures"
+    },
+    {
+        "cost": [
+            {
+                "coin": 4,
+                "servant": 3
+            }
+        ],
+        "immediateAction": {
+            "immediateProd": 3
+        },
+        "name": "Migliorare le Strade",
+        "period": 3,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 5
+            }
+        },
+        "type": "ventures"
+    },
+    {
+        "cost": [
+            {
+                "militaryPoint": 8
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "faithPoint": 4
+            }
+        },
+        "minMilitaryPoint": 15,
+        "name": "Guerra Santa",
+        "period": 3,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 8
+            }
+        },
+        "type": "ventures"
+    },
+    {
+        "cost": [
+            {
+                "militaryPoint": 5
+            },
+            {
+                "coin": 4,
+                "stone": 3,
+                "wood": 3
+            }
+        ],
+        "immediateAction": {
+            "resources": {
+                "faithPoint": 2
+            }
+        },
+        "minMilitaryPoint": 10,
+        "name": "Sostegno al Papa",
+        "period": 3,
+        "permanentAction": {
+            "purpleFinal": {
+                "victoryPoint": 10
+            }
+        },
+        "type": "ventures"
     }
 ]

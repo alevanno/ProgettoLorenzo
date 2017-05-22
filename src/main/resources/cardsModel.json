@@ -11,6 +11,7 @@
                 "militaryPoint": 5
             }
         ],
+        "minMilitaryPoint": 4,
         "immediateActions": {
             "resources": {
                 "coin": 5
