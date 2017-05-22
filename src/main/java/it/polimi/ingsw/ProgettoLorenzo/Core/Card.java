@@ -8,7 +8,7 @@ import com.google.gson.*;
 public class Card extends Action {
     public final String cardName;
     public final String cardType;
-    public final String cardPeriod;
+    public final int cardPeriod;
 
     private final List<Resources> cardCost = new ArrayList<>();
     public final Map<String, JsonElement> immediateEff = new HashMap<>();
@@ -18,7 +18,7 @@ public class Card extends Action {
     public Card(JsonObject src) {
         this.cardName = src.get("name").getAsString();
         this.cardType = src.get("type").getAsString();
-        this.cardPeriod = src.get("period").getAsString();
+        this.cardPeriod = src.get("period").getAsInt();
 
         JsonElement obj = src.get("cost");
         if (obj != null) {
