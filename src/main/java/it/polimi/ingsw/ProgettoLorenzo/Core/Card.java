@@ -34,7 +34,7 @@ public class Card extends Action {
             }
         }
 
-        obj = src.get("immediateActions");
+        obj = src.get("immediateAction");
         if (obj != null) {
             Iterator imm = obj.getAsJsonObject().entrySet().iterator();
             while (imm.hasNext()) {
@@ -43,7 +43,7 @@ public class Card extends Action {
             }
         }
 
-        obj = src.get("permanentActions");
+        obj = src.get("permanentAction");
         if (obj != null) {
             Iterator per = obj.getAsJsonObject().entrySet().iterator();
             while (per.hasNext()) {

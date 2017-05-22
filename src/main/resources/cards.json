@@ -588,7 +588,34 @@
         "permanentAction": {
             "production": {
                 "conversion": [
-                    {}
+                    {
+                        "src": [
+                            {
+                                "wood": 1
+                            }
+                        ],
+                        "dest": [
+                            {
+                                "resources": {
+                                    "coin": 3
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "src": [
+                            {
+                                "wood": 2
+                            }
+                        ],
+                        "dest": [
+                            {
+                                "resources": {
+                                    "coin": 5
+                                }
+                            }
+                        ]
+                    }
                 ],
                 "value": 4
             }
