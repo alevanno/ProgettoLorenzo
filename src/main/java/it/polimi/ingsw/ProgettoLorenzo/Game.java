@@ -3,13 +3,17 @@ package it.polimi.ingsw.ProgettoLorenzo;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.ProgettoLorenzo.Core.*;
 
+import java.util.logging.Logger;
 
 public class Game {
+    private final Logger log = Logger.getLogger(this.getClass().getName());
     private Board board;
     private Deck unhandledCards = new Deck();
     private Player player = new Player("Test player", "red");
 
     public Game() {
+        MyLogger.setup();
+        log.info("Starting the game...");
         this.loadCards();
         this.turn();
     }
