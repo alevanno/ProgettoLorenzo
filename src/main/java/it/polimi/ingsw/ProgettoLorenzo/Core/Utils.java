@@ -8,8 +8,12 @@ import com.google.gson.JsonParser;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Utils {
+    private static final Logger log = Logger.getLogger(Utils.class.getName());
+
     public static int returnZeroIfMissing(JsonObject src, String key) {
         // .get() returns null if the key is missing, and would cause
         // getAsInt to throw a NullPointerException
@@ -26,24 +30,25 @@ public class Utils {
         return classLoader.getResource(filename).getFile();
     }
 
-    public static JsonObject getJsonObject(String filename) {
-        JsonObject data = new JsonObject();
+    private static JsonElement getJsonFile(String filename) {
         try (FileReader f = new FileReader(getResourceFilePath(filename))) {
-            data = new JsonParser().parse(f).getAsJsonObject();
+            return new JsonParser().parse(f);
         } catch (IOException e) {
-            System.err.println(String.format("File %s not found", filename));
+            log.severe(String.format("File %s not found", filename));
+            System.exit(1);
+        } catch (Exception e) {
+            log.severe(String.format("Critical issue while loading %s:",
+                    filename));
+            log.log(Level.SEVERE, e.getMessage(), e);
+            throw e;
         }
-        return data;
+        return null;
     }
-
+    public static JsonObject getJsonObject(String filename) {
+        return getJsonFile(filename).getAsJsonObject();
+    }
     public static JsonArray getJsonArray(String filename) {
-        JsonArray data = new JsonArray();
-        try (FileReader f = new FileReader(getResourceFilePath(filename))) {
-            data = new JsonParser().parse(f).getAsJsonArray();
-        } catch (IOException e) {
-            System.err.println(String.format("File %s not found", filename));
-        }
-        return data;
+        return getJsonFile(filename).getAsJsonArray();
     }
 
     public static int intPrompt(int minValue, int maxValue) {
