@@ -7,6 +7,7 @@ import com.google.gson.JsonParser;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Scanner;
 
 public class Utils {
     public static int returnZeroIfMissing(JsonObject src, String key) {
@@ -43,5 +44,19 @@ public class Utils {
             System.err.println(String.format("File %s not found", filename));
         }
         return data;
+    }
+
+    public static int intPrompt(int minValue, int maxValue) {
+        int choice;
+        do {
+            System.out.println("Input an int between " + minValue + " and " + maxValue);
+            Scanner in = new Scanner(System.in);
+            while (!in.hasNextInt()) {
+                in.next();
+                System.out.println("Please input an int");
+            }
+            choice = in.nextInt();
+        } while (choice < minValue || choice > (maxValue));
+        return choice;
     }
 }

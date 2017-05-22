@@ -7,6 +7,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
 
+import static it.polimi.ingsw.ProgettoLorenzo.Core.Utils.intPrompt;
+
 public class Council extends Action {
     private List<FamilyMember> playerOrder = new ArrayList<FamilyMember>();
     private final List<Resources> privilegeChoices;
@@ -50,15 +52,7 @@ public class Council extends Action {
         for (; i-1 < this.privilegeChoices.size(); i++) {
             System.out.printf("%d: %s%n", i, this.privilegeChoices.get(i-1));
         }
-        do {
-            System.out.println("Please input a number between 1 and " + String.valueOf(i-1));
-            Scanner in = new Scanner(System.in);
-            while (!in.hasNextInt()) {
-                in.next();
-                System.out.println("Please input an int");
-            }
-            res = in.nextInt();
-        } while (res < 1 || res > i-1);
+        res = intPrompt(1, (i-1));
         return this.privilegeChoices.get(res - 1);
     }
 
