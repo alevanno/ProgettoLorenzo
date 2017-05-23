@@ -35,6 +35,14 @@ public class Floor extends Action {
         this.famMember = f;
     }
 
+    public FamilyMember getFamMember() {
+        return this.famMember;
+    }
+
+    public boolean isBusy() {
+        return this.famMember != null;
+    }
+
     public void removeCard() {
         this.floorCard = null;
     }

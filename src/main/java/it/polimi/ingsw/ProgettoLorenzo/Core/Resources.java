@@ -3,9 +3,7 @@ package it.polimi.ingsw.ProgettoLorenzo.Core;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 
 // FIXME This class suffers from a very rare form of DRY violation.
@@ -169,5 +167,17 @@ public class Resources {
         }
         out += "}";
         return out;
+    }
+
+    public List<Integer> getAsList() {
+        List<Integer> resList = new ArrayList<>();
+        resList.add(this.coin);
+        resList.add(this.stone);
+        resList.add(this.wood);
+        resList.add(this.servant);
+        resList.add(this.victoryPoint);
+        resList.add(this.militaryPoint);
+        resList.add(this.faithPoint);
+        return resList;
     }
 }

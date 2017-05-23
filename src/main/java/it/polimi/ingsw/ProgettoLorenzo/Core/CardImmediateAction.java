@@ -3,6 +3,7 @@ package it.polimi.ingsw.ProgettoLorenzo.Core;
 
 import com.google.gson.JsonObject;
 
+import java.util.List;
 import java.util.Set;
 
 public class CardImmediateAction extends Action {
@@ -38,7 +39,15 @@ public class CardImmediateAction extends Action {
 
         //TODO to handle pickCard we have first to discuss the cardCostHandling
         if(card.immediateEff.containsKey("pickCard")) {
-
+            pl.currentRes.merge(card.getCardCost());
+            List<Integer> plResList = pl.currentRes.getAsList();
+            for(int i : plResList) {
+                if (i < 0) {
+                    System.out.println("Your resources don't satisfy the card cost");
+                    break;
+                }
+            }
+            //TODO
         }
 
         if(card.immediateEff.containsKey("multiplier")) {

@@ -41,4 +41,13 @@ public class Tower {
     public List<Floor> getFloors() {
         return floors;
     }
+
+    public boolean isBusy() {
+        for (Floor fl : floors) {
+            if (fl.isBusy()) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
