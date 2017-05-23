@@ -1,6 +1,9 @@
 package it.polimi.ingsw.ProgettoLorenzo.Core;
 
+import java.util.logging.Logger;
+
 abstract class BaseAction {
+    private final Logger log = Logger.getLogger(this.getClass().getName());
     public final String actionName;
 
     protected BaseAction (String name) {
@@ -8,6 +11,10 @@ abstract class BaseAction {
     }
 
     public abstract void apply();
+
+    public void logAction() {
+        log.info(this.toString());
+    }
 }
 
 class NullAction extends BaseAction {
@@ -21,6 +28,7 @@ class NullAction extends BaseAction {
 }
 
 class NestedAction extends BaseAction {
+    private final Logger log = Logger.getLogger(this.getClass().getName());
     private Action action;
 
     protected NestedAction(Action action) {
@@ -30,6 +38,12 @@ class NestedAction extends BaseAction {
 
     public void apply() {
         this.action.apply();
+    }
+
+    public void logAction() {
+        log.fine("Nested actions:");
+        this.action.logActions();
+        log.fine ("End nested actions ↑");
     }
 }
 
