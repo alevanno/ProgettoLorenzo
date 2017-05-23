@@ -22,12 +22,14 @@ public class Game {
 
 
     private void resetBoard(int period) {
-        this.board = new Board(
-            StreamSupport.stream(this.unhandledCards.spliterator(), false)
-                .filter(c -> c.cardPeriod == period)
-                .limit(16)  //make configurable before Board() is instantiated?
-                .collect(Deck::new, Deck::add, Deck::addAll)
-        );
+         Deck d = StreamSupport.stream(
+                 this.unhandledCards.spliterator(),false
+            )
+            .filter(c -> c.cardPeriod == period)
+            .limit(16)  //make configurable before Board() is instantiated?
+            .collect(Deck::new, Deck::add, Deck::addAll);
+         log.finest(String.format("Collected %d cards to give away", d.size()));
+         this.board = new Board(d);
     }
 
     private void loadCards() {
