@@ -29,7 +29,7 @@ class NestedAction extends BaseAction {
     }
 
     public void apply() {
-        // FIXME doit!
+        this.action.apply();
     }
 }
 
