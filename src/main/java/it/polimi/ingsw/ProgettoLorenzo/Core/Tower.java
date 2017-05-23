@@ -27,6 +27,7 @@ public class Tower {
         while (fit.hasNext() && cit.hasNext()) {
             JsonObject f = fit.next().getAsJsonObject();
             Card c = cit.next();
+            int floorValue = f.get("floorValue").getAsInt();
             JsonElement fjbonus = f.get("bonus");
             Resources fbonus;
             if (fjbonus != null) {
@@ -34,7 +35,7 @@ public class Tower {
             } else {  // the floor doesn't specify any bonus
                 fbonus = new Resources.ResBuilder().build();
             }
-            this.floors.add(new Floor(fbonus, c, this));
+            this.floors.add(new Floor(fbonus, c, this, floorValue));
         }
     }
 

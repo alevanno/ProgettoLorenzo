@@ -5,15 +5,21 @@
             {
                 "bonus": {
                     "wood": 2
-                }
+                },
+                "floorValue": 7
             },
             {
                 "bonus": {
                     "wood": 1
-                }
+                },
+                "floorValue": 5
             },
-            {},
-            {}
+            {
+                "floorValue": 3
+            },
+            {
+                "floorValue": 1
+            }
         ]
     },
     {
@@ -22,15 +28,21 @@
             {
                 "bonus": {
                     "stone": 2
-                }
+                },
+                "floorValue": 7
             },
             {
                 "bonus": {
                     "stone": 1
-                }
+                },
+                "floorValue": 5
             },
-            {},
-            {}
+            {
+                "floorValue": 3
+            },
+            {
+                "floorValue": 1
+            }
         ]
     },
     {
@@ -39,15 +51,21 @@
             {
                 "bonus": {
                     "victoryPoint": 2
-                }
+                },
+                "floorValue": 7
             },
             {
                 "bonus": {
                     "victoryPoint": 1
-                }
+                },
+                "floorValue": 5
             },
-            {},
-            {}
+            {
+                "floorValue": 3
+            },
+            {
+                "floorValue": 1
+            }
         ]
     },
     {
@@ -56,15 +74,21 @@
             {
                 "bonus": {
                     "coin": 2
-                }
+                },
+                "floorValue": 7
             },
             {
                 "bonus": {
                     "coin": 1
-                }
+                },
+                "floorValue": 5
             },
-            {},
-            {}
+            {
+                "floorValue": 3
+            },
+            {
+                "floorValue": 1
+            }
         ]
     }
 ]

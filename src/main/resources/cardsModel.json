@@ -12,7 +12,7 @@
             }
         ],
         "minMilitaryPoint": 4,
-        "immediateActions": {
+        "immediateAction": {
             "resources": {
                 "coin": 5
             },
@@ -44,7 +44,7 @@
                 }
             }
         },
-        "permanentActions": {
+        "permanentAction": {
             "harvest": {
                 "value": 3,
                 "resources": {
