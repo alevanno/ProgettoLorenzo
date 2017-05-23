@@ -58,7 +58,7 @@ class MyConsoleFormatter extends Formatter {
             args[2] = "<none>";
         }
         // severity level
-        args[3] = rec.getLevel().getLocalizedName();
+        args[3] = rec.getLevel();
         // actual message
         args[4] = formatMessage(rec);
 

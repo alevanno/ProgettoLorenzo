@@ -23,6 +23,8 @@ public class Card extends Action {
         JsonElement tmp = src.get("minMilitaryPoint");
         if (tmp != null) {
             this.minMilitaryPoint = tmp.getAsInt();
+        } else {
+            this.minMilitaryPoint = 0;
         }
         JsonElement obj = src.get("cost");
         if (obj != null) {

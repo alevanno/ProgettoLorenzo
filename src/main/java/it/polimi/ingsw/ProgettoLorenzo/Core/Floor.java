@@ -25,8 +25,8 @@ public class Floor extends Action {
         Player p = fam.getParent();
         Resources tmpRes = p.currentRes;
         Resources cardCost = this.floorCard.getCardCost();
-        if(tmpRes.militaryPoint > cardCost.militaryPoint) {
-            if (tmpRes.merge(this.floorCard.getCardCost()).isNegative()) {
+        if(tmpRes.militaryPoint > floorCard.minMilitaryPoint) {
+            if (tmpRes.merge(cardCost).isNegative()) {
                 this.addAction(new TakeFamilyMember(fam));
                 this.addAction(new PlaceFamilyMemberInFloor(fam, this));
                 this.addAction(new ResourcesAction("floor bonus", this.bonus, p));
