@@ -32,35 +32,38 @@ public final class MyLogger {
 
 class MyConsoleFormatter extends Formatter {
     // log things in an actually readable way
-    private final String formatter = "%1$tF %1$tT %2$s.%3$s ⇒ %4$7s: %5$s%n";
+    private final String formatter = "%1$tF %1$tT %2$-30s ⇒ %3$7s: %4$s%n";
 
     public synchronized String format(LogRecord rec) {
         StringBuilder sb = new StringBuilder();
-        Object args[] = new Object[5];
+        Object args[] = new Object[4];
         Date date = new Date();
 
         // date/time
         date.setTime(rec.getMillis());
         args[0] = date;
         // class name
+        String classname;
         if (rec.getSourceClassName() != null) {
             // remove the package name from the class name
-            args[1] = rec.getSourceClassName().split(
+            classname = rec.getSourceClassName().split(
                     this.getClass().getPackage().getName(), 2)[1];
         } else {
-            args[1] = rec.getLoggerName();
+            classname = rec.getLoggerName();
         }
         // method name
+        String methodname;
         if (rec.getSourceMethodName() != null) {
-            args[2] = rec.getSourceMethodName();
+            methodname = rec.getSourceMethodName();
         }
         else {
-            args[2] = "<none>";
+            methodname = "<none>";
         }
+        args[1] = classname + "." + methodname;
         // severity level
-        args[3] = rec.getLevel();
+        args[2] = rec.getLevel();
         // actual message
-        args[4] = formatMessage(rec);
+        args[3] = formatMessage(rec);
 
         // build the actual logging string
         sb.append(String.format(formatter, args));
