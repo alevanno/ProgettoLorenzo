@@ -1,0 +1,70 @@
+[
+    {
+        "type": "territories",
+        "floors": [
+            {
+                "bonus": {
+                    "wood": 2
+                }
+            },
+            {
+                "bonus": {
+                    "wood": 1
+                }
+            },
+            {},
+            {}
+        ]
+    },
+    {
+        "type": "buildings",
+        "floors": [
+            {
+                "bonus": {
+                    "stone": 2
+                }
+            },
+            {
+                "bonus": {
+                    "stone": 1
+                }
+            },
+            {},
+            {}
+        ]
+    },
+    {
+        "type": "characters",
+        "floors": [
+            {
+                "bonus": {
+                    "victoryPoint": 2
+                }
+            },
+            {
+                "bonus": {
+                    "victoryPoint": 1
+                }
+            },
+            {},
+            {}
+        ]
+    },
+    {
+        "type": "ventures",
+        "floors": [
+            {
+                "bonus": {
+                    "coin": 2
+                }
+            },
+            {
+                "bonus": {
+                    "coin": 1
+                }
+            },
+            {},
+            {}
+        ]
+    }
+]
