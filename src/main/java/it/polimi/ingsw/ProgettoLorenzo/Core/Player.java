@@ -2,8 +2,10 @@ package it.polimi.ingsw.ProgettoLorenzo.Core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Player {
+    private final Logger log = Logger.getLogger(this.getClass().getName());
     public final String playerName;
     public final String playerColour;
     public Resources currentRes;  // FIXME make private
@@ -15,10 +17,12 @@ public class Player {
         this.playerName = name;
         this.playerColour = colour;
         this.currentRes = new Resources.ResBuilder().build();  // 0 resources
+        log.info(String.format(
+                "New player: %s (colour: %s, resources: %s)",
+                name, colour, this.currentRes));
     }
 
     public void famMembersBirth() {
-
         this.famMemberList.add(
                 new FamilyMember(this, 1, "Orange"));
         this.famMemberList.add(
@@ -27,10 +31,12 @@ public class Player {
                 new FamilyMember(this, 1, "White"));
         this.famMemberList.add(
                 new FamilyMember(this, 1, "Blank"));
-
+        log.fine("4 family members attached to " + this);
     }
 
-    public void setBonusTile(BonusTile bt) {this.bonusT = bt;}
+    public void setBonusTile(BonusTile bt) {
+        this.bonusT = bt;
+    }
 
     public void addCard(Card toadd) {
         this.cards.add(toadd);

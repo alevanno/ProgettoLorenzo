@@ -13,11 +13,14 @@ public class Game {
     private Board board;
     private String[] types = new String[4];
     private HashMap<String, Deck> unhandledCards = new HashMap<>();
-    private Player player = new Player("Test player", "red");
+    private Player player;
 
     public Game() {
         MyLogger.setup();
         log.info("Starting the game...");
+
+        // FIXME testing player
+        this.player = new Player("Test player", "red");
 
         // init the cards
         this.types[0] = "territories";
