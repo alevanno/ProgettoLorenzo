@@ -12,9 +12,14 @@ public class Production extends Action {
     private FamilyMember mainProduction;
     private List<FamilyMember> secondaryProduction = new ArrayList<>();
 
-    public void claimFamMain(FamilyMember fam) throws FileNotFoundException {
-        this.mainProduction = fam;
-        prod(fam.getParent(), fam.getActionValue());
+    //TODO Game will handle the return value;
+    public boolean claimFamMain(FamilyMember fam) {
+        if (this.mainProduction != null) {
+            if (prod(fam.getParent(), fam.getActionValue())) {
+                this.mainProduction = fam;
+                return true;}
+        }
+        return false;
     }
     //FIXME non gestisce l'incremento azione con servitori
 
@@ -99,9 +104,6 @@ public class Production extends Action {
         }
     }
 
-
-
-
     private void prodBonusTile(Player player) {
         //resources given by BonusTile
         this.addAction(new ResourcesAction(
@@ -137,12 +139,12 @@ public class Production extends Action {
     }
 
 
-    public void prod(Player player, int value) {
+    public boolean prod(Player player, int value) {
         Deck tempDeck = new Deck();
 
         if (value < 1) {
             System.out.println("You need an action value of at least 1");
-            //TODO ABORT, deve restituire errore al livello superiore
+            return false;
         }
         //filters the current player's deck, keeping Cards with permanentEffect=production
         //excludes Cards having too high of an action value
@@ -160,5 +162,6 @@ public class Production extends Action {
         prodBonusTile(player);
         prodStaticCards(tempDeck, player);
         prodCouncPriv(tempDeck, player);
+        return true;
     }
 }

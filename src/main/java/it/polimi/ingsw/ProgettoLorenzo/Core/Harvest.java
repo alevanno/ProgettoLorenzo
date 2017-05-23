@@ -15,9 +15,9 @@ public class Harvest extends Action {
     //TODO Game will handle the return value;
     public boolean claimFamMain(FamilyMember fam) {
         if (this.mainHarvest != null) {
-            this.mainHarvest = fam;
-            if(harv(fam.getParent(), fam.getActionValue()));
-            return true;
+            if (harv(fam.getParent(), fam.getActionValue())) {
+                this.mainHarvest = fam;
+                return true;}
         }
         return false;
     }
