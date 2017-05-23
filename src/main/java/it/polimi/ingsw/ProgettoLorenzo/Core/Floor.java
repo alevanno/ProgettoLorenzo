@@ -3,17 +3,15 @@ package it.polimi.ingsw.ProgettoLorenzo.Core;
 
 public class Floor extends Action {
     private final Resources bonus;
-    private final int floorNumber;
     private final Tower parentTower;
     private FamilyMember famMember;
     private Card floorCard;
 
 
-    public Floor(Resources bonus, Card card, Tower tower, int floorNumber) {
+    public Floor(Resources bonus, Card card, Tower tower) {
         this.bonus = bonus;
         this.floorCard = card;
         this.parentTower = tower;
-        this.floorNumber = floorNumber;
     }
 
     //player puts there its famMemb & take Card and the eventually bonus

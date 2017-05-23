@@ -17,7 +17,7 @@ public class Tower {
         for(int i = 0; i < data.size(); i++) {
             floors.add(new Floor(
                     Resources.fromJson(data.get(i).getAsJsonObject()),
-                    cardList.remove(0), this, i + 1));
+                    cardList.remove(0), this);
         }
     }
 
