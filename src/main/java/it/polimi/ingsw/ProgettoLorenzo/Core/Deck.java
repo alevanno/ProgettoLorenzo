@@ -21,6 +21,10 @@ public class Deck implements Iterable<Card> {
         this.cards.add(x);
     }
 
+    public void addAll(Deck d) {
+        d.forEach(x -> this.add(x));
+    }
+
     public Card remove(int idx) {
         return this.cards.remove(idx);
     }
