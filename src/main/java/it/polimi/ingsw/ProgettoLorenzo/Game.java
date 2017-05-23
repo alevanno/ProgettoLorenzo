@@ -44,7 +44,7 @@ public class Game {
                  .collect(Deck::new, Deck::add, Deck::addAll)
              );
          });
-         log.finest(String.format(
+         log.finer(String.format(
                  "Collected %d cards to give away", deck.size()));
          this.board = new Board(deck);
     }
@@ -71,7 +71,13 @@ public class Game {
     }
 
     private void round() {
-        this.board.towers.get(0).getFloors().get(0).claimFloor(this.player
-                .getAvailableFamMembers().get(0));
+        // FIXME - example
+        Floor fl = this.board.towers.get(0).getFloors().get(1);
+        boolean ret = fl.claimFloor(this.player.getAvailableFamMembers().get(0));
+        if (!ret) {
+            log.warning("Not allowed to claim the floor");
+        }
+        fl.logActions();
+        fl.apply();
     }
 }
