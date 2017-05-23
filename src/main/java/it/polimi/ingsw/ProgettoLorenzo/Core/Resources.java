@@ -1,5 +1,6 @@
 package it.polimi.ingsw.ProgettoLorenzo.Core;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.util.HashMap;
@@ -109,8 +110,10 @@ public class Resources {
             .militaryPoint(Utils.returnZeroIfMissing(src,"militaryPoint"))
             .faithPoint(Utils.returnZeroIfMissing(src,"faithPoint"))
             .build();
+    }
 
-        //this.resourcesList.forEach((key, value) -> value = src.get(key).getAsInt());
+    public static Resources fromJson(JsonElement src) {
+        return Resources.fromJson(src.getAsJsonObject());
     }
 
 
