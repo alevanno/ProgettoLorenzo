@@ -4,49 +4,61 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import it.polimi.ingsw.ProgettoLorenzo.Core.*;
 
+import java.util.HashMap;
 import java.util.logging.Logger;
 import java.util.stream.StreamSupport;
 
 public class Game {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private Board board;
-    private Deck unhandledCards = new Deck();
+    private String[] types = new String[4];
+    private HashMap<String, Deck> unhandledCards = new HashMap<>();
     private Player player = new Player("Test player", "red");
 
     public Game() {
         MyLogger.setup();
         log.info("Starting the game...");
+
+        // init the cards
+        this.types[0] = "territories";
+        this.types[1] = "buildings";
+        this.types[2] = "characters";
+        this.types[3] = "ventures";
         this.loadCards();
+
+        // actually start the game
         this.turn();
     }
 
 
     private void resetBoard(int period) {
-        // FIXME: bug:
-        /*
-           The following collects 16 random cards from our Deck, and pass
-           them over to Board.  It just so happens that those cards are of
-           only 2 types (as every period has 8 cards per type, 8*2=16==limit()).
-           This way the instantiated Board will have 2 towers completely
-           empty (open question: shall Board fail if we try to instantiate
-           (partially) empty towers?).
-         */
-         Deck d = StreamSupport.stream(
-                 this.unhandledCards.spliterator(),false
-            )
-            .filter(c -> c.cardPeriod == period)
-            .limit(16)  //make configurable before Board() is instantiated?
-            .collect(Deck::new, Deck::add, Deck::addAll);
-         log.finest(String.format("Collected %d cards to give away", d.size()));
-         this.board = new Board(d);
+         Deck deck = new Deck();
+         this.unhandledCards.forEach((n, d) -> {
+             deck.addAll(
+                 StreamSupport.stream(d.spliterator(), false)
+                 .filter(c -> c.cardPeriod == period)
+                 .limit(4) // FIXME make configurable before Board() is istantiated
+                 .collect(Deck::new, Deck::add, Deck::addAll)
+             );
+         });
+         log.finest(String.format(
+                 "Collected %d cards to give away", deck.size()));
+         this.board = new Board(deck);
     }
 
     private void loadCards() {
         JsonArray cardsData = Utils.getJsonArray("cards.json");
-        for (JsonElement c : cardsData) {
-            this.unhandledCards.add(new Card(c.getAsJsonObject()));
+
+        for (String i : types) {
+            this.unhandledCards.put(i, new Deck());
         }
-        log.fine(String.format("Loaded %d cards", this.unhandledCards.size()));
+        for (JsonElement c : cardsData) {
+            Card card = new Card(c.getAsJsonObject());
+            this.unhandledCards.get(card.cardType).add(card);
+        }
+        StringBuilder sb = new StringBuilder();
+        this.unhandledCards.forEach((n, d) -> sb.append(n+"="+d.size()+" "));
+        log.fine(String.format("Loaded %scards", sb));
     }
 
     private void turn() {
