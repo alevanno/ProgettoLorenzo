@@ -19,19 +19,25 @@ public class Floor extends Action {
             bonus, card, tower));
     }
 
-    // player puts here its famMemb & take the Card and the eventual bonus
-    public void claimFloor(FamilyMember fam) {
+    // player puts here its famMemb & take the Card and the eventual bonus;
+    //TODO Game should handle the return value;
+    public boolean claimFloor(FamilyMember fam) {
         Player p = fam.getParent();
         Resources tmpRes = p.currentRes;
-        if (tmpRes.merge(this.floorCard.getCardCost()).isNegative()) {
-            this.addAction(new TakeFamilyMember(fam));
-            this.addAction(new PlaceFamilyMemberInFloor(fam, this));
-            this.addAction(new ResourcesAction("floor bonus", this.bonus, p));
-            this.addAction(new NestedAction(this.floorCard));
-            this.floorCard.costActionBuilder(p);
-            new CardImmediateAction(this.floorCard, p);
-            this.addAction(new CardFromFloorAction(this.floorCard, this, p));
+        Resources cardCost = this.floorCard.getCardCost();
+        if(tmpRes.militaryPoint > cardCost.militaryPoint) {
+            if (tmpRes.merge(this.floorCard.getCardCost()).isNegative()) {
+                this.addAction(new TakeFamilyMember(fam));
+                this.addAction(new PlaceFamilyMemberInFloor(fam, this));
+                this.addAction(new ResourcesAction("floor bonus", this.bonus, p));
+                this.addAction(new NestedAction(this.floorCard));
+                this.floorCard.costActionBuilder(p);
+                new CardImmediateAction(this.floorCard, p);
+                this.addAction(new CardFromFloorAction(this.floorCard, this, p));
+                return true;
+            }
         }
+        return false;
     }
 
     protected void placeFamilyMember(FamilyMember f) {

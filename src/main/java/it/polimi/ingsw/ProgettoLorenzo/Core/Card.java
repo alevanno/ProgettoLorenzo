@@ -9,6 +9,7 @@ public class Card extends Action {
     public final String cardName;
     public final String cardType;
     public final int cardPeriod;
+    public int minMilitaryPoint;
 
     private final List<Resources> cardCost = new ArrayList<>();
     public final Map<String, JsonElement> immediateEff = new HashMap<>();
@@ -19,7 +20,10 @@ public class Card extends Action {
         this.cardName = src.get("name").getAsString();
         this.cardType = src.get("type").getAsString();
         this.cardPeriod = src.get("period").getAsInt();
-
+        JsonElement tmp = src.get("minMilitaryPoint");
+        if (tmp != null) {
+            this.minMilitaryPoint = tmp.getAsInt();
+        }
         JsonElement obj = src.get("cost");
         if (obj != null) {
             if (obj.getAsJsonArray().size() == 0) {

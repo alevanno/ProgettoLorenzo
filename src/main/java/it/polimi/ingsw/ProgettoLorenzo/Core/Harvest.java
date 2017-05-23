@@ -12,9 +12,14 @@ public class Harvest extends Action {
     private FamilyMember mainHarvest;
     private List<FamilyMember> secondaryHarvest = new ArrayList<>();
 
-    public void claimFamMain(FamilyMember fam) {
-        this.mainHarvest = fam;
-        harv(fam.getParent(), fam.getActionValue());
+    //TODO Game will handle the return value;
+    public boolean claimFamMain(FamilyMember fam) {
+        if (this.mainHarvest != null) {
+            this.mainHarvest = fam;
+            if(harv(fam.getParent(), fam.getActionValue()));
+            return true;
+        }
+        return false;
     }
     //FIXME non gestisce l'incremento azione con servitori
 
@@ -57,11 +62,11 @@ public class Harvest extends Action {
         }
     }
 
-    public void harv(Player player, int value) {
+    public boolean harv(Player player, int value) {
         Deck tempDeck = new Deck();
         if (value < 1) {
             System.out.println("You need an action value of at least 1");
-            //TODO ABORT deve restituire errore al livello superiore
+            return false;
         }
         //filters the current player's deck, keeping Cards with permanentEffect=harvest
         //excludes Cards having too high of an action value
@@ -77,5 +82,6 @@ public class Harvest extends Action {
         harvBonusTile(player);
         harvStaticCards(tempDeck, player);
         harvCouncPriv(tempDeck, player);
+        return true;
     }
 }

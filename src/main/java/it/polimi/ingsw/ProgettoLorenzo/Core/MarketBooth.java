@@ -38,15 +38,20 @@ public class MarketBooth extends Action {
         this.famMember = f;
     }
 
-    //actionBuilder for MarketBooth class
-    public void claimSpace(FamilyMember fam) {
+    //actionBuilder for MarketBooth class;
+    //TODO Game should handle the return value;
+    public boolean claimSpace(FamilyMember fam) {
         Player p = fam.getParent();
-        this.addAction(new TakeFamilyMember(fam));
-        this.addAction(new PlaceFamilyMemberInBooth(fam, this));
-        this.bonus.addAll(new Council().chooseMultiPrivilege(this.councilPrivilege));
-        for (Resources res : this.bonus) {
-            this.addAction(new ResourcesAction(
-                    "MarketBooth action", res, fam.getParent()));
+        if(this.getFamMember() != null) {
+            this.addAction(new TakeFamilyMember(fam));
+            this.addAction(new PlaceFamilyMemberInBooth(fam, this));
+            this.bonus.addAll(new Council().chooseMultiPrivilege(this.councilPrivilege));
+            for (Resources res : this.bonus) {
+                this.addAction(new ResourcesAction(
+                        "MarketBooth action", res, fam.getParent()));
+            }
+            return true;
         }
+        return false;
     }
 }
