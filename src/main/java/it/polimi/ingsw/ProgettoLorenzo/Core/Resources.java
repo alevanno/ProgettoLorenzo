@@ -180,4 +180,12 @@ public class Resources {
         resList.add(this.faithPoint);
         return resList;
     }
+
+    public boolean isNegative() {
+        for(int i : this.getAsList()) {
+            if (i < 0) {
+                return false;
+            }
+        } return true;
+    }
 }

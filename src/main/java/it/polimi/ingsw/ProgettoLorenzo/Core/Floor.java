@@ -22,13 +22,16 @@ public class Floor extends Action {
     // player puts here its famMemb & take the Card and the eventual bonus
     public void claimFloor(FamilyMember fam) {
         Player p = fam.getParent();
-        this.addAction(new TakeFamilyMember(fam));
-        this.addAction(new PlaceFamilyMemberInFloor(fam, this));
-        this.addAction(new ResourcesAction("floor bonus", this.bonus, p));
-        this.addAction(new NestedAction(this.floorCard));
-        this.floorCard.costActionBuilder(p);
-        new CardImmediateAction(this.floorCard, p);
-        this.addAction(new CardFromFloorAction(this.floorCard, this, p));
+        Resources tmpRes = p.currentRes;
+        if (tmpRes.merge(this.floorCard.getCardCost()).isNegative()) {
+            this.addAction(new TakeFamilyMember(fam));
+            this.addAction(new PlaceFamilyMemberInFloor(fam, this));
+            this.addAction(new ResourcesAction("floor bonus", this.bonus, p));
+            this.addAction(new NestedAction(this.floorCard));
+            this.floorCard.costActionBuilder(p);
+            new CardImmediateAction(this.floorCard, p);
+            this.addAction(new CardFromFloorAction(this.floorCard, this, p));
+        }
     }
 
     protected void placeFamilyMember(FamilyMember f) {
