@@ -2,10 +2,10 @@ package it.polimi.ingsw.ProgettoLorenzo;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import it.polimi.ingsw.ProgettoLorenzo.Core.*;
 
 import java.util.logging.Logger;
+import java.util.stream.StreamSupport;
 
 public class Game {
     private final Logger log = Logger.getLogger(this.getClass().getName());
@@ -21,8 +21,13 @@ public class Game {
     }
 
 
-    private void resetBoard() {
-        this.board = new Board(this.unhandledCards);
+    private void resetBoard(int period) {
+        this.board = new Board(
+            StreamSupport.stream(this.unhandledCards.spliterator(), false)
+                .filter(c -> c.cardPeriod == period)
+                .limit(16)  //make configurable before Board() is instantiated?
+                .collect(Deck::new, Deck::add, Deck::addAll)
+        );
     }
 
     private void loadCards() {
@@ -33,7 +38,7 @@ public class Game {
     }
 
     private void turn() {
-        this.resetBoard();
+        this.resetBoard(1);  // FIXME
         this.player.famMembersBirth();
         this.round();
     }
