@@ -88,6 +88,7 @@ public class Card extends Action {
 
     @Override
     public String toString() {
-        return this.cardName;
+        return String.format("%s (period %d, type %s)",
+                this.cardName, this.cardPeriod, this.cardType);
     }
 }
