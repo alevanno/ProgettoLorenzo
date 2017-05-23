@@ -6,20 +6,21 @@ import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import java.util.stream.StreamSupport;
 
 public class Board {
+    private final Logger log = Logger.getLogger(this.getClass().getName());
     public List<Tower> towers = new ArrayList<>();
     public Production productionArea = new Production();
     public Harvest harvestArea = new Harvest();
     public Council councilPalace = new Council();
     public Market marketSpace = new Market();
 
-    // FIXME
-    // of course this has get larger and instantiate an
-    // arbitrary number of towers
+    // FIXME instantiate all the other things
     public Board(Deck cardList) {
         JsonArray data = Utils.getJsonArray("towers.json");
+        log.fine(String.format("Instantiation %d towers…", data.size()));
         for (JsonElement i : data) {
             JsonObject tdata = i.getAsJsonObject();
             String ttype = tdata.get("type").getAsString();

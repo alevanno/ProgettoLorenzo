@@ -8,13 +8,19 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
 public class Tower {
+    private final Logger log = Logger.getLogger(this.getClass().getName());
     private final List<Floor> floors = new ArrayList<>();
     private final String type;
 
     public Tower(String type, JsonArray floors, Deck cardList) {
         this.type = type;
+
+        log.fine(String.format(
+            "Instantiating a tower [type %s, %d floors]…",
+            type, floors.size()));
 
         Iterator<JsonElement> fit = floors.iterator();
         Iterator<Card> cit = cardList.iterator();

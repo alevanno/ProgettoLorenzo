@@ -1,7 +1,9 @@
 package it.polimi.ingsw.ProgettoLorenzo.Core;
 
+import java.util.logging.Logger;
 
 public class Floor extends Action {
+    private final Logger log = Logger.getLogger(this.getClass().getName());
     private final Resources bonus;
     private final Tower parentTower;
     private FamilyMember famMember;
@@ -12,6 +14,9 @@ public class Floor extends Action {
         this.bonus = bonus;
         this.floorCard = card;
         this.parentTower = tower;
+        log.fine(String.format(
+            "Floor instantiated <bonus: %s, card: %s, tower: %s>",
+            bonus, card, tower));
     }
 
     //player puts there its famMemb & take Card and the eventually bonus

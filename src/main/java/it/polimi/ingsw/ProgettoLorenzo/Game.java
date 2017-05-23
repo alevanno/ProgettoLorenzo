@@ -35,6 +35,7 @@ public class Game {
         for (JsonElement c : cardsData) {
             this.unhandledCards.add(new Card(c.getAsJsonObject()));
         }
+        log.fine(String.format("Loaded %d cards", this.unhandledCards.size()));
     }
 
     private void turn() {
