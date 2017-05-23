@@ -6,6 +6,8 @@ import com.google.gson.JsonObject;
 import java.io.FileNotFoundException;
 import java.util.*;
 
+import static it.polimi.ingsw.ProgettoLorenzo.Core.Utils.intPrompt;
+
 public class Production extends Action {
     private FamilyMember mainProduction;
     private List<FamilyMember> secondaryProduction = new ArrayList<>();
@@ -44,65 +46,60 @@ public class Production extends Action {
     }
 
     private void prodConversion(Deck tempDeck, Player player) {
+        //TODO le risorse ottenute non possono essere usate per altre conversion subito dopo
         //conversions provided by cards
         for (Card i : tempDeck) {
             if (base(i).get("conversion") != null) {
-                System.out.println("sono " + i.getCardName());
                 JsonArray arr = base(i).get("conversion").getAsJsonArray();
                 System.out.println("Production: Card " + i.getCardName() + " allows you to convert some resources");
-                for (JsonElement conv : arr) { //SINGOLA CONV
-                    JsonArray src = conv.getAsJsonObject().get("src").getAsJsonArray();
-                    JsonArray dest = conv.getAsJsonObject().get("dest").getAsJsonArray();
-                    List<Resources> resSrc = new ArrayList<>();
-                    System.out.println("Production: Card " + i.getCardName() + " allows you to convert some resources");
+                System.out.println("Available conversions:  \n0: None");
+                List<ResConv> r = new ArrayList<>();
+                int count = 1;
+                for (int conv = 0; conv < arr.size(); conv++) {
+                    JsonArray src = arr.get(conv).getAsJsonObject().get("src").getAsJsonArray();
+                    JsonArray dest = arr.get(conv).getAsJsonObject().get("dest").getAsJsonArray();
+                    List<Resources> resSrcList = new ArrayList<>();
                     for (JsonElement a : src) {
-                        resSrc.add(Resources.fromJson(a.getAsJsonObject()));
-                    }
-                    Resources resDest = Resources.fromJson(dest.get(0).getAsJsonObject().get("resources").getAsJsonObject());
-                    System.out.println("Available conversions:  \n0: None");
-                    int count = 1;
-                    int p;
-                    for (Resources r1 : resSrc) {
-                        if(resDest != null) {
-                            System.out.println(String.valueOf(count) + ": " + r1.toString() + " -> " + resDest.toString());
+                        Resources resSrc = Resources.fromJson(a.getAsJsonObject());
+                        Resources resDest;
+                        int councDest;
+                        if (dest.get(0).getAsJsonObject().get("resources") != null) {
+                            resDest = Resources.fromJson(dest.get(0).getAsJsonObject().get("resources").getAsJsonObject());
+                            r.add(new ResConv(count, resSrc, resDest));
                             count++;
-                        } else if (dest.get(1).getAsJsonObject().get("councilPrivilege") != null) {
-                            p = dest.get(1).getAsJsonObject().get("councilPrivilege").getAsInt();
-                            System.out.println(String.valueOf(count) + ": " + r1.toString() + " -> " + String.valueOf(p) +" CouncilPrivilege");
+                        } else if (dest.get(0).getAsJsonObject().get("councilPrivilege") != null) {
+                            councDest = dest.get(0).getAsJsonObject().get("councilPrivilege").getAsInt();
+                            r.add(new ResConv(count, resSrc, councDest));
                             count++;
                         }
                     }
-                    /*int choice;
-                    do {
-                        System.out.println("Input an int between 0 and " + resSrc.size());
-                        Scanner in = new Scanner(System.in);
-                        while (!in.hasNextInt()) {
-                            in.next();
-                            System.out.println("Please input an int");
-                        }
-                        choice = in.nextInt();
-                    } while (choice < 0 || choice > resSrc.size());
+                }
+                for (ResConv rc : r) {
+                    System.out.println(rc.toString());
+                }
+                int choice = intPrompt(0, count-1);
 
-                    if (choice == 0) {}
-                    else if (choice != 0) {
-                        this.addAction(new ResourcesAction("Conversion source", resSrc.get(choice-1).inverse(), player));
-                        System.out.println("Conversion removed " + resSrc.get(choice-1));
-                        if((resDest != null)) {
-                            this.addAction(new ResourcesAction("Conversion dest", resDest, player));
-                            System.out.println("Conversion added " + resDest.toString());
-                        } else if (p != 0) {
-                            Set<Resources> privRes = (new Council().chooseMultiPrivilege(p));
-                            for (Resources r : privRes) {
-                                this.addAction(new ResourcesAction(
-                                        "Conversion CouncilPrivilege", r, player));
-                                System.out.println("Conversion gave a privilege, which gave " + r.toString());
-                            }
+                if (choice == 0) {
+                } else if (choice != 0) {
+                    this.addAction(new ResourcesAction("Conversion source", r.get(choice - 1).getResSrc().inverse(), player));
+                    System.out.println("Conversion removed " + r.get(choice - 1).getResSrc());
+                    if ((r.get(choice - 1).getResDst() != null)) {
+                        this.addAction(new ResourcesAction("Conversion dest", r.get(choice - 1).getResDst(), player));
+                        System.out.println("Conversion added " + r.get(choice - 1).getResDst().toString());
+                    } else if (r.get(choice - 1).getCouncDst() != 0) {
+                        Set<Resources> privRes = (new Council().chooseMultiPrivilege(r.get(choice - 1).getCouncDst()));
+                        for (Resources co : privRes) {
+                            this.addAction(new ResourcesAction(
+                                    "Conversion CouncilPrivilege", co, player));
+                            System.out.println("Conversion gave a privilege, which gave " + co.toString());
                         }
-                    }*/
+                    }
                 }
             }
         }
     }
+
+
 
 
     private void prodBonusTile(Player player) {
