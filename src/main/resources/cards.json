@@ -638,6 +638,36 @@
         "period": 1,
         "permanentAction": {
             "production": {
+                "conversion": [
+                    {
+                        "src": [
+                            {
+                                "stone": 1
+                            }
+                        ],
+                        "dest": [
+                            {
+                                "resources": {
+                                    "coin": 3
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "src": [
+                            {
+                                "stone": 2
+                            }
+                        ],
+                        "dest": [
+                            {
+                                "resources": {
+                                    "coin": 5
+                                }
+                            }
+                        ]
+                    }
+                ],
                 "value": 3
             }
         },
@@ -658,6 +688,22 @@
         "period": 1,
         "permanentAction": {
             "production": {
+                "conversion": [
+                    {
+                        "src": [
+                            {
+                                "coin": 1
+                            }
+                        ],
+                        "dest": [
+                            {
+                                "resources": {
+                                    "faithPoint": 1
+                                }
+                            }
+                        ]
+                    }
+                ],
                 "value": 2
             }
         },
@@ -678,6 +724,20 @@
         "period": 1,
         "permanentAction": {
             "production": {
+                "conversion": [
+                    {
+                        "src": [
+                            {
+                                "coin": 1
+                            }
+                        ],
+                        "dest": [
+                            {
+                                "councilPrivilege": 1
+                            }
+                        ]
+                    }
+                ],
                 "value": 1
             }
         },
@@ -699,6 +759,23 @@
         "period": 2,
         "permanentAction": {
             "production": {
+                "conversion": [
+                    {
+                        "src": [
+                            {
+                                "coin": 3
+                            }
+                        ],
+                        "dest": [
+                            {
+                                "resources": {
+                                    "stone": 2,
+                                    "wood": 2
+                                }
+                            }
+                        ]
+                    }
+                ],
                 "value": 3
             }
         },
@@ -719,6 +796,36 @@
         "period": 2,
         "permanentAction": {
             "production": {
+                "conversion": [
+                    {
+                        "src": [
+                            {
+                                "coin": 1
+                            }
+                        ],
+                        "dest": [
+                            {
+                                "resources": {
+                                    "victoryPoint": 3
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "src": [
+                            {
+                                "coin": 2
+                            }
+                        ],
+                        "dest": [
+                            {
+                                "resources": {
+                                    "victoryPoint": 5
+                                }
+                            }
+                        ]
+                    }
+                ],
                 "value": 3
             }
         },
@@ -739,6 +846,36 @@
         "period": 2,
         "permanentAction": {
             "production": {
+                "conversion": [
+                    {
+                        "src": [
+                            {
+                                "wood": 1
+                            }
+                        ],
+                        "dest": [
+                            {
+                                "resources": {
+                                    "victoryPoint": 3
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "src": [
+                            {
+                                "wood": 3
+                            }
+                        ],
+                        "dest": [
+                            {
+                                "resources": {
+                                    "victoryPoint": 7
+                                }
+                            }
+                        ]
+                    }
+                ],
                 "value": 4
             }
         },
@@ -759,6 +896,36 @@
         "period": 2,
         "permanentAction": {
             "production": {
+                "conversion": [
+                    {
+                        "src": [
+                            {
+                                "stone": 1
+                            }
+                        ],
+                        "dest": [
+                            {
+                                "resources": {
+                                    "victoryPoint": 3
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "src": [
+                            {
+                                "stone": 3
+                            }
+                        ],
+                        "dest": [
+                            {
+                                "resources": {
+                                    "victoryPoint": 7
+                                }
+                            }
+                        ]
+                    }
+                ],
                 "value": 5
             }
         },
@@ -780,6 +947,24 @@
         "period": 2,
         "permanentAction": {
             "production": {
+                "conversion": [
+                    {
+                        "src": [
+                            {
+                                "servant": 1,
+                                "stone": 1,
+                                "wood": 1
+                            }
+                        ],
+                        "dest": [
+                            {
+                                "resources": {
+                                    "victoryPoint": 6
+                                }
+                            }
+                        ]
+                    }
+                ],
                 "value": 4
             }
         },
@@ -801,6 +986,23 @@
         "period": 2,
         "permanentAction": {
             "production": {
+                "conversion": [
+                    {
+                        "src": [
+                            {
+                                "faithPoint": 1
+                            }
+                        ],
+                        "dest": [
+                            {
+                                "resources": {
+                                    "coin": 2,
+                                    "victoryPoint": 2
+                                }
+                            }
+                        ]
+                    }
+                ],
                 "value": 2
             }
         },
@@ -822,6 +1024,22 @@
         "period": 2,
         "permanentAction": {
             "production": {
+                "conversion": [
+                    {
+                        "src": [
+                            {
+                                "servant": 1,
+                            }
+                        ],
+                        "dest": [
+                            {
+                                "resources": {
+                                    "militaryPoint": 3
+                                }
+                            }
+                        ]
+                    }
+                ],
                 "value": 1
             }
         },
@@ -894,6 +1112,23 @@
         "period": 3,
         "permanentAction": {
             "production": {
+                "conversion": [
+                    {
+                        "src": [
+                            {
+                                "coin": 4
+                            }
+                        ],
+                        "dest": [
+                            {
+                                "resources": {
+                                    "stone": 3,
+                                    "wood": 3
+                                }
+                            }
+                        ]
+                    }
+                ],
                 "value": 4
             }
         },
@@ -967,6 +1202,23 @@
         "period": 3,
         "permanentAction": {
             "production": {
+                "conversion": [
+                    {
+                        "src": [
+                            {
+                                "coin": 1
+                            }
+                        ],
+                        "dest": [
+                            {
+                                "resources": {
+                                    "servant": 2,
+                                    "victoryPoint": 4
+                                }
+                            }
+                        ]
+                    }
+                ],
                 "value": 6
             }
         },
@@ -989,6 +1241,25 @@
         "period": 3,
         "permanentAction": {
             "production": {
+                "conversion": [
+                    {
+                        "src": [
+                            {
+                                "stone": 1
+                            },
+                            {
+                                "wood": 1
+                            }
+                        ],
+                        "dest": [
+                            {
+                                "resources": {
+                                    "faithPoint": 2
+                                }
+                            }
+                        ]
+                    }
+                ],
                 "value": 1
             }
         },
@@ -1011,6 +1282,23 @@
         "period": 3,
         "permanentAction": {
             "production": {
+                "conversion": [
+                    {
+                        "src": [
+                            {
+                                "servant": 1
+                            }
+                        ],
+                        "dest": [
+                            {
+                                "resources": {
+                                    "militaryPoint": 3,
+                                    "victoryPoint": 1
+                                }
+                            }
+                        ]
+                    }
+                ],
                 "value": 3
             }
         },
