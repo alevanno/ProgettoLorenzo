@@ -53,11 +53,11 @@ public class Deck implements Iterable<Card> {
 
     @Override
     public String toString(){
-        String ret = new String();
+        StringBuilder ret = new StringBuilder();
         for (Card x : this.cards){
-            ret = ret + "☛ " + x + "\n";
+            ret.append("☛ " + x + "\n");
         }
-        return ret;
+        return ret.toString();
     }
 
     public void shuffleCards() {
