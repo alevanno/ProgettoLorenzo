@@ -2,8 +2,10 @@ package it.polimi.ingsw.ProgettoLorenzo.Core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 public abstract class Action {
+    private final Logger log = Logger.getLogger(this.getClass().getName());
     private List<BaseAction> actions = new ArrayList<>();
 
     public void addAction(BaseAction action) {
@@ -18,5 +20,10 @@ public abstract class Action {
         for (int i=0; i < this.actions.size(); i++) {
             this.actions.get(i).apply();
         }
+    }
+
+    public void logActions() {
+        log.fine("Actions staged for " + this + ":");
+        this.actions.forEach(x -> x.logAction());
     }
 }
