@@ -20,7 +20,7 @@ public class Board {
     // FIXME instantiate all the other things
     public Board(Deck cardList) {
         JsonArray data = Utils.getJsonArray("towers.json");
-        log.fine(String.format("Instantiation %d towers…", data.size()));
+        log.fine(String.format("Instantiating %d towers…", data.size()));
         for (JsonElement i : data) {
             JsonObject tdata = i.getAsJsonObject();
             String ttype = tdata.get("type").getAsString();

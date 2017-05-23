@@ -22,6 +22,15 @@ public class Game {
 
 
     private void resetBoard(int period) {
+        // FIXME: bug:
+        /*
+           The following collects 16 random cards from our Deck, and pass
+           them over to Board.  It just so happens that those cards are of
+           only 2 types (as every period has 8 cards per type, 8*2=16==limit()).
+           This way the instantiated Board will have 2 towers completely
+           empty (open question: shall Board fail if we try to instantiate
+           (partially) empty towers?).
+         */
          Deck d = StreamSupport.stream(
                  this.unhandledCards.spliterator(),false
             )
