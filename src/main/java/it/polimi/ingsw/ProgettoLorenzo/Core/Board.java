@@ -14,6 +14,6 @@ public class Board {
     // of course this has get larger and instantiate an
     // arbitrary number of towers
     public Board(Deck cardList) {
-        this.towers.add(new Tower(1, cardList));
+        this.towers.add(new Tower(cardList));
     }
 }

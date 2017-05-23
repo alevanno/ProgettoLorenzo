@@ -7,11 +7,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Tower {
-    private final int towerNumber;
     private final List<Floor> floors = new ArrayList<>();
 
-    public Tower(int towerNumber, Deck cardList) {
-        this.towerNumber = towerNumber;
+    public Tower(Deck cardList) {
         JsonArray data = Utils.getJsonArray("tower.json");
         //FIXME make me prettier
         for(int i = 0; i < data.size(); i++) {
