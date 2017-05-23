@@ -19,7 +19,7 @@ public class Floor extends Action {
             bonus, card, tower));
     }
 
-    //player puts there its famMemb & take Card and the eventually bonus
+    // player puts here its famMemb & take the Card and the eventual bonus
     public void claimFloor(FamilyMember fam) {
         Player p = fam.getParent();
         this.addAction(new TakeFamilyMember(fam));
