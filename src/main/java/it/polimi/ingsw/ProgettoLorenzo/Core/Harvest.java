@@ -81,7 +81,7 @@ public class Harvest extends Action {
                 tempDeck.add(i);
             }
             if (tempDeck.size() == 0) {
-                System.out.println("Action value too low: you will only receive Resources from your BonusTile");
+                log.info("Action value too low: you will only receive Resources from your BonusTile");
             }
         }
         harvBonusTile(player);

@@ -5,10 +5,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.logging.Logger;
 
 import static it.polimi.ingsw.ProgettoLorenzo.Core.Utils.intPrompt;
 
 public class Production extends Action {
+    private final Logger log = Logger.getLogger(this.getClass().getName());
     private FamilyMember mainProduction;
     private List<FamilyMember> secondaryProduction = new ArrayList<>();
 
@@ -38,14 +40,14 @@ public class Production extends Action {
             if (base(i).get("multiplier") != null) {
                 JsonObject mult = base(i).get("multiplier").getAsJsonObject();
                 String tmpType = mult.get("type").getAsString();
-                Resources tmpRes = Resources.fromJson(mult.get("bonus").getAsJsonObject());
+                Resources tmpRes = Resources.fromJson(mult.get("bonus"));
                 int count = 0;
                 for (Card c : player.listCards()) {
                     if (c.cardType.equals(tmpType)) { count++; }
                 }
                 this.addAction(new ResourcesAction(
                         "ProdMultiplier", tmpRes.multiplyRes(count), player));
-                System.out.println("Production: Multiplier Card " + i.getCardName() + " gave " + tmpRes.multiplyRes(count).toString());
+                log.info("Production: Multiplier Card " + i.getCardName() + " gave " + tmpRes.multiplyRes(count).toString());
             }
         }
     }
@@ -65,11 +67,11 @@ public class Production extends Action {
                     JsonArray dest = arr.get(conv).getAsJsonObject().get("dest").getAsJsonArray();
                     List<Resources> resSrcList = new ArrayList<>();
                     for (JsonElement a : src) {
-                        Resources resSrc = Resources.fromJson(a.getAsJsonObject());
+                        Resources resSrc = Resources.fromJson(a);
                         Resources resDest;
                         int councDest;
                         if (dest.get(0).getAsJsonObject().get("resources") != null) {
-                            resDest = Resources.fromJson(dest.get(0).getAsJsonObject().get("resources").getAsJsonObject());
+                            resDest = Resources.fromJson(dest.get(0).getAsJsonObject().get("resources"));
                             r.add(new ResConv(count, resSrc, resDest));
                             count++;
                         } else if (dest.get(0).getAsJsonObject().get("councilPrivilege") != null) {
@@ -96,7 +98,7 @@ public class Production extends Action {
                         for (Resources co : privRes) {
                             this.addAction(new ResourcesAction(
                                     "Conversion CouncilPrivilege", co, player));
-                            System.out.println("Conversion gave a privilege, which gave " + co.toString());
+                            log.info("Conversion gave a privilege, which gave " + co.toString());
                         }
                     }
                 }
@@ -108,16 +110,16 @@ public class Production extends Action {
         //resources given by BonusTile
         this.addAction(new ResourcesAction(
                 "BonusTile", player.bonusT.getProductionRes(), player));
-        System.out.println("Production: The Player's BonusTile gave " + player.bonusT.getProductionRes().toString());
+        log.info("Production: The Player's BonusTile gave " + player.bonusT.getProductionRes().toString());
     }
 
     private void prodStaticCards(Deck tempDeck, Player player) {
         //resources given by static Cards
         for (Card i : tempDeck) {
             if (base(i).get("resources") != null) {
-                Resources tmp = Resources.fromJson(base(i).get("resources").getAsJsonObject());
+                Resources tmp = Resources.fromJson(base(i).get("resources"));
                 this.addAction(new ResourcesAction("Resources", tmp, player));
-                System.out.println("Production: Card " + i.getCardName() + " gave " + tmp.toString());
+                log.info("Production: Card " + i.getCardName() + " gave " + tmp.toString());
             }
         }
     }
@@ -132,7 +134,7 @@ public class Production extends Action {
                 for (Resources r : privRes) {
                     this.addAction(new ResourcesAction(
                             "ProdCouncilPrivilege", r, player));
-                    System.out.println("Production: Council privilege gave " + r.toString());
+                    log.info("Production: Council privilege gave " + r.toString());
                 }
             }
         }
