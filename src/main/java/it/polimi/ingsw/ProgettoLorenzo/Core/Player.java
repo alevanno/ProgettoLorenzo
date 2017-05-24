@@ -23,14 +23,15 @@ public class Player {
     }
 
     public void famMembersBirth() {
+        // FIXME - sanely set actionValue
         this.famMemberList.add(
-                new FamilyMember(this, 1, "Orange"));
+                new FamilyMember(this, 10, "Orange"));
         this.famMemberList.add(
-                new FamilyMember(this, 1, "Black"));
+                new FamilyMember(this, 10, "Black"));
         this.famMemberList.add(
-                new FamilyMember(this, 1, "White"));
+                new FamilyMember(this, 10, "White"));
         this.famMemberList.add(
-                new FamilyMember(this, 1, "Blank"));
+                new FamilyMember(this, 10, "Blank"));
         log.fine("4 family members attached to " + this);
     }
 
