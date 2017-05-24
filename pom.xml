@@ -6,7 +6,7 @@
 
     <groupId>it.polimi.ingsw</groupId>
     <artifactId>ProgettoLorenzo</artifactId>
-    <packaging>pom</packaging> <!-- try also "jar" -->
+    <packaging>jar</packaging>
     <version>0</version>
     <name>ProgettoLorenzo</name>
     <description>Prova Finale Ingegneria del software</description>
