@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
@@ -33,9 +34,13 @@ public class Utils {
 
     private static JsonElement getJsonFile(String filename) {
         try (FileReader f = new FileReader(getResourceFilePath(filename))) {
-            return new JsonParser().parse(f);
-        } catch (IOException e) {
+            return new JsonParser().parse(f);\
+        } catch (FileNotFoundException e) {
             log.severe(String.format("File %s not found", filename));
+            log.log(Level.SEVERE, e.getMessage(), e);
+            System.exit(1);
+        } catch (IOException e) {
+            log.log(Level.SEVERE, e.getMessage(), e);
             System.exit(1);
         } catch (Exception e) {
             log.severe(String.format("Critical issue while loading %s:",
