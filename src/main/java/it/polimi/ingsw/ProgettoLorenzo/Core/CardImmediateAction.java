@@ -3,26 +3,26 @@ package it.polimi.ingsw.ProgettoLorenzo.Core;
 
 import com.google.gson.JsonObject;
 
-import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 public class CardImmediateAction extends Action {
-
+    private final Logger log = Logger.getLogger(this.getClass().getName());
     public CardImmediateAction(Card card, Player pl) {
 
         if (card.immediateEff.containsKey("resources")) {
             Resources tmp = Resources.fromJson(card.immediateEff.get("resources").getAsJsonObject());
             this.addAction(new ResourcesAction("ImmResources", tmp, pl));
-            System.out.println("ImmediateAction: Card " + card.getCardName() + " gave " + tmp.toString());
+            log.info("ImmediateAction: Card " + card.getCardName() + " gave " + tmp.toString());
         }
 
         if (card.immediateEff.containsKey("councilPrivilege")) {
             int priv = card.immediateEff.get("councilPrivilege").getAsInt();
-            Set<Resources> privRes = (new Council().chooseMultiPrivilege(priv));
+            Set<Resources> privRes = new Council().chooseMultiPrivilege(priv);
             for (Resources r : privRes) {
                 this.addAction(new ResourcesAction(
                         "ImmActCouncilPrivilege", r, pl));
-                System.out.println("ImmediateAction: Card " + card.getCardName() + " gave " + r.toString());
+                log.info("ImmediateAction: Card " + card.getCardName() + " gave " + r.toString());
             }
         }
 
@@ -53,7 +53,7 @@ public class CardImmediateAction extends Action {
             prodRes.merge(tmpRes.multiplyRes(count));
             this.addAction(new ResourcesAction(
                     "ImmMultiplier", tmpRes.multiplyRes(count), pl));
-            System.out.println("ImmediateAction: Multiplier Card " + card.getCardName() + " gave " + tmpRes.toString());
+            log.info("ImmediateAction: Multiplier Card " + card.getCardName() + " gave " + tmpRes.toString());
         }
     }
 }

@@ -34,7 +34,7 @@ public class Utils {
 
     private static JsonElement getJsonFile(String filename) {
         try (FileReader f = new FileReader(getResourceFilePath(filename))) {
-            return new JsonParser().parse(f);\
+            return new JsonParser().parse(f);
         } catch (FileNotFoundException e) {
             log.severe(String.format("File %s not found", filename));
             log.log(Level.SEVERE, e.getMessage(), e);

@@ -37,18 +37,17 @@ public class Floor extends Action {
         if (value < this.floorValue) {
             return false;
         }
-        if(tmpRes.militaryPoint >= floorCard.minMilitaryPoint) {
-            if (!tmpRes.merge(cardCost).isNegative()) {
-                this.addAction(new TakeFamilyMember(fam));
-                this.addAction(new PlaceFamilyMemberInFloor(fam, this));
-                this.addAction(new ResourcesAction("floor bonus", this.bonus, p));
-                this.addAction(new NestedAction(this.floorCard));
-                this.floorCard.costActionBuilder(p);
-                this.addAction(new NestedAction(
-                    new CardImmediateAction(this.floorCard, p)));
-                this.addAction(new CardFromFloorAction(this.floorCard, this, p));
-                return true;
-            }
+        if(tmpRes.militaryPoint >= floorCard.minMilitaryPoint
+                && !tmpRes.merge(cardCost).isNegative()) {
+            this.addAction(new TakeFamilyMember(fam));
+            this.addAction(new PlaceFamilyMemberInFloor(fam, this));
+            this.addAction(new ResourcesAction("floor bonus", this.bonus, p));
+            this.addAction(new NestedAction(this.floorCard));
+            this.floorCard.costActionBuilder(p);
+            this.addAction(new NestedAction(
+                new CardImmediateAction(this.floorCard, p)));
+            this.addAction(new CardFromFloorAction(this.floorCard, this, p));
+            return true;
         }
         return false;
     }

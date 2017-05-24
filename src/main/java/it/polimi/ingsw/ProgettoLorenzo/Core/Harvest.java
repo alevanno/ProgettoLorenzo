@@ -6,18 +6,19 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Logger;
 
 
 public class Harvest extends Action {
+    private final Logger log = Logger.getLogger(this.getClass().getName());
     private FamilyMember mainHarvest;
     private List<FamilyMember> secondaryHarvest = new ArrayList<>();
 
     //TODO Game will handle the return value;
     public boolean claimFamMain(FamilyMember fam) {
-        if (this.mainHarvest != null) {
-            if (harv(fam.getParent(), fam.getActionValue())) {
-                this.mainHarvest = fam;
-                return true;}
+        if (this.mainHarvest != null && harv(fam.getParent(), fam.getActionValue())) {
+            this.mainHarvest = fam;
+            return true;
         }
         return false;
     }
@@ -36,7 +37,7 @@ public class Harvest extends Action {
         //resources given by bonusTile
         this.addAction(new ResourcesAction(
                 "BonusTile", player.bonusT.getHarvestRes(), player));
-        System.out.println("Harvest: The Player's BonusTile gave " + player.bonusT.getHarvestRes().toString());
+        log.info("Harvest: The Player's BonusTile gave " + player.bonusT.getHarvestRes().toString());
     }
 
     private void harvStaticCards(Deck tempDeck, Player player) {
@@ -45,7 +46,7 @@ public class Harvest extends Action {
             if (base(i).get("resources") != null) {
                 Resources tmp = Resources.fromJson(base(i).get("resources").getAsJsonObject());
                 this.addAction(new ResourcesAction("Resources", tmp, player));
-                System.out.println("Harvest: Card " + i.getCardName() + " gave " + tmp.toString());
+                log.info("Harvest: Card " + i.getCardName() + " gave " + tmp.toString());
             }
         }
     }
@@ -55,12 +56,12 @@ public class Harvest extends Action {
         for (Card i : tempDeck) {
             if (base(i).get("councilPrivilege") != null) {
                 int priv = base(i).get("councilPrivilege").getAsInt();
-                System.out.println("Harvest: Card " + i.getCardName() + " gave " + String.valueOf(priv) + " Council privilege");
+                log.info("Harvest: Card " + i.getCardName() + " gave " + String.valueOf(priv) + " Council privilege");
                 Set<Resources> privRes = (new Council().chooseMultiPrivilege(priv));
                 for (Resources r : privRes) {
                     this.addAction(new ResourcesAction(
                             "HarvCouncilPrivilege", r, player));
-                    System.out.println("Harvest: Council privilege gave " + r.toString());
+                    log.info("Harvest: Council privilege gave " + r.toString());
                 }
             }
         }

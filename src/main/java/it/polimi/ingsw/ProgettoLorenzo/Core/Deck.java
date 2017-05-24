@@ -12,7 +12,7 @@ public class Deck implements Iterable<Card> {
     private List<Card> cards;
 
     public Deck() {
-        this.cards = new ArrayList<Card>();
+        this.cards = new ArrayList<>();
     }
 
     private Deck(List<Card> oldList) {
@@ -24,7 +24,7 @@ public class Deck implements Iterable<Card> {
     }
 
     public void addAll(Deck d) {
-        d.forEach(x -> this.add(x));
+        d.forEach(this::add);
     }
 
     public Card remove(int idx) {
@@ -47,6 +47,7 @@ public class Deck implements Iterable<Card> {
         return this.cards.size();
     }
 
+    @Override
     public Iterator<Card> iterator() {
         return this.cards.iterator();
     }

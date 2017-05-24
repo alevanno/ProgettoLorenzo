@@ -11,11 +11,11 @@ import java.util.stream.StreamSupport;
 
 public class Board {
     private final Logger log = Logger.getLogger(this.getClass().getName());
-    private List<Tower> towers = new ArrayList<>();
-    private Production productionArea = new Production();
-    private Harvest harvestArea = new Harvest();
-    private Council councilPalace = new Council();
-    private Market marketSpace = new Market();
+    public final List<Tower> towers = new ArrayList<>();
+    public final Production productionArea = new Production();
+    public final Harvest harvestArea = new Harvest();
+    public final Council councilPalace = new Council();
+    public final Market marketSpace = new Market();
 
     // FIXME instantiate all the other things
     public Board(Deck cardList) {

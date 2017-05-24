@@ -9,7 +9,7 @@ public class Card extends Action {
     public final String cardName;
     public final String cardType;
     public final int cardPeriod;
-    public int minMilitaryPoint;
+    public final int minMilitaryPoint;
 
     private final List<Resources> cardCost = new ArrayList<>();
     public final Map<String, JsonElement> immediateEff = new HashMap<>();

@@ -1,16 +1,11 @@
 package it.polimi.ingsw.ProgettoLorenzo.Core;
 
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.*;
-
 import static it.polimi.ingsw.ProgettoLorenzo.Core.Utils.intPrompt;
 
 public class Council extends Action {
-    private List<FamilyMember> playerOrder = new ArrayList<FamilyMember>();
+    private List<FamilyMember> playerOrder = new ArrayList<>();
     private final List<Resources> privilegeChoices;
     public final Resources bonusEntry;
     Set<Resources> privilegeSet = new HashSet<>();
@@ -52,7 +47,7 @@ public class Council extends Action {
         for (; i-1 < this.privilegeChoices.size(); i++) {
             System.out.printf("%d: %s%n", i, this.privilegeChoices.get(i-1));
         }
-        res = intPrompt(1, (i-1));
+        res = intPrompt(1, i-1);
         return this.privilegeChoices.get(res - 1);
     }
 

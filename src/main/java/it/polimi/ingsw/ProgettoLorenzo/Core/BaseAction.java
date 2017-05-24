@@ -22,6 +22,7 @@ class NullAction extends BaseAction {
         super("Null action.  To be implemented.  XXX");
     }
 
+    @Override
     public void apply() {
         // empty
     }
@@ -36,10 +37,12 @@ class NestedAction extends BaseAction {
         this.action = action;
     }
 
+    @Override
     public void apply() {
         this.action.apply();
     }
 
+    @Override
     public void logAction() {
         log.fine("Nested actions:");
         this.action.logActions();
@@ -57,6 +60,7 @@ class ResourcesAction extends BaseAction {
         this.player = p;
     }
 
+    @Override
     public void apply() {
          this.player.currentRes = this.player.currentRes.merge(this.op);
     }
@@ -79,6 +83,7 @@ class CardFromFloorAction extends BaseAction {
         this.player = player;
     }
 
+    @Override
     public void apply() {
         this.floor.removeCard();
         this.player.addCard(this.card);
@@ -98,6 +103,7 @@ class TakeFamilyMember extends BaseAction {
         this.famMember = famMember;
     }
 
+    @Override
     public void apply() {
         this.famMember.getParent().takeFamilyMember(this.famMember);
     }
@@ -113,6 +119,7 @@ class PlaceFamilyMemberInFloor extends BaseAction {
         this.dest = dest;
     }
 
+    @Override
     public void apply() {
         this.dest.placeFamilyMember(this.famMember);
     }
@@ -133,6 +140,7 @@ class PlaceFamilyMemberInCouncil extends BaseAction {
         this.dest = c;
     }
 
+    @Override
     public void apply() {
         this.dest.placeFamilyMember(this.famMember);
     }
@@ -148,6 +156,7 @@ class PlaceFamilyMemberInBooth extends BaseAction {
         this.dest = m;
     }
 
+    @Override
     public void apply() {
         this.dest.placeFamilyMember(this.famMember);
     }
@@ -168,6 +177,7 @@ class PlaceFamMemberInProd extends BaseAction {
         this.dest = p;
     }
 
+    @Override
     public void apply() {
         //this.dest.placeFamilyMember(this.famMember);
     }
