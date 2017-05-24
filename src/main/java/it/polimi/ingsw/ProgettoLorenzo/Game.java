@@ -4,14 +4,17 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import it.polimi.ingsw.ProgettoLorenzo.Core.*;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.logging.Logger;
 import java.util.stream.StreamSupport;
 
 public class Game {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private Board board;
-    private String[] types = new String[4];
+    private List<String> types = Arrays.asList(
+            "territories", "buildings", "characters", "ventures");
     private HashMap<String, Deck> unhandledCards = new HashMap<>();
     private Player player;
 
@@ -22,11 +25,7 @@ public class Game {
         // FIXME testing player
         this.player = new Player("Test player", "red");
 
-        // init the cards
-        this.types[0] = "territories";
-        this.types[1] = "buildings";
-        this.types[2] = "characters";
-        this.types[3] = "ventures";
+        // init cards
         this.loadCards();
 
         // actually start the game
