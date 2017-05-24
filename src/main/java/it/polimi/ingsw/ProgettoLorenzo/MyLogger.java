@@ -68,18 +68,6 @@ class MyConsoleFormatter extends Formatter {
         // build the actual logging string
         sb.append(String.format(formatter, args));
 
-        // in case we're logging an exception…
-        if (rec.getThrown() != null) {
-            try {
-                StringWriter sw = new StringWriter();
-                PrintWriter pw = new PrintWriter(sw);
-                rec.getThrown().printStackTrace(pw);
-                pw.close();
-                sb.append(sw.toString());
-            } catch (Exception ex) {
-            }
-        }
-
         return sb.toString();
     }
 }
