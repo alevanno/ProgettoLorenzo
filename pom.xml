@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>it.polimi.ingsw</groupId>
-    <artifactId>ProgettoLorenzo</artifactId>
+    <artifactId>progettolorenzo</artifactId>
     <packaging>jar</packaging>
     <version>0</version>
     <name>ProgettoLorenzo</name>
