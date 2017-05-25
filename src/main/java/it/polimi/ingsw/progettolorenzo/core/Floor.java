@@ -21,19 +21,29 @@ public class Floor extends Action {
             bonus, card, tower));
     }
 
+    //TODO this should be called at an higher level
+    public boolean claimFloorWithCard(Player currPlayer, Tower parentTower, int value, Resources discount) {
+        FamilyMember dummy = new FamilyMember(currPlayer, value, null);
+        //TODO handling of the discount (could be temporarily added here, but should be removed later in some way if not used)
+        //TODO we could also intervene on the cardcost, but claimFloor should be modified
+    }
+
+    //TODO claimFloorWithCard should pass a dummy familymember to the main claimFloor function
+
+
     // player puts here its famMemb & take the Card and the eventual bonus;
     //TODO Game should handle the return value;
     public boolean claimFloor(FamilyMember fam) {
         int value = fam.getActionValue();
         Player p = fam.getParent();
         Resources tmpRes = p.currentRes;
-        Resources cardCost = this.floorCard.getCardCost();
+        Resources cardCost = this.floorCard.getCardCost(); //TODO if a discount is present...
         for(Card c : p.listCards()) {
             if(c.permanentEff.get("towerBonus").getAsJsonObject()
-                    .get("type").getAsString() == floorCard.cardType) {
+                    .get("type").getAsString().equals(floorCard.cardType)) {
                 value += c.permanentEff.get("towerBonus").getAsJsonObject().get("plusValue").getAsInt();
             }
-        }
+        }//TODO the floor bonus can be used to pay for the card you're taking
         if (value < this.floorValue) {
             return false;
         }

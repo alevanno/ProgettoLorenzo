@@ -38,7 +38,13 @@ public class CardImmediateAction extends Action {
 
 
         //TODO to handle pickCard we have first to discuss the cardCostHandling
+        //TODO this action's value can be increased with servants
+        //TODO you have to pay the 3 coins if the tower is already occupied
         if(card.immediateEff.containsKey("pickCard")) {
+            String type = card.immediateEff.get("pickCard").getAsJsonObject().get("type").getAsString();
+            int value = card.immediateEff.get("pickCard").getAsJsonObject().get("value").getAsInt();
+            Resources discount = Resources.fromJson(card.immediateEff.get("pickCard").getAsJsonObject().get("discount"));
+            //TODO tower type? deve chiamare in qualche modo claimFloorWithCard(Player player, Tower parentTower, int value, Resources discount)
         }
 
         if(card.immediateEff.containsKey("multiplier")) {
