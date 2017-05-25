@@ -25,7 +25,7 @@ public class Production extends Action {
     }
     //FIXME non gestisce l'incremento azione con servitori
 
-    public void claimFamSec(FamilyMember fam) throws FileNotFoundException { //TODO valore decrementato di 3
+    public void claimFamSec(FamilyMember fam) { //TODO valore decrementato di 3
         this.secondaryProduction.add(fam);
         prod(fam.getParent(), fam.getActionValue() - 3);
     }
