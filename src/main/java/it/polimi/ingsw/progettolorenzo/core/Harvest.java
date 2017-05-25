@@ -22,7 +22,7 @@ public class Harvest extends Action {
         return false;
     }
     //FIXME non gestisce l'incremento azione con servitori
-
+    //FIXME the secondary space is not available in a 2 player game
     public void claimFamSec(FamilyMember fam) {
         this.secondaryHarvest.add(fam);
         harv(fam.getParent(), fam.getActionValue());

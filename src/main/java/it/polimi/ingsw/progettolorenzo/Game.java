@@ -21,6 +21,7 @@ public class Game {
             "Luca", "Alessandro", "Mattia", "Max");
     private List<String> colours = Arrays.asList(
             "red", "blue", "orange", "purple");
+    private int availableSlot = 0;
 
     public Game() {
         MyLogger.setup();
@@ -36,10 +37,22 @@ public class Game {
         this.turn();
     }
 
-    private void initPlayers(int number) { //TODO risorse iniziali player a seconda del piazzamento
-        for (int i = 0; i < number; i++) {
+    private void initPlayers(int number) {
+        for (int i=0; i<number; i++) {
             this.players.add(new Player(names.get(i), colours.get(i)));
         }
+        for (Player p: players) {
+            int i = 5;
+            p.currentRes.merge(new Resources.ResBuilder().coin(i).build());
+            i++;
+        }
+    }
+
+    public Player getAvailablePlayer() {
+        Player p = players.get(availableSlot);
+        availableSlot++;
+        return p;
+
     }
 
     private void resetBoard(int period) {
@@ -103,13 +116,35 @@ public class Game {
         fl.apply();*/
     }
 
+    private void endgameMilitary (List<Player> players) {
+        //FIXME this is horrid, but I'm not sure it could be written some other way
+        //1st gets 5 victoryP, 2nd gets 2 victoryP, if more than one player is first he gets the prize and the second gets nothing
+        players.sort(Comparator.comparing(p -> p.currentRes.militaryPoint));
+        int plWithMaxMilitary = 0;
+        int MaxMilitary = players.get(0).currentRes.militaryPoint;
+        int SecMaxMilitary = 0;
+        for (Player p: players) {
+            if (p.currentRes.militaryPoint == MaxMilitary) {
+                plWithMaxMilitary++;
+                p.currentRes.merge(new Resources.ResBuilder().victoryPoint(5).build());
+            } else if (p.currentRes.militaryPoint > SecMaxMilitary) {
+                SecMaxMilitary = p.currentRes.militaryPoint;
+            }
+        }
+        if (plWithMaxMilitary > 1) {
+            for (Player p: players) {
+                if (p.currentRes.militaryPoint == SecMaxMilitary) {
+                    p.currentRes.merge(new Resources.ResBuilder().victoryPoint(3).build());
+                }
+            }
+        }
+    }
+
     //TODO testing
     private void endgame() {
         List<Integer> territoriesVictory = Arrays.asList(1, 4, 10, 20);
         List<Integer> charactersVictory = Arrays.asList(1, 3, 6, 10, 15, 21);
-        //TODO count military points and save first and second player
-        players.sort(Comparator.comparing(p -> p.currentRes.militaryPoint)); //FIXME not sure about this lambda
-        //TODO 1st gets 5 victoryP, 2nd gets 2 victoryP, if more than one player is first he gets the prize and the second gets nothing
+        endgameMilitary(this.players);
         for (Player pl: players) {
             int countTerritories = 0;
             int countCharacters = 0;

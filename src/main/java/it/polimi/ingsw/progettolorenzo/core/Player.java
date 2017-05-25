@@ -16,7 +16,7 @@ public class Player {
     public Player(String name, String colour) {
         this.playerName = name;
         this.playerColour = colour;
-        this.currentRes = new Resources.ResBuilder().build();  // 0 resources
+        this.currentRes = new Resources.ResBuilder().servant(3).stone(2).wood(2).build();
         log.info(String.format(
                 "New player: %s (colour: %s, resources: %s)",
                 name, colour, this.currentRes));
