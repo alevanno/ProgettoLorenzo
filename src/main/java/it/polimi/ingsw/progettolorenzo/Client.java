@@ -12,8 +12,6 @@ import java.util.logging.Logger;
 
 public class Client {
     private final Logger log = Logger.getLogger(this.getClass().getName());
-    private static final int PORT = 29999;
-    private static String IP;
     private Socket socket;
 
     private void printLine(String format, Object... args) {
@@ -39,8 +37,10 @@ public class Client {
         printLine("Player colour:");
         printLine("You can choose between: Blue | Red | Yellow | Green");
         String colour = readLine("Please insert your colour: ");
-        this.IP = InetAddress.getLocalHost().getHostAddress();
-        this.socket = new Socket(IP, PORT);
+        this.socket = new Socket(
+                Config.client.get("serverAddress").getAsString(),
+                Config.client.get("port").getAsInt()
+        );
         printLine("Connection Established");
         printLine("Waiting for players connection....");
         PrintWriter out = new PrintWriter(socket.getOutputStream());

@@ -1,0 +1,10 @@
+{
+    "server": {
+        "bind": "localhost",
+        "port": 29999
+    },
+    "client": {
+        "serverAddress": "localhost",
+        "port": 29999
+    }
+}

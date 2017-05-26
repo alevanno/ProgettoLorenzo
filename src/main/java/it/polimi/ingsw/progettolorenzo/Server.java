@@ -3,6 +3,7 @@ package it.polimi.ingsw.progettolorenzo;
 import it.polimi.ingsw.progettolorenzo.core.Player;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -16,13 +17,16 @@ import java.util.logging.Logger;
 
 public class Server {
     private final Logger log = Logger.getLogger(this.getClass().getName());
-    private final static int PORT = 29999;
     private Game game;
-    public void startServer() throws IOException {
 
+    public void startServer() throws IOException {
         ExecutorService executor = Executors.newCachedThreadPool();
-        ServerSocket serverSocket = new ServerSocket(PORT);
-        System.out.println("Server socket ready on port: " + PORT);
+        int port = Config.server.get("port").getAsInt();
+        InetAddress address = InetAddress.getByName(
+                Config.server.get("bind").getAsString()
+            );
+        ServerSocket serverSocket = new ServerSocket(port, 0, address);
+        System.out.println("Server socket ready on port: " + port);
         System.out.println("Server ready");
         List<Player> listPlayers = new ArrayList<>();
             while (true) {
