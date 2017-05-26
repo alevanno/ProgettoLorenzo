@@ -11,25 +11,38 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Client {
-
     private final Logger log = Logger.getLogger(this.getClass().getName());
-    private final static int PORT = 29999;
+    private static final int PORT = 29999;
     private static String IP;
     private Socket socket;
 
+    private void printLine(String format, Object... args) {
+        if (System.console() != null) {
+            System.console().format(format, args);
+            System.console().flush();
+        } else {
+            System.out.println(String.format(format, args));
+        }
+    }
+
+    private String readLine(String format, Object... args) {
+        if (System.console() != null) {
+            return System.console().readLine(format, args);
+        }
+        System.out.print(String.format(format, args));
+        return new Scanner(System.in).nextLine();
+    }
+
     public void startClient() throws IOException {
-        System.out.print("Insert player name: ");
-        Scanner in = new Scanner(System.in);
-        String name = in.nextLine();
+        String name = readLine("Insert player name: ");
         // TODO propose choice color list
-        System.out.println("Player colour: ");
-        System.out.println("You can choose between: Blue | Red | Yellow | Green ");
-        System.out.print("Please insert your colour: ");
-        String colour = in.nextLine();
-        IP = InetAddress.getLocalHost().getHostAddress();
+        printLine("Player colour:");
+        printLine("You can choose between: Blue | Red | Yellow | Green");
+        String colour = readLine("Please insert your colour: ");
+        this.IP = InetAddress.getLocalHost().getHostAddress();
         this.socket = new Socket(IP, PORT);
-        System.out.println("Connection Established");
-        System.out.println("Waiting for players connection....");
+        printLine("Connection Established");
+        printLine(h"Waiting for players connection....");
         PrintWriter out = new PrintWriter(socket.getOutputStream());
         out.println(name);
         out.println(colour);
@@ -42,10 +55,12 @@ public class Client {
     }
 
     public void closeSocket() {
-        try {
-            socket.close();
-        } catch (IOException e){
-
+        if (this.socket != null) {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                log.log(Level.SEVERE, e.getMessage(), e);
+            }
         }
     }
 
@@ -56,6 +71,7 @@ public class Client {
         } catch (IOException e) {
             client.log.log(Level.SEVERE, e.getMessage(), e);
             client.closeSocket();
+            System.exit(1);
         }
     }
 }
