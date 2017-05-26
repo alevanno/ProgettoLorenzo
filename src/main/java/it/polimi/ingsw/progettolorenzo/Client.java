@@ -1,12 +1,8 @@
 package it.polimi.ingsw.progettolorenzo;
 
-
-import javafx.beans.Observable;
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.Observer;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -14,6 +10,7 @@ import java.util.concurrent.Executors;
 public class Client {
     private final static int PORT = 29999;
     private final static String IP="127.0.0.1";
+    private Socket socket;
 
     public void startClient() throws IOException {
         System.out.print("Insert player name: ");
@@ -23,7 +20,7 @@ public class Client {
         System.out.print("Insert player colour: ");
         String colour = in.nextLine();
 
-        Socket socket = new Socket(IP, PORT);
+        this.socket = new Socket(IP, PORT);
         System.out.println("Connection Established");
         System.out.println("Waiting for players connection....");
         PrintWriter out = new PrintWriter(socket.getOutputStream());
@@ -36,13 +33,22 @@ public class Client {
         executor.submit(new ClientOutHandler(new
                 PrintWriter(socket.getOutputStream())));
     }
+
+    public void closeSocket() {
+        try {
+            socket.close();
+        } catch (IOException e){
+
+        }
+    }
+
     public static void main(String[] args) {
         Client client = new Client();
-
         try {
             client.startClient();
         } catch (IOException e) {
             e.printStackTrace();
+            client.closeSocket();
         }
     }
 }
@@ -56,8 +62,13 @@ class ClientInHandler implements Runnable {
 
     public void run() {
         while (true) {
-            String line = socketIn.nextLine();
-            System.out.println(line);
+            try {
+                String line = socketIn.nextLine();
+                System.out.println(line);
+            } catch (Exception e) {
+                e.getStackTrace();
+                break;
+            }
         }
     }
 }
@@ -72,11 +83,14 @@ class ClientOutHandler implements Runnable {
     public void run() {
         Scanner stdin = new Scanner(System.in);
         while (true) {
+
             String inputLine = stdin.nextLine();
             socketOut.println(inputLine);
             socketOut.flush();
+            if (inputLine.equals("quit")) {
+                break;
+            }
         }
     }
-
 }
 

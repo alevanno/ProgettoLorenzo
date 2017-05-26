@@ -1,6 +1,10 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
 import java.io.FileNotFoundException;
+import java.net.Socket;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
@@ -17,9 +21,15 @@ public class MarketTest {
     @Test
     public void familyMParameter() throws FileNotFoundException {
         Market market = new Market();
-        //FamilyMember fam = new FamilyMember(new Player("Pino", "Red"),1,"Red");
-
-        //market.booths.get(0).claimSpace(fam);
+        Socket socket = new Socket();
+        Player p = new Player("Pino", "Red", socket);
+        Map<String, Integer> famValues = new HashMap<>();
+        famValues.put("Orange", new Random().nextInt(5) + 1);
+        famValues.put("Black", new Random().nextInt(5) + 1);
+        famValues.put("White", new Random().nextInt(5) + 1);
+        p.famMembersBirth(famValues);
+        FamilyMember fam = p.getAvailableFamMembers().get(0);
+        market.booths.get(0).claimSpace(fam);
         market.booths.get(0).apply();
         assertNotNull(market.booths.get(0).getFamMember());
 
