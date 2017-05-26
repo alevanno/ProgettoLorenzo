@@ -5,9 +5,13 @@ import java.util.logging.*;
 
 
 public final class MyLogger {
-    private final static Level LEVEL = Level.FINEST;  // the default log level
-    private final static Logger logger = Logger.getLogger("");
-    private final static ConsoleHandler ch = new ConsoleHandler();
+    private static final Level LEVEL = Level.FINEST;  // the default log level
+    private static final Logger logger = Logger.getLogger("");
+    private static final ConsoleHandler ch = new ConsoleHandler();
+
+    private MyLogger() {
+        throw new IllegalStateException("Logger class");
+    }
 
     public static void setup() {
         // don't try to use handlers inherited from who-knows-where
@@ -30,11 +34,11 @@ public final class MyLogger {
 
 class MyConsoleFormatter extends Formatter {
     // log things in an actually readable way
-    private final String formatter = "%1$tF %1$tT %2$-30s ⇒ %3$7s: %4$s%n";
+    private static final String formatter = "%1$tF %1$tT %2$-30s ⇒ %3$7s: %4$s%n";
 
     public synchronized String format(LogRecord rec) {
         StringBuilder sb = new StringBuilder();
-        Object args[] = new Object[4];
+        Object[] args = new Object[4];
         Date date = new Date();
 
         // date/time
