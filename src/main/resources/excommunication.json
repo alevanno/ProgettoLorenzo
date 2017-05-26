@@ -1,0 +1,151 @@
+[
+  [
+    {
+      "period": 1,
+      "resMalus": {
+        "resources": {
+          "militaryPoint": 1
+        }
+      }
+    },
+    {
+      "period": 1,
+      "resMalus": {
+        "resources": {
+          "coin": 1
+        }
+      }
+    },
+    {
+      "period": 1,
+      "resMalus": {
+        "resources": {
+          "servant": 1
+        }
+      }
+    },
+    {
+      "period": 1,
+      "resMalus": {
+        "resources": [
+          {
+            "stone": 1
+          },
+          {
+            "wood": 1
+          }
+        ]
+      }
+    },
+    {
+      "period": 1,
+      "harvMalus": 3
+    },
+    {
+      "period": 1,
+      "prodMalus": 3
+    },
+    {
+      "period": 1,
+      "actionValMalus": 1
+    }
+  ],
+  [
+    {
+      "period": 2,
+      "type": "territories",
+      "valMalus": 4
+    },
+    {
+      "period": 2,
+      "type": "buildings",
+      "valMalus": 4
+    },
+    {
+      "period": 2,
+      "type": "characters",
+      "valMalus": 4
+    },
+    {
+      "period": 2,
+      "type": "ventures",
+      "valMalus": 4
+    },
+    {
+      "period": 2,
+      "blockedArea": "market"
+    },
+    {
+      "period": 2,
+      "servantExpense": 2
+    },
+    {
+      "period": 2,
+      "type": "territories",
+      "valMalus": 4
+    },
+    {
+      "period": 2,
+      "skipRound": 1
+    }
+  ],
+  [
+    {
+      "period": 3,
+      "noVictoryType": "characters"
+    },
+    {
+      "period": 3,
+      "noVictoryType": "ventures"
+    },
+    {
+      "period": 3,
+      "noVictoryType": "territories"
+    },
+    {
+      "period": 3,
+      "lostVictoryRes": {
+        "resources": {
+          "victoryPoint": 5
+        }
+      }
+    },
+    {
+      "period": 3,
+      "lostVictoryRes": {
+        "resources": {
+          "victoryPoint": 5
+        }
+      }
+    },
+    {
+      "period": 3,
+      "lostVictoryRes": {
+        "resources": {
+          "militaryPoint": 1
+        }
+      }
+    },
+    {
+      "period": 3,
+      "lostVictoryCost": {
+        "resources": {
+          "stone": 1,
+          "wood": 1
+        }
+      },
+      "type": "buildings"
+    },
+    {
+      "period": 3,
+      "lostVictoryRes": {
+        "resources": {
+          "coin": 1,
+          "servant": 1,
+          "stone": 1,
+          "wood": 1
+        }
+      }
+    }
+  ]
+]

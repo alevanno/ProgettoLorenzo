@@ -157,7 +157,7 @@ public class Game implements Runnable {
         for (Player p: players) {
             if (p.currentRes.militaryPoint == MaxMilitary) {
                 plWithMaxMilitary++;
-                p.currentRes.merge(new Resources.ResBuilder().victoryPoint(5).build());
+                p.currentRes = p.currentRes.merge(new Resources.ResBuilder().victoryPoint(5).build());
             } else if (p.currentRes.militaryPoint > SecMaxMilitary) {
                 SecMaxMilitary = p.currentRes.militaryPoint;
             }
@@ -165,7 +165,7 @@ public class Game implements Runnable {
         if (plWithMaxMilitary > 1) {
             for (Player p: players) {
                 if (p.currentRes.militaryPoint == SecMaxMilitary) {
-                    p.currentRes.merge(new Resources.ResBuilder().victoryPoint(3).build());
+                    p.currentRes = p.currentRes.merge(new Resources.ResBuilder().victoryPoint(3).build());
                 }
             }
         }
@@ -192,10 +192,10 @@ public class Game implements Runnable {
                     purpleFinal.merge(Resources.fromJson(i.permanentEff.get("purpleFinal")));
                 }
             }
-            pl.currentRes.merge(purpleFinal);
-            pl.currentRes.merge(new Resources.ResBuilder().victoryPoint(territoriesVictory.get(countTerritories - 3)).build());
-            pl.currentRes.merge(new Resources.ResBuilder().victoryPoint(charactersVictory.get(countCharacters - 1)).build());
-            pl.currentRes.merge(new Resources.ResBuilder().victoryPoint(sumResources / 5).build());
+            pl.currentRes = pl.currentRes.merge(purpleFinal);
+            pl.currentRes = pl.currentRes.merge(new Resources.ResBuilder().victoryPoint(territoriesVictory.get(countTerritories - 3)).build());
+            pl.currentRes = pl.currentRes.merge(new Resources.ResBuilder().victoryPoint(charactersVictory.get(countCharacters - 1)).build());
+            pl.currentRes = pl.currentRes.merge(new Resources.ResBuilder().victoryPoint(sumResources / 5).build());
 
             System.out.println(pl.playerName + "scores" + pl.currentRes.victoryPoint + " Victory points");
             System.out.println("Addio, addio, amici addio...");

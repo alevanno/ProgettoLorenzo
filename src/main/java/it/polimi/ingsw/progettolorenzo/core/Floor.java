@@ -39,6 +39,7 @@ public class Floor extends Action {
         Player p = fam.getParent();
         Resources tmpRes = p.currentRes;
         Resources cardCost = this.floorCard.getCardCost(); //TODO if a discount is present...
+        //TODO value should be affected also by an excommunication
         for(Card c : p.listCards()) {
             if(c.permanentEff.get("towerBonus").getAsJsonObject()
                     .get("type").getAsString().equals(floorCard.cardType)) {

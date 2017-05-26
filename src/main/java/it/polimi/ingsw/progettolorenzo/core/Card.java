@@ -4,6 +4,8 @@ import java.util.*;
 
 import com.google.gson.*;
 
+import static it.polimi.ingsw.progettolorenzo.core.Utils.intPrompt;
+
 
 public class Card extends Action {
     public final String cardName;
@@ -69,13 +71,7 @@ public class Card extends Action {
             for (Resources item : this.cardCost) {
                 System.out.println(item.toString());
             }
-            System.out.print("Insert number: ");
-            Scanner in = new Scanner(System.in);
-            while (!in.hasNextInt()) {
-                in.next();
-                System.out.println("Please input an int");
-            }
-            int choice = in.nextInt();
+            int choice = intPrompt(0, this.cardCost.size() - 1);
             return this.cardCost.get(choice);
         }
         return this.cardCost.get(0);
