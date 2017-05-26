@@ -1,5 +1,8 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
+
+import it.polimi.ingsw.progettolorenzo.Game;
+
 import java.util.logging.Logger;
 
 public class Floor extends Action {
@@ -9,13 +12,15 @@ public class Floor extends Action {
     private FamilyMember famMember;
     private Card floorCard;
     private int floorValue;
+    private Game game;
 
 
-    public Floor(Resources bonus, Card card, Tower tower, int floorValue) {
+    public Floor(Resources bonus, Card card, Tower tower, int floorValue, Game game) {
         this.bonus = bonus;
         this.floorCard = card;
         this.parentTower = tower;
         this.floorValue = floorValue;
+        this.game = tower.getGame();
         log.fine(String.format(
                 "Floor instantiated <bonus: %s, card: %s, tower: %s>",
                 bonus, card, tower));
@@ -57,7 +62,7 @@ public class Floor extends Action {
             this.addAction(new NestedAction(this.floorCard));
             this.floorCard.costActionBuilder(p);
             this.addAction(new NestedAction(
-                new CardImmediateAction(this.floorCard, p)));
+                new CardImmediateAction(this.floorCard, p, this.game)));
             this.addAction(new CardFromFloorAction(this.floorCard, this, p));
             return true;
         }

@@ -32,7 +32,7 @@ public class Board {
                 .limit(tfloors.size())
                 .collect(Deck::new, Deck::add, Deck::addAll);
 
-            this.towers.add(new Tower(ttype, tfloors, tcards));
+            this.towers.add(new Tower(ttype, tfloors, tcards, game));
         }
     }
 

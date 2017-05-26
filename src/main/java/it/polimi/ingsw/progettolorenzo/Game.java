@@ -71,6 +71,10 @@ public class Game implements Runnable {
 
     }
 
+    public Board getBoard() {
+        return this.board;
+    }
+
     private void resetBoard(int period) {
         Deck deck = new Deck();
         this.unhandledCards.forEach((n, d) ->

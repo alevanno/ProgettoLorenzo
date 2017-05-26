@@ -2,13 +2,15 @@ package it.polimi.ingsw.progettolorenzo.core;
 
 
 import com.google.gson.JsonObject;
+import it.polimi.ingsw.progettolorenzo.Game;
 
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
 public class CardImmediateAction extends Action {
     private final Logger log = Logger.getLogger(this.getClass().getName());
-    public CardImmediateAction(Card card, Player pl) {
+    public CardImmediateAction(Card card, Player pl, Game game) {
 
         if (card.immediateEff.containsKey("resources")) {
             Resources tmp = Resources.fromJson(card.immediateEff.get("resources").getAsJsonObject());
@@ -18,7 +20,7 @@ public class CardImmediateAction extends Action {
 
         if (card.immediateEff.containsKey("councilPrivilege")) {
             int priv = card.immediateEff.get("councilPrivilege").getAsInt();
-            Set<Resources> privRes = new Council().chooseMultiPrivilege(priv, pl);
+            Set<Resources> privRes = game.getBoard().councilPalace.chooseMultiPrivilege(priv, pl);
             for (Resources r : privRes) {
                 this.addAction(new ResourcesAction(
                         "ImmActCouncilPrivilege", r, pl));
@@ -28,12 +30,12 @@ public class CardImmediateAction extends Action {
 
         if (card.immediateEff.containsKey("immediateProd")) {
             int value = card.immediateEff.get("immediateProd").getAsInt();
-            new Production().prod(pl, value);
+            game.getBoard().productionArea.prod(pl, value);
         }
 
         if (card.immediateEff.containsKey("immediateHarv")) {
             int value = card.immediateEff.get("immediateHarv").getAsInt();
-            new Production().prod(pl, value);
+            game.getBoard().productionArea.prod(pl, value);
         }
 
 
@@ -45,6 +47,19 @@ public class CardImmediateAction extends Action {
             int value = card.immediateEff.get("pickCard").getAsJsonObject().get("value").getAsInt();
             Resources discount = Resources.fromJson(card.immediateEff.get("pickCard").getAsJsonObject().get("discount"));
             //TODO tower type? deve chiamare in qualche modo claimFloorWithCard(Player player, Tower parentTower, int value, Resources discount)
+            List<Tower> towerList = game.getBoard().towers;
+            for (Tower t : towerList){
+                int i = 1;
+                if (t.getType().equals(type)) {
+                    pl.sOut("Which card do you want to obtain?: ");
+                    pl.getSocketOut().printf("%d %s", i , t.getTowerCardsName().get(i-1));
+                    pl.getSocketOut().flush();
+                    int floorNumber = pl.sInPrompt(1,4);
+                    t.getFloors().get(floorNumber).claimFloorWithCard(pl, t, value, discount);
+                    log.info("ImmediateAction: pickCard calls -> claimFloorWithCard");
+                    break;
+                }
+            }
         }
 
         if(card.immediateEff.containsKey("multiplier")) {
