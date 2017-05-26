@@ -203,19 +203,19 @@ public class Game implements Runnable {
         //1st gets 5 victoryP, 2nd gets 2 victoryP, if more than one player is first he gets the prize and the second gets nothing
         players.sort(Comparator.comparing(p -> p.currentRes.militaryPoint));
         int plWithMaxMilitary = 0;
-        int MaxMilitary = players.get(0).currentRes.militaryPoint;
-        int SecMaxMilitary = 0;
+        int maxMilitary = players.get(0).currentRes.militaryPoint;
+        int secMaxMilitary = 0;
         for (Player p: players) {
-            if (p.currentRes.militaryPoint == MaxMilitary) {
+            if (p.currentRes.militaryPoint == maxMilitary) {
                 plWithMaxMilitary++;
                 p.currentRes = p.currentRes.merge(new Resources.ResBuilder().victoryPoint(5).build());
-            } else if (p.currentRes.militaryPoint > SecMaxMilitary) {
-                SecMaxMilitary = p.currentRes.militaryPoint;
+            } else if (p.currentRes.militaryPoint > secMaxMilitary) {
+                secMaxMilitary = p.currentRes.militaryPoint;
             }
         }
         if (plWithMaxMilitary > 1) {
             for (Player p: players) {
-                if (p.currentRes.militaryPoint == SecMaxMilitary) {
+                if (p.currentRes.militaryPoint == secMaxMilitary) {
                     p.currentRes = p.currentRes.merge(new Resources.ResBuilder().victoryPoint(3).build());
                 }
             }
@@ -233,14 +233,18 @@ public class Game implements Runnable {
             Resources purpleFinal = new Resources.ResBuilder().build();
             int sumResources = (pl.currentRes.coin + pl.currentRes.servant + pl.currentRes.stone + pl.currentRes.wood);
             for (Card i : pl.listCards()) {
-                if (i.cardType.equals("territories")) {
-                    countTerritories++;
-                }
-                if (i.cardType.equals("characters")) {
-                    countCharacters++;
-                }
-                if (i.cardType.equals("ventures")) {
-                    purpleFinal.merge(Resources.fromJson(i.permanentEff.get("purpleFinal")));
+                switch (i.cardType) {
+                    case "territories":
+                        countTerritories++;
+                        break;
+                    case "characters":
+                        countCharacters++;
+                        break;
+                    case "ventures":
+                        purpleFinal.merge(Resources.fromJson(i.permanentEff.get("purpleFinal")));
+                        break;
+                    default:
+                        break;
                 }
             }
             pl.currentRes = pl.currentRes.merge(purpleFinal);
@@ -248,8 +252,10 @@ public class Game implements Runnable {
             pl.currentRes = pl.currentRes.merge(new Resources.ResBuilder().victoryPoint(charactersVictory.get(countCharacters - 1)).build());
             pl.currentRes = pl.currentRes.merge(new Resources.ResBuilder().victoryPoint(sumResources / 5).build());
 
-            System.out.println(pl.playerName + "scores" + pl.currentRes.victoryPoint + " Victory points");
-            System.out.println("Addio, addio, amici addio...");
+            String msg = String.format("%s scores %d",
+                    pl.playerName, pl.currentRes.victoryPoint);
+            pl.sOut(msg);
+            log.info(msg);
         }
     }
 }
