@@ -65,7 +65,7 @@ public class Production extends Action {
                 for (int conv = 0; conv < arr.size(); conv++) {
                     JsonArray src = arr.get(conv).getAsJsonObject().get("src").getAsJsonArray();
                     JsonArray dest = arr.get(conv).getAsJsonObject().get("dest").getAsJsonArray();
-                    List<Resources> resSrcList = new ArrayList<>();
+                    //List<Resources> resSrcList = new ArrayList<>(); never used?
                     for (JsonElement a : src) {
                         Resources resSrc = Resources.fromJson(a);
                         Resources resDest;
@@ -94,7 +94,7 @@ public class Production extends Action {
                         this.addAction(new ResourcesAction("Conversion dest", r.get(choice - 1).getResDst(), player));
                         System.out.println("Conversion added " + r.get(choice - 1).getResDst().toString());
                     } else if (r.get(choice - 1).getCouncDst() != 0) {
-                        Set<Resources> privRes = (new Council().chooseMultiPrivilege(r.get(choice - 1).getCouncDst()));
+                        Set<Resources> privRes = (new Council().chooseMultiPrivilege(r.get(choice - 1).getCouncDst(), player));
                         for (Resources co : privRes) {
                             this.addAction(new ResourcesAction(
                                     "Conversion CouncilPrivilege", co, player));
@@ -109,8 +109,8 @@ public class Production extends Action {
     private void prodBonusTile(Player player) {
         //resources given by BonusTile
         this.addAction(new ResourcesAction(
-                "BonusTile", player.bonusT.getProductionRes(), player));
-        log.info("Production: The Player's BonusTile gave " + player.bonusT.getProductionRes().toString());
+                "BonusTile", player.getBonusT().getProductionRes(), player));
+        log.info("Production: The Player's BonusTile gave " + player.getBonusT().getProductionRes().toString());
     }
 
     private void prodStaticCards(Deck tempDeck, Player player) {
@@ -130,7 +130,7 @@ public class Production extends Action {
             if (base(i).get("councilPrivilege") != null) {
                 int priv = base(i).get("councilPrivilege").getAsInt();
                 System.out.println("Production: Card " + i.getCardName() + " gave " + String.valueOf(priv) + " Council privilege");
-                Set<Resources> privRes = (new Council().chooseMultiPrivilege(priv));
+                Set<Resources> privRes = (new Council().chooseMultiPrivilege(priv, player));
                 for (Resources r : privRes) {
                     this.addAction(new ResourcesAction(
                             "ProdCouncilPrivilege", r, player));

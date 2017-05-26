@@ -5,7 +5,7 @@ import java.util.*;
 import static it.polimi.ingsw.progettolorenzo.core.Utils.intPrompt;
 
 public class Council extends Action {
-    private List<FamilyMember> playerOrder = new ArrayList<>();
+    private List<Player> playerOrder = new ArrayList<>();
     private final List<Resources> privilegeChoices;
     public final Resources bonusEntry;
     Set<Resources> privilegeSet = new HashSet<>();
@@ -24,30 +24,32 @@ public class Council extends Action {
         }
     }
 
-    public Set<Resources> chooseMultiPrivilege(int privileges) {
+    public Set<Resources> chooseMultiPrivilege(int privileges, Player pl) {
         while(true) {
             if (this.privilegeSet.size() == privileges) {
                 break;
             }
-            Resources res = this.choosePrivilege();
+            Resources res = this.choosePrivilege(pl);
             //Doesn't allow the player to select the same privilege as before
             if (this.privilegeSet.contains(res)) {
-                System.out.print("Invalid choice! Please select a different privilege: ");
-                return chooseMultiPrivilege(privileges);
+                pl.sOut("Invalid choice! Please select a different privilege: ");
+                return chooseMultiPrivilege(privileges, pl);
             }
             this.privilegeSet.add(res);
         }
         return this.privilegeSet;
     }
 
-    public Resources choosePrivilege() {
+
+    public Resources choosePrivilege(Player pl) {
         int i = 1;
         int res;
-        System.out.println("You can chose a privilege between: ");
+        pl.sOut("You can chose a privilege between: ");
         for (; i-1 < this.privilegeChoices.size(); i++) {
-            System.out.printf("%d: %s%n", i, this.privilegeChoices.get(i-1));
+            pl.getSocketOut().printf("%d: %s%n", i, this.privilegeChoices.get(i - 1));
         }
-        res = intPrompt(1, i-1);
+        pl.getSocketOut().flush();
+        res = pl.sInI();
         return this.privilegeChoices.get(res - 1);
     }
 
@@ -60,10 +62,10 @@ public class Council extends Action {
                 "bonus entry from Council", this.bonusEntry, p));
         // FIXME make the number of privilege selectable?
         this.addAction(new ResourcesAction(
-                "Council privilege", this.choosePrivilege(), p));
+                "Council privilege", this.choosePrivilege(p), p));
     }
 
     protected void placeFamilyMember(FamilyMember f) {
-        this.playerOrder.add(f);
+        this.playerOrder.add(f.getParent());
     }
 }

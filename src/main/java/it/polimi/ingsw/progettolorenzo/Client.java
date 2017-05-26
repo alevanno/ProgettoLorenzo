@@ -2,6 +2,7 @@ package it.polimi.ingsw.progettolorenzo;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
@@ -13,7 +14,7 @@ public class Client {
 
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private final static int PORT = 29999;
-    private static String IP="127.0.0.1";
+    private static String IP;
     private Socket socket;
 
     public void startClient() throws IOException {
@@ -21,9 +22,11 @@ public class Client {
         Scanner in = new Scanner(System.in);
         String name = in.nextLine();
         // TODO propose choice color list
-        System.out.print("Insert player colour: ");
+        System.out.println("Player colour: ");
+        System.out.println("You can choose between: Blue | Red | Yellow | Green ");
+        System.out.print("Please insert your colour: ");
         String colour = in.nextLine();
-
+        IP = InetAddress.getLocalHost().getHostAddress();
         this.socket = new Socket(IP, PORT);
         System.out.println("Connection Established");
         System.out.println("Waiting for players connection....");
@@ -36,10 +39,6 @@ public class Client {
                 Scanner(socket.getInputStream())));
         executor.submit(new ClientOutHandler(new
                 PrintWriter(socket.getOutputStream())));
-    }
-
-    public static void setIP(String IP) {
-        Client.IP = IP;
     }
 
     public void closeSocket() {

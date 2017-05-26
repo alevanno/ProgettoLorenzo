@@ -18,7 +18,7 @@ public class Player {
     public Resources currentRes;  // FIXME make private
     private List<FamilyMember> famMemberList = new ArrayList<>();
     private Deck cards = new Deck();
-    public BonusTile bonusT;
+    private BonusTile bonusT;
     private Scanner socketIn;
     private PrintWriter socketOut;
 
@@ -58,17 +58,22 @@ public class Player {
         return this.socketIn.nextInt();
     }
 
+    public PrintWriter getSocketOut() {
+        return socketOut;
+    }
+
     public void sOut(String s) {
         try {
-            if (this.socketOut == null) {
+            if (this.socketOut != null) {
+                this.socketOut.println(s);
+                this.socketOut.flush();
+            } else {
                 this.socketOut = new PrintWriter(this.playerSocket.getOutputStream());
             }
         } catch (IOException e) {
             // FIXME handle this better
             log.log(Level.WARNING, e.getMessage(), e);
         }
-        this.socketOut.println(s);
-        this.socketOut.flush();
     }
 
     public void famMembersBirth(Map<String, Integer> famValues) {
@@ -82,6 +87,10 @@ public class Player {
         this.famMemberList.add(
                 new FamilyMember(this, 0, "Blank"));
         log.fine("4 family members attached to " + this);
+    }
+
+    public BonusTile getBonusT() {
+        return bonusT;
     }
 
     public void setBonusTile(BonusTile bt) {

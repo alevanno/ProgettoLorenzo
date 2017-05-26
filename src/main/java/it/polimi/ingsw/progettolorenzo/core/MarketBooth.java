@@ -45,7 +45,7 @@ public class MarketBooth extends Action {
         if(this.getFamMember() == null) {
             this.addAction(new TakeFamilyMember(fam));
             this.addAction(new PlaceFamilyMemberInBooth(fam, this));
-            this.bonus.addAll(new Council().chooseMultiPrivilege(this.councilPrivilege));
+            this.bonus.addAll(new Council().chooseMultiPrivilege(this.councilPrivilege, p));
             for (Resources res : this.bonus) {
                 this.addAction(new ResourcesAction(
                         "MarketBooth action", res, p));

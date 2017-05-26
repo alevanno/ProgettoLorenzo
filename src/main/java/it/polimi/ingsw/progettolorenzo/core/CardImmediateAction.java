@@ -18,7 +18,7 @@ public class CardImmediateAction extends Action {
 
         if (card.immediateEff.containsKey("councilPrivilege")) {
             int priv = card.immediateEff.get("councilPrivilege").getAsInt();
-            Set<Resources> privRes = new Council().chooseMultiPrivilege(priv);
+            Set<Resources> privRes = new Council().chooseMultiPrivilege(priv, pl);
             for (Resources r : privRes) {
                 this.addAction(new ResourcesAction(
                         "ImmActCouncilPrivilege", r, pl));

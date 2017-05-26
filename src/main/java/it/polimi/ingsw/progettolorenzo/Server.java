@@ -56,7 +56,7 @@ public class Server {
         try {
             server.startServer();
         } catch (IOException e) {
-            e.printStackTrace();
+            server.log.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 }

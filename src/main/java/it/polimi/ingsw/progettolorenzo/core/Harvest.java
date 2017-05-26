@@ -35,8 +35,8 @@ public class Harvest extends Action {
     private void harvBonusTile(Player player) {
         //resources given by bonusTile
         this.addAction(new ResourcesAction(
-                "BonusTile", player.bonusT.getHarvestRes(), player));
-        log.info("Harvest: The Player's BonusTile gave " + player.bonusT.getHarvestRes().toString());
+                "BonusTile", player.getBonusT().getHarvestRes(), player));
+        log.info("Harvest: The Player's BonusTile gave " + player.getBonusT().getHarvestRes().toString());
     }
 
     private void harvStaticCards(Deck tempDeck, Player player) {
@@ -56,7 +56,7 @@ public class Harvest extends Action {
             if (base(i).get("councilPrivilege") != null) {
                 int priv = base(i).get("councilPrivilege").getAsInt();
                 log.info("Harvest: Card " + i.getCardName() + " gave " + String.valueOf(priv) + " Council privilege");
-                Set<Resources> privRes = (new Council().chooseMultiPrivilege(priv));
+                Set<Resources> privRes = (new Council().chooseMultiPrivilege(priv, player));
                 for (Resources r : privRes) {
                     this.addAction(new ResourcesAction(
                             "HarvCouncilPrivilege", r, player));

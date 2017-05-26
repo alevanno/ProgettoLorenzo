@@ -23,14 +23,13 @@ public class Game implements Runnable {
         MyLogger.setup();
         log.info("Starting the game...");
         this.players = listPlayers;
-        for(Player p : players) {
-            System.out.println(p.currentRes);
-        }
     }
 
     public void run() {
         // init players
         this.initPlayers();
+
+        this.assignBonusT();
 
         // init cards
         this.loadCards();
@@ -68,6 +67,19 @@ public class Game implements Runnable {
         log.finer(String.format(
                 "Collected %d cards to give away", deck.size()));
         this.board = new Board(deck);
+    }
+
+    private void assignBonusT() {
+        int i = 0;
+        for (Player pl : players) {
+            BonusTile bonusTile = new BonusTile(Utils
+                    .getJsonArray("bonusTile.json")
+                    .get(i).getAsJsonObject());
+            pl.setBonusTile(bonusTile);
+            log.fine("bonusTile" + bonusTile.getNumber()
+                    + " assigned to player " + pl.playerName);
+            i++;
+        }
     }
 
     private void loadCards() {

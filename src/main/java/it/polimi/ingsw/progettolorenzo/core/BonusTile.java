@@ -18,6 +18,10 @@ public class BonusTile {
                 .getAsJsonObject());
     }
 
+    public int getNumber() {
+        return number + 1;
+    }
+
     public Resources getHarvestRes() {
         return harvestRes;
     }
