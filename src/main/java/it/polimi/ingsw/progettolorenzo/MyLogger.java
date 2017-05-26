@@ -34,7 +34,7 @@ public final class MyLogger {
 
 class MyConsoleFormatter extends Formatter {
     // log things in an actually readable way
-    private static final String formatter = "%1$tF %1$tT %2$-30s ⇒ %3$7s: %4$s%n";
+    private static final String FORMATTER = "%1$tF %1$tT %2$-30s ⇒ %3$7s: %4$s%n";
 
     public synchronized String format(LogRecord rec) {
         StringBuilder sb = new StringBuilder();
@@ -68,7 +68,7 @@ class MyConsoleFormatter extends Formatter {
         args[3] = formatMessage(rec);
 
         // build the actual logging string
-        sb.append(String.format(formatter, args));
+        sb.append(String.format(FORMATTER, args));
 
         return sb.toString();
     }
