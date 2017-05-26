@@ -56,14 +56,14 @@ public class Game implements Runnable {
 
     private void resetBoard(int period) {
         Deck deck = new Deck();
-        this.unhandledCards.forEach((n, d) -> {
+        this.unhandledCards.forEach((n, d) ->
             deck.addAll(
                     StreamSupport.stream(d.spliterator(), false)
                             .filter(c -> c.cardPeriod == period)
                             .limit(4) // FIXME make configurable before Board() is istantiated
                             .collect(Deck::new, Deck::add, Deck::addAll)
-            );
-        });
+            )
+        );
         log.finer(String.format(
                 "Collected %d cards to give away", deck.size()));
         this.board = new Board(deck);
