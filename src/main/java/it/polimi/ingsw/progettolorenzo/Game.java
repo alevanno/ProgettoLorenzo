@@ -2,9 +2,11 @@ package it.polimi.ingsw.progettolorenzo;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import it.polimi.ingsw.progettolorenzo.core.*;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Logger;
 import java.util.stream.StreamSupport;
 
@@ -16,6 +18,7 @@ public class Game implements Runnable {
     private HashMap<String, Deck> unhandledCards = new HashMap<>();
     private List<Player> players = new ArrayList<>();
     private int currTurn = 0;
+    public List<JsonObject> excommunications = new ArrayList<>();
 
     private int availableSlot = 0;
 
@@ -29,7 +32,11 @@ public class Game implements Runnable {
         // init players
         this.initPlayers();
 
+        //assign bonus tile
         this.assignBonusT();
+
+        // init excommunication tiles
+        this.initExcomm();
 
         // init cards
         this.loadCards();
@@ -44,6 +51,15 @@ public class Game implements Runnable {
             p.currentRes = (p.currentRes.merge(new Resources.ResBuilder().coin(i).build()));
             log.fine("Player " + p.playerName + " obtained " + i + " starting coin");
             i++;
+        }
+    }
+
+    private void initExcomm() {
+        //TODO testing
+        JsonArray excomm = Utils.getJsonArray("excommunication.json");
+        for (int i = 0; i<3 ; i++) {
+            int index = ThreadLocalRandom.current().nextInt(1, 7); //a random number between 1 and 7
+            excommunications.add(i, excomm.get(i).getAsJsonArray().get(index).getAsJsonObject());
         }
     }
 
@@ -106,7 +122,6 @@ public class Game implements Runnable {
         famValues.put("White", new Random().nextInt(5) + 1);
         log.fine("Dices thrown");
 
-
         for (Player pl : players) {
             pl.famMembersBirth(famValues);
             pl.sOut("Dice thrown!");
@@ -117,6 +132,9 @@ public class Game implements Runnable {
         for (int r = 1; r <= 4; r++) {
             this.round(playersOrder);
             currTurn++;
+            if (currTurn % 2 == 0) {
+                this.reportToVatican();
+            }
             if (currTurn == 6) {
                 this.endgame();
                 break;
@@ -132,15 +150,15 @@ public class Game implements Runnable {
             while (true) {
                 pl.sOut("Which family member do you want to use?: ");
                 pl.sOut(pl.displayFamilyMembers());
-                Integer famMem = pl.sInI(); //FIXME make me prettier
+                Integer famMem = pl.sInPrompt(1, pl.getAvailableFamMembers().size()); //FIXME is this range correct or should it be 0, 3?
                 pl.sOut("Which action do you want to try?: ");
                 String action = pl.sIn();
                 if (action.equals("Floor")) {
                     // FIXME this should ask the tower type and handle it
                     pl.sOut("Insert tower number:");
-                    int towerNumber  = pl.sInI();
+                    int towerNumber  = pl.sInPrompt(1, board.towers.size()); //FIXME is this range correct or should it be 0, 3?
                     pl.sOut("Insert floor number:");
-                    int floorNumber = pl.sInI();
+                    int floorNumber = pl.sInPrompt(1, this.board.towers.get(towerNumber).getFloors().size()); //FIXME is this range correct or should it be 0, 3?
                     Floor fl = this.board.towers.get(towerNumber).getFloors()
                             .get(floorNumber);
                     boolean ret = fl.claimFloor(pl.getAvailableFamMembers().get(famMem));
@@ -159,7 +177,22 @@ public class Game implements Runnable {
         }
     }
 
-    private void endgameMilitary (List<Player> players) {
+    private void reportToVatican (int currTurn) {
+        //TODO
+        for (Player pl: players) {
+            int period = currTurn/2;
+            int plFaithP = pl.currentRes.faithPoint;
+            pl.sOut("You have " + plFaithP + " Faith Points. The Church requires " + (period + 2));
+            if (plFaithP < period + 2) {
+                pl.sOut("You are excommunicated");
+            }
+            else {
+                pl.sOut("What do you want to do? \n1. Support the Church \n2.Be excommunicated");
+            }
+        }
+    }
+
+    private void endgameMilitary () {
         //FIXME this is horrid, but I'm not sure it could be written some other way
         //1st gets 5 victoryP, 2nd gets 2 victoryP, if more than one player is first he gets the prize and the second gets nothing
         players.sort(Comparator.comparing(p -> p.currentRes.militaryPoint));
@@ -187,7 +220,7 @@ public class Game implements Runnable {
     private void endgame() {
         List<Integer> territoriesVictory = Arrays.asList(1, 4, 10, 20);
         List<Integer> charactersVictory = Arrays.asList(1, 3, 6, 10, 15, 21);
-        endgameMilitary(this.players);
+        endgameMilitary();
         for (Player pl: players) {
             int countTerritories = 0;
             int countCharacters = 0;

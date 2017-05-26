@@ -49,7 +49,7 @@ public class Council extends Action {
             pl.getSocketOut().printf("%d: %s%n", i, this.privilegeChoices.get(i - 1));
         }
         pl.getSocketOut().flush();
-        res = pl.sInI();
+        res = pl.sInPrompt(1, i-1);
         return this.privilegeChoices.get(res - 1);
     }
 

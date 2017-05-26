@@ -1,5 +1,7 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
+import com.google.gson.JsonObject;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -18,6 +20,7 @@ public class Player {
     public Resources currentRes;  // FIXME make private
     private List<FamilyMember> famMemberList = new ArrayList<>();
     private Deck cards = new Deck();
+    public List<JsonObject> excommunications = new ArrayList<>();
     private BonusTile bonusT;
     private Scanner socketIn;
     private PrintWriter socketOut;
@@ -49,13 +52,18 @@ public class Player {
         return this.socketIn.next();
     }
 
-    public int sInI() {
+    public int sInPrompt(int minValue, int maxValue) {
         this.sInInit();
-        while (!this.socketIn.hasNextInt()) {
-            this.sOut("Please input an int");
-            this.socketIn.next();
-        }
-        return this.socketIn.nextInt();
+        int choice;
+        do {
+            sOut("Input an int between " + minValue + " and " + maxValue);
+            while (!this.socketIn.hasNextInt()) {
+                this.socketIn.next();
+                this.sOut("Please input an int");
+            }
+            choice = this.socketIn.nextInt();
+        } while (choice < minValue || choice > (maxValue));
+        return choice;
     }
 
     public PrintWriter getSocketOut() {
