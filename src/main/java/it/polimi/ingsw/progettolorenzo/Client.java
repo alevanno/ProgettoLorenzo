@@ -70,8 +70,11 @@ class ClientInHandler implements Runnable {
 
     public void run() {
         while (true) {
+            String line = socketIn.nextLine();
             try {
-                String line = socketIn.nextLine();
+                while (line == null) {
+                    line = socketIn.nextLine();
+                }
                 System.out.println(line);
             } catch (Exception e) {
                 log.log(Level.SEVERE, e.getMessage(), e);
