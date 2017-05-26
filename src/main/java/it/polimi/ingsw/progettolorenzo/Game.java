@@ -219,8 +219,10 @@ public class Game implements Runnable {
             pl.currentRes = pl.currentRes.merge(new Resources.ResBuilder().victoryPoint(charactersVictory.get(countCharacters - 1)).build());
             pl.currentRes = pl.currentRes.merge(new Resources.ResBuilder().victoryPoint(sumResources / 5).build());
 
-            System.out.println(pl.playerName + "scores" + pl.currentRes.victoryPoint + " Victory points");
-            System.out.println("Addio, addio, amici addio...");
+            String msg = String.format("%s scores %d",
+                    pl.playerName, pl.currentRes.victoryPoint);
+            pl.sOut(msg);
+            log.info(msg);
         }
     }
 }
