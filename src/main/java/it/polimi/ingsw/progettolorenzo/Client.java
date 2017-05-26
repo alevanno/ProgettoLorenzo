@@ -42,7 +42,7 @@ public class Client {
         this.IP = InetAddress.getLocalHost().getHostAddress();
         this.socket = new Socket(IP, PORT);
         printLine("Connection Established");
-        printLine(h"Waiting for players connection....");
+        printLine("Waiting for players connection....");
         PrintWriter out = new PrintWriter(socket.getOutputStream());
         out.println(name);
         out.println(colour);
