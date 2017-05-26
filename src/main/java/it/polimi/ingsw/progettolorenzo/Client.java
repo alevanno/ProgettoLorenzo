@@ -2,7 +2,6 @@ package it.polimi.ingsw.progettolorenzo;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.net.InetAddress;
 import java.net.Socket;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
@@ -14,7 +13,7 @@ public class Client {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private Socket socket;
 
-    private void printLine(String format, Object... args) {
+    protected static void printLine(String format, Object... args) {
         if (System.console() != null) {
             System.console().format(format, args);
             System.console().flush();
@@ -23,7 +22,7 @@ public class Client {
         }
     }
 
-    private String readLine(String format, Object... args) {
+    protected static String readLine(String format, Object... args) {
         if (System.console() != null) {
             return System.console().readLine(format, args);
         }
@@ -77,12 +76,12 @@ public class Client {
 }
 
 class ClientInHandler implements Runnable {
+    private final Logger log = Logger.getLogger(this.getClass().getName());
     private Scanner socketIn;
 
     public ClientInHandler(Scanner socketIn) {
         this.socketIn=socketIn;
     }
-    private final Logger log = Logger.getLogger(this.getClass().getName());
 
     public void run() {
         while (true) {
@@ -91,7 +90,7 @@ class ClientInHandler implements Runnable {
                 while (line == null) {
                     line = socketIn.nextLine();
                 }
-                System.out.println(line);
+                Client.printLine(line);
             } catch (Exception e) {
                 log.log(Level.SEVERE, e.getMessage(), e);
                 break;
@@ -114,7 +113,7 @@ class ClientOutHandler implements Runnable {
             String inputLine = stdin.nextLine();
             socketOut.println(inputLine);
             socketOut.flush();
-            if (inputLine.equals("quit")) {
+            if ("quit".equalsIgnoreCase(inputLine)) {
                 break;
             }
         }
