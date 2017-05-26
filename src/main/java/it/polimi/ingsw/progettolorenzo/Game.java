@@ -8,7 +8,7 @@ import java.util.*;
 import java.util.logging.Logger;
 import java.util.stream.StreamSupport;
 
-public class Game {
+public class Game implements Runnable {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private Board board;
     private List<String> types = Arrays.asList(
@@ -16,19 +16,21 @@ public class Game {
     private HashMap<String, Deck> unhandledCards = new HashMap<>();
     private List<Player> players = new ArrayList<>();
     private int currTurn = 0;
-    //FIXME the following attributes are for testing purposes
-    private List<String> names = Arrays.asList(
-            "Luca", "Alessandro", "Mattia", "Max");
-    private List<String> colours = Arrays.asList(
-            "red", "blue", "orange", "purple");
+
     private int availableSlot = 0;
 
-    public Game() {
+    public Game(List<Player> listPlayers) {
         MyLogger.setup();
         log.info("Starting the game...");
+        this.players = listPlayers;
+        for(Player p : players) {
+            System.out.println(p.currentRes);
+        }
+    }
 
-        // FIXME testing player
-        this.initPlayers(2);
+    public void run() {
+        // init players
+        this.initPlayers();
 
         // init cards
         this.loadCards();
@@ -37,13 +39,11 @@ public class Game {
         this.turn();
     }
 
-    private void initPlayers(int number) {
-        for (int i=0; i<number; i++) {
-            this.players.add(new Player(names.get(i), colours.get(i)));
-        }
-        for (Player p: players) {
-            int i = 5;
-            p.currentRes.merge(new Resources.ResBuilder().coin(i).build());
+    private void initPlayers() {
+        int i = 5;
+        for (Player p: this.players) {
+            p.currentRes = (p.currentRes.merge(new Resources.ResBuilder().coin(i).build()));
+            log.fine("Player " + p.playerName + " obtained " + i + " starting coin");
             i++;
         }
     }
@@ -88,8 +88,19 @@ public class Game {
     private void turn() { //which is comprised of 4 rounds
         List<Player> playersOrder = new ArrayList<>(players);
         this.resetBoard(currTurn / 2 + 1);
+        Map<String, Integer> famValues = new HashMap<>();
+        famValues.put("Orange", new Random().nextInt(5) + 1);
+        famValues.put("Black", new Random().nextInt(5) + 1);
+        famValues.put("White", new Random().nextInt(5) + 1);
+        log.fine("Dices thrown");
+
+
         for (Player pl : players) {
-            pl.famMembersBirth();
+            pl.famMembersBirth(famValues);
+            pl.sOut("Dice thrown!");
+            pl.sOut("Values: " + famValues.get("Orange")
+                    + ", " + famValues.get("Black") + ", " + famValues.get("White") + " setted to Orange, Black " +
+                    "and White Family Member");
         }
         for (int r = 1; r <= 4; r++) {
             this.round(playersOrder);
@@ -102,18 +113,38 @@ public class Game {
     }
 
     private void round(List<Player> playersOrder) {
+        // TODO implement other Actions;
         for (Player pl : playersOrder) {
-            //giocata con pl passato come parametro
-        }
+            // giocata con pl passato come parametro
+            pl.sOut("Turn " + this.currTurn + ": Player " + pl.playerName + "'s is the next player for this round:");
+            while (true) {
+                pl.sOut("Which family member do you want to use?: ");
+                pl.sOut(pl.displayFamilyMembers());
+                Integer famMem = pl.sInI(); //FIXME make me prettier
+                pl.sOut("Which action do you want to try?: ");
+                String action = pl.sIn();
+                if (action.equals("Floor")) {
+                    // FIXME this should ask the tower type and handle it
+                    pl.sOut("Insert tower number:");
+                    int towerNumber  = pl.sInI();
+                    pl.sOut("Insert floor number:");
+                    int floorNumber = pl.sInI();
+                    Floor fl = this.board.towers.get(towerNumber).getFloors()
+                            .get(floorNumber);
+                    boolean ret = fl.claimFloor(pl.getAvailableFamMembers().get(famMem));
+                    if (!ret) {
+                        pl.sOut("Action not allowed! Please enter a valid action:");
 
-        /* FIXME - example
-        Floor fl = this.board.towers.get(0).getFloors().get(1);
-        boolean ret = fl.claimFloor(this.player.getAvailableFamMembers().get(0));
-        if (!ret) {
-            log.warning("Not allowed to claim the floor");
+                    } else {
+                        pl.sOut("Action attempted successfully");
+                        fl.logActions();
+                        fl.apply();
+                        pl.sOut(pl.currentRes.toString());
+                        break;
+                    }
+                }
+            }
         }
-        fl.logActions();
-        fl.apply();*/
     }
 
     private void endgameMilitary (List<Player> players) {
@@ -151,15 +182,20 @@ public class Game {
             Resources purpleFinal = new Resources.ResBuilder().build();
             int sumResources = (pl.currentRes.coin + pl.currentRes.servant + pl.currentRes.stone + pl.currentRes.wood);
             for (Card i : pl.listCards()) {
-                if (i.cardType.equals("territories")) { countTerritories++; }
-                if (i.cardType.equals("characters")) { countCharacters++; }
+                if (i.cardType.equals("territories")) {
+                    countTerritories++;
+                }
+                if (i.cardType.equals("characters")) {
+                    countCharacters++;
+                }
                 if (i.cardType.equals("ventures")) {
-                    purpleFinal.merge(Resources.fromJson(i.permanentEff.get("purpleFinal"))); }
+                    purpleFinal.merge(Resources.fromJson(i.permanentEff.get("purpleFinal")));
+                }
             }
             pl.currentRes.merge(purpleFinal);
             pl.currentRes.merge(new Resources.ResBuilder().victoryPoint(territoriesVictory.get(countTerritories - 3)).build());
             pl.currentRes.merge(new Resources.ResBuilder().victoryPoint(charactersVictory.get(countCharacters - 1)).build());
-            pl.currentRes.merge(new Resources.ResBuilder().victoryPoint(sumResources/5).build());
+            pl.currentRes.merge(new Resources.ResBuilder().victoryPoint(sumResources / 5).build());
 
             System.out.println(pl.playerName + "scores" + pl.currentRes.victoryPoint + " Victory points");
             System.out.println("Addio, addio, amici addio...");

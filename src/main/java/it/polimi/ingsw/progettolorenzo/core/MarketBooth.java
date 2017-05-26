@@ -42,7 +42,7 @@ public class MarketBooth extends Action {
     //TODO Game should handle the return value;
     public boolean claimSpace(FamilyMember fam) {
         Player p = fam.getParent();
-        if(this.getFamMember() != null) {
+        if(this.getFamMember() == null) {
             this.addAction(new TakeFamilyMember(fam));
             this.addAction(new PlaceFamilyMemberInBooth(fam, this));
             this.bonus.addAll(new Council().chooseMultiPrivilege(this.councilPrivilege));

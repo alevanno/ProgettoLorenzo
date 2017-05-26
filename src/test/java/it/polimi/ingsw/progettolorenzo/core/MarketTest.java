@@ -17,9 +17,12 @@ public class MarketTest {
     @Test
     public void familyMParameter() throws FileNotFoundException {
         Market market = new Market();
-        FamilyMember fam = new FamilyMember(new Player("Pino", "Red"),1,"Red");
-        market.booths.get(0).claimSpace(fam);
+        //FamilyMember fam = new FamilyMember(new Player("Pino", "Red"),1,"Red");
+
+        //market.booths.get(0).claimSpace(fam);
+        market.booths.get(0).apply();
         assertNotNull(market.booths.get(0).getFamMember());
+
     }
 
 }

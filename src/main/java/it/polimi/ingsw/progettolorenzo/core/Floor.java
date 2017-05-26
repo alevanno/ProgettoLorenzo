@@ -17,8 +17,8 @@ public class Floor extends Action {
         this.parentTower = tower;
         this.floorValue = floorValue;
         log.fine(String.format(
-            "Floor instantiated <bonus: %s, card: %s, tower: %s>",
-            bonus, card, tower));
+                "Floor instantiated <bonus: %s, card: %s, tower: %s>",
+                bonus, card, tower));
     }
 
     //TODO this should be called at an higher level
@@ -26,6 +26,7 @@ public class Floor extends Action {
         FamilyMember dummy = new FamilyMember(currPlayer, value, null);
         //TODO handling of the discount (could be temporarily added here, but should be removed later in some way if not used)
         //TODO we could also intervene on the cardcost, but claimFloor should be modified
+        return true;
     }
 
     //TODO claimFloorWithCard should pass a dummy familymember to the main claimFloor function
@@ -77,4 +78,10 @@ public class Floor extends Action {
     public void removeCard() {
         this.floorCard = null;
     }
+
+    public Card getCard() {
+        return this.floorCard;
+    }
+
+
 }
