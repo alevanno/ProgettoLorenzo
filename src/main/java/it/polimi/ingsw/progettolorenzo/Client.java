@@ -6,10 +6,14 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Client {
+
+    private final Logger log = Logger.getLogger(this.getClass().getName());
     private final static int PORT = 29999;
-    private final static String IP="127.0.0.1";
+    private static String IP="127.0.0.1";
     private Socket socket;
 
     public void startClient() throws IOException {
@@ -34,6 +38,10 @@ public class Client {
                 PrintWriter(socket.getOutputStream())));
     }
 
+    public static void setIP(String IP) {
+        Client.IP = IP;
+    }
+
     public void closeSocket() {
         try {
             socket.close();
@@ -47,7 +55,7 @@ public class Client {
         try {
             client.startClient();
         } catch (IOException e) {
-            e.printStackTrace();
+            client.log.log(Level.SEVERE, e.getMessage(), e);
             client.closeSocket();
         }
     }
@@ -59,6 +67,7 @@ class ClientInHandler implements Runnable {
     public ClientInHandler(Scanner socketIn) {
         this.socketIn=socketIn;
     }
+    private final Logger log = Logger.getLogger(this.getClass().getName());
 
     public void run() {
         while (true) {
@@ -66,7 +75,7 @@ class ClientInHandler implements Runnable {
                 String line = socketIn.nextLine();
                 System.out.println(line);
             } catch (Exception e) {
-                e.getStackTrace();
+                log.log(Level.SEVERE, e.getMessage(), e);
                 break;
             }
         }
