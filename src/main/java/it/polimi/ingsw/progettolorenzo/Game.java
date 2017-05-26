@@ -170,19 +170,19 @@ public class Game implements Runnable {
         //1st gets 5 victoryP, 2nd gets 2 victoryP, if more than one player is first he gets the prize and the second gets nothing
         players.sort(Comparator.comparing(p -> p.currentRes.militaryPoint));
         int plWithMaxMilitary = 0;
-        int MaxMilitary = players.get(0).currentRes.militaryPoint;
-        int SecMaxMilitary = 0;
+        int maxMilitary = players.get(0).currentRes.militaryPoint;
+        int secMaxMilitary = 0;
         for (Player p: players) {
-            if (p.currentRes.militaryPoint == MaxMilitary) {
+            if (p.currentRes.militaryPoint == maxMilitary) {
                 plWithMaxMilitary++;
                 p.currentRes = p.currentRes.merge(new Resources.ResBuilder().victoryPoint(5).build());
-            } else if (p.currentRes.militaryPoint > SecMaxMilitary) {
-                SecMaxMilitary = p.currentRes.militaryPoint;
+            } else if (p.currentRes.militaryPoint > secMaxMilitary) {
+                secMaxMilitary = p.currentRes.militaryPoint;
             }
         }
         if (plWithMaxMilitary > 1) {
             for (Player p: players) {
-                if (p.currentRes.militaryPoint == SecMaxMilitary) {
+                if (p.currentRes.militaryPoint == secMaxMilitary) {
                     p.currentRes = p.currentRes.merge(new Resources.ResBuilder().victoryPoint(3).build());
                 }
             }
