@@ -200,14 +200,18 @@ public class Game implements Runnable {
             Resources purpleFinal = new Resources.ResBuilder().build();
             int sumResources = (pl.currentRes.coin + pl.currentRes.servant + pl.currentRes.stone + pl.currentRes.wood);
             for (Card i : pl.listCards()) {
-                if (i.cardType.equals("territories")) {
-                    countTerritories++;
-                }
-                if (i.cardType.equals("characters")) {
-                    countCharacters++;
-                }
-                if (i.cardType.equals("ventures")) {
-                    purpleFinal.merge(Resources.fromJson(i.permanentEff.get("purpleFinal")));
+                switch (i.cardType) {
+                    case "territories":
+                        countTerritories++;
+                        break;
+                    case "characters":
+                        countCharacters++;
+                        break;
+                    case "ventures":
+                        purpleFinal.merge(Resources.fromJson(i.permanentEff.get("purpleFinal")));
+                        break;
+                    default:
+                        break;
                 }
             }
             pl.currentRes = pl.currentRes.merge(purpleFinal);
