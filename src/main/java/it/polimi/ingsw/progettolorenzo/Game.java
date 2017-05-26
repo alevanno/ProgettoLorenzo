@@ -17,6 +17,7 @@ public class Game implements Runnable {
             "territories", "buildings", "characters", "ventures");
     private HashMap<String, Deck> unhandledCards = new HashMap<>();
     private List<Player> players = new ArrayList<>();
+    private Player currPlayer;
     private int currTurn = 0;
     public List<JsonObject> excommunications = new ArrayList<>();
 
@@ -82,7 +83,7 @@ public class Game implements Runnable {
         );
         log.finer(String.format(
                 "Collected %d cards to give away", deck.size()));
-        this.board = new Board(deck);
+        this.board = new Board(deck, this);
     }
 
     private void assignBonusT() {
@@ -142,45 +143,66 @@ public class Game implements Runnable {
         }
     }
 
+
     private boolean floorAction(FamilyMember famMem) {
         Player pl = famMem.getParent();
-        // FIXME this should ask the tower type and handle it
-        pl.sOut("Insert tower number:");
-        int towerNumber  = pl.sInPrompt();
-        pl.sOut("Insert floor number:");
-        int floorNumber = pl.sInPrompt();
-        Floor fl = this.board.towers.get(towerNumber).getFloors()
-                .get(floorNumber);
-        boolean ret = fl.claimFloor(famMem);
-        if (!ret) {
-            pl.sOut("Action not allowed! Please enter a valid action:");
-        } else {
-            pl.sOut("Action attempted successfully, applying now");
-            fl.logActions();
-            fl.apply();
-            pl.sOut(pl.currentRes.toString());
-            return true;
+
+        pl.sOut("Which card do you want to obtain?: ");
+        String cardName = pl.sIn();
+        Floor floor = null;
+        for (Tower t : this.board.towers) {
+            for (Floor fl : t.getFloors()) {
+                if (fl.getCard() != null) {
+                    if (fl.getCard().cardName.equals(cardName)) {
+                        floor = fl;
+                        break;
+                    }
+                    continue;
+                }
+            }
         }
-        return false;
+        if (floor != null) {
+            boolean ret = floor.claimFloor(famMem);
+            if (!ret) {
+                pl.sOut("Action not allowed! Please enter a valid action:");
+                return false;
+
+            } else {
+                pl.sOut("Action attempted successfully");
+                floor.logActions();
+                floor.apply();
+                pl.sOut(pl.currentRes.toString());
+                return true;
+            }
+        } else {
+            pl.sOut("Card " + cardName
+                    + " was already taken!: please choose an other action: ");
+            return false;
+        }
     }
+
 
     private void round(List<Player> playersOrder) {
         // TODO implement other Actions;
         for (Player pl : playersOrder) {
+            currPlayer = pl;
             pl.sOut("Turn " + this.currTurn + ": Player " + pl.playerName +
                     " is the next player for this round:");
             while (true) {
                 pl.sOut("Which family member do you want to use?: ");
                 pl.sOut(pl.displayFamilyMembers());
+                int famMem = pl.sInPrompt(1,4);
+                this.board.displayBoard();
+
                 //FIXME make me prettier
-                FamilyMember famMem = pl.getAvailableFamMembers().get(pl.sInPrompt());
                 pl.sOut("Which action do you want to try?: ");
                 String action = pl.sIn();
-                if ("floor".equalsIgnoreCase(action) && floorAction(famMem)) {
+                if ("floor".equalsIgnoreCase(action) && floorAction(pl.getAvailableFamMembers().get(famMem))) {
                     break;
                }
             }
         }
+
     }
 
     private void reportToVatican (int currTurn) {
@@ -257,5 +279,9 @@ public class Game implements Runnable {
             pl.sOut(msg);
             log.info(msg);
         }
+    }
+
+    public Player getCurrPlayer() {
+        return currPlayer;
     }
 }

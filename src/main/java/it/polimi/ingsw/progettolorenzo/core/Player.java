@@ -49,7 +49,7 @@ public class Player {
 
     public String sIn() {
         this.sInInit();
-        return this.socketIn.next();
+        return this.socketIn.nextLine();
     }
 
     public int sInPrompt(int minValue, int maxValue) {

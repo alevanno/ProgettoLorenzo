@@ -43,12 +43,16 @@ public class Tower {
         return floors;
     }
 
-    public boolean isBusy() {
-        for (Floor fl : floors) {
-            if (fl.isBusy()) {
-                return true;
+    public List<String> getTowerCardsName() {
+        List<String> nameList = new ArrayList<>();
+
+        for (Floor fl : this.floors) {
+            if(fl.getCard() == null) {
+                continue;
             }
+            nameList.add(fl.getCard().getCardName());
         }
-        return false;
+        return nameList;
     }
+
 }

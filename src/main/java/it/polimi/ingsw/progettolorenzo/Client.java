@@ -109,7 +109,6 @@ class ClientOutHandler implements Runnable {
     public void run() {
         Scanner stdin = new Scanner(System.in);
         while (true) {
-
             String inputLine = stdin.nextLine();
             socketOut.println(inputLine);
             socketOut.flush();

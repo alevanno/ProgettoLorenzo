@@ -45,7 +45,7 @@ public class Harvest extends Action {
             if (base(i).get("resources") != null) {
                 Resources tmp = Resources.fromJson(base(i).get("resources").getAsJsonObject());
                 this.addAction(new ResourcesAction("Resources", tmp, player));
-                log.info("Harvest: Card " + i.getCardName() + " gave " + tmp.toString());
+                log.info("Harvest: Card " + i.cardName + " gave " + tmp.toString());
             }
         }
     }
@@ -55,7 +55,7 @@ public class Harvest extends Action {
         for (Card i : tempDeck) {
             if (base(i).get("councilPrivilege") != null) {
                 int priv = base(i).get("councilPrivilege").getAsInt();
-                log.info("Harvest: Card " + i.getCardName() + " gave " + String.valueOf(priv) + " Council privilege");
+                log.info("Harvest: Card " + i.cardName + " gave " + String.valueOf(priv) + " Council privilege");
                 Set<Resources> privRes = (new Council().chooseMultiPrivilege(priv, player));
                 for (Resources r : privRes) {
                     this.addAction(new ResourcesAction(
