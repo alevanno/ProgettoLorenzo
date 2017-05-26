@@ -133,7 +133,7 @@ public class Game implements Runnable {
             this.round(playersOrder);
             currTurn++;
             if (currTurn % 2 == 0) {
-                this.reportToVatican();
+                this.reportToVatican(currTurn);
             }
             if (currTurn == 6) {
                 this.endgame();
@@ -146,9 +146,9 @@ public class Game implements Runnable {
         Player pl = famMem.getParent();
         // FIXME this should ask the tower type and handle it
         pl.sOut("Insert tower number:");
-        int towerNumber  = pl.sInI();
+        int towerNumber  = pl.sInPrompt();
         pl.sOut("Insert floor number:");
-        int floorNumber = pl.sInI();
+        int floorNumber = pl.sInPrompt();
         Floor fl = this.board.towers.get(towerNumber).getFloors()
                 .get(floorNumber);
         boolean ret = fl.claimFloor(famMem);
@@ -173,7 +173,7 @@ public class Game implements Runnable {
                 pl.sOut("Which family member do you want to use?: ");
                 pl.sOut(pl.displayFamilyMembers());
                 //FIXME make me prettier
-                FamilyMember famMem = pl.getAvailableFamMembers().get(pl.sInI());
+                FamilyMember famMem = pl.getAvailableFamMembers().get(pl.sInPrompt());
                 pl.sOut("Which action do you want to try?: ");
                 String action = pl.sIn();
                 if ("floor".equalsIgnoreCase(action) && floorAction(famMem)) {
