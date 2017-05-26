@@ -124,37 +124,43 @@ public class Game implements Runnable {
         }
     }
 
+    private boolean floorAction(FamilyMember famMem) {
+        Player pl = famMem.getParent();
+        // FIXME this should ask the tower type and handle it
+        pl.sOut("Insert tower number:");
+        int towerNumber  = pl.sInI();
+        pl.sOut("Insert floor number:");
+        int floorNumber = pl.sInI();
+        Floor fl = this.board.towers.get(towerNumber).getFloors()
+                .get(floorNumber);
+        boolean ret = fl.claimFloor(famMem);
+        if (!ret) {
+            pl.sOut("Action not allowed! Please enter a valid action:");
+        } else {
+            pl.sOut("Action attempted successfully, applying now");
+            fl.logActions();
+            fl.apply();
+            pl.sOut(pl.currentRes.toString());
+            return true;
+        }
+        return false;
+    }
+
     private void round(List<Player> playersOrder) {
         // TODO implement other Actions;
         for (Player pl : playersOrder) {
-            // giocata con pl passato come parametro
-            pl.sOut("Turn " + this.currTurn + ": Player " + pl.playerName + "'s is the next player for this round:");
+            pl.sOut("Turn " + this.currTurn + ": Player " + pl.playerName +
+                    " is the next player for this round:");
             while (true) {
                 pl.sOut("Which family member do you want to use?: ");
                 pl.sOut(pl.displayFamilyMembers());
-                Integer famMem = pl.sInI(); //FIXME make me prettier
+                //FIXME make me prettier
+                FamilyMember famMem = pl.getAvailableFamMembers().get(pl.sInI());
                 pl.sOut("Which action do you want to try?: ");
                 String action = pl.sIn();
-                if (action.equals("Floor")) {
-                    // FIXME this should ask the tower type and handle it
-                    pl.sOut("Insert tower number:");
-                    int towerNumber  = pl.sInI();
-                    pl.sOut("Insert floor number:");
-                    int floorNumber = pl.sInI();
-                    Floor fl = this.board.towers.get(towerNumber).getFloors()
-                            .get(floorNumber);
-                    boolean ret = fl.claimFloor(pl.getAvailableFamMembers().get(famMem));
-                    if (!ret) {
-                        pl.sOut("Action not allowed! Please enter a valid action:");
-
-                    } else {
-                        pl.sOut("Action attempted successfully");
-                        fl.logActions();
-                        fl.apply();
-                        pl.sOut(pl.currentRes.toString());
-                        break;
-                    }
-                }
+                if ("floor".equalsIgnoreCase(action) && floorAction(famMem)) {
+                    break;
+               }
             }
         }
     }
