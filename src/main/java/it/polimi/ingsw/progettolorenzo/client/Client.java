@@ -1,4 +1,6 @@
-package it.polimi.ingsw.progettolorenzo;
+package it.polimi.ingsw.progettolorenzo.client;
+
+import it.polimi.ingsw.progettolorenzo.Config;
 
 import java.io.*;
 import java.net.Socket;
