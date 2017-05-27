@@ -10,32 +10,32 @@ import it.polimi.ingsw.progettolorenzo.core.Resources;
 import java.util.Map;
 
 public class Console {
-    public static void formatBoard(String input) {
+    public void formatBoard(String input) {
         JsonObject boardIn = new Gson().fromJson(input, JsonObject.class);
         Client.printLine("The board as it is now:");
         for (Map.Entry<String, JsonElement> entry : boardIn.entrySet()) {
             switch (entry.getKey()) {
                 case "towers":
-                    Console.formatTowers(entry.getValue().getAsJsonArray());
+                    this.formatTowers(entry.getValue().getAsJsonArray());
                     break;
             }
         }
     }
 
-    public static void formatTowers(JsonArray input) {
-        input.forEach(t -> Console.formatTower(t.getAsJsonObject()));
+    private void formatTowers(JsonArray input) {
+        input.forEach(t -> this.formatTower(t.getAsJsonObject()));
     }
 
-    public static void formatTower(JsonObject input) {
+    private void formatTower(JsonObject input) {
         Client.printLine("===============================================");
         Client.printLine("Tower type: %s", input.get("type").getAsString());
         input.get("floors").getAsJsonArray().forEach(
-                f -> Console.formatFloor(f.getAsJsonObject())
+                f -> this.formatFloor(f.getAsJsonObject())
         );
         Client.printLine("===============================================");
     }
 
-    public static void formatFloor(JsonObject input) {
+    private void formatFloor(JsonObject input) {
         Client.printLine("-----------------------------------------------");
         Client.printLine("Floor:");
         Client.printLine("value: %d", input.get("value").getAsInt());

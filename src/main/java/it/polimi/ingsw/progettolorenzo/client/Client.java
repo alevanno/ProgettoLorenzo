@@ -91,7 +91,7 @@ class ClientInHandler implements Runnable {
                 String line = socketIn.readLine();
                 switch (line.substring(0, 1)) {
                     case "☃":
-                        Console.formatBoard(line.substring(1));
+                        new Console().formatBoard(line.substring(1));
                         break;
                     default:
                         Client.printLine(line);
