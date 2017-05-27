@@ -111,7 +111,11 @@ public class Resources {
     }
 
     public static Resources fromJson(JsonElement src) {
-        return Resources.fromJson(src.getAsJsonObject());
+        if (src != null) {
+            return Resources.fromJson(src.getAsJsonObject());
+        } else {
+            return new Resources.ResBuilder().build();
+        }
     }
 
 
