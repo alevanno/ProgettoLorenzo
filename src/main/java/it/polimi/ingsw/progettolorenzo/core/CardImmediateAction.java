@@ -52,9 +52,9 @@ public class CardImmediateAction extends Action {
             for (Tower t : towerList){
                 int i = 1;
                 if (t.getType().equals(type)) {
-                    pl.sOut("Which card do you want to obtain?: ");
-                    pl.getSocketOut().printf("%d %s", i , t.getTowerCardsName().get(i-1));
-                    pl.getSocketOut().flush();
+                    pl.sOut("Which card do you want to obtain?");
+                    pl.sOut(String.format("%d %s",
+                            i, t.getTowerCardsName().get(i-1)));
                     int floorNumber = pl.sInPrompt(1, t.getTowerCardsName().size());
                     t.getFloors().get(floorNumber).claimFloorWithCard(pl, value, discount);
                     log.info("ImmediateAction: pickCard calls -> claimFloorWithCard");

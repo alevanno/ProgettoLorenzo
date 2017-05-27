@@ -70,10 +70,6 @@ public class Player {
         return choice;
     }
 
-    public PrintWriter getSocketOut() {
-        return socketOut;
-    }
-
     public void sOut(String s) {
         try {
             if (this.socketOut == null) {

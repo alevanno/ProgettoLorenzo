@@ -46,9 +46,9 @@ public class Council extends Action {
         int res;
         pl.sOut("You can chose a privilege between: ");
         for (; i-1 < this.privilegeChoices.size(); i++) {
-            pl.getSocketOut().printf("%d: %s%n", i, this.privilegeChoices.get(i - 1));
+            pl.sOut(String.format("  %d: %s",
+                    i, this.privilegeChoices.get(i - 1)));
         }
-        pl.getSocketOut().flush();
         res = pl.sInPrompt(1, i-1);
         return this.privilegeChoices.get(res - 1);
     }
