@@ -62,7 +62,7 @@ public class Floor extends Action {
             this.addAction(new NestedAction(this.floorCard));
             this.floorCard.costActionBuilder(p);
             this.addAction(new NestedAction(
-                new CardImmediateAction(this.floorCard, p, this.game)));
+                new CardImmediateAction(this.floorCard, p)));
             this.addAction(new CardFromFloorAction(this.floorCard, this, p));
             return true;
         }
