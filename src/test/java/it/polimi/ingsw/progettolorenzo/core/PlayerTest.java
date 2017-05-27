@@ -29,7 +29,7 @@ public class PlayerTest {
         Socket socket = new Socket();
         String jsonString = "{'name': 'test', 'type': foo, 'period': 0}";
         JsonObject obj = new Gson().fromJson(jsonString, JsonObject.class);
-        Card c1 = new TerrainCard(obj);
+        Card c1 = new Card(obj);
         Player p1 = new Player("test", "red", socket);
         p1.addCard(c1);
         assertEquals(1, p1.listCards().size());
