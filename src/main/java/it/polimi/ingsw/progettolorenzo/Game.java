@@ -17,8 +17,8 @@ public class Game implements Runnable {
             "territories", "buildings", "characters", "ventures");
     private HashMap<String, Deck> unhandledCards = new HashMap<>();
     private List<Player> players = new ArrayList<>();
+    private int currTurn;
     private Player currPlayer;
-    private int currTurn = 0;
     public List<JsonObject> excommunications = new ArrayList<>();
 
     private int availableSlot = 0;
@@ -27,6 +27,9 @@ public class Game implements Runnable {
         MyLogger.setup();
         log.info("Starting the game...");
         this.players = listPlayers;
+        for (Player p : listPlayers) {
+            p.setParentGame(this);
+        }
     }
 
     public void run() {
@@ -42,8 +45,16 @@ public class Game implements Runnable {
         // init cards
         this.loadCards();
 
-        // actually start the game
-        this.turn();
+        // starts the game and handles the turns
+        for (currTurn = 1; currTurn < 7 ; currTurn++) {
+            this.turn();
+            if (currTurn % 2 == 0) {
+                this.reportToVatican(currTurn);
+            }
+            if (currTurn == 6) {
+                this.endgame();
+            }
+        }
     }
 
     private void initPlayers() {
@@ -64,17 +75,6 @@ public class Game implements Runnable {
         }
     }
 
-    public Player getAvailablePlayer() {
-        Player p = players.get(availableSlot);
-        availableSlot++;
-        return p;
-
-    }
-
-    public Board getBoard() {
-        return this.board;
-    }
-
     private void resetBoard(int period) {
         Deck deck = new Deck();
         this.unhandledCards.forEach((n, d) ->
@@ -90,7 +90,7 @@ public class Game implements Runnable {
         this.board = new Board(deck, this);
     }
 
-    private void assignBonusT() {
+    private void assignBonusT() { //TODO variant with random assignment of bonusTile
         int i = 0;
         for (Player pl : players) {
             BonusTile bonusTile = new BonusTile(Utils
@@ -120,7 +120,7 @@ public class Game implements Runnable {
 
     private void turn() { //which is comprised of 4 rounds
         List<Player> playersOrder = new ArrayList<>(players);
-        this.resetBoard(currTurn / 2 + 1);
+        this.resetBoard((currTurn +1) / 2);
         Map<String, Integer> famValues = new HashMap<>();
         famValues.put("Orange", new Random().nextInt(5) + 1);
         famValues.put("Black", new Random().nextInt(5) + 1);
@@ -131,24 +131,17 @@ public class Game implements Runnable {
             pl.famMembersBirth(famValues);
             pl.sOut("Dice thrown!");
             pl.sOut("Values: " + famValues.get("Orange")
-                    + ", " + famValues.get("Black") + ", " + famValues.get("White") + " setted to Orange, Black " +
+                    + ", " + famValues.get("Black") + ", " + famValues.get("White") + " set to Orange, Black " +
                     "and White Family Member");
         }
+
         for (int r = 1; r <= 4; r++) {
             this.round(playersOrder);
-            currTurn++;
-            if (currTurn % 2 == 0) {
-                this.reportToVatican(currTurn);
-            }
-            if (currTurn == 6) {
-                this.endgame();
-                break;
-            }
         }
     }
 
 
-    private boolean floorAction(FamilyMember famMem) {
+    public boolean floorAction(FamilyMember famMem) { //TODO this, along with other "moves" maybe should be put in a dedicated class
         Player pl = famMem.getParent();
 
         pl.sOut("Which card do you want to obtain?: ");
@@ -206,10 +199,11 @@ public class Game implements Runnable {
                }
             }
         }
-
     }
 
     private void reportToVatican (int currTurn) {
+        //FIXME should this be loaded from a Json?
+        List<Integer> faithVictory = Arrays.asList(0, 1, 2, 3, 4, 5, 7, 9, 11, 13, 15, 17, 19, 22, 25, 30);
         //TODO
         for (Player pl: players) {
             int period = currTurn/2;
@@ -217,11 +211,24 @@ public class Game implements Runnable {
             pl.sOut("You have " + plFaithP + " Faith Points. The Church requires " + (period + 2));
             if (plFaithP < period + 2) {
                 pl.sOut("You are excommunicated");
+                excommunicate(pl, period);
             }
             else {
-                pl.sOut("What do you want to do? \n1. Support the Church \n2.Be excommunicated");
+                pl.sOut("What do you want to do? \n1. Support the Church \n2. Be excommunicated");
+                int choice = pl.sInPrompt(1, 2);
+                if (choice == 1) {
+                    pl.currentRes = pl.currentRes.merge(new Resources.ResBuilder().victoryPoint(pl.currentRes.faithPoint).build());
+                    //FIXME this is so stupid, the player's currentRes should not be final...
+                    pl.currentRes = pl.currentRes.merge(new Resources.ResBuilder().faithPoint(plFaithP).build().inverse());
+                } else {
+                    excommunicate(pl, period);
+                }
             }
         }
+    }
+     // TODO discuss this excommunications implementation
+    private void excommunicate(Player p, int period) {
+        p.setExcommunication(excommunications.get(period-1), period-1);
     }
 
     private void endgameMilitary () {
@@ -258,19 +265,16 @@ public class Game implements Runnable {
             int countCharacters = 0;
             Resources purpleFinal = new Resources.ResBuilder().build();
             int sumResources = (pl.currentRes.coin + pl.currentRes.servant + pl.currentRes.stone + pl.currentRes.wood);
-            for (Card i : pl.listCards()) {
-                switch (i.cardType) {
-                    case "territories":
-                        countTerritories++;
-                        break;
-                    case "characters":
-                        countCharacters++;
-                        break;
-                    case "ventures":
-                        purpleFinal.merge(Resources.fromJson(i.permanentEff.get("purpleFinal")));
-                        break;
-                    default:
-                        break;
+            for (Card i : pl.listCards()) { //switch is oh, so pretty, but I don't think we can use it with complex if statements
+                //that we need for excommunications
+                if (i.cardType.equals("territories")) {
+                    countTerritories++;
+                }
+                if (i.cardType.equals("characters")) {
+                    countCharacters++;
+                }
+                if (i.cardType.equals("ventures")) {
+                    purpleFinal.merge(Resources.fromJson(i.permanentEff.get("purpleFinal")));
                 }
             }
             pl.currentRes = pl.currentRes.merge(purpleFinal);
@@ -287,5 +291,9 @@ public class Game implements Runnable {
 
     public Player getCurrPlayer() {
         return currPlayer;
+    }
+
+    public Board getBoard() {
+        return this.board;
     }
 }

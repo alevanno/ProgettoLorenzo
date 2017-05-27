@@ -27,8 +27,9 @@ public class Floor extends Action {
     }
 
     //TODO this should be called at an higher level
-    public boolean claimFloorWithCard(Player currPlayer, Tower parentTower, int value, Resources discount) {
+    public boolean claimFloorWithCard(Player currPlayer, int value, Resources discount) {
         FamilyMember dummy = new FamilyMember(currPlayer, value, null);
+
         //TODO handling of the discount (could be temporarily added here, but should be removed later in some way if not used)
         //TODO we could also intervene on the cardcost, but claimFloor should be modified
         return true;

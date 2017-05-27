@@ -1,6 +1,7 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
 import com.google.gson.JsonObject;
+import it.polimi.ingsw.progettolorenzo.Game;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -20,8 +21,9 @@ public class Player {
     public Resources currentRes;  // FIXME make private
     private List<FamilyMember> famMemberList = new ArrayList<>();
     private Deck cards = new Deck();
-    public List<JsonObject> excommunications = new ArrayList<>();
+    private List<JsonObject> excommunications = new ArrayList<>();
     private BonusTile bonusT;
+    private Game parentGame;
     private Scanner socketIn;
     private PrintWriter socketOut;
 
@@ -101,8 +103,20 @@ public class Player {
         return bonusT;
     }
 
+    public Game getParentGame() {
+        return parentGame;
+    }
+
     public void setBonusTile(BonusTile bt) {
         this.bonusT = bt;
+    }
+
+    public void setExcommunication(JsonObject e, int index) {
+        this.excommunications.add(index, e);
+    }
+
+    public void setParentGame(Game parentGame) {
+        this.parentGame = parentGame;
     }
 
     public void addCard(Card toadd) {

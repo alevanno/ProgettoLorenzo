@@ -38,7 +38,6 @@ public class CardImmediateAction extends Action {
             game.getBoard().productionArea.prod(pl, value);
         }
 
-
         //TODO to handle pickCard we have first to discuss the cardCostHandling
         //TODO this action's value can be increased with servants
         //TODO you have to pay the 3 coins if the tower is already occupied
@@ -48,14 +47,16 @@ public class CardImmediateAction extends Action {
             Resources discount = Resources.fromJson(card.immediateEff.get("pickCard").getAsJsonObject().get("discount"));
             //TODO tower type? deve chiamare in qualche modo claimFloorWithCard(Player player, Tower parentTower, int value, Resources discount)
             List<Tower> towerList = game.getBoard().towers;
+            FamilyMember dummy = new FamilyMember(pl, value, null);
+            pl.getParentGame().floorAction(dummy);
             for (Tower t : towerList){
                 int i = 1;
                 if (t.getType().equals(type)) {
                     pl.sOut("Which card do you want to obtain?: ");
                     pl.getSocketOut().printf("%d %s", i , t.getTowerCardsName().get(i-1));
                     pl.getSocketOut().flush();
-                    int floorNumber = pl.sInPrompt(1,4);
-                    t.getFloors().get(floorNumber).claimFloorWithCard(pl, t, value, discount);
+                    int floorNumber = pl.sInPrompt(1, t.getTowerCardsName().size());
+                    t.getFloors().get(floorNumber).claimFloorWithCard(pl, value, discount);
                     log.info("ImmediateAction: pickCard calls -> claimFloorWithCard");
                     break;
                 }

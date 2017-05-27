@@ -114,14 +114,6 @@
       "period": 3,
       "lostVictoryRes": {
         "resources": {
-          "victoryPoint": 5
-        }
-      }
-    },
-    {
-      "period": 3,
-      "lostVictoryRes": {
-        "resources": {
           "militaryPoint": 1
         }
       }
