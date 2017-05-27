@@ -1,12 +1,14 @@
 package it.polimi.ingsw.progettolorenzo;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.progettolorenzo.core.*;
 
+import java.lang.reflect.Type;
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Logger;
 import java.util.stream.StreamSupport;
 
@@ -19,7 +21,7 @@ public class Game implements Runnable {
     private List<Player> players = new ArrayList<>();
     private int currTurn;
     private Player currPlayer;
-    public List<JsonObject> excommunications = new ArrayList<>();
+    private List<JsonObject> excomms = new ArrayList<>();
 
     private int availableSlot = 0;
 
@@ -58,20 +60,28 @@ public class Game implements Runnable {
     }
 
     private void initPlayers() {
-        int i = 5;
+        int initialCoins = 5;
         for (Player p: this.players) {
-            p.currentRes = (p.currentRes.merge(new Resources.ResBuilder().coin(i).build()));
-            log.fine("Player " + p.playerName + " obtained " + i + " starting coin");
-            i++;
+            p.currentRes = p.currentRes.merge(
+                    new Resources.ResBuilder().coin(initialCoins).build());
+            log.fine(String.format("Player %s obtained %d starting coins",
+                    p.playerName, initialCoins));
+            initialCoins++;
         }
     }
 
     private void initExcomm() {
-        //TODO testing
-        JsonArray excomm = Utils.getJsonArray("excommunication.json");
-        for (int i = 0; i<3 ; i++) {
-            int index = ThreadLocalRandom.current().nextInt(1, 7); //a random number between 1 and 7
-            excommunications.add(i, excomm.get(i).getAsJsonArray().get(index).getAsJsonObject());
+        JsonArray excommFile = Utils.getJsonArray("excommunication.json");
+        for (JsonElement excommP : excommFile) {
+            // turn the JsonArray into a Java List, then shuffle it
+            Type listType = new TypeToken<List<JsonObject>>() {}.getType();
+            List<JsonObject> allExcomms = new Gson().fromJson(
+                    excommP.getAsJsonArray(), listType);
+            Collections.shuffle(allExcomms);
+            // pick the first, random one
+            JsonObject excomm = allExcomms.get(0).getAsJsonObject();
+            excomms.add(excomm);
+            log.info("Excomunication loaded: " + excomm);
         }
     }
 
@@ -228,7 +238,7 @@ public class Game implements Runnable {
     }
      // TODO discuss this excommunications implementation
     private void excommunicate(Player p, int period) {
-        p.setExcommunication(excommunications.get(period-1), period-1);
+        p.setExcommunication(excomms.get(period-1), period-1);
     }
 
     private void endgameMilitary () {
