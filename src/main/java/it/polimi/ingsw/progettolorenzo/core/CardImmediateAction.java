@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 
 public class CardImmediateAction extends Action {
     private final Logger log = Logger.getLogger(this.getClass().getName());
-    public CardImmediateAction(Card card, Player pl, Game game) {
+    public CardImmediateAction(Card card, Player pl) {
 
         if (card.immediateEff.containsKey("resources")) {
             Resources tmp = Resources.fromJson(card.immediateEff.get("resources").getAsJsonObject());
@@ -20,7 +20,7 @@ public class CardImmediateAction extends Action {
 
         if (card.immediateEff.containsKey("councilPrivilege")) {
             int priv = card.immediateEff.get("councilPrivilege").getAsInt();
-            Set<Resources> privRes = game.getBoard().councilPalace.chooseMultiPrivilege(priv, pl);
+            Set<Resources> privRes = pl.getParentGame().getBoard().councilPalace.chooseMultiPrivilege(priv, pl);
             for (Resources r : privRes) {
                 this.addAction(new ResourcesAction(
                         "ImmActCouncilPrivilege", r, pl));
@@ -30,12 +30,12 @@ public class CardImmediateAction extends Action {
 
         if (card.immediateEff.containsKey("immediateProd")) {
             int value = card.immediateEff.get("immediateProd").getAsInt();
-            game.getBoard().productionArea.prod(pl, value);
+            pl.getParentGame().getBoard().productionArea.prod(pl, value);
         }
 
         if (card.immediateEff.containsKey("immediateHarv")) {
             int value = card.immediateEff.get("immediateHarv").getAsInt();
-            game.getBoard().productionArea.prod(pl, value);
+            pl.getParentGame().getBoard().harvestArea.harv(pl, value);
         }
 
         //TODO to handle pickCard we have first to discuss the cardCostHandling
@@ -46,7 +46,7 @@ public class CardImmediateAction extends Action {
             int value = card.immediateEff.get("pickCard").getAsJsonObject().get("value").getAsInt();
             Resources discount = Resources.fromJson(card.immediateEff.get("pickCard").getAsJsonObject().get("discount"));
             //TODO tower type? deve chiamare in qualche modo claimFloorWithCard(Player player, Tower parentTower, int value, Resources discount)
-            List<Tower> towerList = game.getBoard().towers;
+            List<Tower> towerList = pl.getParentGame().getBoard().towers;
             FamilyMember dummy = new FamilyMember(pl, value, null);
             pl.getParentGame().floorAction(dummy);
             for (Tower t : towerList){

@@ -15,10 +15,8 @@ public class Tower {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private final List<Floor> floors = new ArrayList<>();
     private final String type;
-    private Game game;
-    public Tower(String type, JsonArray floors, Deck cardList, Game game) {
+    public Tower(String type, JsonArray floors, Deck cardList) {
         this.type = type;
-        this.game = game;
 
         log.fine(String.format(
             "Instantiating a tower [type %s, %d floors]…",
@@ -37,16 +35,12 @@ public class Tower {
             } else {  // the floor doesn't specify any bonus
                 fbonus = new Resources.ResBuilder().build();
             }
-            this.floors.add(new Floor(fbonus, c, this, floorValue, game));
+            this.floors.add(new Floor(fbonus, c, this, floorValue));
         }
     }
 
     public List<Floor> getFloors() {
         return floors;
-    }
-
-    public Game getGame() {
-        return this.game;
     }
 
     public String getType() {

@@ -1,7 +1,6 @@
 package it.polimi.ingsw.progettolorenzo;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
@@ -47,10 +46,11 @@ public class Client {
         out.println(colour);
         out.flush();
         ExecutorService executor = Executors.newFixedThreadPool(2);
-        executor.submit(new ClientInHandler(new
-                Scanner(socket.getInputStream())));
+        executor.submit(new ClientInHandler(new BufferedReader(new
+                InputStreamReader(socket.getInputStream()))));
         executor.submit(new ClientOutHandler(new
-                PrintWriter(socket.getOutputStream())));
+                PrintWriter(new BufferedWriter(new
+                OutputStreamWriter(socket.getOutputStream())))));
     }
 
     public void closeSocket() {
@@ -77,21 +77,18 @@ public class Client {
 
 class ClientInHandler implements Runnable {
     private final Logger log = Logger.getLogger(this.getClass().getName());
-    private Scanner socketIn;
+    private BufferedReader socketIn;
 
-    public ClientInHandler(Scanner socketIn) {
+    public ClientInHandler(BufferedReader socketIn) {
         this.socketIn=socketIn;
     }
 
     public void run() {
         while (true) {
-            String line = socketIn.nextLine();
             try {
-                while (line == null) {
-                    line = socketIn.nextLine();
-                }
+                String line = socketIn.readLine();
                 Client.printLine(line);
-            } catch (Exception e) {
+            } catch (IOException e) {
                 log.log(Level.SEVERE, e.getMessage(), e);
                 break;
             }
@@ -118,4 +115,7 @@ class ClientOutHandler implements Runnable {
         }
     }
 }
+
+
+
 

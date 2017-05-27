@@ -3,8 +3,7 @@ package it.polimi.ingsw.progettolorenzo.core;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.progettolorenzo.Game;
 
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +40,9 @@ public class Player {
     private void sInInit() {
         try {
             if (this.socketIn == null) {
-                this.socketIn = new Scanner(this.playerSocket.getInputStream());
+                this.socketIn = new Scanner(new
+                        BufferedReader(new
+                        InputStreamReader(this.playerSocket.getInputStream())));
             }
         } catch (IOException e) {
             // FIXME handle this better
@@ -49,18 +50,19 @@ public class Player {
         }
     }
 
-    public String sIn() {
+    public String sIn()  {
         this.sInInit();
         return this.socketIn.nextLine();
     }
 
-    public int sInPrompt(int minValue, int maxValue) {
+    public int sInPrompt(int minValue, int maxValue)  {
         this.sInInit();
         int choice;
+
         do {
             sOut("Input an int between " + minValue + " and " + maxValue);
             while (!this.socketIn.hasNextInt()) {
-                this.socketIn.next();
+                this.socketIn.nextInt();
                 this.sOut("Please input an int");
             }
             choice = this.socketIn.nextInt();
@@ -78,7 +80,9 @@ public class Player {
                 this.socketOut.println(s);
                 this.socketOut.flush();
             } else {
-                this.socketOut = new PrintWriter(this.playerSocket.getOutputStream());
+                this.socketOut = new PrintWriter(new
+                        BufferedWriter(new
+                        OutputStreamWriter(this.playerSocket.getOutputStream())));
             }
         } catch (IOException e) {
             // FIXME handle this better

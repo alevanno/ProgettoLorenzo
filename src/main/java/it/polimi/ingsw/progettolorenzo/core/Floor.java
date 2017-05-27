@@ -15,12 +15,11 @@ public class Floor extends Action {
     private Game game;
 
 
-    public Floor(Resources bonus, Card card, Tower tower, int floorValue, Game game) {
+    public Floor(Resources bonus, Card card, Tower tower, int floorValue) {
         this.bonus = bonus;
         this.floorCard = card;
         this.parentTower = tower;
         this.floorValue = floorValue;
-        this.game = tower.getGame();
         log.fine(String.format(
                 "Floor instantiated <bonus: %s, card: %s, tower: %s>",
                 bonus, card, tower));
