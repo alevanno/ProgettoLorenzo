@@ -154,9 +154,7 @@ public class Game implements Runnable {
         for (Player pl : players) {
             pl.famMembersBirth(famValues);
             pl.sOut("Dice thrown!");
-            pl.sOut("Values: " + famValues.get("Orange")
-                    + ", " + famValues.get("Black") + ", " + famValues.get("White") + " set to Orange, Black " +
-                    "and White Family Member");
+            pl.sOut("Values: " + famValues);
         }
 
         for (int r = 1; r <= 4; r++) {
