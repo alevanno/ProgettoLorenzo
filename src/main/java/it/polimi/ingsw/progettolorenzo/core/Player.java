@@ -62,10 +62,11 @@ public class Player {
         do {
             sOut("Input an int between " + minValue + " and " + maxValue);
             while (!this.socketIn.hasNextInt()) {
-                this.socketIn.nextInt();
+                this.socketIn.nextLine();
                 this.sOut("Please input an int");
             }
             choice = this.socketIn.nextInt();
+            this.socketIn.nextLine();
         } while (choice < minValue || choice > (maxValue));
         return choice;
     }
