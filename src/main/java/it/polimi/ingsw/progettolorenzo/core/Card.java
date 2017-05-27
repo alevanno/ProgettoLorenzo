@@ -87,6 +87,15 @@ public class Card extends Action {
 
     // FIXME this has to create a BaseAction's for all the actions we're interested in.
 
+    public JsonObject serialize() {
+        Map<String,Object> ret = new HashMap<>();
+        ret.put("name", this.cardName);
+        ret.put("period", this.cardPeriod);
+        ret.put("type", this.cardType);
+        ret.put("cost", this.cardCost);
+        return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
+    }
+
     @Override
     public String toString() {
         return String.format("%s (period %d, type %s)",

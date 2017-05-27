@@ -1,12 +1,15 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.progettolorenzo.Game;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.StreamSupport;
 
@@ -34,6 +37,16 @@ public class Board {
 
             this.towers.add(new Tower(ttype, tfloors, tcards));
         }
+    }
+
+    public JsonObject serialize() {
+        Map<String, Object> ret = new HashMap<>();
+        List<JsonObject> towers = new ArrayList<>();
+        this.towers.forEach(
+                t -> towers.add(t.serialize())
+        );
+        ret.put("towers", towers);
+        return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
     }
 
     public void displayBoard() {

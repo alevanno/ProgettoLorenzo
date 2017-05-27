@@ -1,14 +1,13 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.progettolorenzo.Game;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class Tower {
@@ -57,6 +56,17 @@ public class Tower {
             nameList.add(fl.getCard().getCardName());
         }
         return nameList;
+    }
+
+    public JsonObject serialize() {
+        Map<String,Object> ret = new HashMap<>();
+        ret.put("type", this.type);
+        List<JsonObject> floors = new ArrayList<>();
+        this.floors.forEach(
+                f -> floors.add(f.seialize())
+        );
+        ret.put("floors", floors);
+        return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
     }
 
 }

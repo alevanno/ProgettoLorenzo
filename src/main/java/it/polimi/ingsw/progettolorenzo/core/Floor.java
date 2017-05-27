@@ -1,8 +1,13 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import it.polimi.ingsw.progettolorenzo.Game;
 
+import java.util.Map;
+import java.util.HashMap;
 import java.util.logging.Logger;
 
 public class Floor extends Action {
@@ -89,5 +94,13 @@ public class Floor extends Action {
         return this.floorCard;
     }
 
+    public JsonObject seialize() {
+        Map<String,Object> ret = new HashMap<>();
+        ret.put("card", this.floorCard.serialize());
+        ret.put("occupant", this.famMember);
+        ret.put("value", this.floorValue);
+        ret.put("bonus", this.bonus);
+        return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
+    }
 
 }
