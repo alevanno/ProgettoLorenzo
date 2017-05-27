@@ -112,6 +112,8 @@ public class Player {
     }
 
     public void setBonusTile(BonusTile bt) {
+        log.info(String.format("[%s] Set bonus tile %s",
+                this, bt));
         this.bonusT = bt;
     }
 
