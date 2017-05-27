@@ -40,6 +40,7 @@ public class Board {
     }
 
     public JsonObject serialize() {
+        // TODO display all the things, now only the towers;
         Map<String, Object> ret = new HashMap<>();
         List<JsonObject> towers = new ArrayList<>();
         this.towers.forEach(
@@ -50,10 +51,7 @@ public class Board {
     }
 
     public void displayBoard() {
-        //TODO display all the things, now only cards;
         Player currPlayer = game.getCurrPlayer();
-        this.towers.forEach(
-                t -> currPlayer.sOut(t.getTowerCardsName().toString())
-        );
+        currPlayer.sOut("☃" + new Gson().toJson(this.serialize()));
     }
 }

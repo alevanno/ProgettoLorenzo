@@ -166,11 +166,11 @@ public class Game implements Runnable {
             currPlayer = pl;
             pl.sOut("Turn " + this.currTurn + ": Player " + pl.playerName +
                     " is the next player for this round:");
+            this.board.displayBoard();
             while (true) {
                 pl.sOut("Which family member do you want to use?: ");
                 pl.sOut(pl.displayFamilyMembers());
                 int famMem = pl.sInPrompt(1,4);
-                this.board.displayBoard();
 
                 //FIXME make me prettier
                 pl.sOut("Which action do you want to try?: ");
