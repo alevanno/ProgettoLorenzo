@@ -29,5 +29,10 @@ public class BonusTile {
     public Resources getProductionRes() {
         return productionRes;
     }
+
+    public String toString() {
+        return String.format("%d: prod=%s | harv=%s",
+                this.number, this.productionRes, this.harvestRes);
+    }
 }
 
