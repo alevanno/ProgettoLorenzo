@@ -39,10 +39,8 @@ public class Board {
     public void displayBoard() {
         //TODO display all the things, now only cards;
         Player currPlayer = game.getCurrPlayer();
-        for (Tower t : this.towers) {
-            System.out.println(t.getTowerCardsName());
-            currPlayer.getSocketOut().printf("%s\n", t.getTowerCardsName());
-            currPlayer.getSocketOut().flush();
-        }
+        this.towers.forEach(
+                t -> currPlayer.sOut(t.getTowerCardsName().toString())
+        );
     }
 }
