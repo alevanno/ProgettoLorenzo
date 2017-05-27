@@ -10,6 +10,7 @@ import it.polimi.ingsw.progettolorenzo.core.*;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class Game implements Runnable {
@@ -22,16 +23,18 @@ public class Game implements Runnable {
     private int currTurn;
     private Player currPlayer;
     private List<JsonObject> excomms = new ArrayList<>();
+    private final boolean personalBonusBoards;
 
     private int availableSlot = 0;
 
-    public Game(List<Player> listPlayers) {
+    public Game(List<Player> listPlayers, boolean personalBonusBoards) {
         MyLogger.setup();
         log.info("Starting the game...");
+        listPlayers.forEach(
+                p -> p.setParentGame(this)
+        );
         this.players = listPlayers;
-        for (Player p : listPlayers) {
-            p.setParentGame(this);
-        }
+        this.personalBonusBoards = personalBonusBoards;
     }
 
     public void run() {
@@ -100,16 +103,27 @@ public class Game implements Runnable {
         this.board = new Board(deck, this);
     }
 
-    private void assignBonusT() { //TODO variant with random assignment of bonusTile
-        int i = 0;
-        for (Player pl : players) {
-            BonusTile bonusTile = new BonusTile(Utils
-                    .getJsonArray("bonusTile.json")
-                    .get(i).getAsJsonObject());
-            pl.setBonusTile(bonusTile);
-            log.fine("bonusTile" + bonusTile.getNumber()
-                    + " assigned to player " + pl.playerName);
-            i++;
+    private void assignBonusT() {
+        JsonArray allBonuses = Utils.getJsonArray("bonusTile.json");
+        if (!this.personalBonusBoards) {
+            BonusTile bonusTile = new BonusTile(allBonuses.get(0)
+                    .getAsJsonObject());
+            for (Player pl : this.players) {
+                pl.setBonusTile(bonusTile);
+            }
+        } else {
+            // turn the bonus tiles into a list and take out the default one
+            List<BonusTile> bonuses = StreamSupport.stream(
+                    allBonuses.spliterator(), true)
+                .map(JsonElement::getAsJsonObject)
+                .filter(b -> b.get("number").getAsInt() != 0)
+                .map(BonusTile::new)
+                .collect(Collectors.toList());
+            // then shuffle and assign
+            Collections.shuffle(bonuses);
+            players.forEach(
+                    p -> p.setBonusTile(bonuses.remove(bonuses.size()-1))
+            );
         }
     }
 

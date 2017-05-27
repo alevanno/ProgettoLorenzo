@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 public class Server {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private int playersNum;
+    private boolean personalBonusBoards;
 
 
     public void startServer() throws IOException {
@@ -49,7 +50,7 @@ public class Server {
                 break;
             }
         }
-        executor.submit(new Game(listPlayers));
+        executor.submit(new Game(listPlayers, this.personalBonusBoards));
         executor.shutdown();
         serverSocket.close();
     }
@@ -59,6 +60,13 @@ public class Server {
         pl.sOut("You get to choose how this game will be played.");
         pl.sOut("How many players?");
         this.playersNum = pl.sInPrompt(1, 4);
+        pl.sOut("Same or different bonus boards?");
+        String bonusBoard = pl.sIn();
+        if ("same".equalsIgnoreCase(bonusBoard)) {
+            this.personalBonusBoards = false;
+        } else {
+            this.personalBonusBoards = true;
+        }
     }
 
     public static void main(String[] args) {

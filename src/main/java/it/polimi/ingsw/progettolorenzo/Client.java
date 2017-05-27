@@ -109,7 +109,8 @@ class ClientOutHandler implements Runnable {
             String inputLine = stdin.nextLine();
             socketOut.println(inputLine);
             socketOut.flush();
-            if ("quit".equalsIgnoreCase(inputLine)) {
+
+            if (inputLine.equals("quit")) {
                 break;
             }
         }
