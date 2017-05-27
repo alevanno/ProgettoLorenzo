@@ -76,18 +76,17 @@ public class Player {
 
     public void sOut(String s) {
         try {
-            if (this.socketOut != null) {
-                this.socketOut.println(s);
-                this.socketOut.flush();
-            } else {
-                this.socketOut = new PrintWriter(new
-                        BufferedWriter(new
-                        OutputStreamWriter(this.playerSocket.getOutputStream())));
+            if (this.socketOut == null) {
+                this.socketOut = new PrintWriter(new BufferedWriter(
+                        new OutputStreamWriter(
+                        this.playerSocket.getOutputStream())));
             }
         } catch (IOException e) {
             // FIXME handle this better
             log.log(Level.WARNING, e.getMessage(), e);
         }
+        this.socketOut.println(s);
+        this.socketOut.flush();
     }
 
     public void famMembersBirth(Map<String, Integer> famValues) {
