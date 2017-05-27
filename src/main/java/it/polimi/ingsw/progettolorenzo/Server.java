@@ -38,7 +38,7 @@ public class Server {
                 listPlayers.add(player);
             } catch (IOException e) {
                 log.log(Level.SEVERE, e.getMessage(), e);
-                break;
+                throw e;
             }
             if (listPlayers.size() == 2) {
                 break;
