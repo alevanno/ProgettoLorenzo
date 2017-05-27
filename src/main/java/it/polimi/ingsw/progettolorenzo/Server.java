@@ -16,6 +16,8 @@ import java.util.logging.Logger;
 
 public class Server {
     private final Logger log = Logger.getLogger(this.getClass().getName());
+    private int playersNum;
+
 
     public void startServer() throws IOException {
         ExecutorService executor = Executors.newCachedThreadPool();
@@ -36,17 +38,27 @@ public class Server {
                 String colour = socketIn.nextLine();
                 Player player = new Player(name, colour, socket);
                 listPlayers.add(player);
+                if (listPlayers.size() == 1) {
+                    this.firstPlayer(player);
+                }
             } catch (IOException e) {
                 log.log(Level.SEVERE, e.getMessage(), e);
                 throw e;
             }
-            if (listPlayers.size() == 2) {
+            if (listPlayers.size() == this.playersNum) {
                 break;
             }
         }
         executor.submit(new Game(listPlayers));
         executor.shutdown();
         serverSocket.close();
+    }
+
+    private void firstPlayer(Player pl) {
+        pl.sOut("It seems you're the first player! :)");
+        pl.sOut("You get to choose how this game will be played.");
+        pl.sOut("How many players?");
+        this.playersNum = pl.sInPrompt(1, 4);
     }
 
     public static void main(String[] args) {
