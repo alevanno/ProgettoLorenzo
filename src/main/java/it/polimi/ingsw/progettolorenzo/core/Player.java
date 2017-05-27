@@ -155,5 +155,8 @@ public class Player {
             System.exit(1);
         }
     }
-    //public void finalCount() {}
+
+    public String toString() {
+        return this.playerName;
+    }
 }
