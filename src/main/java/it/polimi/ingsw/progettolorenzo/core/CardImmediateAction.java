@@ -48,7 +48,7 @@ public class CardImmediateAction extends Action {
             //TODO tower type? deve chiamare in qualche modo claimFloorWithCard(Player player, Tower parentTower, int value, Resources discount)
             List<Tower> towerList = pl.getParentGame().getBoard().towers;
             FamilyMember dummy = new FamilyMember(pl, value, null);
-            pl.getParentGame().floorAction(dummy);
+            Move.floorAction(pl.getParentGame().getBoard(), dummy);
             for (Tower t : towerList){
                 int i = 1;
                 if (t.getType().equals(type)) {

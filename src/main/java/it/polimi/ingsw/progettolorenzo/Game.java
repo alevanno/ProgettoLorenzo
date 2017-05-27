@@ -25,8 +25,6 @@ public class Game implements Runnable {
     private List<JsonObject> excomms = new ArrayList<>();
     private final boolean personalBonusBoards;
 
-    private int availableSlot = 0;
-
     public Game(List<Player> listPlayers, boolean personalBonusBoards) {
         MyLogger.setup();
         log.info("Starting the game...");
@@ -162,45 +160,6 @@ public class Game implements Runnable {
         }
     }
 
-
-    public boolean floorAction(FamilyMember famMem) { //TODO this, along with other "moves" maybe should be put in a dedicated class
-        Player pl = famMem.getParent();
-
-        pl.sOut("Which card do you want to obtain?: ");
-        String cardName = pl.sIn();
-        Floor floor = null;
-        for (Tower t : this.board.towers) {
-            for (Floor fl : t.getFloors()) {
-                if (fl.getCard() != null) {
-                    if (fl.getCard().cardName.equals(cardName)) {
-                        floor = fl;
-                        break;
-                    }
-                    continue;
-                }
-            }
-        }
-        if (floor != null) {
-            boolean ret = floor.claimFloor(famMem);
-            if (!ret) {
-                pl.sOut("Action not allowed! Please enter a valid action:");
-                return false;
-
-            } else {
-                pl.sOut("Action attempted successfully");
-                floor.logActions();
-                floor.apply();
-                pl.sOut(pl.currentRes.toString());
-                return true;
-            }
-        } else {
-            pl.sOut("Card " + cardName
-                    + " was already taken!: please choose an other action: ");
-            return false;
-        }
-    }
-
-
     private void round(List<Player> playersOrder) {
         // TODO implement other Actions;
         for (Player pl : playersOrder) {
@@ -216,7 +175,9 @@ public class Game implements Runnable {
                 //FIXME make me prettier
                 pl.sOut("Which action do you want to try?: ");
                 String action = pl.sIn();
-                if ("floor".equalsIgnoreCase(action) && floorAction(pl.getAvailableFamMembers().get(famMem))) {
+                if ("floor".equalsIgnoreCase(action) &&
+                        Move.floorAction(this.board,
+                                pl.getAvailableFamMembers().get(famMem))) {
                     break;
                }
             }
