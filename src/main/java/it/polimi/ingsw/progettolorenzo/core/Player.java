@@ -107,6 +107,10 @@ public class Player {
         return parentGame;
     }
 
+    public List<JsonObject> getExcommunications() {
+        return excommunications;
+    }
+
     public void setBonusTile(BonusTile bt) {
         log.info(String.format("[%s] Set bonus tile %s",
                 this, bt));

@@ -70,7 +70,7 @@ public class Production extends Action {
                         Resources resSrc = Resources.fromJson(a);
                         Resources resDest;
                         int councDest;
-                        if (dest.get(0).getAsJsonObject().get("resources") != null) {
+                        if (dest.get(0).getAsJsonObject().get("resources") != null) { //FIXME check if these can be replaced with has()
                             resDest = Resources.fromJson(dest.get(0).getAsJsonObject().get("resources"));
                             r.add(new ResConv(count, resSrc, resDest));
                             count++;

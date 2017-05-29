@@ -18,7 +18,7 @@ public class Resources {
     public final int militaryPoint;
     public final int faithPoint;
 
-    private Map<String, Integer> resourcesList = new HashMap<>();
+    public final Map<String, Integer> resourcesList = new HashMap<>();
 
     private Resources(
             final int coin,
@@ -45,6 +45,9 @@ public class Resources {
         this.resourcesList.put("faithPoint", this.faithPoint);
     }
 
+    public int getByString(String s) {
+        return this.resourcesList.get(s);
+    }
 
     public static class ResBuilder {
         private int nCoin = 0;
