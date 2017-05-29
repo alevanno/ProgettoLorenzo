@@ -47,7 +47,9 @@ public class Console {
         System.out.println("I got here");
         JsonElement card;
         if ((card = input.get("card")) != null) {
-            Client.printLine("card: %s", new Card(card.getAsJsonObject()).toString());
+            Card c = new Card(card.getAsJsonObject());
+            Client.printLine("card: %s", c.toString());
+            Client.printLine("cost: %s", c.getCardCost());
         }
         Client.printLine("-----------------------------------------------");
     }

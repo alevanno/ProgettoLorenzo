@@ -4,7 +4,7 @@ import it.polimi.ingsw.progettolorenzo.Config;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.Scanner;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
@@ -33,10 +33,19 @@ public class Client {
 
     public void startClient() throws IOException {
         String name = readLine("Insert player name: ");
-        // TODO propose choice color list
-        printLine("Player colour:");
-        printLine("You can choose between: Blue | Red | Yellow | Green");
-        String colour = readLine("Please insert your colour: ");
+        boolean ok = false;
+        List<String> colourList = Arrays.asList("Blue", "Red", "Yellow", "Green", "ShitBrown", "Violet");
+        String colour = "";
+        while (!ok) {
+            printLine("You can choose between: " + colourList.toString());
+            colour = readLine("Please choose your colour: ");
+            if(colourList.contains(colour)) {
+                ok = true;
+            } else {
+                printLine("Please choose a valid color!");
+
+            }
+        }
         this.socket = new Socket(
                 Config.client.get("serverAddress").getAsString(),
                 Config.client.get("port").getAsInt()
@@ -89,6 +98,10 @@ class ClientInHandler implements Runnable {
         while (true) {
             try {
                 String line = socketIn.readLine();
+                if (line.equalsIgnoreCase("quit")
+                        || line.equalsIgnoreCase("end")) {
+                    break;
+                }
                 switch (line.substring(0, 1)) {
                     case "☃":
                         new Console().formatBoard(line.substring(1));

@@ -171,14 +171,13 @@ public class Game implements Runnable {
             while (true) {
                 pl.sOut("Which family member do you want to use?: ");
                 pl.sOut(pl.displayFamilyMembers());
-                int famMem = pl.sInPrompt(1,4);
-
+                FamilyMember famMem = pl.getAvailableFamMembers().get(pl.sInPrompt(1,4) - 1);
+                pl.sOut(famMem.getSkinColor() + " family member selected");
                 //FIXME make me prettier
                 pl.sOut("Which action do you want to try?: ");
                 String action = pl.sIn();
                 if ("floor".equalsIgnoreCase(action) &&
-                        Move.floorAction(this.board,
-                                pl.getAvailableFamMembers().get(famMem))) {
+                        Move.floorAction(this.board, famMem)) {
                     break;
                }
             }
