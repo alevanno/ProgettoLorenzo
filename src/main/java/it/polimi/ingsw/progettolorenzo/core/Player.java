@@ -158,6 +158,35 @@ public class Player {
         }
     }
 
+    // TODO handle excommunication effect
+    public int increaseFamValue(FamilyMember famMember) {
+        String line = this.sIn();
+        int servantSub = 0;
+        if (line.equalsIgnoreCase("yes")) {
+            // FIXME make me prettier after currentRes handling decision
+            boolean ok = false;
+            while (!ok) {
+                int servant = currentRes.servant;
+                this.sOut("Current servant: " + servant);
+                this.sOut("how many do you want to use?: ");
+                servantSub = this.sInPrompt(1, servant);
+                this.sOut("Current " + famMember.getSkinColor()
+                        + "family member value: " + servantSub);
+                this.sOut("Confirm?");
+                String answer = this.sIn();
+                if (answer.equalsIgnoreCase("yes")) {
+                    famMember.setActionValue(famMember.getActionValue() + servantSub);
+                    this.currentRes = this.currentRes.merge(new
+                            Resources.ResBuilder().servant(servantSub)
+                            .build().inverse());
+                    ok = true;
+                }
+            }
+            System.out.println(servantSub);
+            return servantSub;
+        } return servantSub;
+    }
+
     public String toString() {
         return this.playerName;
     }

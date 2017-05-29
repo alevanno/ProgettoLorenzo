@@ -34,6 +34,8 @@ public class Move {
                 pl.sOut("Are you fine with this?");
                 String reply = pl.sIn();
                 if ("y".equalsIgnoreCase(reply) || "s".equalsIgnoreCase(reply)) {
+                    // FIXME aborting action doesn't reverse .apply()
+                    // card no more in floor?
                     floor.apply();
                     pl.sOut(pl.currentRes.toString());
                     return true;

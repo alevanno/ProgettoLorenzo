@@ -173,13 +173,24 @@ public class Game implements Runnable {
                 pl.sOut(pl.displayFamilyMembers());
                 FamilyMember famMem = pl.getAvailableFamMembers().get(pl.sInPrompt(1,4) - 1);
                 pl.sOut(famMem.getSkinColor() + " family member selected");
+                pl.sOut("Do you want to increase your "
+                        + famMem.getSkinColor() + " family member value?" );
+                int servantSub = pl.increaseFamValue(famMem);
+
                 //FIXME make me prettier
                 pl.sOut("Which action do you want to try?: ");
                 String action = pl.sIn();
                 if ("floor".equalsIgnoreCase(action) &&
                         Move.floorAction(this.board, famMem)) {
                     break;
-               }
+                } else {
+                    // placed here to abort this operation if player is not satisfied
+                    famMem.setActionValue(famMem
+                            .getActionValue() - servantSub);
+                    pl.currentRes = pl.currentRes.merge(new
+                            Resources.ResBuilder()
+                            .servant(servantSub).build());
+                }
             }
         }
     }

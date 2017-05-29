@@ -28,4 +28,8 @@ public class FamilyMember {
     public int getActionValue() {
         return actionValue;
     }
+
+    public void setActionValue(int actionValue) {
+        this.actionValue = actionValue;
+    }
 }
