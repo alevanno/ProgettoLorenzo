@@ -8,7 +8,6 @@ public class Council extends Action {
     private List<Player> playerOrder = new ArrayList<>();
     private final List<Resources> privilegeChoices;
     public final Resources bonusEntry;
-    Set<Resources> privilegeSet = new HashSet<>();
 
     public Council() {
         JsonObject data = Utils.getJsonObject("council.json");
@@ -25,19 +24,21 @@ public class Council extends Action {
     }
 
     public Set<Resources> chooseMultiPrivilege(int privileges, Player pl) {
+        Set<Resources> privilegeSet = new HashSet<>();
+
         while(true) {
-            if (this.privilegeSet.size() == privileges) {
+            if (privilegeSet.size() == privileges) {
                 break;
             }
             Resources res = this.choosePrivilege(pl);
             //Doesn't allow the player to select the same privilege as before
-            if (this.privilegeSet.contains(res)) {
+            if (privilegeSet.contains(res)) {
                 pl.sOut("Invalid choice! Please select a different privilege: ");
                 return chooseMultiPrivilege(privileges, pl);
             }
-            this.privilegeSet.add(res);
+            privilegeSet.add(res);
         }
-        return this.privilegeSet;
+        return privilegeSet;
     }
 
 
