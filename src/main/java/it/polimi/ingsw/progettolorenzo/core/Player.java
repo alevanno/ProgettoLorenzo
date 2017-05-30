@@ -18,7 +18,7 @@ public class Player {
     public Resources currentRes;  // FIXME make private
     private List<FamilyMember> famMemberList = new ArrayList<>();
     private Deck cards = new Deck();
-    private List<JsonObject> excommunications = new ArrayList<>();
+    private List<JsonObject> excommunications = Arrays.asList(new JsonObject(), new JsonObject(), new JsonObject());
     private BonusTile bonusT;
     private Game parentGame;
     private Scanner socketIn;
