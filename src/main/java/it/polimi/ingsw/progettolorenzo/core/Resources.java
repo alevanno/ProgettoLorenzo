@@ -87,6 +87,31 @@ public class Resources {
             return this;
         }
 
+        public ResBuilder setByString(String s, int val) {
+            if("coin".equals(s)) {
+                return new ResBuilder().coin(val);
+            }
+            if("wood".equals(s)) {
+                return new ResBuilder().wood(val);
+            }
+            if("stone".equals(s)) {
+                return new ResBuilder().stone(val);
+            }
+            if("servant".equals(s)) {
+                return new ResBuilder().servant(val);
+            }
+            if("victoryPoint".equals(s)) {
+                return new ResBuilder().victoryPoint(val);
+            }
+            if("militaryPoint".equals(s)) {
+                return new ResBuilder().militaryPoint(val);
+            }
+            if("faithPoint".equals(s)) {
+                return new ResBuilder().faithPoint(val);
+            }
+            return new ResBuilder();
+        }
+
         public Resources build() {
             return new Resources(
                 this.nCoin,

@@ -17,7 +17,6 @@ public class Floor extends Action {
     private FamilyMember famMember;
     private Card floorCard;
     private int floorValue;
-    private Game game;
 
 
     public Floor(Resources bonus, Card card, Tower tower, int floorValue) {
@@ -30,20 +29,7 @@ public class Floor extends Action {
                 bonus, card, tower));
     }
 
-    //TODO this should be called at an higher level
-    public boolean claimFloorWithCard(Player currPlayer, int value, Resources discount) {
-        FamilyMember dummy = new FamilyMember(currPlayer, value, null);
-
-        //TODO handling of the discount (could be temporarily added here, but should be removed later in some way if not used)
-        //TODO we could also intervene on the cardcost, but claimFloor should be modified
-        return true;
-    }
-
-    //TODO claimFloorWithCard should pass a dummy familymember to the main claimFloor function
-
-
     // player puts here its famMemb & take the Card and the eventual bonus;
-    //TODO Game should handle the return value;
     public boolean claimFloor(FamilyMember fam) {
         int value = fam.getActionValue();
         Player p = fam.getParent();

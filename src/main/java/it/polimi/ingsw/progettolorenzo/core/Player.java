@@ -161,6 +161,8 @@ public class Player {
 
     // TODO test excomm
     public int increaseFamValue(FamilyMember famMember) {
+        this.sOut("Do you want to increase your "
+                + famMember.getSkinColor() + " family member value?" );
         String line = this.sIn();
         int servantSub = 0;
         if ("yes".equalsIgnoreCase(line)) {
@@ -196,7 +198,6 @@ public class Player {
                     ok = true;
                 }
             }
-            System.out.println(servantSub);
             return servantSub;
         } return servantSub;
     }
