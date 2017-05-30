@@ -135,6 +135,7 @@ public class Game implements Runnable {
             Card card = new Card(c.getAsJsonObject());
             this.unhandledCards.get(card.cardType).add(card);
         }
+        this.unhandledCards.forEach((x,y) -> y.shuffleCards());
         StringBuilder sb = new StringBuilder();
         this.unhandledCards.forEach((n, d) -> sb.append(n + "=" + d.size() + " "));
         log.fine(String.format("Loaded %scards", sb));
