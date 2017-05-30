@@ -94,7 +94,6 @@ public class Move {
             pl.sOut("Are you fine with this?");
             String reply = pl.sIn();
             if ("y".equalsIgnoreCase(reply) || "s".equalsIgnoreCase(reply)) {
-                pl.sOut(floor.actions.toString());
                 floor.apply();
                 pl.sOut(pl.currentRes.toString());
             } else {
