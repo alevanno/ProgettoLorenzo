@@ -18,7 +18,8 @@ public class Production extends Action {
     public boolean claimFamMain(FamilyMember fam) {
         if (this.mainProduction != null) {
             if (prod(fam.getParent(), fam.getActionValue())) {
-                this.mainProduction = fam;
+                /*this.addAction(new TakeFamilyMember(fam));
+                this.addAction(new PlaceFamilyMemberInProd(fam, this));*/
                 return true;}
         }
         return false;

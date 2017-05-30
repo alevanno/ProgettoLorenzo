@@ -5,10 +5,8 @@ import it.polimi.ingsw.progettolorenzo.Game;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -185,6 +183,73 @@ public class Player {
             System.out.println(servantSub);
             return servantSub;
         } return servantSub;
+    }
+
+    private void endgameLostVictoryRes(Resources loseVictoryRes) {
+        currentRes.resourcesList.forEach((x, y) -> {
+            if (loseVictoryRes.getByString(x) != 0) {
+                int a = loseVictoryRes.getByString(x);
+                int b = currentRes.getByString(x);
+                currentRes = currentRes.merge(
+                        new Resources.ResBuilder().victoryPoint(b / a).build().inverse());
+            }
+        });
+    }
+
+    private void endgameLostVictoryCost(Resources loseVictoryCost) {
+        AtomicInteger lostVictoryPts = new AtomicInteger(0);
+        for (Card c : listCards()) {
+            if ("buildings".equals(c.cardType)) {
+                Resources cardCost = c.getCardCost();
+                loseVictoryCost.resourcesList.forEach((x, y) -> {
+                    if (y != 0) {
+                        lostVictoryPts.addAndGet(cardCost.getByString(x));
+                    }
+                });
+            }
+        }
+        currentRes = currentRes.merge(
+                new Resources.ResBuilder().victoryPoint(lostVictoryPts.get()).build().inverse());
+    }
+
+    public void endgame() {
+        List<Integer> territoriesVictory = Arrays.asList(1, 4, 10, 20);
+        List<Integer> charactersVictory = Arrays.asList(1, 3, 6, 10, 15, 21);
+        int countTerritories = 0;
+        int countCharacters = 0;
+        Resources purpleFinal = new Resources.ResBuilder().build();
+        JsonObject excomBase = getExcommunications().get(2);
+        int sumResources = (currentRes.coin + currentRes.servant + currentRes.stone + currentRes.wood);
+        for (Card i : listCards()) { //switch is oh, so pretty, but I don't think we can use it with complex if statements
+            //that we need for excommunications
+            String noVictoryType = "";
+            if (excomBase.has("noVictoryType")) {
+                noVictoryType = excomBase.get("noVictoryType").getAsString();
+            }
+            if (i.cardType.equals("territories") && !noVictoryType.equals("territories")) {
+                countTerritories++;
+            }
+            if (i.cardType.equals("characters") && !noVictoryType.equals("characters")) {
+                countCharacters++;
+            }
+            if (i.cardType.equals("ventures") && !noVictoryType.equals("ventures")) {
+                purpleFinal = purpleFinal.merge(Resources.fromJson(i.permanentEff.get("purpleFinal")));
+            }
+        }
+        currentRes = currentRes.merge(purpleFinal);
+        currentRes = currentRes.merge(new Resources.ResBuilder().victoryPoint(territoriesVictory.get(countTerritories - 3)).build());
+        currentRes = currentRes.merge(new Resources.ResBuilder().victoryPoint(charactersVictory.get(countCharacters - 1)).build());
+        currentRes = currentRes.merge(new Resources.ResBuilder().victoryPoint(sumResources / 5).build());
+
+        if (excomBase.has("lostVictoryRes")) {
+            Resources loseVictoryRes = Resources.fromJson(excomBase.get("lostVictoryRes"));
+            endgameLostVictoryRes(loseVictoryRes);
+        }
+
+        if (excomBase.has("lostVictoryCost")) {
+            Resources loseVictoryCost = Resources.fromJson(excomBase.get("lostVictoryCost"));
+            endgameLostVictoryCost(loseVictoryCost);
+        }
     }
 
     public String toString() {
