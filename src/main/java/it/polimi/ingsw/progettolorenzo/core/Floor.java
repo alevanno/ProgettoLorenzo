@@ -56,6 +56,13 @@ public class Floor extends Action {
                 value += c.permanentEff.get("towerBonus").getAsJsonObject().get("plusValue").getAsInt();
             }
         }//TODO the floor bonus can be used to pay for the card you're taking
+        if (fam.getParent().getExcommunications().get(1).has("valMalus")) {
+            if (fam.getParent().getExcommunications().get(1).get("type").getAsString() == parentTower.getType()) {
+                int valMalus = fam.getParent().getExcommunications().get(1).get("valMalus").getAsInt();
+                fam.getParent().sOut("Your excommunication lowers the value of this action by " + valMalus);
+                value -= valMalus;
+            }
+        }
         if (value < this.floorValue) {
             return false;
         }

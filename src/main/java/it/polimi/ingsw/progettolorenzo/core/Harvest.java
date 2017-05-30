@@ -68,10 +68,16 @@ public class Harvest extends Action {
 
     public boolean harv(Player player, int value) {
         Deck tempDeck = new Deck();
+        if (player.getExcommunications().get(0).has("harvMalus")) {
+            int harvMalus = player.getExcommunications().get(0).get("harvMalus").getAsInt();
+            player.sOut("Your excommunication lowers the value of this action by " + harvMalus);
+            value -= harvMalus;
+        }
         if (value < 1) {
-            System.out.println("You need an action value of at least 1");
+            player.sOut("You need an action value of at least 1");
             return false;
         }
+
         //filters the current player's deck, keeping Cards with permanentEffect=harvest
         //excludes Cards having too high of an action value
         for (Card i : player.listCards()) {

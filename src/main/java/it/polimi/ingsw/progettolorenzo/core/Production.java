@@ -8,6 +8,7 @@ import java.util.*;
 import java.util.logging.Logger;
 
 import static it.polimi.ingsw.progettolorenzo.core.Utils.intPrompt;
+import static java.lang.String.valueOf;
 
 public class Production extends Action {
     private final Logger log = Logger.getLogger(this.getClass().getName());
@@ -59,8 +60,8 @@ public class Production extends Action {
         for (Card i : tempDeck) {
             if (base(i).get("conversion") != null) {
                 JsonArray arr = base(i).get("conversion").getAsJsonArray();
-                System.out.println("Production: Card " + i.getCardName() + " allows you to convert some resources");
-                System.out.println("Available conversions:  \n0: None");
+                player.sOut("Production: Card " + i.getCardName() + " allows you to convert some resources");
+                player.sOut("Available conversions:  \n0: None");
                 List<ResConv> r = new ArrayList<>();
                 int count = 1;
                 for (int conv = 0; conv < arr.size(); conv++) {
@@ -83,17 +84,17 @@ public class Production extends Action {
                     }
                 }
                 for (ResConv rc : r) {
-                    System.out.println(rc.toString());
+                    player.sOut(rc.toString());
                 }
                 int choice = intPrompt(0, count-1);
 
                 if (choice == 0) {
                 } else if (choice != 0) {
                     this.addAction(new ResourcesAction("Conversion source", r.get(choice - 1).getResSrc().inverse(), player));
-                    System.out.println("Conversion removed " + r.get(choice - 1).getResSrc());
+                    player.sOut("Conversion removed " + r.get(choice - 1).getResSrc());
                     if ((r.get(choice - 1).getResDst() != null)) {
                         this.addAction(new ResourcesAction("Conversion dest", r.get(choice - 1).getResDst(), player));
-                        System.out.println("Conversion added " + r.get(choice - 1).getResDst().toString());
+                        player.sOut("Conversion added " + r.get(choice - 1).getResDst().toString());
                     } else if (r.get(choice - 1).getCouncDst() != 0) {
                         Set<Resources> privRes = (new Council().chooseMultiPrivilege(r.get(choice - 1).getCouncDst(), player));
                         for (Resources co : privRes) {
@@ -130,7 +131,7 @@ public class Production extends Action {
         for (Card i : tempDeck) {
             if (base(i).get("councilPrivilege") != null) {
                 int priv = base(i).get("councilPrivilege").getAsInt();
-                System.out.println("Production: Card " + i.getCardName() + " gave " + String.valueOf(priv) + " Council privilege");
+                player.sOut("Production: Card " + i.getCardName() + " gave " + valueOf(priv) + " Council privilege");
                 Set<Resources> privRes = (new Council().chooseMultiPrivilege(priv, player));
                 for (Resources r : privRes) {
                     this.addAction(new ResourcesAction(
@@ -144,11 +145,16 @@ public class Production extends Action {
 
     public boolean prod(Player player, int value) {
         Deck tempDeck = new Deck();
-
+        if (player.getExcommunications().get(0).has("prodMalus")) {
+            int prodMalus = player.getExcommunications().get(0).get("prodMalus").getAsInt();
+            player.sOut("Your excommunication lowers the value of this action by " + prodMalus);
+            value -= prodMalus;
+        }
         if (value < 1) {
-            System.out.println("You need an action value of at least 1");
+            player.sOut("You need an action value of at least 1");
             return false;
         }
+
         //filters the current player's deck, keeping Cards with permanentEffect=production
         //excludes Cards having too high of an action value
         for (Card i : player.listCards()) {

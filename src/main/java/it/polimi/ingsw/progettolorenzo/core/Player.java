@@ -85,13 +85,16 @@ public class Player {
     }
 
     public void famMembersBirth(Map<String, Integer> famValues) {
-        // FIXME - sanely set actionValue
-        this.famMemberList.add(
-                new FamilyMember(this, famValues.get("Orange"), "Orange"));
-        this.famMemberList.add(
-                new FamilyMember(this, famValues.get("Black"), "Black"));
-        this.famMemberList.add(
-                new FamilyMember(this, famValues.get("White"), "White"));
+        List <String> colorList = Arrays.asList("Orange", "Black", "White");
+        for (String s: colorList) {
+            int val;
+            if (excommunications.get(0).has("harvMalus")) {
+                val = famValues.get(s) - 1;
+            } else {
+                val = famValues.get(s);
+            }
+            this.famMemberList.add(new FamilyMember(this, val, s));
+        }
         this.famMemberList.add(
                 new FamilyMember(this, 0, "Blank"));
         log.fine("4 family members attached to " + this);
@@ -156,26 +159,39 @@ public class Player {
         }
     }
 
-    // TODO handle excommunication effect
+    // TODO test excomm
     public int increaseFamValue(FamilyMember famMember) {
         String line = this.sIn();
         int servantSub = 0;
-        if (line.equalsIgnoreCase("yes")) {
+        if ("yes".equalsIgnoreCase(line)) {
             // FIXME make me prettier after currentRes handling decision
             boolean ok = false;
             while (!ok) {
                 int servant = currentRes.servant;
-                this.sOut("Current servant: " + servant);
-                this.sOut("how many do you want to use?: ");
-                servantSub = this.sInPrompt(1, servant);
+                this.sOut("Current servants: " + servant);
+                this.sOut("How many do you want to use? ");
+                int servantSpent;
+                if (excommunications.get(1).has("servantExpense")) {
+                    int servantExp = excommunications.get(1).get("servantExpense").getAsInt();
+                    sOut("(Due to your excommunication you have to use " + servantExp + " servants to increase the action value)");
+                    do {
+                        sOut("It has to be a multiple of " + servantExp);
+                        servantSpent = this.sInPrompt(1, servant);
+                    } while (servantSpent%servantExp != 0);
+                    servantSub = servantSpent/servantExp;
+                }
+                else {
+                    servantSub = this.sInPrompt(1, servant);
+                    servantSpent = servantSub;
+                }
                 this.sOut("Current " + famMember.getSkinColor()
                         + "family member value: " + servantSub);
                 this.sOut("Confirm?");
                 String answer = this.sIn();
-                if (answer.equalsIgnoreCase("yes")) {
+                if ("yes".equalsIgnoreCase(answer)) {
                     famMember.setActionValue(famMember.getActionValue() + servantSub);
                     this.currentRes = this.currentRes.merge(new
-                            Resources.ResBuilder().servant(servantSub)
+                            Resources.ResBuilder().servant(servantSpent)
                             .build().inverse());
                     ok = true;
                 }
@@ -218,7 +234,7 @@ public class Player {
         int countTerritories = 0;
         int countCharacters = 0;
         Resources purpleFinal = new Resources.ResBuilder().build();
-        JsonObject excomBase = getExcommunications().get(2);
+        JsonObject excomBase = excommunications.get(2);
         int sumResources = (currentRes.coin + currentRes.servant + currentRes.stone + currentRes.wood);
         for (Card i : listCards()) { //switch is oh, so pretty, but I don't think we can use it with complex if statements
             //that we need for excommunications
