@@ -52,11 +52,14 @@ public class Move {
 
 
     // FIXME it contains duplication from floorAction...
+    // FIXME it stops when you are looking for a Card that in not in the board..
+    // add some checks(?)
     public static void claimFloorWithCard(Board board, Player pl,String type, int value, Resources discount) {
         FamilyMember dummy = new FamilyMember(pl, value, null);
         pl.getAvailableFamMembers().add(dummy);
         final Resources toMerge = new Resources.ResBuilder().build();
-        Floor floor = null;
+        // FIXME handle better that nullable floor for sonar
+        Floor floor = new Floor(null, null, null, 0);
         pl.sOut("Which card do you want to obtain?: ");
         String cardName = pl.sIn();
         for (Tower t : board.towers) {
