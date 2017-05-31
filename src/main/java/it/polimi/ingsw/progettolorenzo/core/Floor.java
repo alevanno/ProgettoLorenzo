@@ -36,10 +36,12 @@ public class Floor extends Action {
         Resources tmpRes = p.currentRes;
         Resources cardCost = this.floorCard.getCardCost(); //TODO if a discount is present...
         //TODO value should be affected also by an excommunication
-        for(Card c : p.listCards()) {
-            if(c.permanentEff.get("towerBonus").getAsJsonObject()
-                    .get("type").getAsString().equals(floorCard.cardType)) {
-                value += c.permanentEff.get("towerBonus").getAsJsonObject().get("plusValue").getAsInt();
+        for (Card c : p.listCards()) {
+            JsonElement permEff = c.permanentEff.get("towerBonus");
+            if(permEff != null) {
+                if (permEff.getAsJsonObject().get("type").getAsString().equals(floorCard.cardType)) {
+                    value += c.permanentEff.get("towerBonus").getAsJsonObject().get("plusValue").getAsInt();
+                }
             }
         }//TODO the floor bonus can be used to pay for the card you're taking
         if (fam.getParent().getExcommunications().get(1).has("valMalus")) {
@@ -87,13 +89,15 @@ public class Floor extends Action {
         return this.floorCard;
     }
 
-    public JsonObject seialize() {
-        Map<String,Object> ret = new HashMap<>();
-        ret.put("card", this.floorCard.serialize());
-        ret.put("occupant", this.famMember);
-        ret.put("value", this.floorValue);
-        ret.put("bonus", this.bonus);
-        return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
+    public JsonObject serialize() {
+        Map<String, Object> ret = new HashMap<>();
+        if (this.floorCard != null) {
+            ret.put("card", this.floorCard.serialize());
+            ret.put("occupant", this.famMember);
+            ret.put("value", this.floorValue);
+            ret.put("bonus", this.bonus);
+            return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
+        }
+        return null;
     }
-
 }
