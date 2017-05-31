@@ -1,18 +1,15 @@
 package it.polimi.ingsw.progettolorenzo.client;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import it.polimi.ingsw.progettolorenzo.core.Card;
 import it.polimi.ingsw.progettolorenzo.core.Resources;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class Console2 extends BasicWindow {
 
@@ -88,6 +85,10 @@ public class Console2 extends BasicWindow {
             if ((card = input.get("card")) != null) {
                 panel.addComponent(addCard(card.getAsJsonObject()));
             }
+            JsonElement famMember;
+            if ((famMember = input.get("famMember")) != null) {
+                panel.addComponent(addFamMember(famMember.getAsJsonObject()));
+            }
 
             return panel.withBorder(Borders.singleLineReverseBevel("floor"));
         }
@@ -112,6 +113,17 @@ public class Console2 extends BasicWindow {
                 "Card: " + input.get("name").getAsString()
             ));
         }
-    }
 
+        private Border addFamMember(JsonObject input) {
+            Panel panel = new Panel();
+            panel.setLayoutManager(new LinearLayout((Direction.VERTICAL)));
+            panel.addComponent(Panels.horizontal(
+                    new Label("Fam colour:"),
+                    new Label(input.get("colour").getAsString())
+            ));
+            return panel.withBorder(Borders.singleLineReverseBevel(
+                    "Occupant: " + input.get("parent").getAsString()
+            ));
+        }
+    }
 }

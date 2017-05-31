@@ -1,24 +1,30 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class FamilyMember {
 
     private Player parent;
     private int actionValue;
-    private String skinColor;
+    private String skinColour;
 
-    public FamilyMember(Player parent, int actionValue, String skinColor) {
+    public FamilyMember(Player parent, int actionValue, String skinColour) {
         this.parent = parent;
         this.actionValue = actionValue;
-        this.skinColor = skinColor;
+        this.skinColour = skinColour;
     }
 
-    public String getSkinColor() {
-        return this.skinColor;
+    public String getSkinColour() {
+        return this.skinColour;
     }
 
-    public void setSkinColor(String skinColor) {
-        this.skinColor = skinColor;
+    public void setSkinColour(String skinColour) {
+        this.skinColour = skinColour;
     }
 
     public Player getParent() {
@@ -31,5 +37,12 @@ public class FamilyMember {
 
     public void setActionValue(int actionValue) {
         this.actionValue = actionValue;
+    }
+
+    public JsonObject serialize() {
+        Map<String, Object> ret = new HashMap<>();
+        ret.put("colour", this.skinColour);
+        ret.put("parent", this.parent.playerName);
+        return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
     }
 }

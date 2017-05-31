@@ -183,15 +183,16 @@ public class Game implements Runnable {
     }
 
     private void operation(Player pl) {
-        // TODO implement other Actions;currPlayer = pl;
+        // TODO implement other Actions;
+            currPlayer = pl;
             pl.sOut("Turn " + this.halfPeriod + ": Player " + pl.playerName +
                     " is the next player for this round:");
-            this.board.displayBoard();
             while (true) {
+                this.board.displayBoard();
                 pl.sOut("Which family member do you want to use?: ");
                 pl.sOut(pl.displayFamilyMembers());
                 FamilyMember famMem = pl.getAvailableFamMembers().get(pl.sInPrompt(1,4) - 1);
-                pl.sOut(famMem.getSkinColor() + " family member selected");
+                pl.sOut(famMem.getSkinColour() + " family member selected");
                 int servantSub = pl.increaseFamValue(famMem);
                 //FIXME make me prettier
                 pl.sOut("Which action do you want to try?: ");

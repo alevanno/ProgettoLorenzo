@@ -148,7 +148,7 @@ public class Player {
         int i = 1;
         StringBuilder ret = new StringBuilder();
         for (FamilyMember fam : this.famMemberList) {
-            ret.append(i + " " + fam.getSkinColor() + " " + fam.getActionValue());
+            ret.append(i + " " + fam.getSkinColour() + " " + fam.getActionValue());
             ret.append(" | ");
             i++;
         }
@@ -164,7 +164,7 @@ public class Player {
     // TODO test excomm
     public int increaseFamValue(FamilyMember famMember) {
         this.sOut("Do you want to increase your "
-                + famMember.getSkinColor() + " family member value?" );
+                + famMember.getSkinColour() + " family member value?" );
         String line = this.sIn();
         int servantSub = 0;
         if ("yes".equalsIgnoreCase(line)) {
@@ -188,11 +188,11 @@ public class Player {
                     servantSub = this.sInPrompt(1, servant);
                     servantSpent = servantSub;
                 }
-                this.sOut("Current " + famMember.getSkinColor()
-                        + "family member value: " + servantSub);
-                this.sOut("Confirm?");
+                this.sOut("Current " + famMember.getSkinColour()
+                        + "family member value: " + (famMember.getActionValue() + servantSub));
+                this.sOut("Confirm?: y/n");
                 String answer = this.sIn();
-                if ("yes".equalsIgnoreCase(answer)) {
+                if ("y".equalsIgnoreCase(answer)) {
                     famMember.setActionValue(famMember.getActionValue() + servantSub);
                     this.currentRes = this.currentRes.merge(new
                             Resources.ResBuilder().servant(servantSpent)

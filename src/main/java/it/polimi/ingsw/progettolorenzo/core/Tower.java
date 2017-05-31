@@ -63,9 +63,8 @@ public class Tower {
         ret.put("type", this.type);
         List<JsonObject> floors = new ArrayList<>();
         this.floors.forEach(
-                f -> { if (f.serialize() != null) {
-                            floors.add(f.serialize());
-                }});
+                f -> floors.add(f.serialize())
+        );
         ret.put("floors", floors);
         return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
     }

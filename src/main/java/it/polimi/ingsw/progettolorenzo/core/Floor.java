@@ -93,11 +93,12 @@ public class Floor extends Action {
         Map<String, Object> ret = new HashMap<>();
         if (this.floorCard != null) {
             ret.put("card", this.floorCard.serialize());
-            ret.put("occupant", this.famMember);
-            ret.put("value", this.floorValue);
-            ret.put("bonus", this.bonus);
-            return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
         }
-        return null;
+        if (this.famMember != null) {
+            ret.put("famMember", this.famMember.serialize());
+        }
+        ret.put("value", this.floorValue);
+        ret.put("bonus", this.bonus);
+        return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
     }
 }

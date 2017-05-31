@@ -31,7 +31,7 @@ public class Move {
             } else {
                 pl.sOut("Action attempted successfully");
                 floor.logActions();
-                pl.sOut("Are you fine with this?");
+                pl.sOut("Are you fine with this?: y/n");
                 String reply = pl.sIn();
                 if ("y".equalsIgnoreCase(reply) || "s".equalsIgnoreCase(reply)) {
                     floor.apply();
@@ -94,7 +94,7 @@ public class Move {
         } else {
             pl.sOut("Action attempted successfully");
             floor.logActions();
-            pl.sOut("Are you fine with this?");
+            pl.sOut("Are you fine with this?: y/n");
             String reply = pl.sIn();
             if ("y".equalsIgnoreCase(reply) || "s".equalsIgnoreCase(reply)) {
                 floor.apply();
