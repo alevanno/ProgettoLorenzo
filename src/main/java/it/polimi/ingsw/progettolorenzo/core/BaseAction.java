@@ -63,7 +63,11 @@ class ResourcesAction extends BaseAction {
     @Override
     public void apply() {
         if (player.getExcommunications().get(0).has("resMalus")) {
-            //TODO excomm
+            //TODO testing
+            Resources malus = Resources.fromJson(player.getExcommunications().get(0).get("resMalus")).inverse();
+            Resources reducedRes = this.op.merge(malus);
+            player.sOut("Due to your excommunication, you gain less resources");
+            this.player.currentRes = this.player.currentRes.merge(reducedRes);
         } else {
             this.player.currentRes = this.player.currentRes.merge(this.op);
         }
