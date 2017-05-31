@@ -19,8 +19,8 @@ public class Game implements Runnable {
     private List<String> types = Arrays.asList(
             "territories", "buildings", "characters", "ventures");
     private HashMap<String, Deck> unhandledCards = new HashMap<>();
-    private List<Player> players = new ArrayList<>();
-    private int currTurn;
+    private List<Player> players = new ArrayList<>(); //active players and their order
+    private int halfPeriod;
     private Player currPlayer;
     private List<JsonObject> excomms = new ArrayList<>();
     private final boolean personalBonusBoards;
@@ -49,12 +49,12 @@ public class Game implements Runnable {
         this.loadCards();
 
         // starts the game and handles the turns
-        for (currTurn = 1; currTurn < 7 ; currTurn++) {
+        for (halfPeriod = 1; halfPeriod < 7 ; halfPeriod++) {
             this.turn();
-            if (currTurn % 2 == 0) {
-                this.reportToVatican(currTurn);
+            if (halfPeriod % 2 == 0) {
+                this.reportToVatican(halfPeriod);
             }
-            if (currTurn == 6) {
+            if (halfPeriod == 6) {
                 this.endgame();
             }
         }
@@ -125,6 +125,12 @@ public class Game implements Runnable {
         }
     }
 
+    public void getFirstPlace(Player pl) {
+        int index = players.indexOf(pl);
+        players.remove(index);
+        players.add(0, pl);
+    }
+
     private void loadCards() {
         JsonArray cardsData = Utils.getJsonArray("cards.json");
 
@@ -142,8 +148,8 @@ public class Game implements Runnable {
     }
 
     private void turn() { //which is comprised of 4 rounds
-        List<Player> playersOrder = new ArrayList<>(players);
-        this.resetBoard((currTurn +1) / 2);
+        List<Player> playersOrder = new ArrayList<>(players); //the order stays the same for the duration of the turn
+        this.resetBoard((halfPeriod +1) / 2);
         Map<String, Integer> famValues = new HashMap<>();
         famValues.put("Orange", new Random().nextInt(5) + 1);
         famValues.put("Black", new Random().nextInt(5) + 1);
@@ -157,15 +163,28 @@ public class Game implements Runnable {
         }
 
         for (int r = 1; r <= 4; r++) {
-            this.round(playersOrder);
+            this.round(playersOrder, r);
         }
     }
 
-    private void round(List<Player> playersOrder) {
-        // TODO implement other Actions;
+    private void round(List<Player> playersOrder, int round) {
+        List<Player> skippedPlayers = new ArrayList<>();
         for (Player pl : playersOrder) {
-            currPlayer = pl;
-            pl.sOut("Turn " + this.currTurn + ": Player " + pl.playerName +
+            if (pl.getExcommunications().get(1).has("skipRound") && round == 1) {
+                skippedPlayers.add(pl);
+                pl.sOut("You skip the first round due to your excommunication");
+                continue;
+            }
+            this.operation(pl);
+        }
+        for (Player pl : skippedPlayers) {
+            this.operation(pl);
+        }
+    }
+
+    private void operation(Player pl) {
+        // TODO implement other Actions;currPlayer = pl;
+            pl.sOut("Turn " + this.halfPeriod + ": Player " + pl.playerName +
                     " is the next player for this round:");
             this.board.displayBoard();
             while (true) {
@@ -187,7 +206,7 @@ public class Game implements Runnable {
                     pl.currentRes = pl.currentRes.merge(new
                             Resources.ResBuilder()
                             .servant(servantSub).build());
-                }
+
             }
         }
     }

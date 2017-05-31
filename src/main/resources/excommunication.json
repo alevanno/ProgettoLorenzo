@@ -73,7 +73,7 @@
     },
     {
       "period": 2,
-      "blockedArea": "market"
+      "blockedMarket": 1
     },
     {
       "period": 2,

@@ -61,7 +61,7 @@ public class Council extends Action {
         this.addAction(new PlaceFamilyMemberInCouncil(fam, this));
         this.addAction(new ResourcesAction(
                 "bonus entry from Council", this.bonusEntry, p));
-        // FIXME make the number of privilege selectable?
+        fam.getParent().getFirstPlace();
         this.addAction(new ResourcesAction(
                 "Council privilege", this.choosePrivilege(p), p));
     }

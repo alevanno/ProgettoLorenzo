@@ -62,7 +62,11 @@ class ResourcesAction extends BaseAction {
 
     @Override
     public void apply() {
-         this.player.currentRes = this.player.currentRes.merge(this.op);
+        if (player.getExcommunications().get(0).has("resMalus")) {
+            //TODO excomm
+        } else {
+            this.player.currentRes = this.player.currentRes.merge(this.op);
+        }
     }
 
     @Override
