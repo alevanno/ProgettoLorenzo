@@ -18,7 +18,7 @@ public class Player {
     public Resources currentRes;  // FIXME make private
     private List<FamilyMember> famMemberList = new ArrayList<>();
     private Deck cards = new Deck();
-    private List<JsonObject> excommunications = Arrays.asList(new JsonObject(), new JsonObject(), new JsonObject());
+    private List<JsonObject> excommunications = new ArrayList<>(Arrays.asList(new JsonObject(), new JsonObject(), new JsonObject()));
     private BonusTile bonusT;
     private Game parentGame;
     private Scanner socketIn;
@@ -205,7 +205,7 @@ public class Player {
     }
 
     private void endgameLostVictoryRes(Resources loseVictoryRes) {
-        currentRes.resourcesList.forEach((x, y) -> {
+        currentRes.resourcesList.forEach((x, y) -> { //iterates over currentRes<key,value>
             if (loseVictoryRes.getByString(x) != 0) {
                 int a = loseVictoryRes.getByString(x);
                 int b = currentRes.getByString(x);
@@ -232,15 +232,14 @@ public class Player {
     }
 
     public void endgame() {
-        List<Integer> territoriesVictory = Arrays.asList(1, 4, 10, 20);
-        List<Integer> charactersVictory = Arrays.asList(1, 3, 6, 10, 15, 21);
+        List<Integer> territoriesVictory = Arrays.asList(0, 0, 0, 1, 4, 10, 20);
+        List<Integer> charactersVictory = Arrays.asList(0, 1, 3, 6, 10, 15, 21);
         int countTerritories = 0;
         int countCharacters = 0;
         Resources purpleFinal = new Resources.ResBuilder().build();
         JsonObject excomBase = excommunications.get(2);
         int sumResources = (currentRes.coin + currentRes.servant + currentRes.stone + currentRes.wood);
-        for (Card i : listCards()) { //switch is oh, so pretty, but I don't think we can use it with complex if statements
-            //that we need for excommunications
+        for (Card i : listCards()) {
             String noVictoryType = "";
             if (excomBase.has("noVictoryType")) {
                 noVictoryType = excomBase.get("noVictoryType").getAsString();
@@ -256,19 +255,22 @@ public class Player {
             }
         }
         currentRes = currentRes.merge(purpleFinal);
-        currentRes = currentRes.merge(new Resources.ResBuilder().victoryPoint(territoriesVictory.get(countTerritories - 3)).build());
-        currentRes = currentRes.merge(new Resources.ResBuilder().victoryPoint(charactersVictory.get(countCharacters - 1)).build());
+        currentRes = currentRes.merge(new Resources.ResBuilder().victoryPoint(territoriesVictory.get(countTerritories)).build());
+        currentRes = currentRes.merge(new Resources.ResBuilder().victoryPoint(charactersVictory.get(countCharacters)).build());
         currentRes = currentRes.merge(new Resources.ResBuilder().victoryPoint(sumResources / 5).build());
 
         if (excomBase.has("lostVictoryRes")) {
-            Resources loseVictoryRes = Resources.fromJson(excomBase.get("lostVictoryRes"));
+            Resources loseVictoryRes = Resources.fromJson(excomBase.get("lostVictoryRes").getAsJsonObject().get("resources"));
             endgameLostVictoryRes(loseVictoryRes);
         }
 
         if (excomBase.has("lostVictoryCost")) {
-            Resources loseVictoryCost = Resources.fromJson(excomBase.get("lostVictoryCost"));
+            Resources loseVictoryCost = Resources.fromJson(excomBase.get("lostVictoryCost").getAsJsonObject().get("resources"));
             endgameLostVictoryCost(loseVictoryCost);
         }
+
+        //TEST
+        System.out.println("excomm " + currentRes);
     }
 
     public String toString() {
