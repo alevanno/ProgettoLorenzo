@@ -32,11 +32,10 @@ public class Move {
                 }
             }
         if (floor != null) {
-        boolean ret = floor.claimFloor(famMem);
-        if (!ret) {
-            pl.sOut("Action not allowed! Please enter a valid action:");
-            return false;
-
+            boolean ret = floor.claimFloor(famMem);
+            if (!ret) {
+                pl.sOut("Action not allowed! Please enter a valid action:");
+                return false;
             } else {
                 pl.sOut("Action attempted successfully");
                 floor.logActions();
@@ -131,4 +130,36 @@ public class Move {
             }
         }
     }
+
+    public static boolean marketAction(Board board, FamilyMember fam) {
+        Player pl = fam.getParent();
+        pl.sOut("Select your market place: ");
+        board.marketSpace.displayBooths(pl);
+        int in = pl.sInPrompt(1,4);
+        MarketBooth booth =  board.marketSpace.getBooths().get(in - 1);
+        boolean ret = booth.claimSpace(fam);
+        if(!ret) {
+            pl.sOut("Please enter a valid action:");
+            return false;
+        } else {
+            pl.sOut("Action attempted successfully");
+            booth.logActions();
+            pl.sOut("Are you fine with this?: y/n");
+            String reply = pl.sIn();
+            if ("y".equalsIgnoreCase(reply) || "s".equalsIgnoreCase(reply)) {
+                booth.apply();
+                pl.sOut(pl.currentRes.toString());
+                return true;
+            } else {
+                booth.emptyActions();
+                pl.sOut("Ok, aborting action as requested");
+                return false;
+            }
+        }
+    }
+
+
+
+
+
 }

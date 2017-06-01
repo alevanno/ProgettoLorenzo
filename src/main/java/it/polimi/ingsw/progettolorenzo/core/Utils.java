@@ -8,6 +8,8 @@ import com.google.gson.JsonParser;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -68,5 +70,19 @@ public class Utils {
             choice = in.nextInt();
         } while (choice < minValue || choice > (maxValue));
         return choice;
+    }
+
+    public static String displayActions() {
+        List<String> actions = Arrays.asList(
+                "Floor", "Market", "CouncilPalace", "Production",
+                "Harvest");
+        int i = 1;
+        StringBuilder ret = new StringBuilder();
+        for (String action : actions) {
+            ret.append(i + " " + action);
+            ret.append(" | ");
+            i++;
+        }
+        return ret.toString();
     }
 }

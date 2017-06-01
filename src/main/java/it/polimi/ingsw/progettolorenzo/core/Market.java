@@ -25,18 +25,15 @@ public class Market {
         return booths;
     }
 
-    public void putFamMember(FamilyMember fam) {
-        System.out.println("Where do you want to put your Family Member?: ");
+    // TODO it needs improvements and it has to show the occupantPlayer
+    public void displayBooths(Player pl) {
+        pl.sOut("Where do you want to put your Family Member?: ");
         for (int i = 1; i-1 < 4; i++) {
             if (i == 4) {
-                System.out.println(i + " Booth: " + '[' + booths.get(i-1).getCouncilPrivilege()+ " councilPrivileges" + ']');
+                pl.sOut(i + " Booth: " + '[' + booths.get(i-1).getCouncilPrivilege()+ " councilPrivileges" + ']');
             } else {
-                System.out.println(i + " Booth: " + booths.get(i - 1).getBonus());
+                pl.sOut(i + " Booth: " + booths.get(i - 1).getBonus());
             }
-
         }
-        Scanner in = new Scanner(System.in);
-        booths.get(in.nextInt() - 1).claimSpace(fam);
-
     }
 }

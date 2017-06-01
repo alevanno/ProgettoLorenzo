@@ -47,6 +47,9 @@ public class MarketBooth extends Action {
             p.sOut("Your excommunication prevents you to put your famMembers in the Market");
             return false;
         }
+        if (fam.getActionValue() < 1) {
+            return false;
+        }
         if(this.getFamMember() == null) {
             this.addAction(new TakeFamilyMember(fam));
             this.addAction(new PlaceFamilyMemberInBooth(fam, this));
@@ -57,6 +60,7 @@ public class MarketBooth extends Action {
             }
             return true;
         }
+        p.sOut("This market place is already occupied!");
         return false;
     }
 }

@@ -18,6 +18,9 @@ public class Game implements Runnable {
     private Board board;
     private List<String> types = Arrays.asList(
             "territories", "buildings", "characters", "ventures");
+    private List<String> actions = Arrays.asList(
+            "Floor", "Market", "CouncilPalace", "Production",
+            "Harvest");
     private HashMap<String, Deck> unhandledCards = new HashMap<>();
     private List<Player> players = new ArrayList<>(); //active players and their order
     private int halfPeriod;
@@ -184,34 +187,38 @@ public class Game implements Runnable {
 
     private void operation(Player pl) {
         // TODO implement other Actions;
-            currPlayer = pl;
-            pl.sOut("Turn " + this.halfPeriod + ": Player " + pl.playerName +
-                    " is the next player for this round:");
-            while (true) {
-                this.board.displayBoard();
-                pl.sOut("Which family member do you want to use?: ");
-                pl.sOut(pl.displayFamilyMembers());
-                FamilyMember famMem = pl.getAvailableFamMembers().get(pl.sInPrompt(1,4) - 1);
-                pl.sOut(famMem.getSkinColour() + " family member selected");
-                int servantSub = pl.increaseFamValue(famMem);
-                //FIXME make me prettier
-                pl.sOut("Which action do you want to try?: ");
-                String action = pl.sIn();
-                if ("floor".equalsIgnoreCase(action) &&
-                        Move.floorAction(this.board, famMem)) {
-                    break;
-                } else {
-                    // placed here to abort this operation if player is not satisfied
-                    famMem.setActionValue(famMem
-                            .getActionValue() - servantSub);
-                    pl.currentRes = pl.currentRes.merge(new
-                            Resources.ResBuilder()
-                            .servant(servantSub).build());
-
+        currPlayer = pl;
+        pl.sOut("Turn " + this.halfPeriod + ": Player " + pl.playerName +
+                " is the next player for this round:");
+        while (true) {
+            this.board.displayBoard();
+            pl.sOut("Which family member do you want to use?: ");
+            pl.sOut(pl.displayFamilyMembers());
+            FamilyMember famMem = pl.getAvailableFamMembers().get(pl.sInPrompt(1, 4) - 1);
+            pl.sOut(famMem.getSkinColour() + " family member selected");
+            int servantSub = pl.increaseFamValue(famMem);
+            //FIXME make me prettier
+            pl.sOut("Available actions:");
+            pl.sOut(Utils.displayActions());
+            pl.sOut("Which action do you want to try?: ");
+            String action = actions.get(pl.sInPrompt(1, actions.size()) - 1);
+            if ("floor".equalsIgnoreCase(action) &&
+                    Move.floorAction(this.board, famMem)) {
+                break;
+            } else {
+                // placed here to abort this operation if player is not satisfied
+                famMem.setActionValue(famMem
+                        .getActionValue() - servantSub);
+                pl.currentRes = pl.currentRes.merge(new
+                        Resources.ResBuilder()
+                        .servant(servantSub).build());
+            }
+            if ("market".equalsIgnoreCase(action) &&
+                    Move.marketAction(this.board, famMem)) {
+                break;
             }
         }
     }
-
     private void reportToVatican (int currTurn) {
         //FIXME should this be loaded from a Json?
         List<Integer> faithVictory = Arrays.asList(0, 1, 2, 3, 4, 5, 7, 9, 11, 13, 15, 17, 19, 22, 25, 30);

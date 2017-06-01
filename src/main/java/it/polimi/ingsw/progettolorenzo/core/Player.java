@@ -189,7 +189,7 @@ public class Player {
                     servantSpent = servantSub;
                 }
                 this.sOut("Current " + famMember.getSkinColour()
-                        + "family member value: " + (famMember.getActionValue() + servantSub));
+                        + " family member value: " + (famMember.getActionValue() + servantSub));
                 this.sOut("Confirm?: y/n");
                 String answer = this.sIn();
                 if ("y".equalsIgnoreCase(answer)) {
