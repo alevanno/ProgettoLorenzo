@@ -202,20 +202,25 @@ public class Game implements Runnable {
             pl.sOut(Utils.displayActions());
             pl.sOut("Which action do you want to try?: ");
             String action = actions.get(pl.sInPrompt(1, actions.size()) - 1);
-            if ("floor".equalsIgnoreCase(action) &&
-                    Move.floorAction(this.board, famMem)) {
-                break;
-            } else {
+            if ("floor".equalsIgnoreCase(action)) {
+                if (Move.floorAction(this.board, famMem)) {
+                    break;
+                } else {
                 // placed here to abort this operation if player is not satisfied
-                famMem.setActionValue(famMem
-                        .getActionValue() - servantSub);
-                pl.currentRes = pl.currentRes.merge(new
-                        Resources.ResBuilder()
-                        .servant(servantSub).build());
+                    famMem.setActionValue(famMem
+                            .getActionValue() - servantSub);
+                    pl.currentRes = pl.currentRes.merge(new
+                            Resources.ResBuilder()
+                            .servant(servantSub).build());
+                }
             }
-            if ("market".equalsIgnoreCase(action) &&
-                    Move.marketAction(this.board, famMem)) {
-                break;
+            if ("market".equalsIgnoreCase(action)) {
+                if (Move.marketAction(this.board, famMem)) {
+                    break;
+                } else {
+                    famMem.setActionValue(famMem
+                            .getActionValue() - servantSub);
+                }
             }
         }
     }
