@@ -1,32 +1,41 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
 public class Move {
+    public static boolean bool = false;
     private Move() {
         throw new IllegalStateException("Not thought to be instantiated");
     }
 
     public static boolean floorAction(Board board, FamilyMember famMem) {
         Player pl = famMem.getParent();
-
+        int coinToPay = 3;        // FIXME make me configurable?
         pl.sOut("Which card do you want to obtain?: ");
         String cardName = pl.sIn();
         Floor floor = null;
         for (Tower t : board.towers) {
             for (Floor fl : t.getFloors()) {
-                if (fl.getCard() != null) {
-                    if (fl.getCard().cardName.equals(cardName)) {
+                if (fl.getCard() != null && fl.getCard().cardName.equals(cardName)) {
+                        if(!t.checkTowerOcc(famMem, coinToPay)) {
+                            if(bool == true) {
+                                pl.currentRes = pl.currentRes.merge(
+                                        new Resources.ResBuilder().coin(coinToPay).build().inverse());
+                                bool = false;
+                            }
+                        } else {
+                            pl.sOut("Action not allowed! Please enter a valid action:");
+                            return false;
+                        }
                         floor = fl;
                         break;
                     }
                     continue;
                 }
             }
-        }
         if (floor != null) {
-            boolean ret = floor.claimFloor(famMem);
-            if (!ret) {
-                pl.sOut("Action not allowed! Please enter a valid action:");
-                return false;
+        boolean ret = floor.claimFloor(famMem);
+        if (!ret) {
+            pl.sOut("Action not allowed! Please enter a valid action:");
+            return false;
 
             } else {
                 pl.sOut("Action attempted successfully");
@@ -39,6 +48,7 @@ public class Move {
                     return true;
                 } else {
                     floor.emptyActions();
+                    pl.currentRes = pl.currentRes.merge(new Resources.ResBuilder().coin(coinToPay).build());
                     pl.sOut("Ok, aborting action as requested");
                     return false;
                 }
@@ -55,21 +65,33 @@ public class Move {
     // FIXME it stops when you are looking for a Card that in not in the board..
     // add some checks(?)
     public static void claimFloorWithCard(Board board, Player pl,String type, int value, Resources discount) {
-        FamilyMember dummy = new FamilyMember(pl, value, null);
+        FamilyMember dummy = new FamilyMember(pl, value, "Dummy");
+        int coinToPay = 3;
         pl.getAvailableFamMembers().add(dummy);
         final Resources toMerge = new Resources.ResBuilder().build();
         // FIXME handle better that nullable floor for sonar
         Floor floor = new Floor(null, null, null, 0);
-        pl.sOut("Which card do you want to obtain?: ");
-        String cardName = pl.sIn();
-        for (Tower t : board.towers) {
-            for (Floor fl : t.getFloors()) {
-                if (fl.getCard() != null) {
-                    if (fl.getCard().cardName.equals(cardName)) {
+        boolean ok = false;
+        while (!ok) {
+            pl.sOut("Which card do you want to obtain?: ");
+            String cardName = pl.sIn();
+            for (Tower t : board.towers) {
+                for (Floor fl : t.getFloors()) {
+                    if (fl.getCard() != null &&
+                            fl.getCard().cardName.equals(cardName)) {
+                        if (!t.checkTowerOcc(dummy, coinToPay)) {
+                            ok = true;
+                            if (bool) {
+                                pl.currentRes = pl.currentRes.merge(
+                                        new Resources.ResBuilder().coin(coinToPay).build().inverse());
+                                bool = false;
+                            }
+                        } else {
+                            pl.sOut("Action not allowed! Please enter a valid action:");
+                        }
                         floor = fl;
                         break;
                     }
-                    continue;
                 }
             }
         }

@@ -69,4 +69,51 @@ public class Tower {
         return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
     }
 
+    public boolean checkTowerOcc(FamilyMember fam, int resToPay) {
+        // FIXME make me prettier (?)
+        Player actionPl = fam.getParent();
+        List<FamilyMember> occupantsList = new ArrayList<>();
+        boolean ret = false;
+        fillOccupantList(occupantsList);
+
+        for (FamilyMember famMemb : occupantsList) {
+            ret = false;
+            if ("Dummy".equals(fam.getSkinColour())) {
+                ret = true;
+            }
+            Player occupantPl = famMemb.getParent();
+            if (!actionPl.playerName.equals(occupantPl.playerName) ^
+                    ((actionPl.playerName.equals(occupantPl.playerName) && "Blank".equals(fam.getSkinColour()) )
+                            || (actionPl.playerName == occupantPl.playerName
+                            && "Blank".equals(famMemb.getSkinColour())))) {
+                ret = true;
+                Move.bool = true;
+            }
+        }
+        if (ret) {
+            actionPl.sOut("Tower already occupied: ");
+            actionPl.sOut("Pay other " + resToPay + " coin to complete your action?: y/n");
+            actionPl.sOut(actionPl.currentRes.toString());
+            String answer = actionPl.sIn();
+            if ("y".equalsIgnoreCase(answer) && (actionPl.currentRes.coin >= resToPay)) {
+                return false;
+            } else {
+                actionPl.sOut("You are not allowed to pay additional coin");
+                return true;
+            }
+        } else if (occupantsList.size() == 0) {
+            return false;
+        } else {
+            actionPl.sOut("You are not allowed to take Cards from this tower");
+            return true;
+        }
+    }
+
+    private void fillOccupantList(List<FamilyMember> list) {
+        for (Floor fl : floors) {
+            if(fl.isBusy()) {
+                list.add(fl.getFamMember());
+            }
+        }
+    }
 }
