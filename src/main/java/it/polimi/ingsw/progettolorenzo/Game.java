@@ -199,7 +199,7 @@ public class Game implements Runnable {
             int servantSub = pl.increaseFamValue(famMem);
             //FIXME make me prettier
             pl.sOut("Available actions:");
-            pl.sOut(Utils.displayActions());
+            pl.sOut(Utils.displayActions(actions));
             pl.sOut("Which action do you want to try?: ");
             String action = actions.get(pl.sInPrompt(1, actions.size()) - 1);
             if ("floor".equalsIgnoreCase(action)) {
@@ -240,9 +240,11 @@ public class Game implements Runnable {
                 pl.sOut("What do you want to do? \n1. Support the Church \n2. Be excommunicated");
                 int choice = pl.sInPrompt(1, 2);
                 if (choice == 1) {
-                    pl.currentRes = pl.currentRes.merge(new Resources.ResBuilder().victoryPoint(faithVictory.get(pl.currentRes.faithPoint)).build());
+                    pl.currentRes = pl.currentRes.merge(new Resources.ResBuilder()
+                            .victoryPoint(faithVictory.get(pl.currentRes.faithPoint)).build());
                     //FIXME this is so stupid, the player's currentRes should not be final...
-                    pl.currentRes = pl.currentRes.merge(new Resources.ResBuilder().faithPoint(plFaithP).build().inverse());
+                    pl.currentRes = pl.currentRes.merge(new Resources.ResBuilder()
+                            .faithPoint(plFaithP).build().inverse());
                 } else {
                     excommunicate(pl, period);
                 }
@@ -294,7 +296,7 @@ public class Game implements Runnable {
         return currPlayer;
     }
 
-    public Board getBoard() {
-        return this.board;
-    }
+    public Board getBoard() { return this.board; }
+
+    public int getNumOfPlayers() { return players.size(); }
 }

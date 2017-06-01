@@ -72,14 +72,11 @@ public class Utils {
         return choice;
     }
 
-    public static String displayActions() {
-        List<String> actions = Arrays.asList(
-                "Floor", "Market", "CouncilPalace", "Production",
-                "Harvest");
+    public static String displayActions(List<String> toDisplay) {
         int i = 1;
         StringBuilder ret = new StringBuilder();
-        for (String action : actions) {
-            ret.append(i + " " + action);
+        for (String el : toDisplay) {
+            ret.append(i + "." + " " + el);
             ret.append(" | ");
             i++;
         }

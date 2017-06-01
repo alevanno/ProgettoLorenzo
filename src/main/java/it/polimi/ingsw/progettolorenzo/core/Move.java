@@ -3,7 +3,7 @@ package it.polimi.ingsw.progettolorenzo.core;
 public class Move {
     public static boolean bool = false;
     private Move() {
-        throw new IllegalStateException("Not thought to be instantiated");
+        throw new IllegalStateException("Not designed to be instantiated");
     }
 
     public static boolean floorAction(Board board, FamilyMember famMem) {
@@ -133,7 +133,7 @@ public class Move {
 
     public static boolean marketAction(Board board, FamilyMember fam) {
         Player pl = fam.getParent();
-        pl.sOut("Select your market place: ");
+        pl.sOut("Select your market booth: ");
         board.marketSpace.displayBooths(pl);
         int in = pl.sInPrompt(1,4);
         MarketBooth booth =  board.marketSpace.getBooths().get(in - 1);
@@ -144,9 +144,8 @@ public class Move {
         } else {
             pl.sOut("Action attempted successfully");
             booth.logActions();
-            pl.sOut("Are you fine with this?: y/n");
-            String reply = pl.sIn();
-            if ("y".equalsIgnoreCase(reply) || "s".equalsIgnoreCase(reply)) {
+            pl.sOut("Do you want to confirm?");
+            if (pl.sInPromptConf()) {
                 booth.apply();
                 pl.sOut(pl.currentRes.toString());
                 return true;
@@ -159,7 +158,34 @@ public class Move {
     }
 
 
+    public static boolean councilAction(Board board, FamilyMember fam) {
+        //TODO
+        return false;
+    }
 
+    public static boolean prodAction(Board board, FamilyMember fam) {
+        Player pl = fam.getParent();
+        boolean ret = board.productionArea.claimFamMain(fam);
+        if (!ret) { //TODO check number of players
+            pl.sOut("Main space is occupied");
+            if (pl.getParentGame().getNumOfPlayers() > 2) {
+                pl.sOut("Would you like to put your FamMem in the secondary space?");
+                if (pl.sInPromptConf()) {
+                    board.productionArea.claimFamSec(fam); //the value reduction is handled in Production
+                    return true;
+                } else {
+                    return false;
+                } //TODO
+            }
+        } else {
+            return true;
+        }
+        //TODO
+        return false;
+    }
 
-
+    public static boolean harvAction(Board board, FamilyMember fam) {
+        //TODO
+        return false;
+    }
 }

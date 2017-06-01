@@ -53,7 +53,7 @@ public class Player {
         return this.socketIn.nextLine();
     }
 
-    public int sInPrompt(int minValue, int maxValue)  {
+    public int sInPrompt(int minValue, int maxValue) {
         this.sInInit();
         int choice;
 
@@ -67,6 +67,20 @@ public class Player {
             this.socketIn.nextLine();
         } while (choice < minValue || choice > (maxValue));
         return choice;
+    }
+
+    public boolean sInPromptConf() {
+        this.sInInit();
+        String choice;
+
+        do {
+            sOut("Input 'y' (yes) or 'n' (no)");
+            choice = this.socketIn.next().substring(0,1);
+
+        } while (!"y".equalsIgnoreCase(choice) && !"n".equalsIgnoreCase(choice));
+        if ("y".equalsIgnoreCase(choice)) { return true; };
+        if ("n".equalsIgnoreCase(choice)) { return false; };
+        return false;
     }
 
     public void sOut(String s) {
@@ -148,7 +162,7 @@ public class Player {
         int i = 1;
         StringBuilder ret = new StringBuilder();
         for (FamilyMember fam : this.famMemberList) {
-            ret.append(i + " " + fam.getSkinColour() + " " + fam.getActionValue());
+            ret.append(i + "." + " " + fam.getSkinColour() + " -> " + fam.getActionValue());
             ret.append(" | ");
             i++;
         }
@@ -165,9 +179,8 @@ public class Player {
     public int increaseFamValue(FamilyMember famMember) {
         this.sOut("Do you want to increase your "
                 + famMember.getSkinColour() + " family member value?" );
-        String line = this.sIn();
         int servantSub = 0;
-        if ("yes".equalsIgnoreCase(line)) {
+        if (this.sInPromptConf()) {
             // FIXME make me prettier after currentRes handling decision
             boolean ok = false;
             while (!ok) {
