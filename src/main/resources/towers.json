@@ -23,17 +23,17 @@
         ]
     },
     {
-        "type": "buildings",
+        "type": "characters",
         "floors": [
             {
                 "bonus": {
-                    "stone": 2
+                    "victoryPoint": 2
                 },
                 "floorValue": 7
             },
             {
                 "bonus": {
-                    "stone": 1
+                    "victoryPoint": 1
                 },
                 "floorValue": 5
             },
@@ -46,17 +46,17 @@
         ]
     },
     {
-        "type": "characters",
+        "type": "buildings",
         "floors": [
             {
                 "bonus": {
-                    "victoryPoint": 2
+                    "stone": 2
                 },
                 "floorValue": 7
             },
             {
                 "bonus": {
-                    "victoryPoint": 1
+                    "stone": 1
                 },
                 "floorValue": 5
             },
