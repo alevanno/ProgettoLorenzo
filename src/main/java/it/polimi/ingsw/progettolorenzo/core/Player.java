@@ -19,6 +19,7 @@ public class Player {
     private List<FamilyMember> famMemberList = new ArrayList<>();
     private Deck cards = new Deck();
     private List<JsonObject> excommunications = new ArrayList<>(Arrays.asList(new JsonObject(), new JsonObject(), new JsonObject()));
+    private List<LeaderCard> leaderCards = new ArrayList<>();
     private BonusTile bonusT;
     private Game parentGame;
     private Scanner socketIn;
@@ -156,6 +157,10 @@ public class Player {
 
     public List<FamilyMember> getAvailableFamMembers() {
         return this.famMemberList;
+    }
+
+    public List<LeaderCard> getLeaderCards() {
+        return leaderCards;
     }
 
     public String displayFamilyMembers() {

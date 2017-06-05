@@ -91,6 +91,12 @@ public class Tower {
             }
         }
         if (ret) {
+            for(LeaderCard leader : actionPl.getLeaderCards()){
+                if("Filippo Brunelleschi".equals(leader.getName()) && leader.isActivate()) {
+                    // it permits to avoid additional payment and return at higher level
+                    return false;
+                }
+            }
             actionPl.sOut("Tower already occupied: ");
             actionPl.sOut("Pay other " + resToPay + " coin to complete your action?: y/n");
             actionPl.sOut(actionPl.currentRes.toString());
