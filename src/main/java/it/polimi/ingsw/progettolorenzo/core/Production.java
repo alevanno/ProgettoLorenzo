@@ -17,7 +17,7 @@ public class Production extends Action {
 
     //TODO Game will handle the return value;
     public boolean claimFamMain(FamilyMember fam) {
-        if (this.mainProduction != null) {
+        if (this.mainProduction == null) {
             if (prod(fam.getParent(), fam.getActionValue())) {
                 /*this.addAction(new TakeFamilyMember(fam));
                 this.addAction(new PlaceFamilyMemberInProd(fam, this));*/

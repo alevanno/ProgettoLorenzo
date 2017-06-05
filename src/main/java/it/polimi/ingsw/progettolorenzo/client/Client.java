@@ -34,7 +34,7 @@ public class Client {
     public void startClient() throws IOException {
         String name = readLine("Insert player name: ");
         boolean ok = false;
-        List<String> colourList = Arrays.asList("Blue", "Red", "Yellow", "Green", "ShitBrown", "Violet");
+        List<String> colourList = Arrays.asList("Blue", "Red", "Yellow", "Green", "Brown", "Violet");
         String colour = "";
         while (!ok) {
             printLine("You can choose between: " + colourList.toString());
@@ -42,7 +42,7 @@ public class Client {
             if(colourList.contains(colour)) {
                 ok = true;
             } else {
-                printLine("Please choose a valid color!");
+                printLine("Please choose a valid colour!");
 
             }
         }

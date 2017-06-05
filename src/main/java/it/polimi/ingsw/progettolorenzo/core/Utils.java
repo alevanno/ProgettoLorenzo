@@ -72,7 +72,7 @@ public class Utils {
         return choice;
     }
 
-    public static String displayActions(List<String> toDisplay) {
+    public static String displayList(List<String> toDisplay) {
         int i = 1;
         StringBuilder ret = new StringBuilder();
         for (String el : toDisplay) {

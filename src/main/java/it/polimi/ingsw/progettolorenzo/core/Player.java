@@ -222,6 +222,15 @@ public class Player {
         } return servantSub;
     }
 
+    public void revertFamValue(FamilyMember famMem, int servantSub) {
+        //reverts the value increase by servants
+        famMem.setActionValue(famMem
+                .getActionValue() - servantSub);
+        this.currentRes = this.currentRes.merge(new
+                Resources.ResBuilder()
+                .servant(servantSub).build());
+    }
+
     private void endgameLostVictoryRes(Resources loseVictoryRes) {
         currentRes.resourcesList.forEach((x, y) -> { //iterates over currentRes<key,value>
             if (loseVictoryRes.getByString(x) != 0) {

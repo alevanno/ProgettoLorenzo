@@ -199,33 +199,47 @@ public class Game implements Runnable {
             int servantSub = pl.increaseFamValue(famMem);
             //FIXME make me prettier
             pl.sOut("Available actions:");
-            pl.sOut(Utils.displayActions(actions));
+            pl.sOut(Utils.displayList(actions));
             pl.sOut("Which action do you want to try?: ");
+            board.displayBoard();
             String action = actions.get(pl.sInPrompt(1, actions.size()) - 1);
-            if ("floor".equalsIgnoreCase(action)) {
+            if ("Floor".equalsIgnoreCase(action)) {
                 if (Move.floorAction(this.board, famMem)) {
                     break;
                 } else {
-                // placed here to abort this operation if player is not satisfied
-                    famMem.setActionValue(famMem
-                            .getActionValue() - servantSub);
-                    pl.currentRes = pl.currentRes.merge(new
-                            Resources.ResBuilder()
-                            .servant(servantSub).build());
+                    // placed here to abort this operation if player is not satisfied, reverts the value increase by servants
+                    pl.revertFamValue(famMem, servantSub);
                 }
-            }
-            if ("market".equalsIgnoreCase(action)) {
+            } else if ("Market".equalsIgnoreCase(action)) {
                 if (Move.marketAction(this.board, famMem)) {
                     break;
                 } else {
-                    famMem.setActionValue(famMem
-                            .getActionValue() - servantSub);
+                    pl.revertFamValue(famMem, servantSub);
+                }
+            } else if ("CouncilPalace".equalsIgnoreCase(action)) {
+                if (Move.councilAction(this.board, famMem)) {
+                    break;
+                } else {
+                    pl.revertFamValue(famMem, servantSub);
+                }
+            } else if ("Production".equalsIgnoreCase(action)) {
+                if (Move.prodAction(this.board, famMem)) {
+                    break;
+                } else {
+                    pl.revertFamValue(famMem, servantSub);
+                }
+            } else if ("Harvest".equalsIgnoreCase(action)) {
+                if (Move.harvAction(this.board, famMem)) {
+                    break;
+                } else {
+                    pl.revertFamValue(famMem, servantSub);
                 }
             }
         }
     }
+
     private void reportToVatican (int currTurn) {
-        //FIXME should this be loaded from a Json?
+        //FIXME this should be loaded from a json
         List<Integer> faithVictory = Arrays.asList(0, 1, 2, 3, 4, 5, 7, 9, 11, 13, 15, 17, 19, 22, 25, 30);
         //TODO
         for (Player pl: players) {

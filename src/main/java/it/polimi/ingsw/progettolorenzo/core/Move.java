@@ -6,6 +6,21 @@ public class Move {
         throw new IllegalStateException("Not designed to be instantiated");
     }
 
+    public static boolean confirmation(Player pl, Action act) {
+        pl.sOut("Action attempted successfully");
+        act.logActions();
+        pl.sOut("Do you want to confirm?");
+        if (pl.sInPromptConf()) {
+            act.apply();
+            pl.sOut(pl.currentRes.toString());
+            return true;
+        } else {
+            act.emptyActions();
+            pl.sOut("Ok, aborting action as requested");
+            return false;
+        }
+    }
+
     public static boolean floorAction(Board board, FamilyMember famMem) {
         Player pl = famMem.getParent();
         int coinToPay = 3;        // FIXME make me configurable?
@@ -14,9 +29,9 @@ public class Move {
         Floor floor = null;
         for (Tower t : board.towers) {
             for (Floor fl : t.getFloors()) {
-                if (fl.getCard() != null && fl.getCard().cardName.equals(cardName)) {
+                if (fl.getCard() != null && fl.getCard().cardName.equalsIgnoreCase(cardName)) {
                         if(!t.checkTowerOcc(famMem, coinToPay)) {
-                            if(bool == true) {
+                            if (bool) {
                                 pl.currentRes = pl.currentRes.merge(
                                         new Resources.ResBuilder().coin(coinToPay).build().inverse());
                                 bool = false;
@@ -39,14 +54,14 @@ public class Move {
             } else {
                 pl.sOut("Action attempted successfully");
                 floor.logActions();
-                pl.sOut("Are you fine with this?: y/n");
-                String reply = pl.sIn();
-                if ("y".equalsIgnoreCase(reply) || "s".equalsIgnoreCase(reply)) {
+                pl.sOut("Do you want to confirm?");
+                if (pl.sInPromptConf()) {
                     floor.apply();
                     pl.sOut(pl.currentRes.toString());
                     return true;
                 } else {
                     floor.emptyActions();
+                    //next actions to do if confirmation == false
                     pl.currentRes = pl.currentRes.merge(new Resources.ResBuilder().coin(coinToPay).build());
                     pl.sOut("Ok, aborting action as requested");
                     return false;
@@ -54,14 +69,13 @@ public class Move {
             }
         } else {
             pl.sOut("Card " + cardName
-                    + " was already taken!: please choose an other action: ");
+                    + " does not exist!: please choose another action: ");
             return false;
         }
     }
 
 
     // FIXME it contains duplication from floorAction...
-    // FIXME it stops when you are looking for a Card that in not in the board..
     // add some checks(?)
     public static void claimFloorWithCard(Board board, Player pl,String type, int value, Resources discount) {
         FamilyMember dummy = new FamilyMember(pl, value, "Dummy");
@@ -115,14 +129,14 @@ public class Move {
         } else {
             pl.sOut("Action attempted successfully");
             floor.logActions();
-            pl.sOut("Are you fine with this?: y/n");
-            String reply = pl.sIn();
-            if ("y".equalsIgnoreCase(reply) || "s".equalsIgnoreCase(reply)) {
+            pl.sOut("Do you want to confirm?");
+            if (pl.sInPromptConf()) {
                 floor.apply();
                 pl.sOut(pl.currentRes.toString());
             } else {
                 floor.emptyActions();
                 pl.sOut("Ok, aborting action as requested");
+                //next actions to do if confirmation == false
                 dummy.setActionValue(dummy
                         .getActionValue() - servantSub);
                 pl.currentRes = pl.currentRes.merge(new
@@ -172,20 +186,38 @@ public class Move {
                 pl.sOut("Would you like to put your FamMem in the secondary space?");
                 if (pl.sInPromptConf()) {
                     board.productionArea.claimFamSec(fam); //the value reduction is handled in Production
-                    return true;
+                    confirmation(pl, board.productionArea);
                 } else {
                     return false;
                 } //TODO
+            } else {
+                return false;
             }
         } else {
-            return true;
+            confirmation(pl, board.productionArea);
         }
-        //TODO
         return false;
     }
 
     public static boolean harvAction(Board board, FamilyMember fam) {
-        //TODO
+        Player pl = fam.getParent();
+        boolean ret = board.harvestArea.claimFamMain(fam);
+        if (!ret) { //TODO check number of players
+            pl.sOut("Main space is occupied");
+            if (pl.getParentGame().getNumOfPlayers() > 2) {
+                pl.sOut("Would you like to put your FamMem in the secondary space?");
+                if (pl.sInPromptConf()) {
+                    board.harvestArea.claimFamSec(fam); //the value reduction is handled in Production
+                    confirmation(pl, board.harvestArea);
+                } else {
+                    return false;
+                } //TODO
+            } else {
+                return false;
+            }
+        } else {
+            confirmation(pl, board.harvestArea);
+        }
         return false;
     }
 }
