@@ -55,7 +55,7 @@ public class Floor extends Action {
             fam.getParent().sOut("Insufficient value");
             return false;
         }
-        if (fam.getParent().currentRes.merge(cardCost).inverse().isNegative()) {
+        if (fam.getParent().currentRes.merge(cardCost.inverse()).isNegative()) {
             fam.getParent().sOut("Insufficient resources");
             return false;
         }

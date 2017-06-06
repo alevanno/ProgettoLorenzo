@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import it.polimi.ingsw.progettolorenzo.Game;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -92,7 +91,7 @@ public class Tower {
         }
         if (ret) {
             for(LeaderCard leader : actionPl.getLeaderCards()){
-                if("Filippo Brunelleschi".equals(leader.getName()) && leader.isActivate()) {
+                if("Filippo Brunelleschi".equals(leader.getName()) && leader.isActivated()) {
                     // it permits to avoid additional payment and return at higher level
                     return false;
                 }

@@ -5,7 +5,7 @@ package it.polimi.ingsw.progettolorenzo.core;
 public abstract class LeaderCard {
     public abstract void apply();
     public abstract String getName();
-    public abstract boolean isActivate();
+    public abstract boolean isActivated();
 }
 
 class FrancescoSforza extends LeaderCard {
@@ -35,14 +35,14 @@ class FrancescoSforza extends LeaderCard {
     }
 
     public void onePerRoundAbility(){
-        if(this.isActivate()) {
+        if(this.isActivated()) {
             // TODO first finish prodAction -> it calls a production of value 1
             // we should call prod(pl,value) without familyMember
         }
     }
 
     @Override
-    public boolean isActivate() {
+    public boolean isActivated() {
         return this.activation;
     }
 
@@ -87,7 +87,7 @@ class FilippoBrunelleschi extends LeaderCard {
                 "the additional cost if a tower is already occupied");
     }
 
-    public boolean isActivate() {
+    public boolean isActivated() {
         return activation;
     }
 
