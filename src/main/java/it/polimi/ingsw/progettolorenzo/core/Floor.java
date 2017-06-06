@@ -55,8 +55,8 @@ public class Floor extends Action {
             fam.getParent().sOut("Insufficient value");
             return false;
         }
-        if (fam.getParent().currentRes.merge(cardCost).isNegative()) {
-            fam.getParent().sOut("Insufficient resources value");
+        if (fam.getParent().currentRes.merge(cardCost).inverse().isNegative()) {
+            fam.getParent().sOut("Insufficient resources");
             return false;
         }
         if(tmpRes.militaryPoint >= floorCard.minMilitaryPoint
