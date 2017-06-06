@@ -105,10 +105,11 @@ public class Console2 extends BasicWindow {
                 new Label(input.get("type").getAsString())
             ));
             panel.addComponent(new Label("Cost:"));
-            panel.addComponent(
-                new Label("TODO")
-                //new Label(Resources.fromJson(input.get("cost")).toString())
-            );
+            for( JsonElement x : input.get("cost").getAsJsonArray()) {
+                panel.addComponent(
+                    new Label(Resources.fromJson(x).toString())
+                );
+            }
             return panel.withBorder(Borders.singleLine(
                 "Card: " + input.get("name").getAsString()
             ));
