@@ -14,35 +14,18 @@ public class Client {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private Socket socket;
 
-    protected static void printLine(String format, Object... args) {
-        if (System.console() != null) {
-            System.console().format(format, args);
-            System.console().flush();
-        } else {
-            System.out.println(String.format(format, args));
-        }
-    }
-
-    protected static String readLine(String format, Object... args) {
-        if (System.console() != null) {
-            return System.console().readLine(format, args);
-        }
-        System.out.print(String.format(format, args));
-        return new Scanner(System.in).nextLine();
-    }
-
     public void startClient() throws IOException {
-        String name = readLine("Insert player name: ");
+        String name = Console.readLine("Insert player name: ");
         boolean ok = false;
         List<String> colourList = Arrays.asList("Blue", "Red", "Yellow", "Green", "Brown", "Violet");
         String colour = "";
         while (!ok) {
-            printLine("You can choose between: " + colourList.toString());
-            colour = readLine("Please choose your colour: ");
+            Console.printLine("You can choose between: " + colourList.toString());
+            colour = Console.readLine("Please choose your colour: ");
             if(colourList.contains(colour)) {
                 ok = true;
             } else {
-                printLine("Please choose a valid colour!");
+                Console.printLine("Please choose a valid colour!");
 
             }
         }
@@ -50,8 +33,8 @@ public class Client {
                 Config.client.get("serverAddress").getAsString(),
                 Config.client.get("port").getAsInt()
         );
-        printLine("Connection Established");
-        printLine("Waiting for players connection....");
+        Console.printLine("Connection Established");
+        Console.printLine("Waiting for players connection....");
         PrintWriter out = new PrintWriter(socket.getOutputStream());
         out.println(name);
         out.println(colour);
@@ -107,7 +90,7 @@ class ClientInHandler implements Runnable {
                         new Console().formatBoard(line.substring(1));
                         break;
                     default:
-                        Client.printLine(line);
+                        Console.printLine(line);
                         break;
                 }
             } catch (IOException e) {

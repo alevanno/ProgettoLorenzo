@@ -10,12 +10,30 @@ import it.polimi.ingsw.progettolorenzo.core.Resources;
 
 import java.io.IOException;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Console {
 
+    protected static void printLine(String format, Object... args) {
+        if (System.console() != null) {
+            System.console().format(format, args);
+            System.console().flush();
+        } else {
+            System.out.println(String.format(format, args));
+        }
+    }
+
+    protected static String readLine(String format, Object... args) {
+        if (System.console() != null) {
+            return System.console().readLine(format, args);
+        }
+        System.out.print(String.format(format, args));
+        return new Scanner(System.in).nextLine();
+    }
+
     public void formatBoard(String input) {
         JsonObject boardIn = new Gson().fromJson(input, JsonObject.class);
-        Client.printLine("The board as it is now:");
+        printLine("The board as it is now:");
         try {
             Screen screen = new DefaultTerminalFactory().createScreen();
             WindowBasedTextGUI textGUI = new MultiWindowTextGUI(screen);
