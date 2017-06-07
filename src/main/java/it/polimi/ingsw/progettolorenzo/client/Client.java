@@ -40,9 +40,9 @@ public class Client {
         out.println(colour);
         out.flush();
         ExecutorService executor = Executors.newFixedThreadPool(2);
-        executor.submit(new ClientInHandler(new BufferedReader(new
+        executor.submit(new InHandler(new BufferedReader(new
                 InputStreamReader(socket.getInputStream()))));
-        executor.submit(new ClientOutHandler(new
+        executor.submit(new OutHandler(new
                 PrintWriter(new BufferedWriter(new
                 OutputStreamWriter(socket.getOutputStream())))));
     }
@@ -69,11 +69,11 @@ public class Client {
     }
 }
 
-class ClientInHandler implements Runnable {
+class InHandler implements Runnable {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private BufferedReader socketIn;
 
-    public ClientInHandler(BufferedReader socketIn) {
+    public InHandler(BufferedReader socketIn) {
         this.socketIn=socketIn;
     }
 
@@ -101,10 +101,10 @@ class ClientInHandler implements Runnable {
     }
 }
 
-class ClientOutHandler implements Runnable {
+class OutHandler implements Runnable {
     private PrintWriter socketOut;
 
-    public ClientOutHandler(PrintWriter socketOut) {
+    public OutHandler(PrintWriter socketOut) {
         this.socketOut = socketOut;
     }
 
