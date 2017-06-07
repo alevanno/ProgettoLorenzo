@@ -16,8 +16,8 @@ public class SocketClient {
 
     public void startClient(String name, String colour) throws IOException {
         this.socket = new Socket(
-                Config.client.get("serverAddress").getAsString(),
-                Config.client.get("port").getAsInt()
+                Config.Client.socket.get("serverAddress").getAsString(),
+                Config.Client.socket.get("port").getAsInt()
         );
         Console.printLine("Connection Established");
         Console.printLine("Waiting for players connection....");

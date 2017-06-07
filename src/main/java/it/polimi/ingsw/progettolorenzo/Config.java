@@ -11,4 +11,12 @@ public class Config {
     private Config() {
         throw new IllegalStateException("Utility class");
     }
+
+    public static class Server {
+        public static final JsonObject socket = server.get("socket").getAsJsonObject();
+    }
+
+    public static class Client {
+        public static final JsonObject socket = client.get("socket").getAsJsonObject();
+    }
 }

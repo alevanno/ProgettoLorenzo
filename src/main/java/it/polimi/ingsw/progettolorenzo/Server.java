@@ -22,10 +22,10 @@ public class Server {
 
     public void startServer() throws IOException {
         ExecutorService executor = Executors.newCachedThreadPool();
-        int port = Config.server.get("port").getAsInt();
+        int port = Config.Server.socket.get("port").getAsInt();
         InetAddress address = InetAddress.getByName(
-                Config.server.get("bind").getAsString()
-            );
+            Config.Server.socket.get("bind").getAsString()
+        );
         ServerSocket serverSocket = new ServerSocket(port, 0, address);
         log.info("Server socket ready on port: " + port);
         log.info("Server ready");
@@ -33,7 +33,7 @@ public class Server {
         while (true) {
             try {
                 Socket socket = serverSocket.accept();
-                log.info("new Client connection");
+                log.info("new SocketClient connection");
                 Scanner socketIn = new Scanner(socket.getInputStream());
                 String name = socketIn.nextLine();
                 String colour = socketIn.nextLine();
