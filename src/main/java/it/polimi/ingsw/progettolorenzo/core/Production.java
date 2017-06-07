@@ -27,7 +27,7 @@ public class Production extends Action {
     }
     //FIXME non gestisce l'incremento azione con servitori
     //FIXME the secondary space is not available in a 2 player game
-    public void claimFamSec(FamilyMember fam) { //TODO valore decrementato di 3
+    public void claimFamSec(FamilyMember fam) {
         this.secondaryProduction.add(fam);
         prod(fam.getParent(), fam.getActionValue() - 3);
     }

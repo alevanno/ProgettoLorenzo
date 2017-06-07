@@ -174,7 +174,8 @@ public class Move {
 
     public static boolean councilAction(Board board, FamilyMember fam) {
         //TODO
-        return false;
+        Player pl = fam.getParent();
+        return board.councilPalace.claimSpace(fam) && confirmation(pl, board.councilPalace);
     }
 
     public static boolean prodAction(Board board, FamilyMember fam) {
@@ -208,7 +209,7 @@ public class Move {
                 pl.sOut("Would you like to put your FamMem in the secondary space?");
                 if (pl.sInPromptConf()) {
                     board.harvestArea.claimFamSec(fam); //the value reduction is handled in Production
-                    confirmation(pl, board.harvestArea);
+                    return confirmation(pl, board.harvestArea);
                 } else {
                     return false;
                 } //TODO
@@ -216,8 +217,7 @@ public class Move {
                 return false;
             }
         } else {
-            confirmation(pl, board.harvestArea);
+            return confirmation(pl, board.harvestArea);
         }
-        return false;
     }
 }

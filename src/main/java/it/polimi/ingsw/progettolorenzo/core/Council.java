@@ -54,14 +54,22 @@ public class Council extends Action {
     }
 
     //actionBuilder for Council class
-    public void claimSpace(FamilyMember fam) {
+    public boolean claimSpace(FamilyMember fam) {
         Player p = fam.getParent();
+        if (fam.getActionValue() < 1) {
+            p.sOut("You need an action value of at least 1");
+            return false;
+        }
         this.addAction(new TakeFamilyMember(fam));
         this.addAction(new PlaceFamilyMemberInCouncil(fam, this));
         this.addAction(new ResourcesAction(
                 "bonus entry from Council", this.bonusEntry, p));
-        if (fam.getParent().getParentGame().getFirstAvailPlace(fam.getParent(), firstAvailSpace)) { firstAvailSpace++; }
         this.addAction(new ResourcesAction(
                 "Council privilege", this.choosePrivilege(p), p));
+        return true;
+    }
+
+    protected void placeFamilyMember(FamilyMember fam) {
+        if (fam.getParent().getParentGame().getFirstAvailPlace(fam.getParent(), firstAvailSpace)) { firstAvailSpace++; };
     }
 }
