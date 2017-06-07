@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Client {
+public class SocketClient {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private Socket socket;
 
@@ -58,7 +58,7 @@ public class Client {
     }
 
     public static void main(String[] args) {
-        Client client = new Client();
+        SocketClient client = new SocketClient();
         try {
             client.startClient();
         } catch (IOException e) {
