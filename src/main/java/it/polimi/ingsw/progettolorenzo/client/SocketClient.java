@@ -14,21 +14,7 @@ public class SocketClient {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private Socket socket;
 
-    public void startClient() throws IOException {
-        String name = Console.readLine("Insert player name: ");
-        boolean ok = false;
-        List<String> colourList = Arrays.asList("Blue", "Red", "Yellow", "Green", "Brown", "Violet");
-        String colour = "";
-        while (!ok) {
-            Console.printLine("You can choose between: " + colourList.toString());
-            colour = Console.readLine("Please choose your colour: ");
-            if(colourList.contains(colour)) {
-                ok = true;
-            } else {
-                Console.printLine("Please choose a valid colour!");
-
-            }
-        }
+    public void startClient(String name, String colour) throws IOException {
         this.socket = new Socket(
                 Config.client.get("serverAddress").getAsString(),
                 Config.client.get("port").getAsInt()
@@ -57,16 +43,6 @@ public class SocketClient {
         }
     }
 
-    public static void main(String[] args) {
-        SocketClient client = new SocketClient();
-        try {
-            client.startClient();
-        } catch (IOException e) {
-            client.log.log(Level.SEVERE, e.getMessage(), e);
-            client.closeSocket();
-            System.exit(1);
-        }
-    }
 }
 
 class InHandler implements Runnable {
