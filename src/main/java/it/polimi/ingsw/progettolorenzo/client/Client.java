@@ -104,7 +104,7 @@ class ClientInHandler implements Runnable {
                 }
                 switch (line.substring(0, 1)) {
                     case "☃":
-                        new Console2().formatBoard(line.substring(1));
+                        new Console().formatBoard(line.substring(1));
                         break;
                     default:
                         Client.printLine(line);
