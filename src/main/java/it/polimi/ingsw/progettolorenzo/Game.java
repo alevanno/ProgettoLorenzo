@@ -128,10 +128,14 @@ public class Game implements Runnable {
         }
     }
 
-    public void getFirstPlace(Player pl) {
+    public boolean getFirstAvailPlace(Player pl, int councPlace) {
         int index = players.indexOf(pl);
-        players.remove(index);
-        players.add(0, pl);
+        if (index > councPlace) {
+            players.remove(index);
+            players.add(councPlace, pl);
+            return true;
+        }
+        return false;
     }
 
     private void loadCards() {
@@ -239,8 +243,8 @@ public class Game implements Runnable {
     }
 
     private void reportToVatican (int currTurn) {
-        //FIXME this should be loaded from a json
-        List<Integer> faithVictory = Arrays.asList(0, 1, 2, 3, 4, 5, 7, 9, 11, 13, 15, 17, 19, 22, 25, 30);
+        //TODO testing
+        JsonArray faithVictory = Utils.getJsonArray("faithTrack.json");
         //TODO
         for (Player pl: players) {
             int period = currTurn/2;
@@ -254,8 +258,7 @@ public class Game implements Runnable {
                 pl.sOut("What do you want to do? \n1. Support the Church \n2. Be excommunicated");
                 int choice = pl.sInPrompt(1, 2);
                 if (choice == 1) {
-                    pl.currentRes = pl.currentRes.merge(new Resources.ResBuilder()
-                            .victoryPoint(faithVictory.get(pl.currentRes.faithPoint)).build());
+                    pl.currentRes = pl.currentRes.merge(Resources.fromJson(faithVictory.get(pl.currentRes.faithPoint)));
                     //FIXME this is so stupid, the player's currentRes should not be final...
                     pl.currentRes = pl.currentRes.merge(new Resources.ResBuilder()
                             .faithPoint(plFaithP).build().inverse());

@@ -115,8 +115,6 @@ public class Player {
         log.fine("4 family members attached to " + this);
     }
 
-    public void getFirstPlace() { getParentGame().getFirstPlace(this); }
-
     public BonusTile getBonusT() {
         return bonusT;
     }

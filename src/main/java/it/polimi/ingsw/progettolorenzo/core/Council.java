@@ -2,12 +2,11 @@ package it.polimi.ingsw.progettolorenzo.core;
 
 import com.google.gson.JsonObject;
 import java.util.*;
-import static it.polimi.ingsw.progettolorenzo.core.Utils.intPrompt;
 
 public class Council extends Action {
-    private List<Player> playerOrder = new ArrayList<>();
     private final List<Resources> privilegeChoices;
     public final Resources bonusEntry;
+    private int firstAvailSpace = 0;
 
     public Council() {
         JsonObject data = Utils.getJsonObject("council.json");
@@ -61,12 +60,8 @@ public class Council extends Action {
         this.addAction(new PlaceFamilyMemberInCouncil(fam, this));
         this.addAction(new ResourcesAction(
                 "bonus entry from Council", this.bonusEntry, p));
-        fam.getParent().getFirstPlace();
+        if (fam.getParent().getParentGame().getFirstAvailPlace(fam.getParent(), firstAvailSpace)) { firstAvailSpace++; }
         this.addAction(new ResourcesAction(
                 "Council privilege", this.choosePrivilege(p), p));
-    }
-
-    protected void placeFamilyMember(FamilyMember f) {
-        this.playerOrder.add(f.getParent());
     }
 }
