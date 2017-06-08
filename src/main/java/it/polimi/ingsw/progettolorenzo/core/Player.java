@@ -220,6 +220,29 @@ public class Player {
         } return servantSub;
     }
 
+    // TODO this method affects only the activation of a leader card;
+    // we should create an other method to use the One per Round ability
+    public boolean ActivateLeaderCard() {
+        this.sOut("Which Leader card do you want to activate?");
+        int count = 0;
+        if (leaderCards.isEmpty()) {
+            this.sOut("You don't have any Leader Card anymore");
+            return false;
+        }
+        for (LeaderCard card : leaderCards) {
+            this.sOut(String.format("%s %d %s",count + 1 + " -> " + card.getName(),
+                    card.getActivationCost(), ": " + card.getCardCostType()));
+            count++;
+        }
+        int choice = this.sInPrompt(1, count);
+        boolean ret = leaderCards.get(choice - 1).apply();
+        if (ret){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public void revertFamValue(FamilyMember famMem, int servantSub) {
         //reverts the value increase by servants
         famMem.setActionValue(famMem

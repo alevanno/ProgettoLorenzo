@@ -20,7 +20,7 @@ public class Game implements Runnable {
             "territories", "buildings", "characters", "ventures");
     private List<String> actions = Arrays.asList(
             "Floor", "Market", "CouncilPalace", "Production",
-            "Harvest");
+            "Harvest", "Activate leader card");
     private HashMap<String, Deck> unhandledCards = new HashMap<>();
     private List<Player> players = new ArrayList<>(); //active players and their order
     private int halfPeriod;
@@ -238,6 +238,9 @@ public class Game implements Runnable {
                 } else {
                     pl.revertFamValue(famMem, servantSub);
                 }
+            } else if ("Activate leader card".equalsIgnoreCase(action)) {
+                pl.ActivateLeaderCard();
+                this.operation(pl);
             }
         }
     }
