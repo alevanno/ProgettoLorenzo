@@ -19,7 +19,7 @@ public class Player {
     private List<FamilyMember> famMemberList = new ArrayList<>();
     private Deck cards = new Deck();
     private List<JsonObject> excommunications = new ArrayList<>(Arrays.asList(new JsonObject(), new JsonObject(), new JsonObject()));
-    private List<LeaderCard> leaderCards = new ArrayList<>();
+    private List<LeaderCard> leaderCards = new ArrayList<>(Arrays.asList(new LudovicoAriosto(this)));
     private BonusTile bonusT;
     private Game parentGame;
     private Scanner socketIn;
@@ -102,16 +102,14 @@ public class Player {
     public void famMembersBirth(Map<String, Integer> famValues) {
         List <String> colorList = Arrays.asList("Orange", "Black", "White");
         for (String s: colorList) {
-            int val;
+            int val = famValues.get(s);
             for(LeaderCard leader : leaderCards) {
                 if("Lucrezia Borgia".equals(leader.getName()) && leader.isActivated()){
-                    val = famValues.get(s) + 2;
+                    val += 2;
                 }
             }
             if (excommunications.get(0).has("harvMalus")) {
-                val = famValues.get(s) - 1;
-            } else {
-                val = famValues.get(s);
+                val -= 1;
             }
             this.famMemberList.add(new FamilyMember(this, val, s));
         }
@@ -200,7 +198,6 @@ public class Player {
             servantSub = servantSpent / servantExp;
         } else {
             servantSub = this.sInPrompt(1, servant);
-            servantSpent = servantSub;
         }
         return servantSub;
     }

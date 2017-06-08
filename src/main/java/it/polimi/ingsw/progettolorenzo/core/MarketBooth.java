@@ -51,9 +51,19 @@ public class MarketBooth extends Action {
             p.sOut("You need an action value of at least 1");
             return false;
         }
-        if(this.getFamMember() == null) {
+        LeaderCard Ariosto = null;
+        for (LeaderCard leader : fam.getParent().getLeaderCards()) {
+            if("Ludovico Ariosto".equals(leader.getName())
+                    && leader.isActivated()) {
+                Ariosto = leader;
+            }
+        }
+        // ugly, but it seems to work
+        if(this.getFamMember() == null || Ariosto != null) {
             this.addAction(new TakeFamilyMember(fam));
-            this.addAction(new PlaceFamilyMemberInBooth(fam, this));
+            if (this.getFamMember() == null) {
+                this.addAction(new PlaceFamilyMemberInBooth(fam, this));
+            }
             this.bonus.addAll(new Council().chooseMultiPrivilege(this.councilPrivilege, p));
             for (Resources res : this.bonus) {
                 this.addAction(new ResourcesAction(

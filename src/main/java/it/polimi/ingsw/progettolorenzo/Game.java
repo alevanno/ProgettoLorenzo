@@ -182,6 +182,11 @@ public class Game implements Runnable {
                 pl.sOut("You skip the first round due to your excommunication");
                 continue;
             }
+            for (LeaderCard leader : pl.getLeaderCards()) {
+                if(leader.hasOnePerTurnAbility()){
+                    leader.setOnePerRoundUsage(false);
+                }
+            }
             this.operation(pl);
         }
         for (Player pl : skippedPlayers) {

@@ -9,6 +9,7 @@ public abstract class LeaderCard {
     public abstract String getCardCostType();
     public abstract boolean isActivated();
     public abstract boolean hasOnePerTurnAbility();
+    public void setOnePerRoundUsage(boolean bool){};
 }
 
 class FrancescoSforza extends LeaderCard {
@@ -18,6 +19,7 @@ class FrancescoSforza extends LeaderCard {
     private Player owner;
     private boolean activation = false;
     private boolean onePerRound = true;
+    private boolean onePerRoundUsage = false;
 
 
     public FrancescoSforza(Player pl) {
@@ -36,6 +38,10 @@ class FrancescoSforza extends LeaderCard {
             owner.sOut("Would you like to activate the one per round ability? ");
             boolean ret = owner.sInPromptConf();
             if (ret) {
+                if(this.onePerRoundUsage) {
+                    owner.sOut("You have already activated it in this round");
+                    return false;
+                }
                 this.onePerRoundAbility();
                 return true;
             } else {
@@ -81,8 +87,13 @@ class FrancescoSforza extends LeaderCard {
         }
         owner.getParentGame().getBoard().harvestArea.harv(owner, value);
         owner.sOut("One per round ability accomplished");
+        onePerRoundUsage = true;
     }
 
+    @Override
+    public void setOnePerRoundUsage(boolean bool){
+        this.onePerRoundUsage = bool;
+    }
 
     @Override
     public boolean isActivated() {

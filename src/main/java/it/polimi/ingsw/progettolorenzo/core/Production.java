@@ -17,11 +17,23 @@ public class Production extends ActionProdHarv {
     private List<FamilyMember> secondaryProduction = new ArrayList<>();
 
     public boolean claimFamMain(FamilyMember fam) {
-        if (this.mainProduction == null) {
+        LeaderCard Ariosto = null;
+        for (LeaderCard leader : fam.getParent().getLeaderCards()) {
+            if("Ludovico Ariosto".equals(leader.getName())
+                    && leader.isActivated()) {
+                Ariosto = leader;
+            }
+        }
+        //place fam Member only if mainProd = null, but take from pl
+        // the family member and accomplish the action also if
+        // pl have Ariosto leader card
+        if (this.mainProduction == null || Ariosto != null) {
             if (prod(fam.getParent(), fam.getActionValue())) {
                 //TODO testing
                 this.addAction(new TakeFamilyMember(fam));
-                this.addAction(new PlaceFamMemberInProdHarv(fam, this, true));
+                if(this.mainProduction == null) {
+                    this.addAction(new PlaceFamMemberInProdHarv(fam, this, true));
+                }
                 return true;
             }
         }
