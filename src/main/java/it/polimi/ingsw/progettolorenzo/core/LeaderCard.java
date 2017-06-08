@@ -262,4 +262,77 @@ class LucreziaBorgia extends LeaderCard {
     public boolean hasOnePerTurnAbility() {
         return this.onePerRound;
     }
+
+}
+
+class LudovicoAriosto extends LeaderCard {
+    private String name = "Ludovico Ariosto";
+    private int activationCost = 5;
+    private String type = "characters";
+    private Player owner;
+    private boolean activation = false;
+    private boolean onePerRound = false;
+
+    public LudovicoAriosto(Player pl) {
+        this.owner = pl;
+    }
+
+    @Override
+    public boolean apply() {
+        int counter = 0;
+        for (Card card : owner.listCards()) {
+            if (type.equals(card.cardType)) {
+                counter++;
+            }
+        }
+        if (counter >= activationCost) {
+            owner.sOut("You have enough cards of the same type " +
+                    "to activate the " +
+                    "permanent ability of " + this.name + "leader card");
+            owner.sOut("Would you activate it?");
+            boolean ret = owner.sInPromptConf();
+            if (ret) {
+                this.permanentAbility();
+                return true;
+            } else {
+                owner.sOut("You didn't activate the Leader card permanent ability");
+                return false;
+            }
+        } else {
+            owner.sOut("You still don't satisfy the activationCost");
+            return false;
+        }
+    }
+
+    public void permanentAbility() {
+        this.activation = true;
+        owner.sOut("Permanent ability activated: you can place your " +
+                "family Members in occupied action spaces. ");
+    }
+
+    @Override
+    public boolean isActivated() {
+        return activation;
+    }
+
+    @Override
+    public String getName(){
+        return this.name;
+    }
+
+    @Override
+    public int getActivationCost() {
+        return activationCost;
+    }
+
+    @Override
+    public String getCardCostType() {
+        return this.type;
+    }
+
+    @Override
+    public boolean hasOnePerTurnAbility() {
+        return this.onePerRound;
+    }
+
 }
