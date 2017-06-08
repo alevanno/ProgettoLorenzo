@@ -10,6 +10,7 @@ import java.util.Scanner;
 public class Market {
 
     List<MarketBooth> booths = new ArrayList<>();
+    public int numOfBooths;
 
 
 
@@ -28,7 +29,10 @@ public class Market {
     // TODO it needs improvements and it has to show the occupantPlayer
     public void displayBooths(Player pl) {
         pl.sOut("Where do you want to put your Family Member?: ");
-        for (int i = 1; i-1 < 4; i++) {
+        if (pl.getParentGame().getNumOfPlayers() > 3) {
+            numOfBooths = 4;
+        } else { numOfBooths = 2; }
+        for (int i = 1; i-1 < numOfBooths; i++) {
             if (i == 4) {
                 pl.sOut(i + " Booth: " + '[' + booths.get(i-1).getCouncilPrivilege()+ " councilPrivileges" + ']');
             } else {

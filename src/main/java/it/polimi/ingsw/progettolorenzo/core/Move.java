@@ -11,12 +11,14 @@ public class Move {
         act.logActions();
         pl.sOut("Do you want to confirm?");
         if (pl.sInPromptConf()) {
+            pl.sOut("Previous Res: " + pl.currentRes.toString());
             act.apply();
-            pl.sOut(pl.currentRes.toString());
+            pl.sOut("Current Res: " + pl.currentRes.toString());
             return true;
         } else {
             act.emptyActions();
             pl.sOut("Ok, aborting action as requested");
+            pl.sOut("Current Res: " + pl.currentRes.toString());
             return false;
         }
     }
@@ -52,24 +54,16 @@ public class Move {
                 pl.sOut("Action not allowed! Please enter a valid action:");
                 return false;
             } else {
-                pl.sOut("Action attempted successfully");
-                floor.logActions();
-                pl.sOut("Do you want to confirm?");
-                if (pl.sInPromptConf()) {
-                    floor.apply();
-                    pl.sOut(pl.currentRes.toString());
-                    return true;
-                } else {
-                    floor.emptyActions();
+                boolean conf = confirmation(pl, floor);
+                if (!conf) {
                     //next actions to do if confirmation == false
                     pl.currentRes = pl.currentRes.merge(new Resources.ResBuilder().coin(coinToPay).build());
-                    pl.sOut("Ok, aborting action as requested");
-                    return false;
                 }
+                return conf;
             }
         } else {
             pl.sOut("Card " + cardName
-                    + " does not exist!: please choose another action: ");
+                    + " does not exist! Please choose another action: ");
             return false;
         }
     }
@@ -125,17 +119,8 @@ public class Move {
                     .getActionValue() - servantSub);
             pl.currentRes = pl.currentRes.merge(new
                     Resources.ResBuilder().servant(servantSub).build().inverse());
-
         } else {
-            pl.sOut("Action attempted successfully");
-            floor.logActions();
-            pl.sOut("Do you want to confirm?");
-            if (pl.sInPromptConf()) {
-                floor.apply();
-                pl.sOut(pl.currentRes.toString());
-            } else {
-                floor.emptyActions();
-                pl.sOut("Ok, aborting action as requested");
+            if (!confirmation(pl, floor)) {
                 //next actions to do if confirmation == false
                 dummy.setActionValue(dummy
                         .getActionValue() - servantSub);
@@ -149,75 +134,48 @@ public class Move {
         Player pl = fam.getParent();
         pl.sOut("Select your market booth: ");
         board.marketSpace.displayBooths(pl);
-        int in = pl.sInPrompt(1,4);
+        int in = pl.sInPrompt(1, board.marketSpace.numOfBooths);
         MarketBooth booth =  board.marketSpace.getBooths().get(in - 1);
-        boolean ret = booth.claimSpace(fam);
-        if(!ret) {
+        if(!booth.claimSpace(fam)) {
             pl.sOut("Please enter a valid action:");
             return false;
         } else {
-            pl.sOut("Action attempted successfully");
-            booth.logActions();
-            pl.sOut("Do you want to confirm?");
-            if (pl.sInPromptConf()) {
-                booth.apply();
-                pl.sOut(pl.currentRes.toString());
-                return true;
-            } else {
-                booth.emptyActions();
-                pl.sOut("Ok, aborting action as requested");
-                return false;
-            }
+            return confirmation(pl, booth);
         }
     }
 
 
     public static boolean councilAction(Board board, FamilyMember fam) {
-        //TODO
         Player pl = fam.getParent();
         return board.councilPalace.claimSpace(fam) && confirmation(pl, board.councilPalace);
     }
 
     public static boolean prodAction(Board board, FamilyMember fam) {
-        Player pl = fam.getParent();
-        boolean ret = board.productionArea.claimFamMain(fam);
-        if (!ret) { //TODO check number of players
-            pl.sOut("Main space is occupied");
-            if (pl.getParentGame().getNumOfPlayers() > 2) {
-                pl.sOut("Would you like to put your FamMem in the secondary space?");
-                if (pl.sInPromptConf()) {
-                    board.productionArea.claimFamSec(fam); //the value reduction is handled in Production
-                    confirmation(pl, board.productionArea);
-                } else {
-                    return false;
-                } //TODO
-            } else {
-                return false;
-            }
-        } else {
-            confirmation(pl, board.productionArea);
-        }
-        return false;
+        return prodHarvCommon(board.productionArea, fam);
     }
 
     public static boolean harvAction(Board board, FamilyMember fam) {
+        return prodHarvCommon(board.harvestArea, fam);
+    }
+
+    public static boolean prodHarvCommon(ActionProdHarv area, FamilyMember fam) {
         Player pl = fam.getParent();
-        boolean ret = board.harvestArea.claimFamMain(fam);
-        if (!ret) { //TODO check number of players
+        boolean ret = area.claimFamMain(fam);
+        if (!ret) {
             pl.sOut("Main space is occupied");
             if (pl.getParentGame().getNumOfPlayers() > 2) {
                 pl.sOut("Would you like to put your FamMem in the secondary space?");
                 if (pl.sInPromptConf()) {
-                    board.harvestArea.claimFamSec(fam); //the value reduction is handled in Production
-                    return confirmation(pl, board.harvestArea);
+                    area.claimFamSec(fam); //the value reduction is handled in Production/Harvest
+                    return confirmation(pl, area);
                 } else {
                     return false;
-                } //TODO
+                }
             } else {
                 return false;
             }
         } else {
-            return confirmation(pl, board.harvestArea);
+            return confirmation(pl, area);
         }
     }
 }

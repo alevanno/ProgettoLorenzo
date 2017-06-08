@@ -8,12 +8,12 @@ import java.util.Set;
 import java.util.logging.Logger;
 
 
-public class Harvest extends Action {
+public class Harvest extends ActionProdHarv {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private FamilyMember mainHarvest;
     private List<FamilyMember> secondaryHarvest = new ArrayList<>();
 
-    //TODO Game will handle the return value;
+    //TODO
     public boolean claimFamMain(FamilyMember fam) {
         if (this.mainHarvest != null && harv(fam.getParent(), fam.getActionValue())) {
             this.mainHarvest = fam;
@@ -21,8 +21,7 @@ public class Harvest extends Action {
         }
         return false;
     }
-    //FIXME non gestisce l'incremento azione con servitori
-    //FIXME the secondary space is not available in a 2 player game
+
     public void claimFamSec(FamilyMember fam) {
         this.secondaryHarvest.add(fam);
         harv(fam.getParent(), fam.getActionValue());

@@ -3,33 +3,42 @@ package it.polimi.ingsw.progettolorenzo.core;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import java.io.FileNotFoundException;
+
 import java.util.*;
 import java.util.logging.Logger;
 
 import static it.polimi.ingsw.progettolorenzo.core.Utils.intPrompt;
 import static java.lang.String.valueOf;
 
-public class Production extends Action {
+public class Production extends ActionProdHarv {
     private final Logger log = Logger.getLogger(this.getClass().getName());
-    private FamilyMember mainProduction;
+    private FamilyMember mainProduction = null;
     private List<FamilyMember> secondaryProduction = new ArrayList<>();
 
-    //TODO Game will handle the return value;
     public boolean claimFamMain(FamilyMember fam) {
         if (this.mainProduction == null) {
             if (prod(fam.getParent(), fam.getActionValue())) {
-                /*this.addAction(new TakeFamilyMember(fam));
-                this.addAction(new PlaceFamilyMemberInProd(fam, this));*/
-                return true;}
+                //TODO testing
+                this.addAction(new TakeFamilyMember(fam));
+                this.addAction(new PlaceFamMemberInProd(fam, this, true));
+                return true;
+            }
         }
         return false;
     }
-    //FIXME non gestisce l'incremento azione con servitori
-    //FIXME the secondary space is not available in a 2 player game
+
     public void claimFamSec(FamilyMember fam) {
-        this.secondaryProduction.add(fam);
+        this.addAction(new TakeFamilyMember(fam));
+        this.addAction(new PlaceFamMemberInProd(fam, this, false));
         prod(fam.getParent(), fam.getActionValue() - 3);
+    }
+
+    protected void placeFamilyMember(FamilyMember fam, boolean isMainSpace) {
+        if (isMainSpace) {
+            this.mainProduction = fam;
+        } else {
+            this.secondaryProduction.add(fam);
+        }
     }
 
     private JsonObject base(Card i) {

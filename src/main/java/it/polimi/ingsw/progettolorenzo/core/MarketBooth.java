@@ -48,6 +48,7 @@ public class MarketBooth extends Action {
             return false;
         }
         if (fam.getActionValue() < 1) {
+            p.sOut("You need an action value of at least 1");
             return false;
         }
         if(this.getFamMember() == null) {
