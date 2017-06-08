@@ -175,15 +175,15 @@ class PlaceFamilyMemberInBooth extends BaseAction {
     }
 }
 
-class PlaceFamMemberInProd extends BaseAction {
+class PlaceFamMemberInProdHarv extends BaseAction {
     private final FamilyMember famMember;
-    private final Production dest;
+    private final ActionProdHarv dest;
     private final boolean isMainSpace;
 
-    public PlaceFamMemberInProd(FamilyMember famMember, Production p, boolean isMainSpace) {
-        super("Add a FamilyMember in the Production area");
+    public PlaceFamMemberInProdHarv(FamilyMember famMember, ActionProdHarv dest, boolean isMainSpace) {
+        super("Add a FamilyMember in the " + dest.getClass().getSimpleName() + " area");
         this.famMember = famMember;
-        this.dest = p;
+        this.dest = dest;
         this.isMainSpace = isMainSpace;
     }
 
@@ -197,7 +197,3 @@ class PlaceFamMemberInProd extends BaseAction {
         return "Family member move: " + this.famMember + " → " + this.dest;
     }
 }
-
-//class PlaceFamMemberInHarv extends BaseAction {
-    //TODO
-//}

@@ -1,5 +1,7 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
+
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -7,24 +9,35 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-
 public class Harvest extends ActionProdHarv {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private FamilyMember mainHarvest;
     private List<FamilyMember> secondaryHarvest = new ArrayList<>();
 
-    //TODO
     public boolean claimFamMain(FamilyMember fam) {
-        if (this.mainHarvest != null && harv(fam.getParent(), fam.getActionValue())) {
-            this.mainHarvest = fam;
-            return true;
+        if (this.mainHarvest == null) {
+            if (harv(fam.getParent(), fam.getActionValue())) {
+                //TODO testing
+                this.addAction(new TakeFamilyMember(fam));
+                this.addAction(new PlaceFamMemberInProdHarv(fam, this, true));
+                return true;
+            }
         }
         return false;
     }
 
     public void claimFamSec(FamilyMember fam) {
-        this.secondaryHarvest.add(fam);
-        harv(fam.getParent(), fam.getActionValue());
+        this.addAction(new TakeFamilyMember(fam));
+        this.addAction(new PlaceFamMemberInProdHarv(fam, this, false));
+        harv(fam.getParent(), fam.getActionValue() - 3);
+    }
+
+    protected void placeFamilyMember(FamilyMember fam, boolean isMainSpace) {
+        if (isMainSpace) {
+            this.mainHarvest = fam;
+        } else {
+            this.secondaryHarvest.add(fam);
+        }
     }
 
     private JsonObject base(Card i) {
@@ -67,6 +80,13 @@ public class Harvest extends ActionProdHarv {
 
     public boolean harv(Player player, int value) {
         Deck tempDeck = new Deck();
+        for (Card c: player.listCards()) {
+            //TODO testing
+            JsonElement permEff = c.permanentEff.get("productionPlusValue");
+            if(permEff != null) {
+                value += permEff.getAsInt();
+            }
+        }
         if (player.getExcommunications().get(0).has("harvMalus")) {
             int harvMalus = player.getExcommunications().get(0).get("harvMalus").getAsInt();
             player.sOut("Your excommunication lowers the value of this action by " + harvMalus);

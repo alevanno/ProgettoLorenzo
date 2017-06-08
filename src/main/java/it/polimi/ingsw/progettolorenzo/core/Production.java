@@ -1,5 +1,6 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -20,7 +21,7 @@ public class Production extends ActionProdHarv {
             if (prod(fam.getParent(), fam.getActionValue())) {
                 //TODO testing
                 this.addAction(new TakeFamilyMember(fam));
-                this.addAction(new PlaceFamMemberInProd(fam, this, true));
+                this.addAction(new PlaceFamMemberInProdHarv(fam, this, true));
                 return true;
             }
         }
@@ -29,7 +30,7 @@ public class Production extends ActionProdHarv {
 
     public void claimFamSec(FamilyMember fam) {
         this.addAction(new TakeFamilyMember(fam));
-        this.addAction(new PlaceFamMemberInProd(fam, this, false));
+        this.addAction(new PlaceFamMemberInProdHarv(fam, this, false));
         prod(fam.getParent(), fam.getActionValue() - 3);
     }
 
@@ -153,7 +154,15 @@ public class Production extends ActionProdHarv {
 
 
     public boolean prod(Player player, int value) {
+        //TODO it would be very nice if eventually the common code between prod and harv was merged in ProdHarvCommon
         Deck tempDeck = new Deck();
+        for (Card c: player.listCards()) {
+            //TODO testing
+            JsonElement permEff = c.permanentEff.get("productionPlusValue");
+            if(permEff != null) {
+                value += permEff.getAsInt();
+            }
+        }
         if (player.getExcommunications().get(0).has("prodMalus")) {
             int prodMalus = player.getExcommunications().get(0).get("prodMalus").getAsInt();
             player.sOut("Your excommunication lowers the value of this action by " + prodMalus);

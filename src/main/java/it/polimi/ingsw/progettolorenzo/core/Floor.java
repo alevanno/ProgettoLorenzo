@@ -40,7 +40,7 @@ public class Floor extends Action {
             JsonElement permEff = c.permanentEff.get("towerBonus");
             if(permEff != null) {
                 if (permEff.getAsJsonObject().get("type").getAsString().equals(floorCard.cardType)) {
-                    value += c.permanentEff.get("towerBonus").getAsJsonObject().get("plusValue").getAsInt();
+                    value += permEff.getAsJsonObject().get("plusValue").getAsInt();
                 }
             }
         }//TODO the floor bonus can be used to pay for the card you're taking
