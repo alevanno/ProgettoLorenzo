@@ -60,10 +60,29 @@ class FrancescoSforza extends LeaderCard {
     }
 
     public void onePerRoundAbility(){
+        int value = 0;
+        boolean ok = false;
         owner.sOut("It allows to call a production of value 1");
-        owner.getParentGame().getBoard().productionArea.prod(owner, 1);
+        owner.sOut("Do you want to increase your it?: ");
+        if (owner.sInPromptConf()) {
+            while (!ok) {
+                value = owner.increaseValue();
+                owner.sOut("Current harvest value: " + value);
+                owner.sOut("Confirm?:");
+                if (owner.sInPromptConf()) {
+                    owner.currentRes = owner.currentRes.merge(new
+                            Resources.ResBuilder().servant(value)
+                            .build().inverse());
+                    ok = true;
+                }
+            }
+        } else {
+            value = 1;
+        }
+        owner.getParentGame().getBoard().harvestArea.harv(owner, value);
         owner.sOut("One per round ability accomplished");
     }
+
 
     @Override
     public boolean isActivated() {

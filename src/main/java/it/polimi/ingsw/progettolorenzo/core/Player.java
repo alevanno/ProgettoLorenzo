@@ -178,12 +178,37 @@ public class Player {
         }
     }
 
+
+    public int increaseValue() {
+        int servantSub = 0;
+        // FIXME make me prettier after currentRes handling decision
+        int servant = currentRes.servant;
+        this.sOut("Current servants: " + servant);
+        this.sOut("How many do you want to use? ");
+        int servantSpent;
+        if (excommunications.get(1).has("servantExpense")) {
+            int servantExp = excommunications.get(1).get("servantExpense").getAsInt();
+            sOut("(Due to your excommunication you have to use " + servantExp + " servants to increase the action value)");
+            do {
+                sOut("It has to be a multiple of " + servantExp);
+                servantSpent = this.sInPrompt(1, servant);
+            } while (servantSpent % servantExp != 0);
+            servantSub = servantSpent / servantExp;
+        } else {
+            servantSub = this.sInPrompt(1, servant);
+            servantSpent = servantSub;
+        }
+        return servantSub;
+    }
+
     // TODO test excomm
     public int increaseFamValue(FamilyMember famMember) {
         this.sOut("Do you want to increase your "
                 + famMember.getSkinColour() + " family member value?" );
         int servantSub = 0;
+
         if (this.sInPromptConf()) {
+            servantSub = this.increaseValue();
             // FIXME make me prettier after currentRes handling decision
             boolean ok = false;
             while (!ok) {
@@ -222,7 +247,7 @@ public class Player {
 
     // TODO this method affects only the activation of a leader card;
     // we should create an other method to use the One per Round ability
-    public boolean ActivateLeaderCard() {
+    public boolean activateLeaderCard() {
         this.sOut("Which Leader card do you want to activate?");
         int count = 0;
         if (leaderCards.isEmpty()) {

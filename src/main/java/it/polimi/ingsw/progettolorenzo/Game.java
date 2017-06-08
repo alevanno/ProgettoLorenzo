@@ -239,7 +239,7 @@ public class Game implements Runnable {
                     pl.revertFamValue(famMem, servantSub);
                 }
             } else if ("Activate leader card".equalsIgnoreCase(action)) {
-                pl.ActivateLeaderCard();
+                pl.activateLeaderCard();
                 this.operation(pl);
             }
         }
