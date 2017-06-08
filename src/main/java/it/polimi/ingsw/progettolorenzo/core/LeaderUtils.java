@@ -10,7 +10,6 @@ public class LeaderUtils {
         }
         return counter;
     }
-
     public static boolean commonApply(Player owner, LeaderCard card, int counter) {
         if (card.hasOnePerRoundAbility() && card.isActivated()) {
             owner.sOut("Would you like to activate the one per round ability? ");
