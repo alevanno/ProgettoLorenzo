@@ -131,12 +131,7 @@ class FilippoBrunelleschi extends LeaderCard {
 
     @Override
     public boolean apply() {
-        int counter = 0;
-        for (Card card : owner.listCards()) {
-            if (type.equals(card.cardType)) {
-                counter++;
-            }
-        }
+        int counter = LeaderUtils.incCardTypeCounter(owner, type);
         if (counter >= activationCost) {
             owner.sOut("You have enough buildings Cards to activate the " +
                     "permanent ability of " + name + "leader card");
@@ -201,21 +196,10 @@ class LucreziaBorgia extends LeaderCard {
 
     @Override
     public boolean apply() {
-        int counterB = 0;
-        int counterT = 0;
-        int counterV = 0;
-        int counterC = 0;
-        for (Card card : owner.listCards()) {
-            if ("buildings".equals(card.cardType)) {
-                counterB++;
-            } else if ("territories".equals(card.cardType)) {
-                counterT++;
-            } else if ("ventures".equals(card.cardType)) {
-                counterV++;
-            } else {
-                counterC++;
-            }
-        }
+        int counterB = LeaderUtils.incCardTypeCounter(owner, "buildings");
+        int counterT = LeaderUtils.incCardTypeCounter(owner, "territories");
+        int counterV = LeaderUtils.incCardTypeCounter(owner, "ventures");
+        int counterC = LeaderUtils.incCardTypeCounter(owner, "characters");
         if(counterB >= activationCost || counterT >= activationCost
                 || counterV >= activationCost || counterC >= activationCost) {
             owner.sOut("You have enough cards of the same type " +
@@ -290,12 +274,7 @@ class LudovicoAriosto extends LeaderCard {
 
     @Override
     public boolean apply() {
-        int counter = 0;
-        for (Card card : owner.listCards()) {
-            if (type.equals(card.cardType)) {
-                counter++;
-            }
-        }
+        int counter = LeaderUtils.incCardTypeCounter(owner, type)
         if (counter >= activationCost) {
             owner.sOut("You have enough cards of the same type " +
                     "to activate the " +
@@ -364,12 +343,7 @@ class FedericoDaMontefeltro extends LeaderCard {
 
     @Override
     public boolean apply() {
-        int counter = 0;
-        for (Card card : owner.listCards()) {
-            if (type.equals(card.cardType)) {
-                counter++;
-            }
-        }
+        int counter = LeaderUtils.incCardTypeCounter(owner, type)
         if (this.hasOnePerTurnAbility() && this.isActivated()) {
             owner.sOut("Would you like to activate the one per round ability? ");
             boolean ret = owner.sInPromptConf();
