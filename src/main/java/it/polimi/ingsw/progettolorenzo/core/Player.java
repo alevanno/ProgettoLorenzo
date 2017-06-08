@@ -103,6 +103,11 @@ public class Player {
         List <String> colorList = Arrays.asList("Orange", "Black", "White");
         for (String s: colorList) {
             int val;
+            for(LeaderCard leader : leaderCards) {
+                if("Lucrezia Borgia".equals(leader.getName())){
+                    val = famValues.get(s) + 2;
+                }
+            }
             if (excommunications.get(0).has("harvMalus")) {
                 val = famValues.get(s) - 1;
             } else {
@@ -177,7 +182,6 @@ public class Player {
             System.exit(1);
         }
     }
-
 
     public int increaseValue() {
         int servantSub = 0;

@@ -150,6 +150,88 @@ class FilippoBrunelleschi extends LeaderCard {
                 "the additional cost if a tower is already occupied");
     }
 
+    @Override
+    public boolean isActivated() {
+        return activation;
+    }
+
+    @Override
+    public String getName(){
+        return this.name;
+    }
+
+    @Override
+    public int getActivationCost() {
+        return activationCost;
+    }
+
+    @Override
+    public String getCardCostType() {
+        return this.type;
+    }
+
+    @Override
+    public boolean hasOnePerTurnAbility() {
+        return this.onePerRound;
+    }
+}
+
+class LucreziaBorgia extends LeaderCard {
+    private String name = "Lucrezia Borgia";
+    private int activationCost = 6;
+    private String type = "same type";
+    private Player owner;
+    private boolean activation = false;
+    private boolean onePerRound = false;
+
+    public LucreziaBorgia(Player pl) {
+        this.owner = pl;
+    }
+
+    @Override
+    public boolean apply() {
+        int counterB = 0;
+        int counterT = 0;
+        int counterV = 0;
+        int counterC = 0;
+        for (Card card : owner.listCards()) {
+            if ("buildings".equals(card.cardType)) {
+                counterB++;
+            } else if ("territories".equals(card.cardType)) {
+                counterT++;
+            } else if ("ventures".equals(card.cardType)) {
+                counterV++;
+            } else {
+                counterC++;
+            }
+        }
+        if(counterB >= activationCost || counterT >= activationCost
+                || counterV >= activationCost || counterC >= activationCost) {
+            owner.sOut("You have enough cards of the same type " +
+                    "to activate the " +
+                    "permanent ability of " + this.name + "leader card");
+            owner.sOut("Would you activate it?");
+            boolean ret = owner.sInPromptConf();
+            if(ret){
+                this.permanentAbility();
+                return true;
+            } else {
+                owner.sOut("You didn't activate the Leader card permanent ability");
+                return false;
+            }
+        } else {
+            owner.sOut("You still don't satisfy the activationCost");
+            return false;
+        }
+    }
+
+    public void permanentAbility() {
+        this.activation = true;
+        owner.sOut("Permanent ability activated: your colored family members" +
+                " have a bonus of +2 on their value");
+    }
+
+    @Override
     public boolean isActivated() {
         return activation;
     }
