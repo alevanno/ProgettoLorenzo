@@ -167,6 +167,11 @@ public class Game implements Runnable {
             pl.famMembersBirth(famValues);
             pl.sOut("Dice thrown!");
             pl.sOut("Values: " + famValues);
+            for (LeaderCard leader : pl.getLeaderCards()) {
+                if(leader.hasOnePerTurnAbility()){
+                    leader.setOnePerRoundUsage(false);
+                }
+            }
         }
 
         for (int r = 1; r <= 4; r++) {
@@ -181,11 +186,6 @@ public class Game implements Runnable {
                 skippedPlayers.add(pl);
                 pl.sOut("You skip the first round due to your excommunication");
                 continue;
-            }
-            for (LeaderCard leader : pl.getLeaderCards()) {
-                if(leader.hasOnePerTurnAbility()){
-                    leader.setOnePerRoundUsage(false);
-                }
             }
             this.operation(pl);
         }

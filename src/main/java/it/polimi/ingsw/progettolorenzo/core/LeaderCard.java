@@ -347,3 +347,93 @@ class LudovicoAriosto extends LeaderCard {
     }
 
 }
+
+class FedericoDaMontefeltro extends LeaderCard {
+    private String name = "Federico Da Montefeltro";
+    private int activationCost = 5;
+    private String type = "territories";
+    private Player owner;
+    private boolean activation = false;
+    private boolean onePerRound = false;
+    private boolean onePerRoundUsage = false;
+
+    public FedericoDaMontefeltro(Player pl) {
+        this.owner = pl;
+    }
+
+
+    @Override
+    public boolean apply() {
+        int counter = 0;
+        for (Card card : owner.listCards()) {
+            if (type.equals(card.cardType)) {
+                counter++;
+            }
+        }
+        if (this.hasOnePerTurnAbility() && this.isActivated()) {
+            owner.sOut("Would you like to activate the one per round ability? ");
+            boolean ret = owner.sInPromptConf();
+            if (ret) {
+                if(this.onePerRoundUsage) {
+                    owner.sOut("You have already activated it in this round");
+                    return false;
+                }
+                this.onePerRoundAbility();
+                return true;
+            } else {
+                owner.sOut("You didn't activate the one per round ability");
+                return false;
+            }
+        }
+        if (counter >= activationCost) {
+            activation = true;
+            owner.sOut("Leader card activated");
+            return true;
+        } else {
+            owner.sOut("you still don't satisfy the activationCost");
+            return false;
+        }
+
+    }
+
+    public void onePerRoundAbility() {
+        int increasedValue = 6;
+        owner.sOut("One of your colored family members has a value of 6, " +
+                "regardless of its related dice");
+        owner.sOut("Which one do you want to increase?");
+        owner.displayFamilyMembers();
+        FamilyMember famMem = owner.getAvailableFamMembers().get(
+                owner.sInPrompt(1, owner.getAvailableFamMembers().size()) - 1);
+        famMem.setActionValue(increasedValue);
+        owner.sOut(famMem.getSkinColour() + " " +
+                "family member increased by " + increasedValue);
+    }
+
+
+    @Override
+    public boolean isActivated() {
+        return activation;
+    }
+
+    @Override
+    public String getName(){
+        return this.name;
+    }
+
+    @Override
+    public int getActivationCost() {
+        return activationCost;
+    }
+
+    @Override
+    public String getCardCostType() {
+        return this.type;
+    }
+
+    @Override
+    public boolean hasOnePerTurnAbility() {
+        return this.onePerRound;
+    }
+
+
+}
