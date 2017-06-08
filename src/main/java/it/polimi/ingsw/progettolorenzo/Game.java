@@ -168,7 +168,7 @@ public class Game implements Runnable {
             pl.sOut("Dice thrown!");
             pl.sOut("Values: " + famValues);
             for (LeaderCard leader : pl.getLeaderCards()) {
-                if(leader.hasOnePerTurnAbility()){
+                if(leader.hasOnePerRoundAbility()){
                     leader.setOnePerRoundUsage(false);
                 }
             }

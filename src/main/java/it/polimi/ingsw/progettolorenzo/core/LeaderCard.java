@@ -1,70 +1,68 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public abstract class LeaderCard {
+    protected String name;
+    protected int activationCost;
+    protected String type;
+    protected boolean activation;
+    protected boolean onePerRound;
+    protected boolean onePerRoundUsage;
+
+    public LeaderCard(String name, int activationCost,
+                      String type,
+                      boolean activation, boolean onePerRound,
+                      boolean onePerRoundUsage) {
+        this.name = name;
+        this.activationCost = activationCost;
+        this.type = type;
+        this.activation = activation;
+        this.onePerRound = onePerRound;
+        this.onePerRoundUsage = onePerRoundUsage;
+    }
+
     public abstract boolean apply();
-    public abstract String getName();
-    public abstract int getActivationCost();
-    public abstract String getCardCostType();
-    public abstract boolean isActivated();
-    public abstract boolean hasOnePerTurnAbility();
-    public void setOnePerRoundUsage(boolean bool){};
-}
+    public String getName(){
+        return this.name;
+    }    public int getActivationCost() {
+        return activationCost;
+    }
+    public String getCardCostType() {
+        return this.type;
+    }
+    public boolean isActivated() {
+        return this.activation;
+    }
+    public void permanentAbility(){};
+    public void onePerRoundAbility(){};
+    public boolean hasOnePerRoundAbility() {
+        return this.onePerRound;
+    }
+    public void setOnePerRoundUsage(boolean bool){
+        this.onePerRoundUsage = bool;
+    }}
 
 class FrancescoSforza extends LeaderCard {
-    private String name = "Francesco Sforza";
-    private int activationCost = 5;
-    private String type = "ventures";
     private Player owner;
-    private boolean activation = false;
-    private boolean onePerRound = true;
-    private boolean onePerRoundUsage = false;
-
-
     public FrancescoSforza(Player pl) {
+        super("FrancescoSforza", 5,
+                "ventures", false,
+                true, false );
         this.owner = pl;
     }
 
     @Override
     public boolean apply() {
-        int counter = 0;
-        for (Card card : owner.listCards()) {
-            if (type.equals(card.cardType)) {
-                counter++;
-            }
-        }
-        if (this.hasOnePerTurnAbility() && this.isActivated()) {
-            owner.sOut("Would you like to activate the one per round ability? ");
-            boolean ret = owner.sInPromptConf();
-            if (ret) {
-                if(this.onePerRoundUsage) {
-                    owner.sOut("You have already activated it in this round");
-                    return false;
-                }
-                this.onePerRoundAbility();
-                return true;
-            } else {
-                owner.sOut("You didn't activate the one per round ability");
-                return false;
-            }
-        }
-        if (counter >= activationCost) {
-            activation = true;
-            owner.sOut("Leader card activated");
-            return true;
-        } else {
-            owner.sOut("you still don't satisfy the activationCost");
-            return false;
-        }
+        int counter = LeaderUtils.incCardTypeCounter(owner, type);
+        boolean ret = LeaderUtils.commonApply(owner, this, counter);
+        return ret;
     }
-
 
     @Override
-    public int getActivationCost() {
-        return activationCost;
-    }
-
     public void onePerRoundAbility(){
         int value = 0;
         boolean ok = false;
@@ -89,137 +87,58 @@ class FrancescoSforza extends LeaderCard {
         owner.sOut("One per round ability accomplished");
         onePerRoundUsage = true;
     }
-
-    @Override
-    public void setOnePerRoundUsage(boolean bool){
-        this.onePerRoundUsage = bool;
-    }
-
-    @Override
-    public boolean isActivated() {
-        return this.activation;
-    }
-
-    @Override
-    public String getName(){
-        return this.name;
-    }
-
-    @Override
-    public String getCardCostType() {
-        return this.type;
-    }
-
-    @Override
-    public boolean hasOnePerTurnAbility() {
-        return this.onePerRound;
-    }
 }
 
 class FilippoBrunelleschi extends LeaderCard {
-    private String name = "Flippo Brunelleschi";
-    private int activationCost = 5;
-    private String type = "buildings";
-    private Player owner;
-    private boolean activation = false;
-    private boolean onePerRound = false;
-
-
+    Player owner;
     public FilippoBrunelleschi(Player pl) {
+        super("Filippo Brunelleschi", 5,
+                "buildings", false, false,
+                false);
         this.owner = pl;
     }
 
     @Override
     public boolean apply() {
         int counter = LeaderUtils.incCardTypeCounter(owner, type);
-        if (counter >= activationCost) {
-            owner.sOut("You have enough buildings Cards to activate the " +
-                    "permanent ability of " + name + "leader card");
-            owner.sOut("Would you activate it?");
-            boolean ret = owner.sInPromptConf();
-            if(ret){
-                this.permanentAbility();
-                return true;
-            } else {
-                owner.sOut("You didn't activate the Leader card permanent ability");
-                return false;
-            }
-        } else {
-            owner.sOut("You still don't satisfy the activationCost");
-            return false;
-        }
+        boolean ret = LeaderUtils.commonApply(owner, this, counter);
+        return ret;
     }
-
+    @Override
     public void permanentAbility() {
         this.activation = true;
         owner.sOut("Permanent ability activated: you will never have to pay" +
                 "the additional cost if a tower is already occupied");
     }
-
-    @Override
-    public boolean isActivated() {
-        return activation;
-    }
-
-    @Override
-    public String getName(){
-        return this.name;
-    }
-
-    @Override
-    public int getActivationCost() {
-        return activationCost;
-    }
-
-    @Override
-    public String getCardCostType() {
-        return this.type;
-    }
-
-    @Override
-    public boolean hasOnePerTurnAbility() {
-        return this.onePerRound;
-    }
 }
 
 class LucreziaBorgia extends LeaderCard {
-    private String name = "Lucrezia Borgia";
-    private int activationCost = 6;
-    private String type = "same type";
-    private Player owner;
-    private boolean activation = false;
-    private boolean onePerRound = false;
-
+    Player owner;
     public LucreziaBorgia(Player pl) {
+        super("Lucrezia Borgia", 6,
+                "same type", false, false,
+                false);
         this.owner = pl;
     }
-
     @Override
     public boolean apply() {
-        int counterB = LeaderUtils.incCardTypeCounter(owner, "buildings");
-        int counterT = LeaderUtils.incCardTypeCounter(owner, "territories");
-        int counterV = LeaderUtils.incCardTypeCounter(owner, "ventures");
-        int counterC = LeaderUtils.incCardTypeCounter(owner, "characters");
-        if(counterB >= activationCost || counterT >= activationCost
-                || counterV >= activationCost || counterC >= activationCost) {
-            owner.sOut("You have enough cards of the same type " +
-                    "to activate the " +
-                    "permanent ability of " + this.name + "leader card");
-            owner.sOut("Would you activate it?");
-            boolean ret = owner.sInPromptConf();
-            if(ret){
-                this.permanentAbility();
-                return true;
-            } else {
-                owner.sOut("You didn't activate the Leader card permanent ability");
-                return false;
+        List<Integer> counters = new ArrayList<>(Arrays.asList(
+                LeaderUtils.incCardTypeCounter(owner, "buildings"),
+                LeaderUtils.incCardTypeCounter(owner, "territories"),
+                LeaderUtils.incCardTypeCounter(owner, "ventures"),
+                LeaderUtils.incCardTypeCounter(owner, "characters")));
+        // temp fix
+        int counter = 0;
+        for (int c : counters) {
+            if (c >= activationCost) {
+                counter = c;
+                break;
             }
-        } else {
-            owner.sOut("You still don't satisfy the activationCost");
-            return false;
         }
+        boolean ret = LeaderUtils.commonApply(owner, this, counter);
+        return ret;
     }
-
+    @Override
     public void permanentAbility() {
         this.activation = true;
         owner.sOut("Permanent ability activated: your colored family members" +
@@ -232,144 +151,45 @@ class LucreziaBorgia extends LeaderCard {
             }
         }
     }
-
-    @Override
-    public boolean isActivated() {
-        return activation;
-    }
-
-    @Override
-    public String getName(){
-        return this.name;
-    }
-
-    @Override
-    public int getActivationCost() {
-        return activationCost;
-    }
-
-    @Override
-    public String getCardCostType() {
-        return this.type;
-    }
-
-    @Override
-    public boolean hasOnePerTurnAbility() {
-        return this.onePerRound;
-    }
-
 }
 
 class LudovicoAriosto extends LeaderCard {
-    private String name = "Ludovico Ariosto";
-    private int activationCost = 5;
-    private String type = "characters";
-    private Player owner;
-    private boolean activation = false;
-    private boolean onePerRound = false;
-
+    Player owner;
     public LudovicoAriosto(Player pl) {
+        super("Ludovico Ariosto", 5,
+                "characters", false,
+                false, false);
         this.owner = pl;
     }
 
     @Override
     public boolean apply() {
-        int counter = LeaderUtils.incCardTypeCounter(owner, type)
-        if (counter >= activationCost) {
-            owner.sOut("You have enough cards of the same type " +
-                    "to activate the " +
-                    "permanent ability of " + this.name + "leader card");
-            owner.sOut("Would you activate it?");
-            boolean ret = owner.sInPromptConf();
-            if (ret) {
-                this.permanentAbility();
-                return true;
-            } else {
-                owner.sOut("You didn't activate the Leader card permanent ability");
-                return false;
-            }
-        } else {
-            owner.sOut("You still don't satisfy the activationCost");
-            return false;
-        }
+        int counter = LeaderUtils.incCardTypeCounter(owner, type);
+        boolean ret = LeaderUtils.commonApply(owner, this, counter);
+        return ret;
     }
-
+    @Override
     public void permanentAbility() {
         this.activation = true;
         owner.sOut("Permanent ability activated: you can place your " +
                 "family Members in occupied action spaces. ");
     }
-
-    @Override
-    public boolean isActivated() {
-        return activation;
-    }
-
-    @Override
-    public String getName(){
-        return this.name;
-    }
-
-    @Override
-    public int getActivationCost() {
-        return activationCost;
-    }
-
-    @Override
-    public String getCardCostType() {
-        return this.type;
-    }
-
-    @Override
-    public boolean hasOnePerTurnAbility() {
-        return this.onePerRound;
-    }
-
 }
 
 class FedericoDaMontefeltro extends LeaderCard {
-    private String name = "Federico Da Montefeltro";
-    private int activationCost = 5;
-    private String type = "territories";
-    private Player owner;
-    private boolean activation = false;
-    private boolean onePerRound = false;
-    private boolean onePerRoundUsage = false;
-
+    Player owner;
     public FedericoDaMontefeltro(Player pl) {
+        super("Federico Da Montafeltro", 5, "territories",
+                false, true, false);
         this.owner = pl;
     }
-
-
     @Override
     public boolean apply() {
-        int counter = LeaderUtils.incCardTypeCounter(owner, type)
-        if (this.hasOnePerTurnAbility() && this.isActivated()) {
-            owner.sOut("Would you like to activate the one per round ability? ");
-            boolean ret = owner.sInPromptConf();
-            if (ret) {
-                if(this.onePerRoundUsage) {
-                    owner.sOut("You have already activated it in this round");
-                    return false;
-                }
-                this.onePerRoundAbility();
-                return true;
-            } else {
-                owner.sOut("You didn't activate the one per round ability");
-                return false;
-            }
-        }
-        if (counter >= activationCost) {
-            activation = true;
-            owner.sOut("Leader card activated");
-            return true;
-        } else {
-            owner.sOut("you still don't satisfy the activationCost");
-            return false;
-        }
-
+        int counter = LeaderUtils.incCardTypeCounter(owner, type);
+        boolean ret = LeaderUtils.commonApply(owner, this, counter);
+        return ret;
     }
-
+    @Override
     public void onePerRoundAbility() {
         int increasedValue = 6;
         owner.sOut("One of your colored family members has a value of 6, " +
@@ -382,32 +202,4 @@ class FedericoDaMontefeltro extends LeaderCard {
         owner.sOut(famMem.getSkinColour() + " " +
                 "family member increased by " + increasedValue);
     }
-
-
-    @Override
-    public boolean isActivated() {
-        return activation;
-    }
-
-    @Override
-    public String getName(){
-        return this.name;
-    }
-
-    @Override
-    public int getActivationCost() {
-        return activationCost;
-    }
-
-    @Override
-    public String getCardCostType() {
-        return this.type;
-    }
-
-    @Override
-    public boolean hasOnePerTurnAbility() {
-        return this.onePerRound;
-    }
-
-
 }
