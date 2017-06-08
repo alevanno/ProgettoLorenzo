@@ -104,7 +104,7 @@ public class Player {
         for (String s: colorList) {
             int val;
             for(LeaderCard leader : leaderCards) {
-                if("Lucrezia Borgia".equals(leader.getName())){
+                if("Lucrezia Borgia".equals(leader.getName()) && leader.isActivated()){
                     val = famValues.get(s) + 2;
                 }
             }

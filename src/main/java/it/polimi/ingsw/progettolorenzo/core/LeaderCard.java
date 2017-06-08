@@ -229,6 +229,13 @@ class LucreziaBorgia extends LeaderCard {
         this.activation = true;
         owner.sOut("Permanent ability activated: your colored family members" +
                 " have a bonus of +2 on their value");
+        // increasing available fam members; next turn they will be increased
+        // at their birth (not blank for both situations)
+        for (FamilyMember fam : owner.getAvailableFamMembers()) {
+            if (!"Blank".equals(fam.getSkinColour())) {
+                fam.setActionValue(fam.getActionValue() + 2);
+            }
+        }
     }
 
     @Override
