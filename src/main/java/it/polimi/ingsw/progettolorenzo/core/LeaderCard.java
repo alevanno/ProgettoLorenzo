@@ -311,7 +311,7 @@ class MichelangeloBuonarroti extends LeaderCard {
     public boolean apply() {
         boolean checkC = LeaderUtils.checkCostResSatisfaction(owner,
                 new Resources.ResBuilder().stone(10).build());
-        return LeaderUtils.commonApply(owner, this, false, checkC)
+        return LeaderUtils.commonApply(owner, this, false, checkC);
     }
 
     @Override
@@ -320,5 +320,25 @@ class MichelangeloBuonarroti extends LeaderCard {
         owner.currentRes = owner.currentRes.merge(new Resources
                 .ResBuilder().stone(10).build());
     }
-    
+}
+
+class SantaRita extends LeaderCard {
+    Player owner;
+    public SantaRita(Player pl) {
+        super("Santa Rita", Arrays.asList(8), "faithPoint",
+                false, false, false);
+        this.owner = pl;
+    }
+    @Override
+    public boolean apply() {
+        boolean checkC = LeaderUtils.checkCostResSatisfaction(owner,
+                new Resources.ResBuilder().faithPoint(8).build());
+        return LeaderUtils.commonApply(owner, this, false, checkC);
+    }
+    @Override
+    public void permanentAbility() {
+        this.activation = true;
+        owner.sOut("You don’t need to satisfy the military points requirement when " +
+                "you take territory cards ");
+    }
 }

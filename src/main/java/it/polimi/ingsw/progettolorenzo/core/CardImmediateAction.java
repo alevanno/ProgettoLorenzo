@@ -12,9 +12,22 @@ public class CardImmediateAction extends Action {
     public CardImmediateAction(Card card, Player pl) {
 
         if (card.immediateEff.containsKey("resources")) {
+            int repeat = 1;
             Resources tmp = Resources.fromJson(card.immediateEff.get("resources").getAsJsonObject());
-            this.addAction(new ResourcesAction("ImmResources", tmp, pl));
-            log.info("ImmediateAction: Card " + card.getCardName() + " gave " + tmp.toString());
+            for (LeaderCard leader : pl.getLeaderCards()) {
+                if("Ludovico Ariosto".equals(leader.getName())
+                        && leader.isActivated()) {
+                    repeat = 2;
+                    log.info("ImmediateAction: Card " + card.getCardName() + " " +
+                            "gave resources twice thanks to " + leader.getName()
+                    + " leader card");
+                    break;
+                }
+            }
+            for(int i = 0; i < repeat; i++ ) {
+                this.addAction(new ResourcesAction("ImmResources", tmp, pl));
+                log.info("ImmediateAction: Card " + card.getCardName() + " gave " + tmp.toString());
+            }
         }
 
         if (card.immediateEff.containsKey("councilPrivilege")) {
