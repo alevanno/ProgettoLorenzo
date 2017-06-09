@@ -221,6 +221,8 @@ class GirolamoSavonarola extends LeaderCard {
         owner.sOut("You gained 1 faith point.");
         owner.currentRes = owner.currentRes.merge(new Resources
                 .ResBuilder().faithPoint(1).build());
+        onePerRoundUsage = true;
+
     }
 }
 
@@ -316,9 +318,11 @@ class MichelangeloBuonarroti extends LeaderCard {
 
     @Override
     public void onePerRoundAbility() {
-        owner.sOut("You gained 10 stone.");
+        owner.sOut("You gained 3 coin.");
         owner.currentRes = owner.currentRes.merge(new Resources
-                .ResBuilder().stone(10).build());
+                .ResBuilder().coin(3).build());
+        onePerRoundUsage = true;
+
     }
 }
 
@@ -340,5 +344,62 @@ class SantaRita extends LeaderCard {
         this.activation = true;
         owner.sOut("You don’t need to satisfy the military points requirement when " +
                 "you take territory cards ");
+    }
+}
+
+class GiovanniDalleBandeNere extends LeaderCard {
+    Player owner;
+    public GiovanniDalleBandeNere(Player pl) {
+        super("Giovanni Dalle Bande Nere",
+                Arrays.asList(12), "militaryPoint", false,
+                true, false);
+        this.owner = pl;
+    }
+    @Override
+    public boolean apply() {
+        boolean checkC = LeaderUtils.checkCostResSatisfaction(owner,
+                new Resources.ResBuilder().militaryPoint(12).build());
+        return LeaderUtils.commonApply(owner, this, false, checkC);
+    }
+
+    @Override
+    public void onePerRoundAbility() {
+        owner.sOut("You gained 12 militaryPoint.");
+        owner.currentRes = owner.currentRes.merge(new Resources
+                .ResBuilder().wood(1).stone(1).coin(1).build());
+        onePerRoundUsage = true;
+
+    }
+}
+
+class CosimoDeMedici extends LeaderCard {
+    Player owner;
+    public CosimoDeMedici(Player pl) {
+        super("Cosimo Dè Medici", Arrays.asList(2, 4), "" +
+                "characters, buildings",
+                false, true, false);
+        this.owner = pl;
+    }
+    @Override
+    public boolean apply() {
+        boolean checkT1 = LeaderUtils
+                .checkCardTypeSatisfaction(owner, "characters",
+                        activationCost.get(0));
+        boolean checkT2 = LeaderUtils.checkCardTypeSatisfaction(owner, "buildings",
+                activationCost.get(1));
+        boolean checkT = false;
+        if(checkT1 && checkT2) {
+            checkT = true;
+        }
+        return LeaderUtils.commonApply(owner, this, checkT, false);
+    }
+
+    @Override
+    public void onePerRoundAbility() {
+        owner.sOut("You received 3 servant and gained 1 victoryPoint");
+        owner.currentRes = owner.currentRes.merge(new Resources
+                .ResBuilder().servant(3).victoryPoint(1).build());
+        onePerRoundUsage = true;
+
     }
 }
