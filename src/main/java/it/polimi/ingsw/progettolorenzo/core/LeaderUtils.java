@@ -10,7 +10,33 @@ public class LeaderUtils {
         }
         return counter;
     }
-    public static boolean commonApply(Player owner, LeaderCard card, int counter) {
+
+
+    public static boolean checkCardTypeSatisfaction(Player owner, String type, int cost) {
+        int counter = 0;
+        for (Card card : owner.listCards()) {
+            if (type.equals(card.cardType)) {
+                counter++;
+            }
+        }
+        if (counter >= cost) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public static boolean checkCostResSatisfaction(Player owner, Resources cost) {
+        Resources plRes = owner.currentRes;
+        if (!plRes.merge(cost.inverse()).isNegative()){
+           return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    public static boolean commonApply(Player owner, LeaderCard card, boolean checkT, boolean checkC) {
         if (card.hasOnePerRoundAbility() && card.isActivated()) {
             owner.sOut("Would you like to activate the one per round ability? ");
             boolean ret = owner.sInPromptConf();
@@ -26,7 +52,7 @@ public class LeaderUtils {
                 return false;
             }
         }
-        if (counter >= card.activationCost) {
+        if (checkT || checkC) {
             owner.sOut("You satisfy the "+ card.name + "leader card " +
                     "activation cost");
             owner.sOut("Would you activate it?");

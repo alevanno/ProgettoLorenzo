@@ -57,9 +57,9 @@ class FrancescoSforza extends LeaderCard {
 
     @Override
     public boolean apply() {
-        int counter = LeaderUtils.incCardTypeCounter(owner, type);
-        boolean ret = LeaderUtils.commonApply(owner, this, counter);
-        return ret;
+        boolean checkT = LeaderUtils
+                .checkCardTypeSatisfaction(owner, type, activationCost);
+        return LeaderUtils.commonApply(owner, this, checkT, false);
     }
 
     @Override
@@ -100,9 +100,9 @@ class FilippoBrunelleschi extends LeaderCard {
 
     @Override
     public boolean apply() {
-        int counter = LeaderUtils.incCardTypeCounter(owner, type);
-        boolean ret = LeaderUtils.commonApply(owner, this, counter);
-        return ret;
+        boolean checkT = LeaderUtils
+                .checkCardTypeSatisfaction(owner , type, activationCost);
+        return LeaderUtils.commonApply(owner, this, checkT, false);
     }
     @Override
     public void permanentAbility() {
@@ -122,20 +122,18 @@ class LucreziaBorgia extends LeaderCard {
     }
     @Override
     public boolean apply() {
-        List<Integer> counters = new ArrayList<>(Arrays.asList(
-                LeaderUtils.incCardTypeCounter(owner, "buildings"),
-                LeaderUtils.incCardTypeCounter(owner, "territories"),
-                LeaderUtils.incCardTypeCounter(owner, "ventures"),
-                LeaderUtils.incCardTypeCounter(owner, "characters")));
-        // temp fix
-        int counter = 0;
-        for (int c : counters) {
-            if (c >= activationCost) {
-                counter = c;
+        List<String> types = new ArrayList<>(Arrays
+                .asList("buildings", "territories", "ventures",
+                        "characters"));
+        boolean checkT = false;
+        for (String t : types){
+            checkT = LeaderUtils
+                    .checkCardTypeSatisfaction(owner, t, activationCost);
+            if (checkT) {
                 break;
             }
         }
-        boolean ret = LeaderUtils.commonApply(owner, this, counter);
+        boolean ret = LeaderUtils.commonApply(owner, this, checkT, false);
         return ret;
     }
     @Override
@@ -164,9 +162,9 @@ class LudovicoAriosto extends LeaderCard {
 
     @Override
     public boolean apply() {
-        int counter = LeaderUtils.incCardTypeCounter(owner, type);
-        boolean ret = LeaderUtils.commonApply(owner, this, counter);
-        return ret;
+        boolean checkT = LeaderUtils
+                .checkCardTypeSatisfaction(owner, type, activationCost);
+        return LeaderUtils.commonApply(owner, this, checkT, false);
     }
     @Override
     public void permanentAbility() {
@@ -185,9 +183,9 @@ class FedericoDaMontefeltro extends LeaderCard {
     }
     @Override
     public boolean apply() {
-        int counter = LeaderUtils.incCardTypeCounter(owner, type);
-        boolean ret = LeaderUtils.commonApply(owner, this, counter);
-        return ret;
+        boolean checkT = LeaderUtils
+                .checkCardTypeSatisfaction(owner, type, activationCost);
+        return LeaderUtils.commonApply(owner, this, checkT, false);
     }
     @Override
     public void onePerRoundAbility() {
@@ -201,5 +199,28 @@ class FedericoDaMontefeltro extends LeaderCard {
         famMem.setActionValue(increasedValue);
         owner.sOut(famMem.getSkinColour() + " " +
                 "family member increased by " + increasedValue);
+        onePerRoundUsage = true;
+    }
+}
+
+class GirolamoSavonarola extends LeaderCard {
+    Player owner;
+    public GirolamoSavonarola(Player pl) {
+        super("Girolamo Savonarola", 18, "coin",
+                false, true, false);
+    }
+    @Override
+    public boolean apply() {
+
+        boolean checkC = LeaderUtils.checkCostResSatisfaction(owner,
+                new Resources.ResBuilder().coin(activationCost).build());
+        return LeaderUtils.commonApply(owner, this, false, checkC);
+
+    }
+    @Override
+    public void onePerRoundAbility() {
+        owner.sOut("You gained 1 faith point.");
+        owner.currentRes = owner.currentRes.merge(new Resources
+                .ResBuilder().faithPoint(1).build());
     }
 }

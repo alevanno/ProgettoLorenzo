@@ -261,12 +261,8 @@ public class Player {
             count++;
         }
         int choice = this.sInPrompt(1, count);
-        boolean ret = leaderCards.get(choice - 1).apply();
-        if (ret){
-            return true;
-        } else {
-            return false;
-        }
+        return leaderCards.get(choice - 1).apply();
+
     }
 
     public void revertFamValue(FamilyMember famMem, int servantSub) {
