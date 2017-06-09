@@ -64,28 +64,7 @@ class FrancescoSforza extends LeaderCard {
 
     @Override
     public void onePerRoundAbility(){
-        int value = 0;
-        boolean ok = false;
-        owner.sOut("It allows to call a production of value 1");
-        owner.sOut("Do you want to increase your it?: ");
-        if (owner.sInPromptConf()) {
-            while (!ok) {
-                value = owner.increaseValue();
-                owner.sOut("Current harvest value: " + value);
-                owner.sOut("Confirm?:");
-                if (owner.sInPromptConf()) {
-                    owner.currentRes = owner.currentRes.merge(new
-                            Resources.ResBuilder().servant(value)
-                            .build().inverse());
-                    ok = true;
-                }
-            }
-        } else {
-            value = 1;
-        }
-        owner.getParentGame().getBoard().harvestArea.harv(owner, value);
-        owner.sOut("One per round ability accomplished");
-        onePerRoundUsage = true;
+        LeaderUtils.OneHarvProd("production", owner, this);
     }
 }
 
@@ -400,6 +379,33 @@ class CosimoDeMedici extends LeaderCard {
         owner.currentRes = owner.currentRes.merge(new Resources
                 .ResBuilder().servant(3).victoryPoint(1).build());
         onePerRoundUsage = true;
+    }
+}
 
+class LeonardoDaVinci extends LeaderCard {
+    Player owner;
+    public LeonardoDaVinci(Player pl) {
+        super("Leonardo Da Vinci",
+                Arrays.asList(4,2), "characters, territories",
+                false, true, false);
+        this.owner = pl;
+    }
+    @Override
+    public boolean apply() {
+        boolean checkT1 = LeaderUtils
+                .checkCardTypeSatisfaction(owner, "characters",
+                        activationCost.get(0));
+        boolean checkT2 = LeaderUtils
+                .checkCardTypeSatisfaction(owner, "territories",
+                activationCost.get(1));
+        boolean checkT = false;
+        if(checkT1 && checkT2) {
+            checkT = true;
+        }
+        return LeaderUtils.commonApply(owner, this, checkT, false);
+    }
+    @Override
+    public void onePerRoundAbility() {
+        LeaderUtils.OneHarvProd("harvest", owner, this);
     }
 }

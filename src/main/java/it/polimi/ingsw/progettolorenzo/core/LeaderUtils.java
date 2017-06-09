@@ -70,4 +70,33 @@ public class LeaderUtils {
             return false;
         }
     }
+
+    public static void OneHarvProd(String action, Player owner, LeaderCard card) {
+        int value = 0;
+        boolean ok = false;
+        owner.sOut("It allows to call a " + action + " of value 1");
+        owner.sOut("Do you want to increase your it?: ");
+        if (owner.sInPromptConf()) {
+            while (!ok) {
+                value = owner.increaseValue();
+                owner.sOut("Current " + action + " value: " + value);
+                owner.sOut("Confirm?:");
+                if (owner.sInPromptConf()) {
+                    owner.currentRes = owner.currentRes.merge(new
+                            Resources.ResBuilder().servant(value)
+                            .build().inverse());
+                    ok = true;
+                }
+            }
+        } else {
+            value = 1;
+        }
+        if("harvest".equals(action)) {
+            owner.getParentGame().getBoard().harvestArea.harv(owner, value);
+        } else {
+            owner.getParentGame().getBoard().productionArea.prod(owner, value);
+        }
+        owner.sOut("One per round ability accomplished");
+        card.onePerRoundUsage = true;
+    }
 }
