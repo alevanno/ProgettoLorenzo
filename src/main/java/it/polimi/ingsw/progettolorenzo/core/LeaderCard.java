@@ -274,3 +274,30 @@ class SigismondoMalatesta extends LeaderCard {
         }
     }
 }
+
+class CesareBorgia extends LeaderCard {
+    Player owner;
+    public CesareBorgia(Player pl) {
+        super("Cesare Borgia", Arrays.asList(3, 12, 2),
+                "buildings, coin, faithPoint", false,
+                false, false);
+        this.owner = pl;
+    }
+    @Override
+    public boolean apply() {
+        boolean checkC = LeaderUtils
+                .checkCostResSatisfaction(owner, new Resources
+                        .ResBuilder().coin(12).faithPoint(2).build());
+        boolean checkT = LeaderUtils.checkCardTypeSatisfaction(owner, this.type,
+                this.activationCost.get(0));
+        return LeaderUtils.commonApply(owner, this, checkT, checkC);
+    }
+    @Override
+    public void permanentAbility() {
+        this.activation = true;
+        owner.sOut("You don’t need to satisfy the military points requirement when " +
+                "you take territory cards ");
+    }
+
+
+}

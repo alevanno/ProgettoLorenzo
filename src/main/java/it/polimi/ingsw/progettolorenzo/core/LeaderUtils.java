@@ -52,7 +52,7 @@ public class LeaderUtils {
                 return false;
             }
         }
-        if (checkT || checkC) {
+        if ((checkC && checkT) || (checkC ^ checkT)) {
             owner.sOut("You satisfy the "+ card.name + "leader card " +
                     "activation cost");
             owner.sOut("Would you activate it?");
