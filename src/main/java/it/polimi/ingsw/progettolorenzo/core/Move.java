@@ -71,7 +71,7 @@ public class Move {
 
     // FIXME it contains duplication from floorAction...
     // add some checks(?)
-    public static void claimFloorWithCard(Board board, Player pl,String type, int value, Resources discount) {
+    /*public static void floorActionWithCard(Board board, Player pl, String type, int value, Resources discount) {
         FamilyMember dummy = new FamilyMember(pl, value, "Dummy");
         int coinToPay = 3;
         pl.getAvailableFamMembers().add(dummy);
@@ -103,7 +103,7 @@ public class Move {
             }
         }
         Resources cardCost = floor.getCard().getCardCost();
-        int servantSub = pl.increaseFamValue(dummy);
+        pl.increaseFamValue(dummy);
         cardCost.resourcesList.forEach((x, y) -> {
             int val = discount.getByString(x);
             if (y != 0 && val != 0) {
@@ -128,7 +128,7 @@ public class Move {
                         Resources.ResBuilder().servant(servantSub).build().inverse());
             }
         }
-    }
+    }*/
 
     public static boolean marketAction(Board board, FamilyMember fam) {
         Player pl = fam.getParent();

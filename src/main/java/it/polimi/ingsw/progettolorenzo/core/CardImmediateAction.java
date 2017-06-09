@@ -2,7 +2,6 @@ package it.polimi.ingsw.progettolorenzo.core;
 
 
 import com.google.gson.JsonObject;
-import it.polimi.ingsw.progettolorenzo.Game;
 
 import java.util.List;
 import java.util.Set;
@@ -45,12 +44,9 @@ public class CardImmediateAction extends Action {
             String type = card.immediateEff.get("pickCard").getAsJsonObject().get("type").getAsString();
             int value = card.immediateEff.get("pickCard").getAsJsonObject().get("value").getAsInt();
             Resources discount = Resources.fromJson(card.immediateEff.get("pickCard").getAsJsonObject().get("discount"));
-            //TODO tower type? deve chiamare in qualche modo claimFloorWithCard(Player player, Tower parentTower, int value, Resources discount)
-            List<Tower> towerList = pl.getParentGame().getBoard().towers;
-            FamilyMember dummy = new FamilyMember(pl, value, null);
-            //Move.floorAction(pl.getParentGame().getBoard(), dummy);
-            log.info("ImmediateAction: pickCard calls -> Move.claimFloorWithCard");
-            Move.claimFloorWithCard(pl.getParentGame().getBoard(), pl, type, value, discount);
+            log.info("ImmediateAction: pickCard calls -> Move.floorActionWithCard");
+            //FIXME tmp
+            //Move.floorActionWithCard(pl.getParentGame().getBoard(), pl, type, value, discount);
         }
 
         if(card.immediateEff.containsKey("multiplier")) {

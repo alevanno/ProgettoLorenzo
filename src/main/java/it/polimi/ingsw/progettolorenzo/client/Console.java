@@ -3,6 +3,7 @@ package it.polimi.ingsw.progettolorenzo.client;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
@@ -35,7 +36,7 @@ public class Console {
         JsonObject boardIn = new Gson().fromJson(input, JsonObject.class);
         printLine("The board as it is now:");
         try {
-            Screen screen = new DefaultTerminalFactory().createScreen();
+            Screen screen = new DefaultTerminalFactory().setInitialTerminalSize(new TerminalSize(135, 50)).createScreen();
             WindowBasedTextGUI textGUI = new MultiWindowTextGUI(screen);
             screen.startScreen();
             BoardWindow win = new BoardWindow(boardIn);

@@ -205,7 +205,7 @@ public class Game implements Runnable {
             pl.sOut(pl.displayFamilyMembers());
             FamilyMember famMem = pl.getAvailableFamMembers().get(pl.sInPrompt(1, 4) - 1);
             pl.sOut(famMem.getSkinColour() + " family member selected");
-            int servantSub = pl.increaseFamValue(famMem);
+            pl.increaseFamValue(famMem);
             //FIXME make me prettier
             pl.sOut("Available actions:");
             pl.sOut(Utils.displayList(actions));
@@ -217,31 +217,31 @@ public class Game implements Runnable {
                     break;
                 } else {
                     // placed here to abort this operation if player is not satisfied, reverts the value increase by servants
-                    pl.revertFamValue(famMem, servantSub);
+                    pl.revertFamValue(famMem);
                 }
             } else if ("Market".equalsIgnoreCase(action)) {
                 if (Move.marketAction(this.board, famMem)) {
                     break;
                 } else {
-                    pl.revertFamValue(famMem, servantSub);
+                    pl.revertFamValue(famMem);
                 }
             } else if ("CouncilPalace".equalsIgnoreCase(action)) {
                 if (Move.councilAction(this.board, famMem)) {
                     break;
                 } else {
-                    pl.revertFamValue(famMem, servantSub);
+                    pl.revertFamValue(famMem);
                 }
             } else if ("Production".equalsIgnoreCase(action)) {
                 if (Move.prodAction(this.board, famMem)) {
                     break;
                 } else {
-                    pl.revertFamValue(famMem, servantSub);
+                    pl.revertFamValue(famMem);
                 }
             } else if ("Harvest".equalsIgnoreCase(action)) {
                 if (Move.harvAction(this.board, famMem)) {
                     break;
                 } else {
-                    pl.revertFamValue(famMem, servantSub);
+                    pl.revertFamValue(famMem);
                 }
             } else if ("Activate leader card".equalsIgnoreCase(action)) {
                 pl.activateLeaderCard();

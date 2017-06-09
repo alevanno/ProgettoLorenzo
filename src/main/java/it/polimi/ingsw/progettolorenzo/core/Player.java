@@ -24,6 +24,8 @@ public class Player {
     private Game parentGame;
     private Scanner socketIn;
     private PrintWriter socketOut;
+    private int lastServantSpent; //FIXME these two are very unsafe, if the player does some nested actions that are increased, this doesn't work
+    private int lastFamMemIncrease;
 
 
     public Player(String name, String colour, Socket socket) {
@@ -185,69 +187,64 @@ public class Player {
         }
     }
 
-    public int increaseValue() {
-        int servantSub = 0;
-        // FIXME make me prettier after currentRes handling decision
-        int servant = currentRes.servant;
-        this.sOut("Current servants: " + servant);
-        this.sOut("How many do you want to use? ");
+    //TODO this should be moved to action, so that ResourceAction can be used
+    //call this if you want to increase an action NOT done through a FamMem
+    public int increaseValue() { //remember to use revertIncreaseValue if the action is not accepted
+        int increase;
         int servantSpent;
+        int currServant = currentRes.servant;
+        this.sOut("Current servants: " + currServant);
+        this.sOut("How many do you want to use? ");
         if (excommunications.get(1).has("servantExpense")) {
             int servantExp = excommunications.get(1).get("servantExpense").getAsInt();
             sOut("(Due to your excommunication you have to use " + servantExp + " servants to increase the action value)");
             do {
                 sOut("It has to be a multiple of " + servantExp);
-                servantSpent = this.sInPrompt(1, servant);
+                servantSpent = this.sInPrompt(0, currServant);
             } while (servantSpent % servantExp != 0);
-            servantSub = servantSpent / servantExp;
+            increase = servantSpent / servantExp;
         } else {
-            servantSub = this.sInPrompt(1, servant);
+            increase = this.sInPrompt(0, currServant);
+            servantSpent = increase;
         }
-        return servantSub;
+        this.sOut("Confirm?: y/n");
+        if (this.sInPromptConf()) {
+            lastServantSpent = servantSpent;
+            this.currentRes = this.currentRes.merge(new
+                    Resources.ResBuilder().servant(servantSpent)
+                    .build().inverse());
+            return increase;
+        } else {
+            return 0;
+        }
     }
 
-    // TODO test excomm
-    public int increaseFamValue(FamilyMember famMember) {
+    //call this if you want to increase an action done through a FamMem
+    public void increaseFamValue(FamilyMember famMember) { //remember to use revertFamValue if the action is not accepted
         this.sOut("Do you want to increase your "
                 + famMember.getSkinColour() + " family member value?" );
-        int servantSub = 0;
-
         if (this.sInPromptConf()) {
-            servantSub = this.increaseValue();
-            // FIXME make me prettier after currentRes handling decision
-            boolean ok = false;
-            while (!ok) {
-                int servant = currentRes.servant;
-                this.sOut("Current servants: " + servant);
-                this.sOut("How many do you want to use? ");
-                int servantSpent;
-                if (excommunications.get(1).has("servantExpense")) {
-                    int servantExp = excommunications.get(1).get("servantExpense").getAsInt();
-                    sOut("(Due to your excommunication you have to use " + servantExp + " servants to increase the action value)");
-                    do {
-                        sOut("It has to be a multiple of " + servantExp);
-                        servantSpent = this.sInPrompt(1, servant);
-                    } while (servantSpent%servantExp != 0);
-                    servantSub = servantSpent/servantExp;
-                }
-                else {
-                    servantSub = this.sInPrompt(1, servant);
-                    servantSpent = servantSub;
-                }
-                this.sOut("Current " + famMember.getSkinColour()
-                        + " family member value: " + (famMember.getActionValue() + servantSub));
-                this.sOut("Confirm?: y/n");
-                String answer = this.sIn();
-                if ("y".equalsIgnoreCase(answer)) {
-                    famMember.setActionValue(famMember.getActionValue() + servantSub);
-                    this.currentRes = this.currentRes.merge(new
-                            Resources.ResBuilder().servant(servantSpent)
-                            .build().inverse());
-                    ok = true;
-                }
-            }
-            return servantSub;
-        } return servantSub;
+            int increase = this.increaseValue();
+            lastFamMemIncrease = increase;
+            famMember.setActionValue(famMember.getActionValue() + increase);
+            this.sOut("Current " + famMember.getSkinColour()
+                    + " family member value: " + (famMember.getActionValue()));
+        }
+    }
+
+    public void revertFamValue(FamilyMember famMem) {
+        //reverts the value increase by servants
+        famMem.setActionValue(famMem
+                .getActionValue() - lastFamMemIncrease);
+        this.revertIncreaseValue();
+        System.out.println("bau");
+    }
+
+    public void revertIncreaseValue() {
+        this.currentRes = this.currentRes.merge(new
+                Resources.ResBuilder().servant(lastServantSpent)
+                .build());
+        System.out.println("after revert" + currentRes);
     }
 
     // TODO this method affects only the activation of a leader card;
@@ -267,15 +264,6 @@ public class Player {
         int choice = this.sInPrompt(1, count);
         return leaderCards.get(choice - 1).apply();
 
-    }
-
-    public void revertFamValue(FamilyMember famMem, int servantSub) {
-        //reverts the value increase by servants
-        famMem.setActionValue(famMem
-                .getActionValue() - servantSub);
-        this.currentRes = this.currentRes.merge(new
-                Resources.ResBuilder()
-                .servant(servantSub).build());
     }
 
     private void endgameLostVictoryRes(Resources loseVictoryRes) {

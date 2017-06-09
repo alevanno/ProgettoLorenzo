@@ -35,12 +35,14 @@ public class Floor extends Action {
         Player p = fam.getParent();
         Resources tmpRes = p.currentRes;
         Resources cardCost = this.floorCard.getCardCost(); //TODO if a discount is present...
+        boolean boycottBonus = false;
         //TODO value should be affected also by an excommunication
         for (Card c : p.listCards()) {
-            JsonElement permEff = c.permanentEff.get("towerBonus");
-            if(permEff != null) {
-                if (permEff.getAsJsonObject().get("type").getAsString().equals(floorCard.cardType)) {
-                    value += permEff.getAsJsonObject().get("plusValue").getAsInt();
+            boycottBonus = c.permanentEff.containsKey("boycottInstantTowerBonus");
+            JsonElement permTowerBonus = c.permanentEff.get("towerBonus");
+            if(permTowerBonus != null) {
+                if (permTowerBonus.getAsJsonObject().get("type").getAsString().equals(floorCard.cardType)) {
+                    value += permTowerBonus.getAsJsonObject().get("plusValue").getAsInt();
                 }
             }
         }//TODO the floor bonus can be used to pay for the card you're taking
@@ -71,7 +73,9 @@ public class Floor extends Action {
                 && !tmpRes.merge(cardCost).isNegative() || Borgia != null) {
             this.addAction(new TakeFamilyMember(fam));
             this.addAction(new PlaceFamilyMemberInFloor(fam, this));
-            this.addAction(new ResourcesAction("floor bonus", this.bonus, p));
+            if (!boycottBonus) {
+                this.addAction(new ResourcesAction("floor bonus", this.bonus, p));
+            }
             this.addAction(new NestedAction(this.floorCard));
             this.floorCard.costActionBuilder(p);
             this.addAction(new NestedAction(
