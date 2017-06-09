@@ -8,18 +8,18 @@ import java.util.List;
 public abstract class LeaderCard {
     protected String name;
     protected List<Integer> activationCost;
-    protected String type;
+    protected List<String> types;
     protected boolean activation;
     protected boolean onePerRound;
     protected boolean onePerRoundUsage;
 
     public LeaderCard(String name, List<Integer> activationCost,
-                      String type,
+                      List<String> types,
                       boolean activation, boolean onePerRound,
                       boolean onePerRoundUsage) {
         this.name = name;
         this.activationCost = activationCost;
-        this.type = type;
+        this.types = types;
         this.activation = activation;
         this.onePerRound = onePerRound;
         this.onePerRoundUsage = onePerRoundUsage;
@@ -31,8 +31,8 @@ public abstract class LeaderCard {
     }    public List<Integer> getActivationCost() {
         return activationCost;
     }
-    public String getCardCostType() {
-        return this.type;
+    public List<String> getCardCostType() {
+        return this.types;
     }
     public boolean isActivated() {
         return this.activation;
@@ -50,7 +50,7 @@ class FrancescoSforza extends LeaderCard {
     private Player owner;
     public FrancescoSforza(Player pl) {
         super("FrancescoSforza", Arrays.asList(5),
-                "ventures", false,
+                Arrays.asList("ventures"), false,
                 true, false );
         this.owner = pl;
     }
@@ -58,7 +58,7 @@ class FrancescoSforza extends LeaderCard {
     @Override
     public boolean apply() {
         boolean checkT = LeaderUtils
-                .checkCardTypeSatisfaction(owner, type, activationCost.get(0));
+                .checkCardTypeSatisfaction(owner, types.get(0), activationCost.get(0));
         return LeaderUtils.commonApply(owner, this, checkT, false);
     }
 
@@ -72,7 +72,7 @@ class FilippoBrunelleschi extends LeaderCard {
     Player owner;
     public FilippoBrunelleschi(Player pl) {
         super("Filippo Brunelleschi", Arrays.asList(5),
-                "buildings", false, false,
+                Arrays.asList("buildings"), false, false,
                 false);
         this.owner = pl;
     }
@@ -80,7 +80,7 @@ class FilippoBrunelleschi extends LeaderCard {
     @Override
     public boolean apply() {
         boolean checkT = LeaderUtils
-                .checkCardTypeSatisfaction(owner , type, activationCost.get(0));
+                .checkCardTypeSatisfaction(owner , types.get(0), activationCost.get(0));
         return LeaderUtils.commonApply(owner, this, checkT, false);
     }
     @Override
@@ -95,15 +95,15 @@ class LucreziaBorgia extends LeaderCard {
     Player owner;
     public LucreziaBorgia(Player pl) {
         super("Lucrezia Borgia", Arrays.asList(6),
-                "same type", false, false,
+                Arrays.asList("buildings",
+                        "territories",
+                        "ventures",
+                        "characters"), false, false,
                 false);
         this.owner = pl;
     }
     @Override
     public boolean apply() {
-        List<String> types = new ArrayList<>(Arrays
-                .asList("buildings", "territories", "ventures",
-                        "characters"));
         boolean checkT = false;
         for (String t : types){
             checkT = LeaderUtils
@@ -134,7 +134,7 @@ class LudovicoAriosto extends LeaderCard {
     Player owner;
     public LudovicoAriosto(Player pl) {
         super("Ludovico Ariosto", Arrays.asList(5),
-                "characters", false,
+                Arrays.asList("characters"), false,
                 false, false);
         this.owner = pl;
     }
@@ -142,7 +142,7 @@ class LudovicoAriosto extends LeaderCard {
     @Override
     public boolean apply() {
         boolean checkT = LeaderUtils
-                .checkCardTypeSatisfaction(owner, type, activationCost.get(0));
+                .checkCardTypeSatisfaction(owner, types.get(0), activationCost.get(0));
         return LeaderUtils.commonApply(owner, this, checkT, false);
     }
     @Override
@@ -156,14 +156,15 @@ class LudovicoAriosto extends LeaderCard {
 class FedericoDaMontefeltro extends LeaderCard {
     Player owner;
     public FedericoDaMontefeltro(Player pl) {
-        super("Federico Da Montafeltro", Arrays.asList(5), "territories",
+        super("Federico Da Montafeltro", Arrays.asList(5),
+                Arrays.asList("territories"),
                 false, true, false);
         this.owner = pl;
     }
     @Override
     public boolean apply() {
         boolean checkT = LeaderUtils
-                .checkCardTypeSatisfaction(owner, type, activationCost.get(0));
+                .checkCardTypeSatisfaction(owner, types.get(0), activationCost.get(0));
         return LeaderUtils.commonApply(owner, this, checkT, false);
     }
     @Override
@@ -185,7 +186,8 @@ class FedericoDaMontefeltro extends LeaderCard {
 class GirolamoSavonarola extends LeaderCard {
     Player owner;
     public GirolamoSavonarola(Player pl) {
-        super("Girolamo Savonarola", Arrays.asList(18), "coin",
+        super("Girolamo Savonarola", Arrays.asList(18),
+                Arrays.asList("coin"),
                 false, true, false);
     }
     @Override
@@ -209,7 +211,7 @@ class SistoIV extends LeaderCard {
     Player owner;
     public SistoIV(Player pl) {
         super("SistoIV", Arrays.asList(6),
-                "coin, wood, stone, servant",
+                Arrays.asList("coin", "wood", "stone", "servant"),
                 false, false, false);
         this.owner = pl;
     }
@@ -233,7 +235,7 @@ class SigismondoMalatesta extends LeaderCard {
     Player owner;
     public SigismondoMalatesta(Player pl) {
         super("Sigismondo Malatesta", Arrays.asList(7, 3),
-                "militaryPoint, faithPoint", false,
+                Arrays.asList("militaryPoint", "faithPoint"), false,
                 false, false);
         this.owner = pl;
     }
@@ -260,7 +262,7 @@ class CesareBorgia extends LeaderCard {
     Player owner;
     public CesareBorgia(Player pl) {
         super("Cesare Borgia", Arrays.asList(3, 12, 2),
-                "buildings, coin, faithPoint", false,
+                Arrays.asList("buildings", "coin", "faithPoint"), false,
                 false, false);
         this.owner = pl;
     }
@@ -269,7 +271,7 @@ class CesareBorgia extends LeaderCard {
         boolean checkC = LeaderUtils
                 .checkCostResSatisfaction(owner, new Resources
                         .ResBuilder().coin(12).faithPoint(2).build());
-        boolean checkT = LeaderUtils.checkCardTypeSatisfaction(owner, this.type,
+        boolean checkT = LeaderUtils.checkCardTypeSatisfaction(owner, this.types.get(0),
                 this.activationCost.get(0));
         return LeaderUtils.commonApply(owner, this, checkT, checkC);
     }
@@ -285,7 +287,7 @@ class MichelangeloBuonarroti extends LeaderCard {
     Player owner;
     public MichelangeloBuonarroti(Player pl) {
         super("Michelangelo Buonarroti", Arrays.asList(10),
-                "stone", false, true, false);
+                Arrays.asList("stone"), false, true, false);
         this.owner = pl;
     }
     @Override
@@ -308,7 +310,8 @@ class MichelangeloBuonarroti extends LeaderCard {
 class SantaRita extends LeaderCard {
     Player owner;
     public SantaRita(Player pl) {
-        super("Santa Rita", Arrays.asList(8), "faithPoint",
+        super("Santa Rita", Arrays.asList(8),
+                Arrays.asList("faithPoint"),
                 false, false, false);
         this.owner = pl;
     }
@@ -330,7 +333,8 @@ class GiovanniDalleBandeNere extends LeaderCard {
     Player owner;
     public GiovanniDalleBandeNere(Player pl) {
         super("Giovanni Dalle Bande Nere",
-                Arrays.asList(12), "militaryPoint", false,
+                Arrays.asList(12),
+                Arrays.asList("militaryPoint"), false,
                 true, false);
         this.owner = pl;
     }
@@ -354,22 +358,15 @@ class GiovanniDalleBandeNere extends LeaderCard {
 class CosimoDeMedici extends LeaderCard {
     Player owner;
     public CosimoDeMedici(Player pl) {
-        super("Cosimo Dè Medici", Arrays.asList(2, 4), "" +
-                "characters, buildings",
+        super("Cosimo Dè Medici", Arrays.asList(2, 4),
+                Arrays.asList("characters", "buildings"),
                 false, true, false);
         this.owner = pl;
     }
     @Override
     public boolean apply() {
-        boolean checkT1 = LeaderUtils
-                .checkCardTypeSatisfaction(owner, "characters",
-                        activationCost.get(0));
-        boolean checkT2 = LeaderUtils.checkCardTypeSatisfaction(owner, "buildings",
-                activationCost.get(1));
-        boolean checkT = false;
-        if(checkT1 && checkT2) {
-            checkT = true;
-        }
+        boolean checkT = LeaderUtils.checkMultiType(this.types,
+                this.activationCost,owner);
         return LeaderUtils.commonApply(owner, this, checkT, false);
     }
 
@@ -386,26 +383,42 @@ class LeonardoDaVinci extends LeaderCard {
     Player owner;
     public LeonardoDaVinci(Player pl) {
         super("Leonardo Da Vinci",
-                Arrays.asList(4,2), "characters, territories",
+                Arrays.asList(4,2),
+                Arrays.asList("characters", "territories"),
                 false, true, false);
         this.owner = pl;
     }
     @Override
     public boolean apply() {
-        boolean checkT1 = LeaderUtils
-                .checkCardTypeSatisfaction(owner, "characters",
-                        activationCost.get(0));
-        boolean checkT2 = LeaderUtils
-                .checkCardTypeSatisfaction(owner, "territories",
-                activationCost.get(1));
-        boolean checkT = false;
-        if(checkT1 && checkT2) {
-            checkT = true;
-        }
+        boolean checkT = LeaderUtils.checkMultiType(this.types,this.activationCost, owner);
         return LeaderUtils.commonApply(owner, this, checkT, false);
     }
     @Override
     public void onePerRoundAbility() {
         LeaderUtils.OneHarvProd("harvest", owner, this);
+    }
+}
+
+class BartolomeoColleoni extends LeaderCard {
+    Player owner;
+    public BartolomeoColleoni(Player pl){
+        super("Bartolomeo Colleoni",
+                Arrays.asList(2,4),
+                Arrays.asList("ventures, territories"),
+                false, true, false);
+        this.owner = pl;
+    }
+    @Override
+    public boolean apply() {
+        boolean checkT = LeaderUtils.checkMultiType(this.types, this.activationCost,
+                owner);
+        return LeaderUtils.commonApply(owner, this, checkT, false);
+    }
+    @Override
+    public void onePerRoundAbility() {
+        owner.sOut("You gained 4 victoryPoint");
+        owner.currentRes = owner.currentRes.merge(new Resources
+                .ResBuilder().victoryPoint(4).build());
+        onePerRoundUsage = true;
     }
 }

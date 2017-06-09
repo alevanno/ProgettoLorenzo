@@ -1,5 +1,7 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
+import java.util.List;
+
 public class LeaderUtils {
     public static int incCardTypeCounter(Player owner, String type) {
         int counter = 0;
@@ -98,5 +100,18 @@ public class LeaderUtils {
         }
         owner.sOut("One per round ability accomplished");
         card.onePerRoundUsage = true;
+    }
+
+    public static boolean checkMultiType(List<String> types,
+                                         List<Integer> cost,
+                                         Player owner){
+        for (String type : types) {
+            int i = 0;
+            if(!checkCardTypeSatisfaction(owner, type, cost.get(i))){
+                return false;
+            }
+        }
+        // if it arrives here, all the check are satisfied together
+        return true;
     }
 }
