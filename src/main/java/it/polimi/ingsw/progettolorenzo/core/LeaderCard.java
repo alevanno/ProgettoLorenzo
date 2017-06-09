@@ -247,3 +247,30 @@ class SistoIV extends LeaderCard {
                 "Church in a Vatican Report phase ");
     }
 }
+
+class SigismondoMalatesta extends LeaderCard {
+    Player owner;
+    public SigismondoMalatesta(Player pl) {
+        super("Sigismondo Malatesta", Arrays.asList(7, 3),
+                "militaryPoint, faithPoint", false,
+                false, false);
+        this.owner = pl;
+    }
+    @Override
+    public boolean apply() {
+        boolean checkC = LeaderUtils.checkCostResSatisfaction(owner,
+                new Resources.ResBuilder()
+                        .militaryPoint(7).faithPoint(3).build());
+        return LeaderUtils.commonApply(owner, this, false, checkC);
+    }
+    @Override
+    public void permanentAbility() {
+        this.activation = true;
+        owner.sOut("Your Blank family member has a bonus of +3 on its value");
+        for (FamilyMember fam : owner.getAvailableFamMembers()) {
+            if ("Blank".equals(fam.getSkinColour())) {
+                fam.setActionValue(fam.getActionValue() + 3);
+            }
+        }
+    }
+}

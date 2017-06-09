@@ -101,11 +101,15 @@ public class Player {
 
     public void famMembersBirth(Map<String, Integer> famValues) {
         List <String> colorList = Arrays.asList("Orange", "Black", "White");
+        int blankValue = 0;
         for (String s: colorList) {
             int val = famValues.get(s);
             for(LeaderCard leader : leaderCards) {
                 if("Lucrezia Borgia".equals(leader.getName()) && leader.isActivated()){
                     val += 2;
+                }
+                if ("Sigismondo Malatesta".equals(leader.getName()) && leader.isActivated()){
+                    blankValue += 3;
                 }
             }
             if (excommunications.get(0).has("harvMalus")) {
@@ -114,7 +118,7 @@ public class Player {
             this.famMemberList.add(new FamilyMember(this, val, s));
         }
         this.famMemberList.add(
-                new FamilyMember(this, 0, "Blank"));
+                new FamilyMember(this, blankValue, "Blank"));
         log.fine("4 family members attached to " + this);
     }
 
