@@ -298,6 +298,27 @@ class CesareBorgia extends LeaderCard {
         owner.sOut("You don’t need to satisfy the military points requirement when " +
                 "you take territory cards ");
     }
+}
 
+class MichelangeloBuonarroti extends LeaderCard {
+    Player owner;
+    public MichelangeloBuonarroti(Player pl) {
+        super("Michelangelo Buonarroti", Arrays.asList(10),
+                "stone", false, true, false);
+        this.owner = pl;
+    }
+    @Override
+    public boolean apply() {
+        boolean checkC = LeaderUtils.checkCostResSatisfaction(owner,
+                new Resources.ResBuilder().stone(10).build());
+        return LeaderUtils.commonApply(owner, this, false, checkC)
+    }
 
+    @Override
+    public void onePerRoundAbility() {
+        owner.sOut("You gained 10 stone.");
+        owner.currentRes = owner.currentRes.merge(new Resources
+                .ResBuilder().stone(10).build());
+    }
+    
 }
