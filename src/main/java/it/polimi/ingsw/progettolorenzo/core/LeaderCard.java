@@ -211,7 +211,6 @@ class GirolamoSavonarola extends LeaderCard {
     }
     @Override
     public boolean apply() {
-
         boolean checkC = LeaderUtils.checkCostResSatisfaction(owner,
                 new Resources.ResBuilder().coin(activationCost.get(0)).build());
         return LeaderUtils.commonApply(owner, this, false, checkC);
@@ -242,5 +241,9 @@ class SistoIV extends LeaderCard {
     }
 
     @Override
-    public void permanentAbility() {}
+    public void permanentAbility() {
+        this.activation = true;
+        owner.sOut("You gain 5 additional victory points when you support the" +
+                "Church in a Vatican Report phase ");
+    }
 }

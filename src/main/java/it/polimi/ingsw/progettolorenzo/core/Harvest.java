@@ -20,6 +20,7 @@ public class Harvest extends ActionProdHarv {
             if("Ludovico Ariosto".equals(leader.getName())
                     && leader.isActivated()) {
                 Ariosto = leader;
+                break;
             }
         }
         if (this.mainHarvest == null || Ariosto != null) {

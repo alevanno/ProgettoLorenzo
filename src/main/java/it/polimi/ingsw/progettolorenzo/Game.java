@@ -266,6 +266,14 @@ public class Game implements Runnable {
                 pl.sOut("What do you want to do? \n1. Support the Church \n2. Be excommunicated");
                 int choice = pl.sInPrompt(1, 2);
                 if (choice == 1) {
+                    for (LeaderCard leader : pl.getLeaderCards()) {
+                        if("SistoIV".equals(leader.getName())
+                                && leader.isActivated()) {
+                            pl.currentRes = pl.currentRes.merge(
+                                    new Resources.ResBuilder().victoryPoint(5).build());
+                            break;
+                        }
+                    }
                     pl.currentRes = pl.currentRes.merge(Resources.fromJson(faithVictory.get(pl.currentRes.faithPoint)));
                     //FIXME this is so stupid, the player's currentRes should not be final...
                     pl.currentRes = pl.currentRes.merge(new Resources.ResBuilder()

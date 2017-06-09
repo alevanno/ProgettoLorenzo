@@ -22,6 +22,7 @@ public class Production extends ActionProdHarv {
             if("Ludovico Ariosto".equals(leader.getName())
                     && leader.isActivated()) {
                 Ariosto = leader;
+                break;
             }
         }
         //place fam Member only if mainProd = null, but take from pl
