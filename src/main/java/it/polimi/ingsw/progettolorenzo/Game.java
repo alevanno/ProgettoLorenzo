@@ -331,5 +331,9 @@ public class Game implements Runnable {
 
     public Board getBoard() { return this.board; }
 
+    public List<Player> getPlayers() {
+        return this.players;
+    }
+
     public int getNumOfPlayers() { return players.size(); }
 }

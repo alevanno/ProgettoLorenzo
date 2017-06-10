@@ -1,6 +1,8 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
 
+import it.polimi.ingsw.progettolorenzo.Game;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -516,3 +518,45 @@ class PicoDellaMirandola extends LeaderCard {
                 "occupied");
     }
 }
+
+class LorenzoDeMedici extends LeaderCard {
+    Player owner;
+    public LorenzoDeMedici(Player pl){
+        super("Lorenzo Dè Medici",
+                Arrays.asList(35),
+                Arrays.asList("victoryPoint"),
+                false, false, false);
+        this.owner = pl;
+    }
+    @Override
+    public boolean apply() {
+        boolean checkT = LeaderUtils.checkMultiType(this.types, this.activationCost,
+                owner);
+        return LeaderUtils.commonApply(owner, this, checkT, false);
+    }
+    @Override
+    public void permanentAbility() {
+        // needs testing
+        owner.sOut("Copy the ability of another " +
+                "Leader Card already played by another player. " +
+                "Once you decide the ability to copy, it can’t be changed");
+        Game currentGame = owner.getParentGame();
+        int counter = 0;
+        List<LeaderCard> activatedCards = new ArrayList<>();
+        //print all the activated leader cards
+        for (Player pl : currentGame.getPlayers()){
+            for(LeaderCard played : pl.getLeaderCards()) {
+                if (played.isActivated()) {
+                    activatedCards.add(played);
+                    counter++;
+                    owner.sOut(counter + " -> " + played.getName());
+                }
+            }
+        }
+        owner.sOut("Which one do you want to copy?");
+        LeaderCard toCopy = activatedCards.get(
+                owner.sInPrompt(1, counter));
+        toCopy.permanentAbility();
+    }
+}
+
