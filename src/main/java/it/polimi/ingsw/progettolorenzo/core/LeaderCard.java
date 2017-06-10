@@ -556,7 +556,9 @@ class LorenzoDeMedici extends LeaderCard {
         owner.sOut("Which one do you want to copy?");
         LeaderCard toCopy = activatedCards.get(
                 owner.sInPrompt(1, counter));
+        this.name = toCopy.name;
         toCopy.permanentAbility();
+
     }
 }
 
