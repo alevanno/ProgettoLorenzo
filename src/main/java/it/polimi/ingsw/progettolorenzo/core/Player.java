@@ -19,7 +19,7 @@ public class Player {
     private List<FamilyMember> famMemberList = new ArrayList<>();
     private Deck cards = new Deck();
     private List<JsonObject> excommunications = new ArrayList<>(Arrays.asList(new JsonObject(), new JsonObject(), new JsonObject()));
-    private List<LeaderCard> leaderCards = new ArrayList<>(Arrays.asList(new LudovicoAriosto(this)));
+    private List<LeaderCard> leaderCards = new ArrayList<>();
     private BonusTile bonusT;
     private Game parentGame;
     private Scanner socketIn;
@@ -255,19 +255,38 @@ public class Player {
     // we should create an other method to use the One per Round ability
     public boolean activateLeaderCard() {
         this.sOut("Which Leader card do you want to activate?");
-        int count = 0;
         if (leaderCards.isEmpty()) {
             this.sOut("You don't have any Leader Card anymore");
             return false;
         }
         for (LeaderCard card : leaderCards) {
-            this.sOut(String.format("%s %d %s",count + 1 + " -> " + card.getName(),
-                    card.getActivationCost(), ": " + card.getCardCostType()));
-            count++;
+            for (int i : card.activationCost) {
+                this.sOut(String.format("%s %d %s", i + 1 + " -> " + card.getName(),
+                        card.getActivationCost().get(i), " : " + card.getCardCostType()));
+            }
         }
-        int choice = this.sInPrompt(1, count);
+        int choice = this.sInPrompt(1, leaderCards.size());
         return leaderCards.get(choice - 1).apply();
 
+    }
+
+    public void discardLeaderCard(LeaderCard leader) {
+        this.sOut("You will discard " + leader.getName() + " leader card" +
+                "and you will immediately receive 1 council privilege");
+        this.sOut("Confirm?");
+        int counter = 0;
+        if(this.sInPromptConf()) {
+            for (LeaderCard card : leaderCards) {
+                if(leader.getName().equals(card.getName())) {
+                    leaderCards.remove(counter);
+                    Resources privRes = this.getParentGame()
+                            .getBoard().councilPalace.choosePrivilege(this);
+                    this.currentRes = currentRes.merge(privRes);
+                    break;
+                }
+                counter++;
+            }
+        }
     }
 
     private void endgameLostVictoryRes(Resources loseVictoryRes) {
