@@ -20,8 +20,6 @@ class PlayerIO {
         this.socket = socket;
     }
 
-    }
-
     private void sInInit() {
         try {
             if (this.socketIn == null) {
