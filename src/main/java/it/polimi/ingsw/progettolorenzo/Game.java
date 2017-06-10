@@ -203,7 +203,8 @@ public class Game implements Runnable {
             this.board.displayBoard();
             pl.sOut("Which family member do you want to use?: ");
             pl.sOut(pl.displayFamilyMembers());
-            FamilyMember famMem = pl.getAvailableFamMembers().get(pl.sInPrompt(1, 4) - 1);
+            FamilyMember famMem = pl.getAvailableFamMembers()
+                    .get(pl.sInPrompt(1, pl.getAvailableFamMembers().size()) - 1);
             pl.sOut(famMem.getSkinColour() + " family member selected");
             pl.increaseFamValue(famMem);
             //FIXME make me prettier

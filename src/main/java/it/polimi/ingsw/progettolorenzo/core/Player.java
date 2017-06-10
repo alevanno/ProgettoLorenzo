@@ -240,14 +240,15 @@ public class Player {
         //reverts the value increase by servants
         famMem.setActionValue(famMem
                 .getActionValue() - lastFamMemIncrease);
+        lastFamMemIncrease = 0;
         this.revertIncreaseValue();
-        System.out.println("bau");
     }
 
     public void revertIncreaseValue() {
         this.currentRes = this.currentRes.merge(new
                 Resources.ResBuilder().servant(lastServantSpent)
                 .build());
+        lastServantSpent = 0;
         System.out.println("after revert" + currentRes);
     }
 

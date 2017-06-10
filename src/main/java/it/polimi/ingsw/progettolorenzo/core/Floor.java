@@ -105,7 +105,8 @@ public class Floor extends Action {
             this.addAction(new TakeFamilyMember(fam));
             this.addAction(new PlaceFamilyMemberInFloor(fam, this));
             if (!boycottBonus) {
-                this.addAction(new ResourcesAction("floor bonus", this.bonus, p));
+                this.addAction(new ResourcesAction("Floor entry bonus", this.bonus, p));
+                log.info("Floor entry bonus: " + this.bonus);
             }
             this.addAction(new NestedAction(this.floorCard));
             this.floorCard.costActionBuilder(p);
