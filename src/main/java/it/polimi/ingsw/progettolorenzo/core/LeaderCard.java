@@ -85,7 +85,6 @@ class FilippoBrunelleschi extends LeaderCard {
     }
     @Override
     public void permanentAbility() {
-        this.activation = true;
         owner.sOut("Permanent ability activated: you will never have to pay" +
                 "the additional cost if a tower is already occupied");
     }
@@ -117,7 +116,6 @@ class LucreziaBorgia extends LeaderCard {
     }
     @Override
     public void permanentAbility() {
-        this.activation = true;
         owner.sOut("Permanent ability activated: your colored family members" +
                 " have a bonus of +2 on their value");
         // increasing available fam members; next turn they will be increased
@@ -147,7 +145,6 @@ class LudovicoAriosto extends LeaderCard {
     }
     @Override
     public void permanentAbility() {
-        this.activation = true;
         owner.sOut("Permanent ability activated: you can place your " +
                 "family Members in occupied action spaces. ");
     }
@@ -225,7 +222,6 @@ class SistoIV extends LeaderCard {
 
     @Override
     public void permanentAbility() {
-        this.activation = true;
         owner.sOut("You gain 5 additional victory points when you support the" +
                 "Church in a Vatican Report phase ");
     }
@@ -248,7 +244,6 @@ class SigismondoMalatesta extends LeaderCard {
     }
     @Override
     public void permanentAbility() {
-        this.activation = true;
         owner.sOut("Your Blank family member has a bonus of +3 on its value");
         for (FamilyMember fam : owner.getAvailableFamMembers()) {
             if ("Blank".equals(fam.getSkinColour())) {
@@ -277,7 +272,6 @@ class CesareBorgia extends LeaderCard {
     }
     @Override
     public void permanentAbility() {
-        this.activation = true;
         owner.sOut("You don’t need to satisfy the military points requirement when " +
                 "you take territory cards ");
     }
@@ -323,7 +317,6 @@ class SantaRita extends LeaderCard {
     }
     @Override
     public void permanentAbility() {
-        this.activation = true;
         owner.sOut("You don’t need to satisfy the military points requirement when " +
                 "you take territory cards ");
     }
@@ -404,7 +397,7 @@ class BartolomeoColleoni extends LeaderCard {
     public BartolomeoColleoni(Player pl){
         super("Bartolomeo Colleoni",
                 Arrays.asList(2,4),
-                Arrays.asList("ventures, territories"),
+                Arrays.asList("ventures", "territories"),
                 false, true, false);
         this.owner = pl;
     }
@@ -420,5 +413,106 @@ class BartolomeoColleoni extends LeaderCard {
         owner.currentRes = owner.currentRes.merge(new Resources
                 .ResBuilder().victoryPoint(4).build());
         onePerRoundUsage = true;
+    }
+}
+
+class SandroBotticelli extends LeaderCard {
+    Player owner;
+    public SandroBotticelli(Player pl){
+        super("Sandro Botticelli",
+                Arrays.asList(10),
+                Arrays.asList("wood"),
+                false, true, false);
+        this.owner = pl;
+    }
+    @Override
+    public boolean apply() {
+        boolean checkC = LeaderUtils.checkCostResSatisfaction(owner,
+                new Resources.ResBuilder().wood(10).build());
+        return LeaderUtils.commonApply(owner, this, false, checkC);
+    }
+    @Override
+    public void onePerRoundAbility() {
+        owner.sOut("You gained 2 militaryPoint and 1 victoryPoint");
+        owner.currentRes = owner.currentRes.merge(new Resources
+                .ResBuilder().militaryPoint(2).victoryPoint(1).build());
+        onePerRoundUsage = true;
+    }
+}
+
+class LudovicoIIIGonzaga extends LeaderCard {
+    Player owner;
+    public LudovicoIIIGonzaga(Player pl){
+        super("Ludovico III Gongaza",
+                Arrays.asList(15),
+                Arrays.asList("servant"),
+                false, true, false);
+        this.owner = pl;
+    }
+    @Override
+    public boolean apply() {
+        boolean checkC = LeaderUtils.checkCostResSatisfaction(owner,
+                new Resources.ResBuilder().servant(15).build());
+        return LeaderUtils.commonApply(owner, this, false, checkC);
+    }
+    @Override
+    public void onePerRoundAbility() {
+        owner.sOut("You gained 1 councilPrivilege");
+        Resources privRes = owner.getParentGame()
+                .getBoard().councilPalace.choosePrivilege(owner);
+        owner.currentRes = owner.currentRes.merge(privRes);
+        onePerRoundUsage = true;
+    }
+}
+
+class LudovicoIlMoro extends LeaderCard {
+    Player owner;
+    public LudovicoIlMoro(Player pl){
+        super("Ludovico Il Moro",
+                Arrays.asList(2,2,2,2),
+                Arrays.asList("territories", "characters", "buildings",
+                        "ventures"),
+                false, false, false);
+        this.owner = pl;
+    }
+    @Override
+    public boolean apply() {
+        boolean checkT = LeaderUtils.checkMultiType(this.types, this.activationCost,
+                owner);
+        return LeaderUtils.commonApply(owner, this, checkT, false);
+    }
+    @Override
+    public void permanentAbility() {
+        owner.sOut("Your colored Family Members has a value of 5, regardless of\n" +
+                "their related dice");
+        for (FamilyMember fam : owner.getAvailableFamMembers()) {
+            if (!"Blank".equals(fam.getSkinColour())) {
+                fam.setActionValue(5);
+            }
+        }
+    }
+}
+
+class PicoDellaMirandola extends LeaderCard {
+    Player owner;
+    public PicoDellaMirandola(Player pl){
+        super("Pico Della Mirandola",
+                Arrays.asList(4,2),
+                Arrays.asList("ventures", "buildings"),
+                false, false, false);
+        this.owner = pl;
+    }
+    @Override
+    public boolean apply() {
+        boolean checkT = LeaderUtils.checkMultiType(this.types, this.activationCost,
+                owner);
+        return LeaderUtils.commonApply(owner, this, checkT, false);
+    }
+    @Override
+    public void permanentAbility() {
+        owner.sOut("When you take Development Cards, you get a discount of" +
+                "3 coins (if the card you are taking has coins in its cost.) This is not a discount on the\n" +
+                "coins you must spend if you take a Development Card from a Tower that’s already\n" +
+                "occupied");
     }
 }

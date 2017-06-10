@@ -60,6 +60,7 @@ public class LeaderUtils {
             owner.sOut("Would you activate it?");
             boolean ret = owner.sInPromptConf();
             if(ret){
+                card.activation = true;
                 card.permanentAbility();
                 owner.sOut("Leader card activated");
                 return true;

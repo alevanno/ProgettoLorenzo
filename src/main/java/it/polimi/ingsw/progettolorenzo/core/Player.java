@@ -109,6 +109,10 @@ public class Player {
             for(LeaderCard leader : leaderCards) {
                 if("Lucrezia Borgia".equals(leader.getName()) && leader.isActivated()){
                     val += 2;
+                    // exclusive?
+                } else if ("Ludovico Il Moro"
+                        .equals(leader.getName()) && leader.isActivated()) {
+                    val = 5;
                 }
                 if ("Sigismondo Malatesta".equals(leader.getName()) && leader.isActivated()){
                     blankValue += 3;

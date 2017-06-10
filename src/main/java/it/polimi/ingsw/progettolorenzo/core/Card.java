@@ -78,9 +78,25 @@ public class Card extends Action {
     }
 
     public void costActionBuilder(Player player) {
+        int discount = 0;
+        for (LeaderCard leader : player.getLeaderCards()){
+            if ("Pico Della Mirandola".equals(leader.getName())
+                    && leader.isActivated()){
+                if(this.getCardCost().coin > 3) {
+                    discount = 3;
+                } else if (this.getCardCost().coin < 3 &&
+                        this.getCardCost().coin > 0) {
+                    discount = this.getCardCost().coin;
+
+                }
+            }
+            break;
+        }
         this.addAction(
             new ResourcesAction(
-                "Card cost", this.getCardCost().inverse(), player
+                "Card cost", this.getCardCost()
+                    .merge(new Resources.ResBuilder()
+                            .coin(discount).build().inverse()).inverse(), player
             )
         );
     }
