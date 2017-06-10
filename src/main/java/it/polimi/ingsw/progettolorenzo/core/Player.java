@@ -10,32 +10,16 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Player {
+class PlayerIO {
     private final Logger log = Logger.getLogger(this.getClass().getName());
-    public final String playerName;
-    public final String playerColour;
-    public final Socket playerSocket;
-    public Resources currentRes;  // FIXME make private
-    private List<FamilyMember> famMemberList = new ArrayList<>();
-    private Deck cards = new Deck();
-    private List<JsonObject> excommunications = new ArrayList<>(Arrays.asList(new JsonObject(), new JsonObject(), new JsonObject()));
-    private List<LeaderCard> leaderCards = new ArrayList<>();
-    private BonusTile bonusT;
-    private Game parentGame;
+    private Socket socket;
     private Scanner socketIn;
     private PrintWriter socketOut;
-    private int lastServantSpent; //FIXME these two are very unsafe, if the player does some nested actions that are increased, this doesn't work
-    private int lastFamMemIncrease;
 
+    public PlayerIO(Socket socket) {
+        this.socket = socket;
+    }
 
-    public Player(String name, String colour, Socket socket) {
-        this.playerName = name;
-        this.playerColour = colour;
-        this.currentRes = new Resources.ResBuilder().servant(3).stone(2).wood(2).build();
-        this.playerSocket = socket;
-        log.info(String.format(
-                "New player: %s (colour: %s, resources: %s)",
-                name, colour, this.currentRes));
     }
 
     private void sInInit() {
@@ -43,7 +27,7 @@ public class Player {
             if (this.socketIn == null) {
                 this.socketIn = new Scanner(new
                         BufferedReader(new
-                        InputStreamReader(this.playerSocket.getInputStream())));
+                        InputStreamReader(this.socket.getInputStream())));
             }
         } catch (IOException e) {
             // FIXME handle this better
@@ -91,7 +75,7 @@ public class Player {
             if (this.socketOut == null) {
                 this.socketOut = new PrintWriter(new BufferedWriter(
                         new OutputStreamWriter(
-                        this.playerSocket.getOutputStream())));
+                        this.socket.getOutputStream())));
             }
         } catch (IOException e) {
             // FIXME handle this better
@@ -99,6 +83,50 @@ public class Player {
         }
         this.socketOut.println(s);
         this.socketOut.flush();
+    }
+
+}
+
+public class Player {
+    private final Logger log = Logger.getLogger(this.getClass().getName());
+    public final String playerName;
+    public final String playerColour;
+    private final PlayerIO io;
+    public Resources currentRes;  // FIXME make private
+    private List<FamilyMember> famMemberList = new ArrayList<>();
+    private Deck cards = new Deck();
+    private List<JsonObject> excommunications = new ArrayList<>(Arrays.asList(new JsonObject(), new JsonObject(), new JsonObject()));
+    private List<LeaderCard> leaderCards = new ArrayList<>();
+    private BonusTile bonusT;
+    private Game parentGame;
+    private int lastServantSpent; //FIXME these two are very unsafe, if the player does some nested actions that are increased, this doesn't work
+    private int lastFamMemIncrease;
+
+
+    public Player(String name, String colour, Socket socket) {
+        this.playerName = name;
+        this.playerColour = colour;
+        this.currentRes = new Resources.ResBuilder().servant(3).stone(2).wood(2).build();
+        this.io = new PlayerIO(socket);
+        log.info(String.format(
+                "New player: %s (colour: %s, resources: %s) [socket]",
+                name, colour, this.currentRes));
+    }
+
+    public String sIn()  {
+        return this.io.sIn();
+    }
+
+    public int sInPrompt(int minValue, int maxValue) {
+        return this.io.sInPrompt(minValue, maxValue);
+    }
+
+    public boolean sInPromptConf() {
+        return this.io.sInPromptConf();
+    }
+
+    public void sOut(String s) {
+        this.io.sOut(s);
     }
 
     public void famMembersBirth(Map<String, Integer> famValues) {
