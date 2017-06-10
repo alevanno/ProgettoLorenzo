@@ -29,7 +29,38 @@ public class Floor extends Action {
                 bonus, card, tower));
     }
 
-    // player puts here its famMemb & take the Card and the eventual bonus;
+    public boolean accessFloor(Player pl, int towerOcc){ //returns true if the floor is accessed and takes the coins from the player if necessary
+        for(LeaderCard leader : pl.getLeaderCards()){
+            if("Filippo Brunelleschi".equals(leader.getName()) && leader.isActivated()) {
+                // it allows to avoid additional payment
+                return true;
+            }
+        }
+        if (towerOcc == 0) {
+            pl.sOut("Tower is free");
+            return true;
+        } else if (towerOcc == 1) {
+            pl.sOut("Tower already occupied: ");
+            pl.sOut(pl.currentRes.toString());
+            if (pl.currentRes.coin < 3) {
+                pl.sOut("You don't have enough coins to access this Floor");
+                return  false;
+            } else {
+                pl.sOut("Do you want to pay an additional 3 coins to complete your action?: y/n");
+                if (pl.sInPromptConf()) {
+                    Resources coinToPay = new Resources.ResBuilder().coin(3).build().inverse();
+                    this.addAction(new ResourcesAction("Floor access token", coinToPay, pl));
+                    return true;
+                }
+            }
+        } else if (towerOcc == 2) {
+            pl.sOut("This floor is not available to you");
+            return false;
+        }
+        return true;
+    }
+
+    // player puts here its famMemb & takes the Card and the eventual bonus;
     public boolean claimFloor(FamilyMember fam) {
         int value = fam.getActionValue();
         Player p = fam.getParent();
@@ -104,6 +135,10 @@ public class Floor extends Action {
 
     public Card getCard() {
         return this.floorCard;
+    }
+
+    public Tower getParentTower() {
+        return parentTower;
     }
 
     public JsonObject serialize() {

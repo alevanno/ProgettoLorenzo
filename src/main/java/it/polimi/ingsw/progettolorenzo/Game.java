@@ -216,6 +216,7 @@ public class Game implements Runnable {
                 if (Move.floorAction(this.board, famMem)) {
                     break;
                 } else {
+                    pl.sOut("Action not allowed! Please enter a valid action:");
                     // placed here to abort this operation if player is not satisfied, reverts the value increase by servants
                     pl.revertFamValue(famMem);
                 }
@@ -223,6 +224,7 @@ public class Game implements Runnable {
                 if (Move.marketAction(this.board, famMem)) {
                     break;
                 } else {
+                    pl.sOut("Action not allowed! Please enter a valid action:");
                     pl.revertFamValue(famMem);
                 }
             } else if ("CouncilPalace".equalsIgnoreCase(action)) {

@@ -68,55 +68,33 @@ public class Tower {
         return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
     }
 
-    public boolean checkTowerOcc(FamilyMember fam, int resToPay) {
-        // FIXME make me prettier (?)
+    //3 statuses: 0: free (0 accessFloor); 1: occ by another player, or by own neutral FamMem (3 accessFloor); 2: occ by same player's colored famMem (unavailable)
+    public int checkTowerOcc(FamilyMember fam) {
         Player actionPl = fam.getParent();
         List<FamilyMember> occupantsList = new ArrayList<>();
-        boolean ret = false;
+        boolean isFree = false;
         fillOccupantList(occupantsList);
 
-        for (FamilyMember famMemb : occupantsList) {
-            ret = false;
-            if ("Dummy".equals(fam.getSkinColour())) {
-                ret = true;
-            }
-            Player occupantPl = famMemb.getParent();
-            if (!actionPl.playerName.equals(occupantPl.playerName) ^
-                    ((actionPl.playerName.equals(occupantPl.playerName) && "Blank".equals(fam.getSkinColour()) )
-                            || (actionPl.playerName == occupantPl.playerName
-                            && "Blank".equals(famMemb.getSkinColour())))) {
-                ret = true;
-                Move.bool = true;
-            }
-        }
-        if (ret) {
-            for(LeaderCard leader : actionPl.getLeaderCards()){
-                if("Filippo Brunelleschi".equals(leader.getName()) && leader.isActivated()) {
-                    // it permits to avoid additional payment and return at higher level
-                    return false;
+        if (occupantsList.size() == 0) {
+            return 0; //tutti gli else successivi presuppongono torre occupata
+        } else if ("Dummy".equals(fam.getSkinColour())) {
+            return 1;
+        } else {
+            for (FamilyMember famMemb : occupantsList) {
+                Player occupantPl = famMemb.getParent();
+                if (occupantPl.equals(actionPl) && !"Blank".equals(fam.getSkinColour())  //TODO check
+                        && !"Blank".equals(famMemb.getSkinColour())) {
+                    return 2;
+                    //Move.bool = true; //FIXME ???
                 }
             }
-            actionPl.sOut("Tower already occupied: ");
-            actionPl.sOut("Pay other " + resToPay + " coin to complete your action?: y/n");
-            actionPl.sOut(actionPl.currentRes.toString());
-            String answer = actionPl.sIn();
-            if ("y".equalsIgnoreCase(answer) && (actionPl.currentRes.coin >= resToPay)) {
-                return false;
-            } else {
-                actionPl.sOut("You are not allowed to pay additional coin");
-                return true;
-            }
-        } else if (occupantsList.size() == 0) {
-            return false;
-        } else {
-            actionPl.sOut("You are not allowed to take Cards from this tower");
-            return true;
+            return 1;
         }
     }
 
     private void fillOccupantList(List<FamilyMember> list) {
         for (Floor fl : floors) {
-            if(fl.isBusy()) {
+            if(fl.isBusy() && !"Dummy".equals(fl.getFamMember().getSkinColour())) { //dummy famMem aren't counted as occupants
                 list.add(fl.getFamMember());
             }
         }

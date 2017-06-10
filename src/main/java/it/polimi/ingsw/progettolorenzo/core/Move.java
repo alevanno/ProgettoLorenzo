@@ -25,46 +25,29 @@ public class Move {
 
     public static boolean floorAction(Board board, FamilyMember famMem) {
         Player pl = famMem.getParent();
-        int coinToPay = 3;        // FIXME make me configurable?
         pl.sOut("Which card do you want to obtain?: ");
         String cardName = pl.sIn();
         Floor floor = null;
         for (Tower t : board.towers) {
             for (Floor fl : t.getFloors()) {
                 if (fl.getCard() != null && fl.getCard().cardName.equalsIgnoreCase(cardName)) {
-                        if(!t.checkTowerOcc(famMem, coinToPay)) {
-                            if (bool) {
-                                pl.currentRes = pl.currentRes.merge(
-                                        new Resources.ResBuilder().coin(coinToPay).build().inverse());
-                                bool = false;
-                            }
-                        } else {
-                            pl.sOut("Action not allowed! Please enter a valid action:");
-                            return false;
-                        }
-                        floor = fl;
-                        break;
-                    }
-                    continue;
+                    floor = fl;
                 }
             }
-        if (floor != null) {
-            boolean ret = floor.claimFloor(famMem);
-            if (!ret) {
-                pl.sOut("Action not allowed! Please enter a valid action:");
-                return false;
-            } else {
-                boolean conf = confirmation(pl, floor);
-                if (!conf) {
-                    //next actions to do if confirmation == false
-                    pl.currentRes = pl.currentRes.merge(new Resources.ResBuilder().coin(coinToPay).build());
-                }
-                return conf;
-            }
-        } else {
-            pl.sOut("Card " + cardName
-                    + " does not exist! Please choose another action: ");
+        }
+        if (floor == null) {
+            pl.sOut("Card " + cardName + " does not exist!");
             return false;
+        }
+        int towerOcc = floor.getParentTower().checkTowerOcc(famMem);
+        if (!floor.accessFloor(pl, towerOcc)) {
+            return false;
+        }
+        boolean ret = floor.claimFloor(famMem);
+        if (!ret) {
+            return false;
+        } else {
+            return confirmation(pl, floor);
         }
     }
 
@@ -73,7 +56,7 @@ public class Move {
     // add some checks(?)
     /*public static void floorActionWithCard(Board board, Player pl, String type, int value, Resources discount) {
         FamilyMember dummy = new FamilyMember(pl, value, "Dummy");
-        int coinToPay = 3;
+        int accessFloor = 3;
         pl.getAvailableFamMembers().add(dummy);
         final Resources toMerge = new Resources.ResBuilder().build();
         // FIXME handle better that nullable floor for sonar
@@ -86,11 +69,11 @@ public class Move {
                 for (Floor fl : t.getFloors()) {
                     if (fl.getCard() != null &&
                             fl.getCard().cardName.equals(cardName)) {
-                        if (!t.checkTowerOcc(dummy, coinToPay)) {
+                        if (!t.checkTowerOcc(dummy, accessFloor)) {
                             ok = true;
                             if (bool) {
                                 pl.currentRes = pl.currentRes.merge(
-                                        new Resources.ResBuilder().coin(coinToPay).build().inverse());
+                                        new Resources.ResBuilder().coin(accessFloor).build().inverse());
                                 bool = false;
                             }
                         } else {
@@ -137,7 +120,6 @@ public class Move {
         int in = pl.sInPrompt(1, board.marketSpace.numOfBooths);
         MarketBooth booth =  board.marketSpace.getBooths().get(in - 1);
         if(!booth.claimSpace(fam)) {
-            pl.sOut("Please enter a valid action:");
             return false;
         } else {
             return confirmation(pl, booth);
