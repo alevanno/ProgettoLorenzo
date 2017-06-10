@@ -99,7 +99,8 @@ public class Game implements Runnable {
                             .collect(Deck::new, Deck::add, Deck::addAll)
             )
         );
-        for (String type : this.unhandledCards.keySet()) {
+        // TODO Mattia pls found a solution for this (doesn't work)
+        /*for (String type : this.unhandledCards.keySet()) {
             Deck typeDeck = this.unhandledCards.get(type);
             for(Card c : deck) {
                 while(typeDeck.iterator().hasNext()){
@@ -109,8 +110,7 @@ public class Game implements Runnable {
                     }
                 }
             }
-        }
-
+        }*/
         log.finer(String.format(
                 "Collected %d cards to give away", deck.size()));
         this.board = new Board(deck, this);
