@@ -13,6 +13,7 @@ public class Move {
         if (pl.sInPromptConf()) {
             pl.sOut("Previous Res: " + pl.currentRes.toString());
             act.apply();
+            act.emptyActions();
             pl.sOut("Current Res: " + pl.currentRes.toString());
             return true;
         } else {

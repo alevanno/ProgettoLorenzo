@@ -91,7 +91,7 @@ public class Game implements Runnable {
 
     private void resetBoard(int period) {
         Deck deck = new Deck();
-        this.unhandledCards.forEach((n, d) ->
+        this.unhandledCards.forEach((n, d) -> //n: type, d: deck
             deck.addAll(
                     StreamSupport.stream(d.spliterator(), false)
                             .filter(c -> c.cardPeriod == period)

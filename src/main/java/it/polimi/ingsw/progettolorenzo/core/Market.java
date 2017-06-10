@@ -33,10 +33,14 @@ public class Market {
             numOfBooths = 4;
         } else { numOfBooths = 2; }
         for (int i = 1; i-1 < numOfBooths; i++) {
-            if (i == 4) {
-                pl.sOut(i + " Booth: " + '[' + booths.get(i-1).getCouncilPrivilege()+ " councilPrivileges" + ']');
+            if (booths.get(i - 1).getFamMember() != null) {
+                pl.sOut(i + " Booth: occupied by " + booths.get(i - 1).getFamMember().getParent().playerName);
             } else {
-                pl.sOut(i + " Booth: " + booths.get(i - 1).getBonus());
+                if (i == 4) {
+                    pl.sOut(i + " Booth: " + '[' + booths.get(i - 1).getCouncilPrivilege() + " councilPrivileges" + ']');
+                } else {
+                    pl.sOut(i + " Booth: " + booths.get(i - 1).getBonus());
+                }
             }
         }
     }

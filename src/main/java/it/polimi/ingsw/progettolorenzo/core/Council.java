@@ -63,7 +63,7 @@ public class Council extends Action {
         this.addAction(new TakeFamilyMember(fam));
         this.addAction(new PlaceFamilyMemberInCouncil(fam, this));
         this.addAction(new ResourcesAction(
-                "bonus entry from Council", this.bonusEntry, p));
+                "Bonus entry from Council", this.bonusEntry, p));
         this.addAction(new ResourcesAction(
                 "Council privilege", this.choosePrivilege(p), p));
         return true;
