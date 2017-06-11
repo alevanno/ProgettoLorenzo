@@ -42,7 +42,7 @@ public class Floor extends Action {
             return true;
         } else if (towerOcc == 1) {
             pl.sOut("Tower already occupied: ");
-            pl.sOut(pl.currentRes.toString());
+            pl.sOut("Current Res:" + pl.currentRes.toString());
             if (pl.currentRes.coin < 3) {
                 pl.sOut("You don't have enough coins to access this Floor");
                 return  false;

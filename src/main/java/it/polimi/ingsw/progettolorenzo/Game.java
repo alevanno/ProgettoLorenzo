@@ -20,7 +20,7 @@ public class Game implements Runnable {
             "territories", "buildings", "characters", "ventures");
     private List<String> actions = Arrays.asList(
             "Floor", "Market", "CouncilPalace", "Production",
-            "Harvest", "Activate leader card");
+            "Harvest", "ActivateLeaderCard");
     private HashMap<String, Deck> unhandledCards = new HashMap<>();
     private List<Player> players = new ArrayList<>(); //active players and their order
     private int halfPeriod;
@@ -206,10 +206,11 @@ public class Game implements Runnable {
     }
 
     private void operation(Player pl) {
-        // TODO implement other Actions;
         currPlayer = pl;
         pl.sOut("Turn " + this.halfPeriod + ": Player " + pl.playerName +
                 " is the next player for this round:");
+        pl.sOut("Current Res: " + pl.currentRes.toString());
+        boolean ret = false;
         while (true) {
             this.board.displayBoard();
             pl.sOut("Which family member do you want to use?: ");
@@ -218,52 +219,34 @@ public class Game implements Runnable {
                     .get(pl.sInPrompt(1, pl.getAvailableFamMembers().size()) - 1);
             pl.sOut(famMem.getSkinColour() + " family member selected");
             famMemIncrease = pl.increaseFamValue(famMem);
-            //FIXME make me prettier
             pl.sOut("Available actions:");
             pl.sOut(Utils.displayList(actions));
             pl.sOut("Which action do you want to try?: ");
             board.displayBoard();
             String action = actions.get(pl.sInPrompt(1, actions.size()) - 1);
             //TODO this should be more streamlined
+
             if ("Floor".equalsIgnoreCase(action)) {
-                if (Move.floorAction(this.board, famMem)) {
-                    break;
-                } else {
-                    // placed here to abort this operation if player is not satisfied, reverts the value increase by servants
-                    pl.revertFamValue(famMem, famMemIncrease);
-                    pl.sOut("Current Res: " + pl.currentRes.toString());
-                }
+                ret = Move.floorAction(this.board, famMem);
             } else if ("Market".equalsIgnoreCase(action)) {
-                if (Move.marketAction(this.board, famMem)) {
-                    break;
-                } else {
-                    pl.revertFamValue(famMem, famMemIncrease);
-                    pl.sOut("Current Res: " + pl.currentRes.toString());
-                }
+                ret = Move.marketAction(this.board, famMem);
             } else if ("CouncilPalace".equalsIgnoreCase(action)) {
-                if (Move.councilAction(this.board, famMem)) {
-                    break;
-                } else {
-                    pl.revertFamValue(famMem, famMemIncrease);
-                    pl.sOut("Current Res: " + pl.currentRes.toString());
-                }
+                ret = Move.councilAction(this.board, famMem);
             } else if ("Production".equalsIgnoreCase(action)) {
-                if (Move.prodAction(this.board, famMem)) {
-                    break;
-                } else {
-                    pl.revertFamValue(famMem, famMemIncrease);
-                    pl.sOut("Current Res: " + pl.currentRes.toString());
-                }
+                ret = Move.prodAction(this.board, famMem);
             } else if ("Harvest".equalsIgnoreCase(action)) {
-                if (Move.harvAction(this.board, famMem)) {
-                    break;
-                } else {
-                    pl.revertFamValue(famMem, famMemIncrease);
-                    pl.sOut("Current Res: " + pl.currentRes.toString());
-                }
-            } else if ("Activate leader card".equalsIgnoreCase(action)) {
+                ret = Move.harvAction(this.board, famMem);
+            } else if ("ActivateLeaderCard".equalsIgnoreCase(action)) {
                 pl.activateLeaderCard();
-                this.operation(pl);
+                continue;
+            }
+            if (ret) {
+                break;
+            } else {
+                // placed here to abort this operation if player is not satisfied, reverts the value increase by servants
+                pl.sOut("Reverting famMemIncrease");
+                pl.revertFamValue(famMem, famMemIncrease);
+                pl.sOut("Current Res: " + pl.currentRes.toString());
             }
         }
     }

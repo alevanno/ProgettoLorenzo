@@ -82,10 +82,9 @@ public class Tower {
         } else {
             for (FamilyMember famMemb : occupantsList) {
                 Player occupantPl = famMemb.getParent();
-                if (occupantPl.equals(actionPl) && !"Blank".equals(fam.getSkinColour())  //TODO check
+                if (occupantPl.equals(actionPl) && !"Blank".equals(fam.getSkinColour())
                         && !"Blank".equals(famMemb.getSkinColour())) {
                     return 2;
-                    //Move.bool = true; //FIXME ???
                 }
             }
             return 1;
