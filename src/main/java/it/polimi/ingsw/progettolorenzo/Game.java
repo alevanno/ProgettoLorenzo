@@ -99,18 +99,16 @@ public class Game implements Runnable {
                             .collect(Deck::new, Deck::add, Deck::addAll)
             )
         );
-        // TODO Mattia pls found a solution for this (doesn't work)
-        /*for (String type : this.unhandledCards.keySet()) {
-            Deck typeDeck = this.unhandledCards.get(type);
-            for(Card c : deck) {
-                while(typeDeck.iterator().hasNext()){
-                    Card toRemove = typeDeck.iterator().next();
-                    if (c.equals(toRemove)){
-                        typeDeck.remove(toRemove);
+        for (String type : this.unhandledCards.keySet()) {
+            Deck tmpDeck = this.unhandledCards.get(type);
+            tmpDeck.listCards().forEach(c -> {
+                for (Card card : deck) {
+                    if (c.cardName.equals(card.cardName)) {
+                        tmpDeck.remove(c);
                     }
                 }
-            }
-        }*/
+            });
+        }
         log.finer(String.format(
                 "Collected %d cards to give away", deck.size()));
         this.board = new Board(deck, this);
