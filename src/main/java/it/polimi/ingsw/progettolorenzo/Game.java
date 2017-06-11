@@ -27,6 +27,7 @@ public class Game implements Runnable {
     private Player currPlayer;
     private List<JsonObject> excomms = new ArrayList<>();
     private final boolean personalBonusBoards;
+    public int famMemIncrease;
 
     public Game(List<Player> listPlayers, boolean personalBonusBoards) {
         MyLogger.setup();
@@ -216,45 +217,49 @@ public class Game implements Runnable {
             FamilyMember famMem = pl.getAvailableFamMembers()
                     .get(pl.sInPrompt(1, pl.getAvailableFamMembers().size()) - 1);
             pl.sOut(famMem.getSkinColour() + " family member selected");
-            pl.increaseFamValue(famMem);
+            famMemIncrease = pl.increaseFamValue(famMem);
             //FIXME make me prettier
             pl.sOut("Available actions:");
             pl.sOut(Utils.displayList(actions));
             pl.sOut("Which action do you want to try?: ");
             board.displayBoard();
             String action = actions.get(pl.sInPrompt(1, actions.size()) - 1);
+            //TODO this should be more streamlined
             if ("Floor".equalsIgnoreCase(action)) {
                 if (Move.floorAction(this.board, famMem)) {
                     break;
                 } else {
-                    pl.sOut("Action not allowed! Please enter a valid action:");
                     // placed here to abort this operation if player is not satisfied, reverts the value increase by servants
-                    pl.revertFamValue(famMem);
+                    pl.revertFamValue(famMem, famMemIncrease);
+                    pl.sOut("Current Res: " + pl.currentRes.toString());
                 }
             } else if ("Market".equalsIgnoreCase(action)) {
                 if (Move.marketAction(this.board, famMem)) {
                     break;
                 } else {
-                    pl.sOut("Action not allowed! Please enter a valid action:");
-                    pl.revertFamValue(famMem);
+                    pl.revertFamValue(famMem, famMemIncrease);
+                    pl.sOut("Current Res: " + pl.currentRes.toString());
                 }
             } else if ("CouncilPalace".equalsIgnoreCase(action)) {
                 if (Move.councilAction(this.board, famMem)) {
                     break;
                 } else {
-                    pl.revertFamValue(famMem);
+                    pl.revertFamValue(famMem, famMemIncrease);
+                    pl.sOut("Current Res: " + pl.currentRes.toString());
                 }
             } else if ("Production".equalsIgnoreCase(action)) {
                 if (Move.prodAction(this.board, famMem)) {
                     break;
                 } else {
-                    pl.revertFamValue(famMem);
+                    pl.revertFamValue(famMem, famMemIncrease);
+                    pl.sOut("Current Res: " + pl.currentRes.toString());
                 }
             } else if ("Harvest".equalsIgnoreCase(action)) {
                 if (Move.harvAction(this.board, famMem)) {
                     break;
                 } else {
-                    pl.revertFamValue(famMem);
+                    pl.revertFamValue(famMem, famMemIncrease);
+                    pl.sOut("Current Res: " + pl.currentRes.toString());
                 }
             } else if ("Activate leader card".equalsIgnoreCase(action)) {
                 pl.activateLeaderCard();

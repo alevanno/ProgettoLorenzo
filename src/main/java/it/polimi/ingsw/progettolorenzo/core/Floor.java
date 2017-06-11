@@ -17,6 +17,7 @@ public class Floor extends Action {
     private FamilyMember famMember;
     private Card floorCard;
     private int floorValue;
+    private static Floor callerFl; //this is needed for floorActionWithCard
 
 
     public Floor(Resources bonus, Card card, Tower tower, int floorValue) {
@@ -78,7 +79,7 @@ public class Floor extends Action {
             }
         }//TODO the floor bonus can be used to pay for the card you're taking
         if (fam.getParent().getExcommunications().get(1).has("valMalus")) {
-            if (fam.getParent().getExcommunications().get(1).get("type").getAsString() == parentTower.getType()) {
+            if (fam.getParent().getExcommunications().get(1).get("type").getAsString().equals(parentTower.getType())) {
                 int valMalus = fam.getParent().getExcommunications().get(1).get("valMalus").getAsInt();
                 fam.getParent().sOut("Your excommunication lowers the value of this action by " + valMalus);
                 value -= valMalus;
@@ -100,19 +101,22 @@ public class Floor extends Action {
                 break;
             }
         }
+        if (!"Dummy".equals(fam.getSkinColour())) {
+            callerFl = this;
+        }
         if(tmpRes.militaryPoint >= floorCard.minMilitaryPoint
                 && !tmpRes.merge(cardCost).isNegative() || Borgia != null) {
-            this.addAction(new TakeFamilyMember(fam));
-            this.addAction(new PlaceFamilyMemberInFloor(fam, this));
+            callerFl.addAction(new TakeFamilyMember(fam));
+            callerFl.addAction(new PlaceFamilyMemberInFloor(fam, this));
             if (!boycottBonus) {
                 this.addAction(new ResourcesAction("Floor entry bonus", this.bonus, p));
                 log.info("Floor entry bonus: " + this.bonus);
             }
-            this.addAction(new NestedAction(this.floorCard));
-            this.floorCard.costActionBuilder(p);
-            this.addAction(new NestedAction(
+            callerFl.addAction(new NestedAction(this.floorCard));
+            callerFl.floorCard.costActionBuilder(p);
+            callerFl.addAction(new NestedAction(
                 new CardImmediateAction(this.floorCard, p)));
-            this.addAction(new CardFromFloorAction(this.floorCard, this, p));
+            callerFl.addAction(new CardFromFloorAction(this.floorCard, this, p));
             return true;
         }
         return false;

@@ -97,8 +97,6 @@ public class Player {
     private List<LeaderCard> leaderCards = new ArrayList<>();
     private BonusTile bonusT;
     private Game parentGame;
-    private int lastServantSpent; //FIXME these two are very unsafe, if the player does some nested actions that are increased, this doesn't work
-    private int lastFamMemIncrease;
 
 
     public Player(String name, String colour, Socket socket) {
@@ -239,7 +237,6 @@ public class Player {
         }
         this.sOut("Confirm?: y/n");
         if (this.sInPromptConf()) {
-            lastServantSpent = servantSpent;
             this.currentRes = this.currentRes.merge(new
                     Resources.ResBuilder().servant(servantSpent)
                     .build().inverse());
@@ -250,31 +247,36 @@ public class Player {
     }
 
     //call this if you want to increase an action done through a FamMem
-    public void increaseFamValue(FamilyMember famMember) { //remember to use revertFamValue if the action is not accepted
+    public int increaseFamValue(FamilyMember famMember) { //remember to use revertFamValue if the action is not accepted
         this.sOut("Do you want to increase your "
                 + famMember.getSkinColour() + " family member value?" );
+        int increase = 0;
         if (this.sInPromptConf()) {
-            int increase = this.increaseValue();
-            lastFamMemIncrease = increase;
+            increase = this.increaseValue();
             famMember.setActionValue(famMember.getActionValue() + increase);
             this.sOut("Current " + famMember.getSkinColour()
                     + " family member value: " + (famMember.getActionValue()));
         }
+        return increase;
     }
 
-    public void revertFamValue(FamilyMember famMem) {
+    public void revertFamValue(FamilyMember famMem, int increase) {
         //reverts the value increase by servants
         famMem.setActionValue(famMem
-                .getActionValue() - lastFamMemIncrease);
-        lastFamMemIncrease = 0;
-        this.revertIncreaseValue();
+                .getActionValue() - increase);
+        this.revertIncreaseValue(increase);
     }
 
-    public void revertIncreaseValue() {
+    public void revertIncreaseValue(int increase) { //gives the servants (spent to increase an action value) back to the player
+        int servantSpent;
+        if (excommunications.get(1).has("servantExpense")) {
+            int servantExp = excommunications.get(1).get("servantExpense").getAsInt();
+            servantSpent = increase * servantExp;
+        } else { servantSpent = increase; }
         this.currentRes = this.currentRes.merge(new
-                Resources.ResBuilder().servant(lastServantSpent)
+                Resources.ResBuilder().servant(servantSpent)
                 .build());
-        lastServantSpent = 0;
+
         System.out.println("after revert" + currentRes);
     }
 

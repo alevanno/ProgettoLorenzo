@@ -19,112 +19,90 @@ public class Move {
         } else {
             act.emptyActions();
             pl.sOut("Ok, aborting action as requested");
-            pl.sOut("Current Res: " + pl.currentRes.toString());
             return false;
         }
     }
 
-    public static boolean floorAction(Board board, FamilyMember famMem) {
-        Player pl = famMem.getParent();
-        pl.sOut("Which card do you want to obtain?: ");
-        String cardName = pl.sIn();
+    private static Floor searchCard(Board board, Player pl, String type) {
         Floor floor = null;
-        for (Tower t : board.towers) {
-            for (Floor fl : t.getFloors()) {
-                if (fl.getCard() != null && fl.getCard().cardName.equalsIgnoreCase(cardName)) {
-                    floor = fl;
+        do {
+            pl.sOut("Which card do you want to obtain?: ");
+            String cardName = pl.sIn();
+            for (Tower t : board.towers) {
+                for (Floor fl : t.getFloors()) {
+                    if (fl.getCard() != null && fl.getCard().cardName.equalsIgnoreCase(cardName)) {
+                        if ("any".equals(type) || type.equals(fl.getParentTower().getType())) {
+                            floor = fl;
+                        } else {
+                            pl.sOut("It must be of type " + type);
+                        }
+                    }
                 }
             }
-        }
-        if (floor == null) {
-            pl.sOut("Card " + cardName + " does not exist!");
-            return false;
-        }
+            if (floor == null) { pl.sOut("Card " + cardName + " does not exist!"); } //this appears even if it exists but it is of the wrong type
+        } while (floor == null);
+        return floor;
+    }
+
+    public static boolean floorAction(Board board, FamilyMember famMem) {
+        Player pl = famMem.getParent();
+        Floor floor = searchCard(board, pl, "any");
         int towerOcc = floor.getParentTower().checkTowerOcc(famMem);
         if (!floor.accessFloor(pl, towerOcc)) {
             return false;
         }
         boolean ret = floor.claimFloor(famMem);
         if (!ret) {
+            pl.sOut("Action not allowed! Please enter a valid action:");
             return false;
         } else {
             return confirmation(pl, floor);
         }
     }
 
-
-    // FIXME it contains duplication from floorAction...
-    // add some checks(?)
-    /*public static void floorActionWithCard(Board board, Player pl, String type, int value, Resources discount) {
+    public static void floorActionWithCard(Player pl, Card caller, String type, int value, Resources discount) {
+        Board board = pl.getParentGame().getBoard();
         FamilyMember dummy = new FamilyMember(pl, value, "Dummy");
-        int accessFloor = 3;
         pl.getAvailableFamMembers().add(dummy);
-        final Resources toMerge = new Resources.ResBuilder().build();
-        // FIXME handle better that nullable floor for sonar
-        Floor floor = new Floor(null, null, null, 0);
-        boolean ok = false;
-        while (!ok) {
-            pl.sOut("Which card do you want to obtain?: ");
-            String cardName = pl.sIn();
-            for (Tower t : board.towers) {
-                for (Floor fl : t.getFloors()) {
-                    if (fl.getCard() != null &&
-                            fl.getCard().cardName.equals(cardName)) {
-                        if (!t.checkTowerOcc(dummy, accessFloor)) {
-                            ok = true;
-                            if (bool) {
-                                pl.currentRes = pl.currentRes.merge(
-                                        new Resources.ResBuilder().coin(accessFloor).build().inverse());
-                                bool = false;
-                            }
-                        } else {
-                            pl.sOut("Action not allowed! Please enter a valid action:");
-                        }
-                        floor = fl;
-                        break;
-                    }
+        boolean ret = false;
+        do {
+            pl.sOut("Card " + caller.cardName + " allows you to take another card of type " + type);
+            Floor floor;
+            board.displayBoard();
+            int famMemIncrease = pl.increaseFamValue(dummy);
+            final Resources toMerge = new Resources.ResBuilder().build();
+            do { floor = searchCard(board, pl, type);
+            } while (floor.getCard().equals(caller));
+            int towerOcc = floor.getParentTower().checkTowerOcc(dummy);
+            if (!floor.accessFloor(pl, towerOcc)) { //TODO check where are the 3 coins going
+                continue;
+            }
+            Resources cardCost = floor.getCard().getCardCost();
+            cardCost.resourcesList.forEach((x, y) -> {
+                int val = discount.getByString(x);
+                if (y != 0 && val != 0) {
+                    toMerge.merge(new Resources.ResBuilder().setByString(x, val).build());
+                    pl.sOut(toMerge.toString());
+                    pl.currentRes = pl.currentRes.merge(toMerge);
                 }
+            });
+            ret = floor.claimFloor(dummy);
+            if (ret) {
+                pl.getParentGame().famMemIncrease += famMemIncrease;
+            } else {
+                pl.revertFamValue(dummy, famMemIncrease);
+                pl.currentRes = pl.currentRes.merge(toMerge.inverse());
             }
-        }
-        Resources cardCost = floor.getCard().getCardCost();
-        pl.increaseFamValue(dummy);
-        cardCost.resourcesList.forEach((x, y) -> {
-            int val = discount.getByString(x);
-            if (y != 0 && val != 0) {
-                toMerge.merge(new Resources.ResBuilder().setByString(x, val).build());
-                pl.sOut(toMerge.toString());
-                pl.currentRes = pl.currentRes.merge(toMerge);
-            }
-        });
-        boolean ret = floor.claimFloor(dummy);
-        if (!ret) {
-            pl.sOut("Action not allowed! Please enter a valid action:");
-            dummy.setActionValue(dummy
-                    .getActionValue() - servantSub);
-            pl.currentRes = pl.currentRes.merge(new
-                    Resources.ResBuilder().servant(servantSub).build().inverse());
-        } else {
-            if (!confirmation(pl, floor)) {
-                //next actions to do if confirmation == false
-                dummy.setActionValue(dummy
-                        .getActionValue() - servantSub);
-                pl.currentRes = pl.currentRes.merge(new
-                        Resources.ResBuilder().servant(servantSub).build().inverse());
-            }
-        }
-    }*/
+        } while (!ret);
+    }
 
     public static boolean marketAction(Board board, FamilyMember fam) {
         Player pl = fam.getParent();
         pl.sOut("Select your market booth: ");
         board.marketSpace.displayBooths(pl);
         int in = pl.sInPrompt(1, board.marketSpace.numOfBooths);
-        MarketBooth booth =  board.marketSpace.getBooths().get(in - 1);
-        if(!booth.claimSpace(fam)) {
-            return false;
-        } else {
-            return confirmation(pl, booth);
-        }
+        MarketBooth booth = board.marketSpace.getBooths().get(in - 1);
+        return booth.claimSpace(fam) && confirmation(pl, booth);
     }
 
 
