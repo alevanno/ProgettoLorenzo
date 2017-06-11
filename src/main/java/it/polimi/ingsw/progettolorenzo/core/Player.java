@@ -288,8 +288,12 @@ public class Player {
         }
         for (LeaderCard card : leaderCards) {
             for (int i : card.activationCost) {
-                this.sOut(String.format("%s %d %s", i + 1 + " -> " + card.getName(),
+                StringBuilder toDisplay = new StringBuilder(String.format("%s %d %s", i + 1 + " -> " + card.getName(),
                         card.getActivationCost().get(i), " : " + card.getCardCostType()));
+                if (card.isActivated()) {
+                    toDisplay.append(" activated");
+                }
+                this.sOut(toDisplay.toString());
             }
         }
         int choice = this.sInPrompt(1, leaderCards.size());

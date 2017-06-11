@@ -60,10 +60,15 @@ public class LeaderUtils {
             owner.sOut("Would you activate it?");
             boolean ret = owner.sInPromptConf();
             if(ret){
-                card.activation = true;
-                card.permanentAbility();
-                owner.sOut("Leader card activated");
-                return true;
+                if(!card.isActivated()) {
+                    card.activation = true;
+                    card.permanentAbility();
+                    owner.sOut("Leader card activated");
+                    return true;
+                } else {
+                    owner.sOut("You have already activated this Leader Card!");
+                    return false;
+                }
             } else {
                 owner.sOut("You didn't activate the Leader card permanent ability");
                 return false;
