@@ -10,9 +10,11 @@ import java.util.Scanner;
 public class Market {
 
     List<MarketBooth> booths = new ArrayList<>();
-    public int numOfBooths;
+    private int numOfBooths;
 
-
+    public int getNumOfBooths() {
+        return numOfBooths;
+    }
 
     public Market()  {
         JsonObject data = Utils.getJsonObject("market.json");

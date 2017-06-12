@@ -27,7 +27,7 @@ public class Game implements Runnable {
     private Player currPlayer;
     private List<JsonObject> excomms = new ArrayList<>();
     private final boolean personalBonusBoards;
-    public int famMemIncrease;
+    private int famMemIncrease;
 
     public Game(List<Player> listPlayers, boolean personalBonusBoards) {
         MyLogger.setup();
@@ -337,4 +337,8 @@ public class Game implements Runnable {
     }
 
     public int getNumOfPlayers() { return players.size(); }
+
+    public void addFamMemIncrease(int incomingIncrease) {
+        this.famMemIncrease += incomingIncrease;
+    }
 }

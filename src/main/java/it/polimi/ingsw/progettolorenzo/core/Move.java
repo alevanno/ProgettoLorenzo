@@ -1,7 +1,6 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
 public class Move {
-    public static boolean bool = false;
     private Move() {
         throw new IllegalStateException("Not designed to be instantiated");
     }
@@ -88,7 +87,7 @@ public class Move {
             });
             ret = floor.claimFloor(dummy);
             if (ret) {
-                pl.getParentGame().famMemIncrease += famMemIncrease;
+                pl.getParentGame().addFamMemIncrease(famMemIncrease);
             } else {
                 pl.revertFamValue(dummy, famMemIncrease);
                 pl.currentRes = pl.currentRes.merge(toMerge.inverse());
@@ -100,7 +99,7 @@ public class Move {
         Player pl = fam.getParent();
         pl.sOut("Select your market booth: ");
         board.marketSpace.displayBooths(pl);
-        int in = pl.sInPrompt(1, board.marketSpace.numOfBooths);
+        int in = pl.sInPrompt(1, board.marketSpace.getNumOfBooths());
         MarketBooth booth = board.marketSpace.getBooths().get(in - 1);
         return booth.claimSpace(fam) && confirmation(pl, booth);
     }

@@ -88,7 +88,7 @@ class PlayerIO {
 public class Player {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     public final String playerName;
-    public final String playerColour;
+    private final String playerColour;
     private final PlayerIO io;
     public Resources currentRes;  // FIXME make private
     private List<FamilyMember> famMemberList = new ArrayList<>();
