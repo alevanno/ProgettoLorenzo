@@ -14,9 +14,11 @@ public class Config {
 
     public static class Server {
         public static final JsonObject socket = server.get("socket").getAsJsonObject();
+        public static final JsonObject rmi = server.get("rmi").getAsJsonObject();
     }
 
     public static class Client {
         public static final JsonObject socket = client.get("socket").getAsJsonObject();
+        public static final JsonObject rmi = client.get("rmi").getAsJsonObject();
     }
 }

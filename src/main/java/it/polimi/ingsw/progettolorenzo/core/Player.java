@@ -2,9 +2,11 @@ package it.polimi.ingsw.progettolorenzo.core;
 
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.progettolorenzo.Game;
+import it.polimi.ingsw.progettolorenzo.client.RmiClient;
 
 import java.io.*;
 import java.net.Socket;
+import java.rmi.RemoteException;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
@@ -15,9 +17,14 @@ class PlayerIO {
     private Socket socket;
     private Scanner socketIn;
     private PrintWriter socketOut;
+    private RmiClient rmi;
 
     public PlayerIO(Socket socket) {
         this.socket = socket;
+    }
+
+    public PlayerIO(RmiClient rmi) {
+        this.rmi = rmi;
     }
 
     private void sInInit() {
@@ -34,8 +41,12 @@ class PlayerIO {
     }
 
     public String sIn()  {
-        this.sInInit();
-        return this.socketIn.nextLine();
+        if (this.rmi == null) {
+            this.sInInit();
+            return this.socketIn.nextLine();
+        } else {
+            return "";  // TODO
+        }
     }
 
     private int sInPromptSocket(int minValue, int maxValue) {
@@ -55,7 +66,16 @@ class PlayerIO {
     }
 
     public int sInPrompt(int minValue, int maxValue) {
-        return this.sInPromptSocket(minValue, maxValue);
+        if (this.rmi == null) {
+            return this.sInPromptSocket(minValue, maxValue);
+        } else {
+            try {
+                return this.rmi.sInPrompt(minValue, maxValue);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                return 0;  // FIXME ...
+            }
+        }
     }
 
     private boolean sInPromptConfSocket() {
@@ -73,7 +93,17 @@ class PlayerIO {
     }
 
     public boolean sInPromptConf() {
-        return this.sInPromptConfSocket();
+        if (this.rmi == null) {
+            return this.sInPromptConfSocket();
+        } else {
+            try {
+                return this.rmi.sInPromptConf();
+            } catch (RemoteException e) {
+                e.printStackTrace();
+                return false;  // FIXME ...
+            }
+        }
+
     }
 
     private void sOutSocket(String s) {
@@ -92,7 +122,15 @@ class PlayerIO {
     }
 
     public void sOut(String s) {
-        this.sOutSocket(s);
+        if (this.rmi == null) {
+            this.sOutSocket(s);
+        } else {
+            try {
+                this.rmi.sOut(s);
+            } catch (RemoteException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
 }
@@ -119,6 +157,16 @@ public class Player {
         log.info(String.format(
                 "New player: %s (colour: %s, resources: %s) [socket]",
                 name, colour, this.currentRes));
+    }
+
+    public Player(String name, String colour, RmiClient rmi) {
+        this.playerName = name;
+        this.playerColour = colour;
+        this.currentRes = new Resources.ResBuilder().servant(3).stone(2).wood(2).build();
+        this.io = new PlayerIO(rmi);
+        log.info(String.format(
+            "New player: %s (colour: %s, resources: %s) [RMI]",
+            name, colour, this.currentRes));
     }
 
     public String sIn()  {

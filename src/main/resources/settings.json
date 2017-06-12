@@ -3,12 +3,18 @@
         "socket": {
             "bind": "localhost",
             "port": 29999
+        },
+        "rmi": {
+            "port": 29998
         }
     },
     "client": {
         "socket": {
             "serverAddress": "localhost",
             "port": 29999
+        },
+        "rmi": {
+            "port": 29998
         }
     }
 }

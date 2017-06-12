@@ -24,6 +24,7 @@ public class Client {
         }
 
         SocketClient client = new SocketClient(name, colour);
+        //RmiClientImpl client = new RmiClientImpl(name, colour);
         try {
             client.startClient();
         } catch (IOException e) {
