@@ -1,8 +1,13 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonObject;
 import org.junit.Test;
+
+import java.util.Arrays;
+
 import static org.junit.Assert.*;
 
 public class ResourcesTest {
@@ -20,9 +25,12 @@ public class ResourcesTest {
         String jsonString = "{'wood': 1, 'woody': 3, 'faithPoint': 0}";
         JsonObject obj = new Gson().fromJson(jsonString, JsonObject.class);
         Resources res = Resources.fromJson(obj);
+        Resources res2 = Resources.fromJson(new JsonObject());
+        for (Resources x : Arrays.asList(res,res2)) {
+            assertEquals(0, x.faithPoint);
+            assertEquals(0, x.coin);
+        }
         assertEquals(1, res.wood);
-        assertEquals(0, res.faithPoint);
-        assertEquals(0, res.coin);
     }
 
     @Test(expected = NumberFormatException.class)
@@ -43,4 +51,28 @@ public class ResourcesTest {
         assertEquals(0, res.faithPoint);
         assertEquals(1, res.servant);
     }
+
+    @Test
+    public void setByString() {
+        Resources op = new Resources.ResBuilder()
+                .setByString("coin", 1)
+                .setByString("wood", 1)
+                .setByString("stone", 1)
+                .setByString("servant", 1)
+                .setByString("militaryPoint", 1)
+                .setByString("victoryPoint", 1)
+                .setByString("faithPoint", 1)
+                .build();
+        for (String s : op.resourcesList.keySet()) {
+            assertEquals(1, op.getByString(s));
+        }
+    }
+
+    @Test
+    public void multyMerge() {
+        Resources op = new Resources.ResBuilder().coin(2).build();
+        op = op.multiplyRes(2);
+        assertEquals(4, op.coin);
+    }
+
 }
