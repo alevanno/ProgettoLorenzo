@@ -59,8 +59,7 @@ class FrancescoSforza extends LeaderCard {
 
     @Override
     public boolean apply() {
-        boolean checkT = LeaderUtils
-                .checkCardTypeSatisfaction(owner, types.get(0), activationCost.get(0));
+        boolean checkT = LeaderUtils.checkMultiType(types, activationCost, owner);
         return LeaderUtils.commonApply(owner, this, checkT, false);
     }
 
@@ -81,8 +80,7 @@ class FilippoBrunelleschi extends LeaderCard {
 
     @Override
     public boolean apply() {
-        boolean checkT = LeaderUtils
-                .checkCardTypeSatisfaction(owner , types.get(0), activationCost.get(0));
+        boolean checkT = LeaderUtils.checkMultiType(types, activationCost, owner);
         return LeaderUtils.commonApply(owner, this, checkT, false);
     }
     @Override
@@ -105,16 +103,9 @@ class LucreziaBorgia extends LeaderCard {
     }
     @Override
     public boolean apply() {
-        boolean checkT = false;
-        for (String t : types){
-            checkT = LeaderUtils
-                    .checkCardTypeSatisfaction(owner, t, activationCost.get(0));
-            if (checkT) {
-                break;
-            }
-        }
-        boolean ret = LeaderUtils.commonApply(owner, this, checkT, false);
-        return ret;
+        boolean checkT = LeaderUtils.checkMultiType(types, activationCost, owner);
+
+        return LeaderUtils.commonApply(owner, this, checkT, false);
     }
     @Override
     public void permanentAbility() {
@@ -141,8 +132,7 @@ class LudovicoAriosto extends LeaderCard {
 
     @Override
     public boolean apply() {
-        boolean checkT = LeaderUtils
-                .checkCardTypeSatisfaction(owner, types.get(0), activationCost.get(0));
+        boolean checkT = LeaderUtils.checkMultiType(types, activationCost, owner);
         return LeaderUtils.commonApply(owner, this, checkT, false);
     }
     @Override
@@ -162,8 +152,7 @@ class FedericoDaMontefeltro extends LeaderCard {
     }
     @Override
     public boolean apply() {
-        boolean checkT = LeaderUtils
-                .checkCardTypeSatisfaction(owner, types.get(0), activationCost.get(0));
+        boolean checkT = LeaderUtils.checkMultiType(types, activationCost, owner);
         return LeaderUtils.commonApply(owner, this, checkT, false);
     }
     @Override
@@ -268,8 +257,7 @@ class CesareBorgia extends LeaderCard {
         boolean checkC = LeaderUtils
                 .checkCostResSatisfaction(owner, new Resources
                         .ResBuilder().coin(12).faithPoint(2).build());
-        boolean checkT = LeaderUtils.checkCardTypeSatisfaction(owner, this.types.get(0),
-                this.activationCost.get(0));
+        boolean checkT = LeaderUtils.checkMultiType(types, activationCost, owner);
         return LeaderUtils.commonApply(owner, this, checkT, checkC);
     }
     @Override

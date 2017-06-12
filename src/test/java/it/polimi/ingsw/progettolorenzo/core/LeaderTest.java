@@ -19,4 +19,13 @@ public class LeaderTest {
                 new FrancescoSforza(pl), new LorenzoDeMedici(pl)));
         assertEquals(2, testList.size());
     }
+
+    @Test
+    public void leaderUtilsTest(){
+        LeaderCard leader = new LorenzoDeMedici(pl);
+        Resources cost = new Resources.ResBuilder().stone(leader.activationCost.get(0)).build();
+        assertFalse(LeaderUtils.checkCostResSatisfaction(pl, cost));
+        assertFalse(LeaderUtils.checkCardTypeSatisfaction(pl, leader.types.get(0), leader.activationCost.get(0)));
+    }
+
 }
