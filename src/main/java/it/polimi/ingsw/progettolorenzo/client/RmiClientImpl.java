@@ -12,8 +12,8 @@ import java.util.Scanner;
 import java.util.logging.Logger;
 
 public class RmiClientImpl extends UnicastRemoteObject implements RmiClient {
-    private final Logger log = Logger.getLogger(this.getClass().getName());
-    private Scanner in = new Scanner(System.in);
+    private transient final Logger log = Logger.getLogger(this.getClass().getName());
+    private transient Scanner in = new Scanner(System.in);
     public final String name;
     public final String colour;
 
@@ -69,7 +69,7 @@ public class RmiClientImpl extends UnicastRemoteObject implements RmiClient {
             Server srv = (Server) reg.lookup("Lorenzo");
             srv.addPlayer(this.name, this.colour, this);
         } catch (NotBoundException e) {
-            e.printStackTrace();
+            log.severe(e.getMessage());
         }
 
     }

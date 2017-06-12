@@ -10,7 +10,7 @@
     },
     "client": {
         "socket": {
-            "serverAddress": "localhost",
+            "serverAddress": "siddin.mapreri.org",
             "port": 29999
         },
         "rmi": {

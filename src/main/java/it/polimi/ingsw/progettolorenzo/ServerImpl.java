@@ -18,10 +18,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class ServerImpl extends UnicastRemoteObject implements Server {
-    private final Logger log = Logger.getLogger(this.getClass().getName());
+    private transient final Logger log = Logger.getLogger(this.getClass().getName());
     private int playersNum;
     private boolean personalBonusBoards;
-    private List<Player> players = new ArrayList<>();
+    private transient List<Player> players = new ArrayList<>();
 
     private ServerImpl() throws IOException {
         super();
@@ -29,35 +29,41 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
 
     private void startServer() throws IOException {
         ExecutorService executor = Executors.newCachedThreadPool();
-        // socket
-        int port = Config.Server.socket.get("port").getAsInt();
-        InetAddress address = InetAddress.getByName(
-            Config.Server.socket.get("bind").getAsString()
-        );
-        ServerSocket serverSocket = new ServerSocket(port, 0, address);
-        log.info("ServerImpl socket ready on " + address + ", port: " + port);
         // RMI
-        port = Config.Server.rmi.get("port").getAsInt();
+        int port = Config.Server.rmi.get("port").getAsInt();
         LocateRegistry.createRegistry(port);
         Registry reg = LocateRegistry.getRegistry(port);
         reg.rebind("Lorenzo", this);
         log.info("ServerImpl ready");
-        while (true) {
-            try {
-                Socket socket = serverSocket.accept();
-                log.info("new SocketClient connection");
-                this.addPlayer(socket);
-           } catch (IOException e) {
-                log.log(Level.SEVERE, e.getMessage(), e);
-                throw e;
+        // socket
+        port = Config.Server.socket.get("port").getAsInt();
+        InetAddress address = InetAddress.getByName(
+            Config.Server.socket.get("bind").getAsString()
+        );
+        ServerSocket serverSocket = null;
+        try {
+            serverSocket = new ServerSocket(port, 0, address);
+            log.info("ServerImpl socket ready on " + address + ", port: " + port);
+            while (true) {
+                try {
+                    Socket socket = serverSocket.accept();
+                    log.info("new SocketClient connection");
+                    this.addPlayer(socket);
+                } catch (IOException e) {
+                    log.log(Level.SEVERE, e.getMessage(), e);
+                    throw e;
+                }
+                if (this.players.size() == this.playersNum) {
+                    break;
+                }
             }
-            if (this.players.size() == this.playersNum) {
-                break;
+            executor.submit(new Game(this.players, this.personalBonusBoards));
+            executor.shutdown();
+        } finally {
+            if (serverSocket != null) {
+                serverSocket.close();
             }
         }
-        executor.submit(new Game(this.players, this.personalBonusBoards));
-        executor.shutdown();
-        serverSocket.close();
     }
 
     @Override
