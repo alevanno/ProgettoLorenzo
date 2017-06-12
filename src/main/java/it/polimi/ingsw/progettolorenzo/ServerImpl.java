@@ -35,7 +35,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
             Config.Server.socket.get("bind").getAsString()
         );
         ServerSocket serverSocket = new ServerSocket(port, 0, address);
-        log.info("ServerImpl socket ready on port: " + port);
+        log.info("ServerImpl socket ready on " + address + ", port: " + port);
         // RMI
         port = Config.Server.rmi.get("port").getAsInt();
         LocateRegistry.createRegistry(port);

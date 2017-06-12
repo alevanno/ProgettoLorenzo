@@ -1,6 +1,5 @@
 package it.polimi.ingsw.progettolorenzo.client;
 
-import com.sun.org.apache.regexp.internal.RE;
 import it.polimi.ingsw.progettolorenzo.Config;
 import it.polimi.ingsw.progettolorenzo.Server;
 
