@@ -12,9 +12,16 @@ import java.util.logging.Logger;
 
 public class SocketClient {
     private final Logger log = Logger.getLogger(this.getClass().getName());
+    private final String name;
+    private final String colour;
     private Socket socket;
 
-    public void startClient(String name, String colour) throws IOException {
+    public SocketClient(String name, String colour) {
+        this.name = name;
+        this.colour = colour;
+    }
+
+    public void startClient() throws IOException {
         this.socket = new Socket(
                 Config.Client.socket.get("serverAddress").getAsString(),
                 Config.Client.socket.get("port").getAsInt()
@@ -22,8 +29,8 @@ public class SocketClient {
         Console.printLine("Connection Established");
         Console.printLine("Waiting for players connection....");
         PrintWriter out = new PrintWriter(socket.getOutputStream());
-        out.println(name);
-        out.println(colour);
+        out.println(this.name);
+        out.println(this.colour);
         out.flush();
         ExecutorService executor = Executors.newFixedThreadPool(2);
         executor.submit(new InHandler(new BufferedReader(new

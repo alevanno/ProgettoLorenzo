@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Client {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         final Logger log = Logger.getLogger(Client.class.getName());
         String name = Console.readLine("Insert player name: ");
         boolean ok = false;
@@ -23,9 +23,9 @@ public class Client {
             }
         }
 
-        SocketClient client = new SocketClient();
+        SocketClient client = new SocketClient(name, colour);
         try {
-            client.startClient(name, colour);
+            client.startClient();
         } catch (IOException e) {
             log.log(Level.SEVERE, e.getMessage(), e);
             client.endClient();
