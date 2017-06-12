@@ -336,8 +336,6 @@ public class Player {
         this.currentRes = this.currentRes.merge(new
                 Resources.ResBuilder().servant(servantSpent)
                 .build());
-
-        System.out.println("after revert" + currentRes);
     }
 
     // TODO this method affects only the activation of a leader card;

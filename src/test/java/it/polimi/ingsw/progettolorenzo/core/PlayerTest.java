@@ -12,6 +12,38 @@ import static org.junit.Assert.assertEquals;
 
 public class PlayerTest {
     @Test
+    public void revertIncreaseValue() throws Exception {
+        Socket socket = new Socket();
+        Player p1 = new Player("test", "red", socket);
+        p1.revertIncreaseValue(4);
+        assertEquals(7, p1.currentRes.servant);
+    }
+
+    @Test
+    public void testRevertFamValue() throws Exception {
+        Socket socket = new Socket();
+        Player p1 = new Player("test", "red", socket);
+        Map<String, Integer> famValues = new HashMap<>();
+        famValues.put("Orange", 6);
+        famValues.put("Black", 3);
+        famValues.put("White", 1);
+        p1.famMembersBirth(famValues);
+        assertEquals(6,p1.getAvailableFamMembers().get(0).getActionValue());
+        assertEquals(3,p1.getAvailableFamMembers().get(1).getActionValue());
+        assertEquals(1,p1.getAvailableFamMembers().get(2).getActionValue());
+        assertEquals(3, p1.currentRes.servant);
+        p1.revertFamValue(p1.getAvailableFamMembers().get(0),3);
+        assertEquals(6, p1.currentRes.servant);
+        p1.revertFamValue(p1.getAvailableFamMembers().get(1),3);
+        assertEquals(9, p1.currentRes.servant);
+        p1.revertFamValue(p1.getAvailableFamMembers().get(2),1);
+        assertEquals(10, p1.currentRes.servant);
+        assertEquals(3,p1.getAvailableFamMembers().get(0).getActionValue());
+        assertEquals(0,p1.getAvailableFamMembers().get(1).getActionValue());
+        assertEquals(0,p1.getAvailableFamMembers().get(2).getActionValue());
+    }
+
+    @Test
     public void testEndgame() throws Exception {
         Socket socket = new Socket();
         Player p1 = new Player("test", "red", socket);
