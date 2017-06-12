@@ -38,7 +38,7 @@ class PlayerIO {
         return this.socketIn.nextLine();
     }
 
-    public int sInPrompt(int minValue, int maxValue) {
+    private int sInPromptSocket(int minValue, int maxValue) {
         this.sInInit();
         int choice;
 
@@ -54,7 +54,11 @@ class PlayerIO {
         return choice;
     }
 
-    public boolean sInPromptConf() {
+    public int sInPrompt(int minValue, int maxValue) {
+        return this.sInPromptSocket(minValue, maxValue);
+    }
+
+    private boolean sInPromptConfSocket() {
         this.sInInit();
         String choice;
 
@@ -63,12 +67,16 @@ class PlayerIO {
             choice = this.socketIn.next().substring(0,1);
 
         } while (!"y".equalsIgnoreCase(choice) && !"n".equalsIgnoreCase(choice));
-        if ("y".equalsIgnoreCase(choice)) { return true; };
-        if ("n".equalsIgnoreCase(choice)) { return false; };
+        if ("y".equalsIgnoreCase(choice)) { return true; }
+        if ("n".equalsIgnoreCase(choice)) { return false; }
         return false;
     }
 
-    public void sOut(String s) {
+    public boolean sInPromptConf() {
+        return this.sInPromptConfSocket();
+    }
+
+    private void sOutSocket(String s) {
         try {
             if (this.socketOut == null) {
                 this.socketOut = new PrintWriter(new BufferedWriter(
@@ -81,6 +89,10 @@ class PlayerIO {
         }
         this.socketOut.println(s);
         this.socketOut.flush();
+    }
+
+    public void sOut(String s) {
+        this.sOutSocket(s);
     }
 
 }
