@@ -47,9 +47,13 @@ class MyConsoleFormatter extends Formatter {
         // class name
         String classname;
         if (rec.getSourceClassName() != null) {
-            // remove the package name from the class name
-            classname = rec.getSourceClassName().split(
+            try {
+                // remove the package name from the class name
+                classname = rec.getSourceClassName().split(
                     this.getClass().getPackage().getName(), 2)[1];
+            } catch (ArrayIndexOutOfBoundsException e) {
+                classname = rec.getSourceClassName();
+            }
         } else {
             classname = rec.getLoggerName();
         }
