@@ -12,19 +12,21 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-class PlayerIO {
+abstract class PlayerIO {
+    public abstract String sIn();
+    public abstract int sInPrompt(int m, int n);
+    public abstract boolean sInPromptConf();
+    public abstract void sOut(String s);
+}
+
+class PlayerIOSocket extends PlayerIO {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private Socket socket;
     private Scanner socketIn;
     private PrintWriter socketOut;
-    private RmiClient rmi;
 
-    public PlayerIO(Socket socket) {
+    public PlayerIOSocket(Socket socket) {
         this.socket = socket;
-    }
-
-    public PlayerIO(RmiClient rmi) {
-        this.rmi = rmi;
     }
 
     private void sInInit() {
@@ -40,16 +42,14 @@ class PlayerIO {
         }
     }
 
-    public String sIn()  {
-        if (this.rmi == null) {
-            this.sInInit();
-            return this.socketIn.nextLine();
-        } else {
-            return "";  // TODO
-        }
+    @Override
+    public String sIn() {
+        this.sInInit();
+        return this.socketIn.nextLine();
     }
 
-    private int sInPromptSocket(int minValue, int maxValue) {
+    @Override
+    public int sInPrompt(int minValue, int maxValue) {
         this.sInInit();
         int choice;
 
@@ -65,20 +65,8 @@ class PlayerIO {
         return choice;
     }
 
-    public int sInPrompt(int minValue, int maxValue) {
-        if (this.rmi == null) {
-            return this.sInPromptSocket(minValue, maxValue);
-        } else {
-            try {
-                return this.rmi.sInPrompt(minValue, maxValue);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-                return 0;  // FIXME ...
-            }
-        }
-    }
-
-    private boolean sInPromptConfSocket() {
+    @Override
+    public boolean sInPromptConf() {
         this.sInInit();
         String choice;
 
@@ -92,21 +80,8 @@ class PlayerIO {
         return false;
     }
 
-    public boolean sInPromptConf() {
-        if (this.rmi == null) {
-            return this.sInPromptConfSocket();
-        } else {
-            try {
-                return this.rmi.sInPromptConf();
-            } catch (RemoteException e) {
-                e.printStackTrace();
-                return false;  // FIXME ...
-            }
-        }
-
-    }
-
-    private void sOutSocket(String s) {
+    @Override
+    public void sOut(String s) {
         try {
             if (this.socketOut == null) {
                 this.socketOut = new PrintWriter(new BufferedWriter(
@@ -120,19 +95,49 @@ class PlayerIO {
         this.socketOut.println(s);
         this.socketOut.flush();
     }
+}
 
-    public void sOut(String s) {
-        if (this.rmi == null) {
-            this.sOutSocket(s);
-        } else {
-            try {
-                this.rmi.sOut(s);
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            }
+class PlayerIORMI extends PlayerIO {
+    private final Logger log = Logger.getLogger(this.getClass().getName());
+    private RmiClient rmi;
+
+    public PlayerIORMI(RmiClient rmi) {
+        this.rmi = rmi;
+    }
+
+    @Override
+    public String sIn() {
+        return "";  // TODO
+    }
+
+    @Override
+    public int sInPrompt(int minValue, int maxValue) {
+        try {
+            return this.rmi.sInPrompt(minValue, maxValue);
+        } catch (RemoteException e) {
+            log.severe(e.getMessage());
+            return 0;  // FIXME ...
         }
     }
 
+    @Override
+    public boolean sInPromptConf() {
+        try {
+            return this.rmi.sInPromptConf();
+        } catch (RemoteException e) {
+            log.severe(e.getMessage());
+            return false;  // FIXME ...
+        }
+    }
+
+    @Override
+    public void sOut(String s) {
+        try {
+            this.rmi.sOut(s);
+        } catch (RemoteException e) {
+            log.severe(e.getMessage());
+        }
+    }
 }
 
 public class Player {
@@ -153,7 +158,7 @@ public class Player {
         this.playerName = name;
         this.playerColour = colour;
         this.currentRes = new Resources.ResBuilder().servant(3).stone(2).wood(2).build();
-        this.io = new PlayerIO(socket);
+        this.io = new PlayerIOSocket(socket);
         log.info(String.format(
                 "New player: %s (colour: %s, resources: %s) [socket]",
                 name, colour, this.currentRes));
@@ -163,7 +168,7 @@ public class Player {
         this.playerName = name;
         this.playerColour = colour;
         this.currentRes = new Resources.ResBuilder().servant(3).stone(2).wood(2).build();
-        this.io = new PlayerIO(rmi);
+        this.io = new PlayerIORMI(rmi);
         log.info(String.format(
             "New player: %s (colour: %s, resources: %s) [RMI]",
             name, colour, this.currentRes));
