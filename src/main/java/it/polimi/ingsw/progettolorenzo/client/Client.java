@@ -28,7 +28,7 @@ public class Client {
             client.startClient(name, colour);
         } catch (IOException e) {
             log.log(Level.SEVERE, e.getMessage(), e);
-            client.closeSocket();
+            client.endClient();
             System.exit(1);
         }
     }

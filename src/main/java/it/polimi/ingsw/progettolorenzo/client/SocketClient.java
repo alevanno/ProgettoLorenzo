@@ -33,7 +33,7 @@ public class SocketClient {
                 OutputStreamWriter(socket.getOutputStream())))));
     }
 
-    public void closeSocket() {
+    public void endClient() {
         if (this.socket != null) {
             try {
                 socket.close();
