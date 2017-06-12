@@ -13,11 +13,33 @@ public class LeaderTest {
     Player pl = new Player("LUCA","Blue", socket);
     List<LeaderCard> testList = new ArrayList<>();
 
+    @Before
+    public void birth(){
+        testList.addAll(Arrays.asList(
+                new BartolomeoColleoni(pl),
+                new CesareBorgia(pl),
+                new CosimoDeMedici(pl),
+                new FedericoDaMontefeltro(pl),
+                new FilippoBrunelleschi(pl),
+                new FrancescoSforza(pl),
+                new GiovanniDalleBandeNere(pl),
+                new GirolamoSavonarola(pl),
+                new LeonardoDaVinci(pl),
+                new LucreziaBorgia(pl),
+                new LudovicoAriosto(pl),
+                new LudovicoIIIGonzaga(pl),
+                new LudovicoIlMoro(pl),
+                new MichelangeloBuonarroti(pl),
+                new PicoDellaMirandola(pl),
+                new SandroBotticelli(pl),
+                new SantaRita(pl),
+                new SigismondoMalatesta(pl),
+                new SistoIV(pl)));
+    }
+
     @Test
-    public void birth1() {
-        testList.addAll( Arrays.asList(
-                new FrancescoSforza(pl), new LorenzoDeMedici(pl)));
-        assertEquals(2, testList.size());
+    public void size() {
+        assertEquals(19, testList.size());
     }
 
     @Test

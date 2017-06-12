@@ -63,6 +63,7 @@ public class ResourcesTest {
                 .setByString("victoryPoint", 1)
                 .setByString("faithPoint", 1)
                 .build();
+        Resources op2 = new Resources.ResBuilder().setByString("", 0).build();
         for (String s : op.resourcesList.keySet()) {
             assertEquals(1, op.getByString(s));
         }
