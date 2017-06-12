@@ -9,6 +9,7 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Scanner;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class RmiClientImpl extends UnicastRemoteObject implements RmiClient {
@@ -69,7 +70,7 @@ public class RmiClientImpl extends UnicastRemoteObject implements RmiClient {
             Server srv = (Server) reg.lookup("Lorenzo");
             srv.addPlayer(this.name, this.colour, this);
         } catch (NotBoundException e) {
-            log.severe(e.getMessage());
+            log.log(Level.SEVERE, e.getMessage(), e);
         }
 
     }

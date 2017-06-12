@@ -12,8 +12,11 @@ import it.polimi.ingsw.progettolorenzo.core.Resources;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Console {
+    private transient final Logger log = Logger.getLogger(this.getClass().getName());
 
     protected static void printLine(String format, Object... args) {
         if (System.console() != null) {
@@ -43,7 +46,7 @@ public class Console {
             textGUI.addWindow(win);
             win.waitUntilClosed();
         } catch (IOException e) {
-            System.out.println("shit happens");
+            log.log(Level.SEVERE, e.getMessage(), e);
         }
 
     }

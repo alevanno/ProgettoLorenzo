@@ -112,7 +112,7 @@ class PlayerIORMI extends PlayerIO {
         try {
             return this.rmi.sInPrompt(minValue, maxValue);
         } catch (RemoteException e) {
-            log.severe(e.getMessage());
+            log.log(Level.SEVERE, e.getMessage(), e);
             return 0;  // FIXME ...
         }
     }
@@ -122,7 +122,7 @@ class PlayerIORMI extends PlayerIO {
         try {
             return this.rmi.sInPromptConf();
         } catch (RemoteException e) {
-            log.severe(e.getMessage());
+            log.log(Level.SEVERE, e.getMessage(), e);
             return false;  // FIXME ...
         }
     }
@@ -132,7 +132,7 @@ class PlayerIORMI extends PlayerIO {
         try {
             this.rmi.sOut(s);
         } catch (RemoteException e) {
-            log.severe(e.getMessage());
+            log.log(Level.SEVERE, e.getMessage(), e);
         }
     }
 }
