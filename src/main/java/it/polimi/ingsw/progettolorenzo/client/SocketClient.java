@@ -22,10 +22,10 @@ public class SocketClient {
     }
 
     public void startClient() throws IOException {
-        this.socket = new Socket(
-                Config.Client.socket.get("serverAddress").getAsString(),
-                Config.Client.socket.get("port").getAsInt()
-        );
+        String address = Config.Client.socket.get("serverAddress").getAsString();
+        int port = Config.Client.socket.get("port").getAsInt();
+        log.info("Connecting to " + address + ":" + port + "…");
+        this.socket = new Socket(address, port);
         Console.printLine("Connection Established");
         Console.printLine("Waiting for players connection....");
         PrintWriter out = new PrintWriter(socket.getOutputStream());
