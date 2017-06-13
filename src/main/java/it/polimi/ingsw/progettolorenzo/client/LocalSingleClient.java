@@ -9,6 +9,7 @@ import java.util.Arrays;
 public class LocalSingleClient {
     private final String name;
     private final String colour;
+    Game g;
 
     public LocalSingleClient(String name, String colour) {
         this.name = name;
@@ -17,7 +18,12 @@ public class LocalSingleClient {
 
     public void startClient() throws IOException {
         Player player = new Player(name, colour);
-        new Game(Arrays.asList(player), false).run();
+        g = new Game(Arrays.asList(player), false);
+        g.run();
+    }
+
+    public Game getGame() {
+        return g;
     }
 
     public void endClient() {}
