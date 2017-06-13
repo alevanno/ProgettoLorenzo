@@ -25,6 +25,11 @@ public class RmiClientImpl extends UnicastRemoteObject implements RmiClient {
     }
 
     @Override
+    public String sIn() throws RemoteException {
+        return this.in.nextLine();
+    }
+
+    @Override
     public void sOut(String msg) throws RemoteException {
         System.out.println(msg);
     }

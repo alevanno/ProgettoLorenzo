@@ -104,7 +104,12 @@ class PlayerIORMI extends PlayerIO {
 
     @Override
     public String sIn() {
-        return "";  // TODO
+        try {
+            return this.rmi.sIn();
+        } catch (RemoteException e) {
+            log.log(Level.SEVERE, e.getMessage(), e);
+            return "";  // FIXME ...
+        }
     }
 
     @Override
