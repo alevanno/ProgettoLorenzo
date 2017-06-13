@@ -21,12 +21,12 @@ public class GameTest {
         g.deckSetup();
         g.boardSetup();
         client.testSingleAction();
-
-    }
-    @Before
-    public void initGame() throws IOException {
         client.getGame().loadSettings();
         client.getGame().setBoard(g.board);
+
+    }
+    @Test
+    public void initGame() throws IOException {
         this.game = client.getGame();
     }
 }
