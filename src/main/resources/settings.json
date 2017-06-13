@@ -9,6 +9,7 @@
         }
     },
     "client": {
+        "mode": "ask",
         "socket": {
             "serverAddress": "localhost",
             "port": 29999

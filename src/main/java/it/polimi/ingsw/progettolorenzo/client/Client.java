@@ -1,6 +1,8 @@
 package it.polimi.ingsw.progettolorenzo.client;
 
+import it.polimi.ingsw.progettolorenzo.Config;
 import it.polimi.ingsw.progettolorenzo.MyLogger;
+import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -26,9 +28,29 @@ public class Client {
             }
         }
 
-        LocalSingleClient client = new LocalSingleClient(name, colour);
-        /*SocketClient client = new SocketClient(name, colour);
-        RmiClientImpl client = new RmiClientImpl(name, colour);*/
+        String mode = Config.client.get("mode").getAsString();
+        if ("ask".equals(mode)) {
+            while (!"rmi".equals(mode) &&
+                   !"socket".equals(mode) &&
+                   !"local".equals(mode)) {
+                mode = Console.readLine("RMI or socket? ").replace("\n", "");
+                System.out.println(mode);
+            }
+        }
+        ClientInterface client;
+        switch (mode) {
+            case "rmi":
+                client = new RmiClientImpl(name, colour);
+                break;
+            case "socket":
+                client = new SocketClient(name, colour);
+                break;
+            case "local":
+                client = new LocalSingleClient(name, colour);
+                break;
+            default:
+                throw new ValueException("client.mode variable not valid");
+        }
 
         try {
             client.startClient();
