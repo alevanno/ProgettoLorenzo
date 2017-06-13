@@ -8,11 +8,17 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class ImmediateActionTest {
     GameTest gameTest = new GameTest();
     Deck testDeck;
     Player pl;
+    List<String> nameList = new ArrayList<>(Arrays.asList(
+            "Vescovo", "Cardinale", "Bosco", "Nobile"
+    ));
 
 
     @Before
@@ -22,20 +28,25 @@ public class ImmediateActionTest {
         testDeck = gameTest.g.testDeck;
         pl = gameTest.game.getPlayers().get(0);
     }
-    /*@Test
+    @Test
     public void immRes() {
+        LeaderCard leader = new LudovicoAriosto(pl);
+        leader.activation = true;
+        pl.getLeaderCards().add(leader);
         Resources tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
         for (Card c : testDeck) {
-            if (c.immediateEff.containsKey("resources")) {
-                Action act = new CardImmediateAction(c, pl);
-                act.logActions();
-                act.apply();
+            for(String name : nameList) {
+                if(name.equals(c.cardName)){
+                    Action act = new CardImmediateAction(c, pl);
+                    act.logActions();
+                    act.apply();
+                }
             }
         }
-        for (int i : pl.currentRes.getAsList()) {
-            assertFalse(pl.currentRes.getAsList().get(i)
-                    > tmp.getAsList().get(i));
+
+        for (int i = 0; i < pl.currentRes.getAsList().size(); i++) {
+            assertTrue(pl.currentRes.getAsList().get(i) >= tmp.getAsList().get(i));
         }
-    }*/
+    }
 
 }

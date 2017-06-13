@@ -71,7 +71,7 @@ public class CardImmediateAction extends Action {
             prodRes.merge(tmpRes.multiplyRes(count));
             this.addAction(new ResourcesAction(
                     "ImmMultiplier", tmpRes.multiplyRes(count), pl));
-            log.info("ImmediateAction: Multiplier Card " + card.getCardName() + " gave " + tmpRes.toString());
+            log.info("ImmediateAction: Multiplier Card " + card.getCardName() + " gave " + tmpRes.multiplyRes(count));
         }
     }
 }
