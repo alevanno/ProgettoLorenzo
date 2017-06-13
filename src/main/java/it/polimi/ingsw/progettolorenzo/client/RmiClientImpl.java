@@ -12,7 +12,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class RmiClientImpl extends UnicastRemoteObject implements RmiClient {
+public class RmiClientImpl extends UnicastRemoteObject implements ClientInterface, RmiClient {
     private transient final Logger log = Logger.getLogger(this.getClass().getName());
     private transient Scanner in = new Scanner(System.in);
     public final String name;
@@ -67,6 +67,7 @@ public class RmiClientImpl extends UnicastRemoteObject implements RmiClient {
         return false;
     }
 
+    @Override
     public void startClient() throws RemoteException {
         Registry reg = LocateRegistry.getRegistry(
             Config.Client.rmi.get("port").getAsInt()
@@ -80,5 +81,6 @@ public class RmiClientImpl extends UnicastRemoteObject implements RmiClient {
 
     }
 
+    @Override
     public void endClient() {}
 }

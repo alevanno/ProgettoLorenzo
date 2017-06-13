@@ -10,7 +10,7 @@ import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class SocketClient {
+public class SocketClient implements ClientInterface {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private final String name;
     private final String colour;
@@ -21,6 +21,7 @@ public class SocketClient {
         this.colour = colour;
     }
 
+    @Override
     public void startClient() throws IOException {
         String address = Config.Client.socket.get("serverAddress").getAsString();
         int port = Config.Client.socket.get("port").getAsInt();
@@ -40,6 +41,7 @@ public class SocketClient {
                 OutputStreamWriter(socket.getOutputStream())))));
     }
 
+    @Override
     public void endClient() {
         if (this.socket != null) {
             try {

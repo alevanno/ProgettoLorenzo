@@ -6,7 +6,7 @@ import it.polimi.ingsw.progettolorenzo.core.Player;
 import java.io.IOException;
 import java.util.Arrays;
 
-public class LocalSingleClient {
+public class LocalSingleClient implements ClientInterface{
     private final String name;
     private final String colour;
     Game g;
@@ -16,7 +16,8 @@ public class LocalSingleClient {
         this.colour = colour;
     }
 
-    public void startClient() throws IOException {
+    @Override
+    public void startClient() {
         Player player = new Player(name, colour);
         g = new Game(Arrays.asList(player), false);
         g.run();
@@ -31,5 +32,6 @@ public class LocalSingleClient {
         return g;
     }
 
+    @Override
     public void endClient() {}
 }
