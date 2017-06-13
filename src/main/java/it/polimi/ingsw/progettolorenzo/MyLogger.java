@@ -30,9 +30,9 @@ public final class MyLogger {
             @Override
             public boolean isLoggable(LogRecord rec) {
                 String n = rec.getSourceClassName();
-                return (
-                    !n.startsWith("sun.rmi")
-                );
+                return (!n.startsWith("sun.rmi") &&
+                        !n.startsWith("sun.awt") &&
+                        !n.startsWith("sun.awt") && !n.startsWith("java.awt"));
             }
         });
 
