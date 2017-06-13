@@ -43,10 +43,8 @@ public class ImmediateActionTest {
                 }
             }
         }
-
         for (int i = 0; i < pl.currentRes.getAsList().size(); i++) {
             assertTrue(pl.currentRes.getAsList().get(i) >= tmp.getAsList().get(i));
         }
     }
-
 }

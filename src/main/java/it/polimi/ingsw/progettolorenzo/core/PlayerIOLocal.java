@@ -1,10 +1,12 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
 
+import java.io.BufferedReader;
+import java.io.StringReader;
 import java.util.Scanner;
 
 public class PlayerIOLocal implements PlayerIO{
-    private Scanner in = new Scanner(System.in);
+    private Scanner in;
 
     @Override
     public String sIn() {
@@ -24,5 +26,9 @@ public class PlayerIOLocal implements PlayerIO{
     @Override
     public void sOut(String s) {
         System.out.println(s);
+    }
+
+    public void setIn(String s) {
+        this.in = new Scanner(new BufferedReader(new StringReader(s)));
     }
 }
