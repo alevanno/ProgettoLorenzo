@@ -4,14 +4,13 @@ import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class LeaderTest {
     Socket socket = new Socket();
     Player pl = new Player("LUCA","Blue", socket);
     List<LeaderCard> testList = new ArrayList<>();
+    Map<String, LeaderCard> testMap = new HashMap<>();
 
     @Before
     public void birth(){
@@ -24,6 +23,7 @@ public class LeaderTest {
                 new FrancescoSforza(pl),
                 new GiovanniDalleBandeNere(pl),
                 new GirolamoSavonarola(pl),
+                new LorenzoDeMedici(pl),
                 new LeonardoDaVinci(pl),
                 new LucreziaBorgia(pl),
                 new LudovicoAriosto(pl),
@@ -35,19 +35,23 @@ public class LeaderTest {
                 new SantaRita(pl),
                 new SigismondoMalatesta(pl),
                 new SistoIV(pl)));
+        for (LeaderCard card : testList) {
+            testMap.put(card.getName(), card);
+        }
+
     }
 
     @Test
     public void size() {
-        assertEquals(19, testList.size());
+        assertEquals(20, testList.size());
     }
 
     @Test
     public void leaderUtilsTest(){
-        LeaderCard leader = new LorenzoDeMedici(pl);
+        LeaderCard leader = testMap.get("Lorenzo Dè Medici");
         Resources cost = new Resources.ResBuilder().stone(leader.activationCost.get(0)).build();
         assertFalse(LeaderUtils.checkCostResSatisfaction(pl, cost));
-        assertFalse(LeaderUtils.checkCardTypeSatisfaction(pl, leader.types.get(0), leader.activationCost.get(0)));
+        assertFalse(LeaderUtils.checkMultiType(leader.types, leader.activationCost, pl));
     }
 
 }

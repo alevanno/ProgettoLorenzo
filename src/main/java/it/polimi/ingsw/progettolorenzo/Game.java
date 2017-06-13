@@ -40,18 +40,8 @@ public class Game implements Runnable {
     }
 
     public void run() {
-        // init players
-        this.initPlayers();
 
-        //assign bonus tile
-        this.assignBonusT();
-
-        // init excommunication tiles
-        this.initExcomm();
-
-        // init cards
-        this.loadCards();
-
+        this.loadSettings();
         // starts the game and handles the turns
         for (halfPeriod = 1; halfPeriod < 7 ; halfPeriod++) {
             this.turn();
@@ -137,6 +127,20 @@ public class Game implements Runnable {
                     p -> p.setBonusTile(bonuses.remove(bonuses.size()-1))
             );
         }
+    }
+
+    public void loadSettings() {
+        // init players
+        this.initPlayers();
+
+        //assign bonus tile
+        this.assignBonusT();
+
+        // init excommunication tiles
+        this.initExcomm();
+
+        // init cards
+        this.loadCards();
     }
 
     public boolean getFirstAvailPlace(Player pl, int councPlace) {
@@ -340,5 +344,9 @@ public class Game implements Runnable {
 
     public void addFamMemIncrease(int incomingIncrease) {
         this.famMemIncrease += incomingIncrease;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
     }
 }

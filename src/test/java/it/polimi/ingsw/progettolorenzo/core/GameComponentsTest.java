@@ -17,8 +17,8 @@ import static org.junit.Assert.assertNull;
 
 public class GameComponentsTest {
     Socket sock1 = new Socket();
-    private Deck testDeck = new Deck();
-    Board board;
+    public Deck testDeck = new Deck();
+    public Board board;
 
     List<Player> players = new ArrayList<>(Arrays.asList(
             new Player("luca","Red", sock1)
