@@ -51,7 +51,7 @@ public abstract class LeaderCard {
 class FrancescoSforza extends LeaderCard {
     private Player owner;
     public FrancescoSforza(Player pl) {
-        super("FrancescoSforza", Arrays.asList(5),
+        super("Francesco Sforza", Arrays.asList(5),
                 Arrays.asList("ventures"), false,
                 true, false );
         this.owner = pl;
@@ -543,7 +543,7 @@ class LorenzoDeMedici extends LeaderCard {
         }
         owner.sOut("Which one do you want to copy?");
         LeaderCard toCopy = activatedCards.get(
-                owner.sInPrompt(1, counter));
+                owner.sInPrompt(0, counter));
         toCopy.activation = this.activation;
         toCopy.onePerRoundUsage = false;
         owner.getLeaderCards().add(toCopy);

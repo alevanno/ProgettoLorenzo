@@ -45,7 +45,7 @@ public class LeaderUtils {
             }
         }
         if ((checkC && checkT) || (checkC ^ checkT)) {
-            owner.sOut("You satisfy the "+ card.name + "leader card " +
+            owner.sOut("You satisfy the "+ card.name + " leader card " +
                     "activation cost");
             owner.sOut("Would you activate it?");
             boolean ret = owner.sInPromptConf();
@@ -60,7 +60,7 @@ public class LeaderUtils {
                     return false;
                 }
             } else {
-                owner.sOut("You didn't activate the Leader card permanent ability");
+                owner.sOut("You didn't activate the Leader card");
                 return false;
             }
         } else {
