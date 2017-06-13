@@ -27,9 +27,12 @@ public class Game implements Runnable {
     private Player currPlayer;
     private List<JsonObject> excomms = new ArrayList<>();
     private final boolean personalBonusBoards;
+    private final boolean leaderOn;
     private int famMemIncrease;
 
-    public Game(List<Player> listPlayers, boolean personalBonusBoards) {
+
+    public Game(List<Player> listPlayers, boolean personalBonusBoards,
+                boolean leaderOn) {
         MyLogger.setup();
         log.info("Starting the game...");
         listPlayers.forEach(
@@ -37,6 +40,7 @@ public class Game implements Runnable {
         );
         this.players = listPlayers;
         this.personalBonusBoards = personalBonusBoards;
+        this.leaderOn = leaderOn;
     }
 
     public void run() {
@@ -134,7 +138,9 @@ public class Game implements Runnable {
         this.initPlayers();
 
         //assign leader cards
-        this.assignLeaderCards();
+        if(this.leaderOn) {
+            this.assignLeaderCards();
+        }
 
         //assign bonus tile
         this.assignBonusT();

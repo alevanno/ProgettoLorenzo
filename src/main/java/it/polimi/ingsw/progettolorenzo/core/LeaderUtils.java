@@ -64,7 +64,7 @@ public class LeaderUtils {
                 return false;
             }
         } else {
-            owner.sOut("you still don't satisfy the activation cost");
+            owner.sOut("You still don't satisfy the activation cost");
             return false;
         }
     }

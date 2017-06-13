@@ -23,7 +23,7 @@ public class GameComponentsTest {
     List<Player> players = new ArrayList<>(Arrays.asList(
             new Player("luca","Red", sock1)
     ));
-    Game game = new Game(players,false);
+    Game game = new Game(players,true, true);
 
     @Before
     public void deckSetup() {

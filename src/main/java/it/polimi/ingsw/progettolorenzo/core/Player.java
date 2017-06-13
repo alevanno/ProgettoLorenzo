@@ -235,15 +235,16 @@ public class Player {
             return false;
         }
         for (LeaderCard card : leaderCards) {
-            for (int i : card.activationCost) {
-                StringBuilder toDisplay = new StringBuilder(String.format("%s %d %s", i + 1 + " -> " + card.getName(),
-                        card.getActivationCost().get(i), " : " + card.getCardCostType()));
+            int i = 0;
+            String toDisplay = String.format("%s %s %s", i + 1 + " -> cost: " + card.getName(),
+                    card.getActivationCost(), " : " + card.getCardCostType());
                 if (card.isActivated()) {
-                    toDisplay.append(" activated");
+                    toDisplay += " activated";
                 }
-                this.sOut(toDisplay.toString());
+                System.out.println(toDisplay);
+                this.sOut(toDisplay);
+                i++;
             }
-        }
         int choice = this.sInPrompt(1, leaderCards.size());
         return leaderCards.get(choice - 1).apply();
 

@@ -74,6 +74,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     private transient final Logger log = Logger.getLogger(this.getClass().getName());
     private int playersNum;
     private boolean personalBonusBoards;
+    private boolean leaderOn;
     private transient List<Player> players = new ArrayList<>();
 
     private ServerImpl() throws IOException {
@@ -90,7 +91,8 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
                     log.warning("players waiting…");
                     this.players.wait();
                     games.submit(
-                        new Game(this.players, this.personalBonusBoards)
+                        new Game(this.players, this.personalBonusBoards,
+                                this.leaderOn)
                     );
                     games.shutdown();  // TODO support multiple games
                     break;
@@ -135,12 +137,15 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         pl.sOut("You get to choose how this game will be played.");
         pl.sOut("How many players?");
         this.playersNum = pl.sInPrompt(1, 4);
-        pl.sOut("Same or different bonus boards?");
+        pl.sOut("Advanced or basic rules? (LeaderCards and " +
+                "different bonus board)");
         String bonusBoard = pl.sIn();
-        if ("same".equalsIgnoreCase(bonusBoard)) {
-            this.personalBonusBoards = false;
-        } else {
+        if ("advanced".equalsIgnoreCase(bonusBoard)) {
             this.personalBonusBoards = true;
+            this.leaderOn = true;
+        } else {
+            this.personalBonusBoards = false;
+            this.leaderOn = false;
         }
         log.info(String.format("Game settings: %d players, %s boards",
             this.playersNum, this.personalBonusBoards));

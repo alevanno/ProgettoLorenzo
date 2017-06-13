@@ -19,13 +19,13 @@ public class LocalSingleClient implements ClientInterface{
     @Override
     public void startClient() {
         Player player = new Player(name, colour);
-        g = new Game(Arrays.asList(player), false);
+        g = new Game(Arrays.asList(player), true, true);
         g.run();
     }
 
     public void testSingleAction() {
         Player player = new Player(name, colour);
-        g = new Game(Arrays.asList(player), false);
+        g = new Game(Arrays.asList(player), true, true);
     }
 
     public Game getGame() {

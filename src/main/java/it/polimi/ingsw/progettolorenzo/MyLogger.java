@@ -31,7 +31,6 @@ public final class MyLogger {
             public boolean isLoggable(LogRecord rec) {
                 String n = rec.getSourceClassName();
                 return (!n.startsWith("sun.rmi") &&
-                        !n.startsWith("sun.awt") &&
                         !n.startsWith("sun.awt") && !n.startsWith("java.awt"));
             }
         });
