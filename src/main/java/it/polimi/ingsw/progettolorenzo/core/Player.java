@@ -15,7 +15,8 @@ public class Player {
     public final String playerName;
     private final String playerColour;
     private final PlayerIO io;
-    public Resources currentRes;  // FIXME make private
+    // FIXME make private
+    public Resources currentRes = new Resources.ResBuilder().servant(3).stone(2).wood(2).build();
     private List<FamilyMember> famMemberList = new ArrayList<>();
     private Deck cards = new Deck();
     private List<JsonObject> excommunications = new ArrayList<>(Arrays.asList(new JsonObject(), new JsonObject(), new JsonObject()));
@@ -27,7 +28,6 @@ public class Player {
     public Player(String name, String colour, Socket socket) {
         this.playerName = name;
         this.playerColour = colour;
-        this.currentRes = new Resources.ResBuilder().servant(3).stone(2).wood(2).build();
         this.io = new PlayerIOSocket(socket);
         log.info(String.format(
                 "New player: %s (colour: %s, resources: %s) [socket]",
@@ -37,7 +37,6 @@ public class Player {
     public Player(String name, String colour, RmiClient rmi) {
         this.playerName = name;
         this.playerColour = colour;
-        this.currentRes = new Resources.ResBuilder().servant(3).stone(2).wood(2).build();
         this.io = new PlayerIORMI(rmi);
         log.info(String.format(
             "New player: %s (colour: %s, resources: %s) [RMI]",
