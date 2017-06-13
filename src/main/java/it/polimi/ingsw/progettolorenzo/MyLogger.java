@@ -5,7 +5,7 @@ import java.util.logging.*;
 
 
 public final class MyLogger {
-    private static final Level LEVEL = Level.FINEST;  // the default log level
+    private static final Level LEVEL = Level.FINE;  // the default log level
     private static final Logger logger = Logger.getLogger("");
     private static final ConsoleHandler ch = new ConsoleHandler();
 
@@ -24,6 +24,17 @@ public final class MyLogger {
         // Console Handler
         ch.setFormatter(new MyConsoleFormatter());
         ch.setLevel(LEVEL);
+
+        // add a filter to remove sun.rmi stuff from outor logs
+        ch.setFilter(new Filter() {
+            @Override
+            public boolean isLoggable(LogRecord rec) {
+                String n = rec.getSourceClassName();
+                return (
+                    !n.startsWith("sun.rmi")
+                );
+            }
+        });
 
         // the actual Logger
         logger.addHandler(ch);

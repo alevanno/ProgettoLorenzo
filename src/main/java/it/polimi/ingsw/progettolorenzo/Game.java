@@ -110,7 +110,7 @@ public class Game implements Runnable {
                 }
             });
         }
-        log.finer(String.format(
+        log.info(String.format(
                 "Collected %d cards to give away", deck.size()));
         this.board = new Board(deck, this);
     }
