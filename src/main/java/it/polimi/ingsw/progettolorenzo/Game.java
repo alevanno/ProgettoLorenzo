@@ -18,9 +18,7 @@ public class Game implements Runnable {
     private Board board;
     private List<String> types = Arrays.asList(
             "territories", "buildings", "characters", "ventures");
-    private List<String> actions = Arrays.asList(
-            "Floor", "Market", "CouncilPalace", "Production",
-            "Harvest", "ActivateLeaderCard");
+    private List<String> actions;
     private HashMap<String, Deck> unhandledCards = new HashMap<>();
     private List<Player> players = new ArrayList<>(); //active players and their order
     private int halfPeriod;
@@ -140,7 +138,14 @@ public class Game implements Runnable {
         //assign leader cards
         if(this.leaderOn) {
             this.assignLeaderCards();
-        }
+            this.actions = Arrays.asList(
+                    "Floor", "Market", "CouncilPalace", "Production",
+                    "Harvest", "ActivateLeaderCard");
+            } else {
+            this.actions = Arrays.asList(
+                    "Floor", "Market", "CouncilPalace", "Production",
+                    "Harvest");
+            }
 
         //assign bonus tile
         this.assignBonusT();
@@ -266,9 +271,9 @@ public class Game implements Runnable {
 
     private void assignLeaderCards() {
         Map<String, LeaderCard> leaderMap = LeaderUtils.leadersBirth();
+        List<LeaderCard> valuesList = new ArrayList<>(leaderMap.values());
         for (Player pl : players) {
             for (int i = 0; i < 4; i++) {
-                List<LeaderCard> valuesList = new ArrayList<>(leaderMap.values());
                 int randomIndex = new Random().nextInt(valuesList.size());
                 LeaderCard randomCard = valuesList.get(randomIndex);
                 valuesList.remove(randomCard);

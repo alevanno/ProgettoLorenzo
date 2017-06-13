@@ -228,7 +228,6 @@ public class Player {
     // TODO this method affects only the activation of a leader card;
     // we should create an other method to use the One per Round ability
     public boolean activateLeaderCard() {
-
         this.sOut("Which Leader card do you want to activate?");
         if (leaderCards.isEmpty()) {
             this.sOut("You don't have any Leader Card anymore");
@@ -236,14 +235,13 @@ public class Player {
         }
         for (LeaderCard card : leaderCards) {
             int i = 0;
-            String toDisplay = String.format("%s %s %s", i + 1 + " -> cost: " + card.getName(),
-                    card.getActivationCost(), " : " + card.getCardCostType());
+            String toDisplay = card.getName() + " -> cost: " +
+                    card.getActivationCost() +" : " + card.getCardCostType();
                 if (card.isActivated()) {
                     toDisplay += " activated";
                 }
                 System.out.println(toDisplay);
                 this.sOut(toDisplay);
-                i++;
             }
         int choice = this.sInPrompt(1, leaderCards.size());
         return leaderCards.get(choice - 1).apply();
