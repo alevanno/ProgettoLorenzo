@@ -1,12 +1,10 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
-
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
-public class PlayerIOLocal implements PlayerIO{
-    private Scanner in;
+public class PlayerIOLocal implements PlayerIO {
+    private Scanner in = new Scanner(System.in);
 
     @Override
     public String sIn() {
@@ -29,7 +27,8 @@ public class PlayerIOLocal implements PlayerIO{
     }
 
     public void setIn(String s) {
-        InputStream stream = new ByteArrayInputStream(s.getBytes(StandardCharsets.UTF_8));
+        InputStream stream = new ByteArrayInputStream(s.getBytes());
+
         this.in = new Scanner(new BufferedReader(new InputStreamReader(stream)));
     }
 }

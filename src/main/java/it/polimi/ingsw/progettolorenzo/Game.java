@@ -349,4 +349,8 @@ public class Game implements Runnable {
     public void setBoard(Board board) {
         this.board = board;
     }
+
+    public void setCurrPlayer(Player pl) {
+        this.currPlayer = pl;
+    }
 }
