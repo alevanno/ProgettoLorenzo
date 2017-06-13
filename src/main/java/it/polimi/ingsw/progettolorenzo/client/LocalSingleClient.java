@@ -22,6 +22,11 @@ public class LocalSingleClient {
         g.run();
     }
 
+    public void testSingleAction() {
+        Player player = new Player(name, colour);
+        g = new Game(Arrays.asList(player), false);
+    }
+
     public Game getGame() {
         return g;
     }
