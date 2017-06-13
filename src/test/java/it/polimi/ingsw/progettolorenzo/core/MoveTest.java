@@ -68,4 +68,45 @@ public class MoveTest {
         inputStream.setIn(action);
         assertTrue(Move.floorAction(gameTest.game.getBoard(), pl.getAvailableFamMembers().get(0)));
     }
+
+    @Test
+    public void councilActionTest() {
+        String actionY = "1\ny";
+        inputStream.setIn(actionY);
+        assertTrue(Move.councilAction(board, pl.getAvailableFamMembers().get(0)));
+    }
+
+    @Test
+    public void prodActionTest() {
+        String actionY = "y";
+        inputStream.setIn(actionY);
+        assertTrue(Move.prodAction(board,pl.getAvailableFamMembers().get(0)));
+        // false, occupied
+        assertFalse(Move.prodAction(board,pl.getAvailableFamMembers().get(0)));
+
+    }
+
+    @Test
+    public void harvActionTest() {
+        String actionY = "y";
+        inputStream.setIn(actionY);
+        assertTrue(Move.harvAction(board,pl.getAvailableFamMembers().get(0)));
+        // false, occupied
+        assertFalse(Move.harvAction(board,pl.getAvailableFamMembers().get(0)));
+    }
+
+    @Test
+    public void prodHarvCommonTest() {
+        String actionY = "y";
+        inputStream.setIn(actionY);
+        assertTrue(Move.prodHarvCommon(board.harvestArea, pl.getAvailableFamMembers().get(0)));
+        Move.prodHarvCommon(board.harvestArea, pl.getAvailableFamMembers().get(0));
+    }
+
+    @Test
+    public void marketActionTest() {
+        String actionY = "1\ny";
+        inputStream.setIn(actionY);
+        assertTrue(Move.marketAction(board, pl.getAvailableFamMembers().get(0)));
+    }
 }
