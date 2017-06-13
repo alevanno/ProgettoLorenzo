@@ -102,16 +102,4 @@ public class PlayerTest {
         p1.takeCard(0);
         assertEquals(0, p1.listCards().size());
     }
-
-    @Test
-    public void confirmationTest(){
-        Action act = gameTest.game.getBoard().towers.get(0).getFloors().get(0);
-        PlayerIOLocal inputStream = (PlayerIOLocal) pl.getIo();
-        String confirmationY = "y";
-        String confirmationN = "n";
-        inputStream.setIn(confirmationY);
-        assertTrue(Move.confirmation(pl, act));
-        inputStream.setIn(confirmationN);
-        assertFalse(Move.confirmation(pl,act));
-    }
 }
