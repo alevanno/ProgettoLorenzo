@@ -1,5 +1,7 @@
 package it.polimi.ingsw.progettolorenzo.client;
 
+import it.polimi.ingsw.progettolorenzo.MyLogger;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -9,6 +11,7 @@ import java.util.logging.Logger;
 public class Client {
     public static void main(String[] args) throws IOException {
         final Logger log = Logger.getLogger(Client.class.getName());
+        MyLogger.setup();
         String name = Console.readLine("Insert player name: ");
         boolean ok = false;
         List<String> colourList = Arrays.asList("Blue", "Red", "Yellow", "Green", "Brown", "Violet");
