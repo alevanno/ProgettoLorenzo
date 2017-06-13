@@ -1,13 +1,6 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
-import it.polimi.ingsw.progettolorenzo.client.RmiClient;
-
-import java.io.*;
-import java.net.Socket;
-import java.rmi.RemoteException;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 interface PlayerIO {
     String sIn();

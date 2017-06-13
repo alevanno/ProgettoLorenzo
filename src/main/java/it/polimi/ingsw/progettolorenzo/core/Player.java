@@ -43,6 +43,15 @@ public class Player {
             name, colour, this.currentRes));
     }
 
+    public Player(String name, String colour) {
+        this.playerName = name;
+        this.playerColour = colour;
+        this.io = new PlayerIOLocal();
+        log.info(String.format(
+                "New player: %s (colour: %s, resources: %s) [local]",
+                name, colour, this.currentRes));
+    }
+
     public String sIn()  {
         return this.io.sIn();
     }
