@@ -8,6 +8,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public abstract class LeaderCard {
+    protected Player owner;
     protected String name;
     protected List<Integer> activationCost;
     protected List<String> types;
@@ -28,6 +29,9 @@ public abstract class LeaderCard {
     }
 
     public abstract boolean apply();
+    public void setPlayer(Player pl) {
+        this.owner = pl;
+    }
     public String getName(){
         return this.name;
     }    public List<Integer> getActivationCost() {
@@ -49,12 +53,10 @@ public abstract class LeaderCard {
     }}
 
 class FrancescoSforza extends LeaderCard {
-    private Player owner;
-    public FrancescoSforza(Player pl) {
+    public FrancescoSforza() {
         super("Francesco Sforza", Arrays.asList(5),
                 Arrays.asList("ventures"), false,
                 true, false );
-        this.owner = pl;
     }
 
     @Override
@@ -70,12 +72,10 @@ class FrancescoSforza extends LeaderCard {
 }
 
 class FilippoBrunelleschi extends LeaderCard {
-    Player owner;
-    public FilippoBrunelleschi(Player pl) {
+    public FilippoBrunelleschi() {
         super("Filippo Brunelleschi", Arrays.asList(5),
                 Arrays.asList("buildings"), false, false,
                 false);
-        this.owner = pl;
     }
 
     @Override
@@ -91,15 +91,13 @@ class FilippoBrunelleschi extends LeaderCard {
 }
 
 class LucreziaBorgia extends LeaderCard {
-    Player owner;
-    public LucreziaBorgia(Player pl) {
+    public LucreziaBorgia() {
         super("Lucrezia Borgia", Arrays.asList(6),
                 Arrays.asList("buildings",
                         "territories",
                         "ventures",
                         "characters"), false, false,
                 false);
-        this.owner = pl;
     }
     @Override
     public boolean apply() {
@@ -122,12 +120,10 @@ class LucreziaBorgia extends LeaderCard {
 }
 
 class LudovicoAriosto extends LeaderCard {
-    Player owner;
-    public LudovicoAriosto(Player pl) {
+    public LudovicoAriosto() {
         super("Ludovico Ariosto", Arrays.asList(5),
                 Arrays.asList("characters"), false,
                 false, false);
-        this.owner = pl;
     }
 
     @Override
@@ -143,12 +139,10 @@ class LudovicoAriosto extends LeaderCard {
 }
 
 class FedericoDaMontefeltro extends LeaderCard {
-    Player owner;
-    public FedericoDaMontefeltro(Player pl) {
+    public FedericoDaMontefeltro() {
         super("Federico Da Montafeltro", Arrays.asList(5),
                 Arrays.asList("territories"),
                 false, true, false);
-        this.owner = pl;
     }
     @Override
     public boolean apply() {
@@ -172,8 +166,7 @@ class FedericoDaMontefeltro extends LeaderCard {
 }
 
 class GirolamoSavonarola extends LeaderCard {
-    Player owner;
-    public GirolamoSavonarola(Player pl) {
+    public GirolamoSavonarola() {
         super("Girolamo Savonarola", Arrays.asList(18),
                 Arrays.asList("coin"),
                 false, true, false);
@@ -196,12 +189,10 @@ class GirolamoSavonarola extends LeaderCard {
 }
 
 class SistoIV extends LeaderCard {
-    Player owner;
-    public SistoIV(Player pl) {
+    public SistoIV() {
         super("SistoIV", Arrays.asList(6),
                 Arrays.asList("coin", "wood", "stone", "servant"),
                 false, false, false);
-        this.owner = pl;
     }
     @Override
     public boolean apply() {
@@ -219,12 +210,10 @@ class SistoIV extends LeaderCard {
 }
 
 class SigismondoMalatesta extends LeaderCard {
-    Player owner;
-    public SigismondoMalatesta(Player pl) {
+    public SigismondoMalatesta() {
         super("Sigismondo Malatesta", Arrays.asList(7, 3),
                 Arrays.asList("militaryPoint", "faithPoint"), false,
                 false, false);
-        this.owner = pl;
     }
     @Override
     public boolean apply() {
@@ -245,12 +234,10 @@ class SigismondoMalatesta extends LeaderCard {
 }
 
 class CesareBorgia extends LeaderCard {
-    Player owner;
-    public CesareBorgia(Player pl) {
+    public CesareBorgia() {
         super("Cesare Borgia", Arrays.asList(3, 12, 2),
                 Arrays.asList("buildings", "coin", "faithPoint"), false,
                 false, false);
-        this.owner = pl;
     }
     @Override
     public boolean apply() {
@@ -268,11 +255,9 @@ class CesareBorgia extends LeaderCard {
 }
 
 class MichelangeloBuonarroti extends LeaderCard {
-    Player owner;
-    public MichelangeloBuonarroti(Player pl) {
+    public MichelangeloBuonarroti() {
         super("Michelangelo Buonarroti", Arrays.asList(10),
                 Arrays.asList("stone"), false, true, false);
-        this.owner = pl;
     }
     @Override
     public boolean apply() {
@@ -292,12 +277,10 @@ class MichelangeloBuonarroti extends LeaderCard {
 }
 
 class SantaRita extends LeaderCard {
-    Player owner;
-    public SantaRita(Player pl) {
+    public SantaRita() {
         super("Santa Rita", Arrays.asList(8),
                 Arrays.asList("faithPoint"),
                 false, false, false);
-        this.owner = pl;
     }
     @Override
     public boolean apply() {
@@ -313,13 +296,11 @@ class SantaRita extends LeaderCard {
 }
 
 class GiovanniDalleBandeNere extends LeaderCard {
-    Player owner;
-    public GiovanniDalleBandeNere(Player pl) {
+    public GiovanniDalleBandeNere() {
         super("Giovanni Dalle Bande Nere",
                 Arrays.asList(12),
                 Arrays.asList("militaryPoint"), false,
                 true, false);
-        this.owner = pl;
     }
     @Override
     public boolean apply() {
@@ -339,12 +320,10 @@ class GiovanniDalleBandeNere extends LeaderCard {
 }
 
 class CosimoDeMedici extends LeaderCard {
-    Player owner;
-    public CosimoDeMedici(Player pl) {
+    public CosimoDeMedici() {
         super("Cosimo Dè Medici", Arrays.asList(2, 4),
                 Arrays.asList("characters", "buildings"),
                 false, true, false);
-        this.owner = pl;
     }
     @Override
     public boolean apply() {
@@ -363,13 +342,11 @@ class CosimoDeMedici extends LeaderCard {
 }
 
 class LeonardoDaVinci extends LeaderCard {
-    Player owner;
-    public LeonardoDaVinci(Player pl) {
+    public LeonardoDaVinci() {
         super("Leonardo Da Vinci",
                 Arrays.asList(4,2),
                 Arrays.asList("characters", "territories"),
                 false, true, false);
-        this.owner = pl;
     }
     @Override
     public boolean apply() {
@@ -383,13 +360,11 @@ class LeonardoDaVinci extends LeaderCard {
 }
 
 class BartolomeoColleoni extends LeaderCard {
-    Player owner;
-    public BartolomeoColleoni(Player pl){
+    public BartolomeoColleoni(){
         super("Bartolomeo Colleoni",
                 Arrays.asList(2,4),
                 Arrays.asList("ventures", "territories"),
                 false, true, false);
-        this.owner = pl;
     }
     @Override
     public boolean apply() {
@@ -407,13 +382,11 @@ class BartolomeoColleoni extends LeaderCard {
 }
 
 class SandroBotticelli extends LeaderCard {
-    Player owner;
-    public SandroBotticelli(Player pl){
+    public SandroBotticelli(){
         super("Sandro Botticelli",
                 Arrays.asList(10),
                 Arrays.asList("wood"),
                 false, true, false);
-        this.owner = pl;
     }
     @Override
     public boolean apply() {
@@ -431,13 +404,11 @@ class SandroBotticelli extends LeaderCard {
 }
 
 class LudovicoIIIGonzaga extends LeaderCard {
-    Player owner;
-    public LudovicoIIIGonzaga(Player pl){
+    public LudovicoIIIGonzaga(){
         super("Ludovico III Gongaza",
                 Arrays.asList(15),
                 Arrays.asList("servant"),
                 false, true, false);
-        this.owner = pl;
     }
     @Override
     public boolean apply() {
@@ -456,14 +427,12 @@ class LudovicoIIIGonzaga extends LeaderCard {
 }
 
 class LudovicoIlMoro extends LeaderCard {
-    Player owner;
-    public LudovicoIlMoro(Player pl){
+    public LudovicoIlMoro(){
         super("Ludovico Il Moro",
                 Arrays.asList(2,2,2,2),
                 Arrays.asList("territories", "characters", "buildings",
                         "ventures"),
                 false, false, false);
-        this.owner = pl;
     }
     @Override
     public boolean apply() {
@@ -484,13 +453,11 @@ class LudovicoIlMoro extends LeaderCard {
 }
 
 class PicoDellaMirandola extends LeaderCard {
-    Player owner;
-    public PicoDellaMirandola(Player pl){
+    public PicoDellaMirandola(){
         super("Pico Della Mirandola",
                 Arrays.asList(4,2),
                 Arrays.asList("ventures", "buildings"),
                 false, false, false);
-        this.owner = pl;
     }
     @Override
     public boolean apply() {
@@ -508,13 +475,11 @@ class PicoDellaMirandola extends LeaderCard {
 }
 
 class LorenzoDeMedici extends LeaderCard {
-    Player owner;
-    public LorenzoDeMedici(Player pl){
+    public LorenzoDeMedici(){
         super("Lorenzo Dè Medici",
                 Arrays.asList(35),
                 Arrays.asList("victoryPoint"),
                 false, false, false);
-        this.owner = pl;
     }
     @Override
     public boolean apply() {

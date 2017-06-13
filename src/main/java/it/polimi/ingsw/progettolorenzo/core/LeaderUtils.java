@@ -1,6 +1,6 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
-import java.util.List;
+import java.util.*;
 
 public class LeaderUtils {
 
@@ -109,5 +109,35 @@ public class LeaderUtils {
         }
         // if it arrives here, all the check are satisfied together
         return true;
+    }
+
+    public static Map<String, LeaderCard> leadersBirth() {
+        Map<String, LeaderCard> map = new HashMap<>();
+        List<LeaderCard> list = new ArrayList<>();
+        list.addAll(Arrays.asList(
+                new BartolomeoColleoni(),
+                new CesareBorgia(),
+                new CosimoDeMedici(),
+                new FedericoDaMontefeltro(),
+                new FilippoBrunelleschi(),
+                new FrancescoSforza(),
+                new GiovanniDalleBandeNere(),
+                new GirolamoSavonarola(),
+                new LorenzoDeMedici(),
+                new LeonardoDaVinci(),
+                new LucreziaBorgia(),
+                new LudovicoAriosto(),
+                new LudovicoIIIGonzaga(),
+                new LudovicoIlMoro(),
+                new MichelangeloBuonarroti(),
+                new PicoDellaMirandola(),
+                new SandroBotticelli(),
+                new SantaRita(),
+                new SigismondoMalatesta(),
+                new SistoIV()));
+        for (LeaderCard card : list) {
+            map.put(card.getName(), card);
+        }
+        return map;
     }
 }

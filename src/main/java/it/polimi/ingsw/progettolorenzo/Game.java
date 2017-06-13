@@ -133,6 +133,9 @@ public class Game implements Runnable {
         // init players
         this.initPlayers();
 
+        //assign leader cards
+        this.assignLeaderCards();
+
         //assign bonus tile
         this.assignBonusT();
 
@@ -251,6 +254,22 @@ public class Game implements Runnable {
                 pl.sOut("Reverting famMemIncrease");
                 pl.revertFamValue(famMem, famMemIncrease);
                 pl.sOut("Current Res: " + pl.currentRes.toString());
+            }
+        }
+    }
+
+    private void assignLeaderCards() {
+        Map<String, LeaderCard> leaderMap = LeaderUtils.leadersBirth();
+        for (Player pl : players) {
+            for (int i = 0; i < 4; i++) {
+                List<LeaderCard> valuesList = new ArrayList<>(leaderMap.values());
+                int randomIndex = new Random().nextInt(valuesList.size());
+                LeaderCard randomCard = valuesList.get(randomIndex);
+                valuesList.remove(randomCard);
+                pl.getLeaderCards().add(randomCard);
+                randomCard.setPlayer(pl);
+                log.fine("Leader Card " + randomCard.getName() + " assigned to "
+                + pl.playerName);
             }
         }
     }

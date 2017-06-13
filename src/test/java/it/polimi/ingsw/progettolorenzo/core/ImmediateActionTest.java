@@ -30,7 +30,7 @@ public class ImmediateActionTest {
     }
     @Test
     public void immRes() {
-        LeaderCard leader = new LudovicoAriosto(pl);
+        LeaderCard leader = new LudovicoAriosto();
         leader.activation = true;
         pl.getLeaderCards().add(leader);
         Resources tmp = new Resources.ResBuilder().build().merge(pl.currentRes);

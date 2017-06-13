@@ -37,45 +37,25 @@ public class LeaderTest {
 
     @Before
     public void birth(){
-        testList.addAll(Arrays.asList(
-                new BartolomeoColleoni(pl),
-                new CesareBorgia(pl),
-                new CosimoDeMedici(pl),
-                new FedericoDaMontefeltro(pl),
-                new FilippoBrunelleschi(pl),
-                new FrancescoSforza(pl),
-                new GiovanniDalleBandeNere(pl),
-                new GirolamoSavonarola(pl),
-                new LorenzoDeMedici(pl),
-                new LeonardoDaVinci(pl),
-                new LucreziaBorgia(pl),
-                new LudovicoAriosto(pl),
-                new LudovicoIIIGonzaga(pl),
-                new LudovicoIlMoro(pl),
-                new MichelangeloBuonarroti(pl),
-                new PicoDellaMirandola(pl),
-                new SandroBotticelli(pl),
-                new SantaRita(pl),
-                new SigismondoMalatesta(pl),
-                new SistoIV(pl)));
-        for (LeaderCard card : testList) {
-            testMap.put(card.getName(), card);
-        }
-
+        testMap = LeaderUtils.leadersBirth();
     }
 
     @Test
     public void size() {
-        assertEquals(20, testList.size());
+        assertEquals(20, testMap.size());
     }
 
     @Test
     public void leaderUtilsTest(){
         String action = "y\ny\nn\ny\n1\n1";
         LeaderCard leader = testMap.get("Lorenzo Dè Medici");
+        leader.setPlayer(pl);
         LeaderCard leader2 = testMap.get("Francesco Sforza");
+        leader2.setPlayer(pl);
         LeaderCard leader3 = testMap.get("Filippo Brunelleschi");
+        leader3.setPlayer(pl);
         LeaderCard leader4 = testMap.get("Federico Da Montafeltro");
+        leader4.setPlayer(pl);
         leader3.activation = true;
         leader4.activation = true;
         Resources cost = new Resources.ResBuilder().stone(leader.activationCost.get(0)).build();
@@ -95,6 +75,7 @@ public class LeaderTest {
         String action = "y\ny\n1\ny\ny";
         inputStream.setIn(action);
         LeaderCard leader2 = testMap.get("Francesco Sforza");
+        leader2.setPlayer(pl);
         leader2.activation = true;
         Resources tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
         leader2.apply();

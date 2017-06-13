@@ -4,10 +4,13 @@ import it.polimi.ingsw.progettolorenzo.client.LocalSingleClient;
 import it.polimi.ingsw.progettolorenzo.core.Board;
 import it.polimi.ingsw.progettolorenzo.core.Deck;
 import it.polimi.ingsw.progettolorenzo.core.GameComponentsTest;
+import it.polimi.ingsw.progettolorenzo.core.Player;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+
+import static junit.framework.TestCase.assertEquals;
 
 public class GameTest {
     public Game game;
@@ -28,5 +31,12 @@ public class GameTest {
     @Test
     public void initGame() throws IOException {
         this.game = client.getGame();
+    }
+
+    @Test
+    public void assignLeadersTest() {
+        for (Player pl : game.getPlayers()) {
+            assertEquals(4, pl.getLeaderCards().size());
+        }
     }
 }
