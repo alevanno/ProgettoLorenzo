@@ -109,7 +109,7 @@ public class Production extends ActionProdHarv {
                 for (ResConv rc : r) {
                     player.sOut(rc.toString());
                 }
-                int choice = intPrompt(0, count-1);
+                int choice = player.sInPrompt(0, count-1);
 
                 if (choice == 0) {
                 } else if (choice != 0) {
