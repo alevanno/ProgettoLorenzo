@@ -140,7 +140,7 @@ public class Game implements Runnable {
             this.assignLeaderCards();
             this.actions = Arrays.asList(
                     "Floor", "Market", "CouncilPalace", "Production",
-                    "Harvest", "ActivateLeaderCard");
+                    "Harvest", "ActivateLeaderCard", "DiscardLeaderCard");
             } else {
             this.actions = Arrays.asList(
                     "Floor", "Market", "CouncilPalace", "Production",
@@ -256,6 +256,10 @@ public class Game implements Runnable {
                 ret = Move.harvAction(this.board, famMem);
             } else if ("ActivateLeaderCard".equalsIgnoreCase(action)) {
                 pl.activateLeaderCard();
+                continue;
+            } else if ("DiscardLeaderCard".equalsIgnoreCase(action)){
+                pl.discardLeaderCard();
+                pl.sOut("Current Res: " + pl.currentRes.toString());
                 continue;
             }
             if (ret) {

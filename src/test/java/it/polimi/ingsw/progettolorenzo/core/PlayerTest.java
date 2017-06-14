@@ -11,14 +11,16 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.*;
 
+import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
 
 public class PlayerTest {
     GameTest gameTest = new GameTest();
     Deck testDeck;
     Player pl;
+    PlayerIOLocal inputStream;
 
     @Before
     public void setup() throws IOException{
@@ -26,6 +28,8 @@ public class PlayerTest {
         gameTest.initGame();
         testDeck = gameTest.g.testDeck;
         pl = gameTest.game.getPlayers().get(0);
+        inputStream = (PlayerIOLocal) pl.getIo();
+
     }
 
 
@@ -101,5 +105,19 @@ public class PlayerTest {
         assertEquals(1, p1.listCards().size());
         p1.takeCard(0);
         assertEquals(0, p1.listCards().size());
+    }
+
+    @Test
+    public void discardLeaderTest() {
+        String action = "5\ny\n1\n";
+        inputStream.setIn(action);
+        LeaderCard ariosto = new LudovicoAriosto();
+        ariosto.setPlayer(pl);
+        Resources tmp = new Resources.ResBuilder()
+                .build().merge(pl.currentRes);
+        pl.getLeaderCards().add(ariosto);
+        pl.discardLeaderCard();
+        assertFalse(pl.getLeaderCards().contains(ariosto));
+        assertTrue(pl.currentRes.wood > tmp.wood);
     }
 }

@@ -233,22 +233,17 @@ public class Player {
             this.sOut("You don't have any Leader Card anymore");
             return false;
         }
-        for (LeaderCard card : leaderCards) {
-            int i = 0;
-            String toDisplay = card.getName() + " -> cost: " +
-                    card.getActivationCost() +" : " + card.getCardCostType();
-                if (card.isActivated()) {
-                    toDisplay += " activated";
-                }
-                System.out.println(toDisplay);
-                this.sOut(toDisplay);
-            }
+        this.displayLeaderCards();
         int choice = this.sInPrompt(1, leaderCards.size());
         return leaderCards.get(choice - 1).apply();
 
     }
 
-    public void discardLeaderCard(LeaderCard leader) {
+    public void discardLeaderCard() {
+        this.sOut("Which Leader card do you want to discard? ");
+        this.displayLeaderCards();
+        int choice = this.sInPrompt(1, leaderCards.size());
+        LeaderCard leader = leaderCards.get(choice - 1);
         this.sOut("You will discard " + leader.getName() + " leader card" +
                 "and you will immediately receive 1 council privilege");
         this.sOut("Confirm?");
@@ -260,10 +255,24 @@ public class Player {
                     Resources privRes = this.getParentGame()
                             .getBoard().councilPalace.choosePrivilege(this);
                     this.currentRes = currentRes.merge(privRes);
+                    log.info("Council privilege gave -> " + privRes.toString() +
+                    " to " + playerName);
                     break;
                 }
                 counter++;
             }
+        }
+    }
+
+    public void displayLeaderCards() {
+        for (LeaderCard card : leaderCards) {
+            int i = 0;
+            String toDisplay = card.getName() + " -> cost: " +
+                    card.getActivationCost() +" : " + card.getCardCostType();
+            if (card.isActivated()) {
+                toDisplay += " activated";
+            }
+            this.sOut(toDisplay);
         }
     }
 
