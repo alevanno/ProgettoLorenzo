@@ -4,8 +4,6 @@ import java.util.*;
 
 import com.google.gson.*;
 
-import static it.polimi.ingsw.progettolorenzo.core.Utils.intPrompt;
-
 
 public class Card extends Action {
     public final String cardName;
@@ -65,28 +63,28 @@ public class Card extends Action {
         return cardName;
     }
 
-    public Resources getCardCost() {
+    public Resources getCardCost(Player pl) {
         if (this.cardCost.size() > 1) {
             System.out.println("You can choose what to pay:");
             for (Resources item : this.cardCost) {
                 System.out.println(item.toString());
             }
-            int choice = intPrompt(0, this.cardCost.size() - 1);
+            int choice = pl.sInPrompt(0, this.cardCost.size() - 1);
             return this.cardCost.get(choice);
         }
         return this.cardCost.get(0);
     }
 
-    public void costActionBuilder(Player player) {
+    public void costActionBuilder(Player pl) {
         int discount = 0;
-        for (LeaderCard leader : player.getLeaderCards()){
+        for (LeaderCard leader : pl.getLeaderCards()){
             if ("Pico Della Mirandola".equals(leader.getName())
                     && leader.isActivated()){
-                if(this.getCardCost().coin > 3) {
+                if(this.getCardCost(pl).coin > 3) {
                     discount = 3;
-                } else if (this.getCardCost().coin < 3 &&
-                        this.getCardCost().coin > 0) {
-                    discount = this.getCardCost().coin;
+                } else if (this.getCardCost(pl).coin < 3 &&
+                        this.getCardCost(pl).coin > 0) {
+                    discount = this.getCardCost(pl).coin;
 
                 }
             }
@@ -94,14 +92,12 @@ public class Card extends Action {
         }
         this.addAction(
             new ResourcesAction(
-                "Card cost", this.getCardCost()
+                "Card cost", this.getCardCost(pl)
                     .merge(new Resources.ResBuilder()
-                            .coin(discount).build().inverse()).inverse(), player
+                            .coin(discount).build().inverse()).inverse(), pl
             )
         );
     }
-
-    // FIXME this has to create a BaseAction's for all the actions we're interested in.
 
     public JsonObject serialize() {
         Map<String,Object> ret = new HashMap<>();

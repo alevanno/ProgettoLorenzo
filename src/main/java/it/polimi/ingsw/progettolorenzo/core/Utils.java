@@ -58,20 +58,6 @@ public class Utils {
         return getJsonFile(filename).getAsJsonArray();
     }
 
-    public static int intPrompt(int minValue, int maxValue) {
-        int choice;
-        do {
-            System.out.println("Input an int between " + minValue + " and " + maxValue);
-            Scanner in = new Scanner(System.in);
-            while (!in.hasNextInt()) {
-                in.next();
-                System.out.println("Please input an int");
-            }
-            choice = in.nextInt();
-        } while (choice < minValue || choice > (maxValue));
-        return choice;
-    }
-
     public static String displayList(List<String> toDisplay) {
         int i = 1;
         StringBuilder ret = new StringBuilder();

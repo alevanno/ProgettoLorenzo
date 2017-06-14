@@ -66,7 +66,7 @@ public class Floor extends Action {
         int value = fam.getActionValue();
         Player p = fam.getParent();
         Resources tmpRes = p.currentRes;
-        Resources cardCost = this.floorCard.getCardCost(); //TODO if a discount is present...
+        Resources cardCost = this.floorCard.getCardCost(p); //TODO if a discount is present...
         boolean boycottBonus = false;
         //TODO value should be affected also by an excommunication
         for (Card c : p.listCards()) {

@@ -291,7 +291,7 @@ public class Player {
         AtomicInteger lostVictoryPts = new AtomicInteger(0);
         for (Card c : listCards()) {
             if ("buildings".equals(c.cardType)) {
-                Resources cardCost = c.getCardCost();
+                Resources cardCost = c.getCardCost(new Player("dummy", "dummy"));
                 loseVictoryCost.resourcesList.forEach((x, y) -> {
                     if (y != 0) {
                         lostVictoryPts.addAndGet(cardCost.getByString(x));

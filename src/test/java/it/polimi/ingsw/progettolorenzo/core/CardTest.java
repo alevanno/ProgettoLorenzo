@@ -26,7 +26,7 @@ public class CardTest {
         );
         Card card = new Card(cardObj);
         assertTrue(true); // load successful
-        System.out.println(card.getCardCost());
+        System.out.println(card.getCardCost(new Player("test", "test")));
         assertTrue(true); // dealt correctly with a missing cost
     }
 }

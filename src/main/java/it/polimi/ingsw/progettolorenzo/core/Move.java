@@ -76,7 +76,7 @@ public class Move {
             if (!floor.accessFloor(pl, towerOcc)) { //TODO check where are the 3 coins going
                 continue;
             }
-            Resources cardCost = floor.getCard().getCardCost();
+            Resources cardCost = floor.getCard().getCardCost(pl);
             cardCost.resourcesList.forEach((x, y) -> {
                 int val = discount.getByString(x);
                 if (y != 0 && val != 0) {
