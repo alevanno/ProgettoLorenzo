@@ -54,6 +54,9 @@ public class PlayerOperation implements Callable<Boolean> {
                     pl.discardLeaderCard();
                     pl.sOut("Current Res: " + pl.currentRes.toString());
                     continue;
+                } else if ("SkipRound".equalsIgnoreCase(action)) {
+                    pl.sOut("You skipped the round");
+                    ret = true;
                 }
                 if (ret) {
                     return true;
