@@ -137,7 +137,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         pl.sOut("You get to choose how this game will be played.");
         pl.sOut("How many players?");
         this.playersNum = pl.sInPrompt(1, 4);
-        pl.sOut("Advanced or basic rules? (LeaderCards and " +
+        pl.sOut("Basic or advanced rules? (LeaderCards and " +
                 "different bonus board)");
         String bonusBoard = pl.sIn();
         if ("advanced".equalsIgnoreCase(bonusBoard)) {

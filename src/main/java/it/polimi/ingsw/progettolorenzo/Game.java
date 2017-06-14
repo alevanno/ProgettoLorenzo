@@ -9,24 +9,25 @@ import it.polimi.ingsw.progettolorenzo.core.*;
 
 import java.lang.reflect.Type;
 import java.util.*;
+import java.util.concurrent.*;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 public class Game implements Runnable {
     private final Logger log = Logger.getLogger(this.getClass().getName());
-    private Board board;
+    public Board board;
     private List<String> types = Arrays.asList(
             "territories", "buildings", "characters", "ventures");
-    private List<String> actions;
+    public List<String> actions;
     private HashMap<String, Deck> unhandledCards = new HashMap<>();
     private List<Player> players = new ArrayList<>(); //active players and their order
-    private int halfPeriod;
-    private Player currPlayer;
+    public int halfPeriod;
+    public Player currPlayer;
     private List<JsonObject> excomms = new ArrayList<>();
     private final boolean personalBonusBoards;
     private final boolean leaderOn;
-    private int famMemIncrease;
+    public int famMemIncrease;
 
 
     public Game(List<Player> listPlayers, boolean personalBonusBoards,
@@ -210,20 +211,40 @@ public class Game implements Runnable {
 
     private void round(List<Player> playersOrder, int round) {
         List<Player> skippedPlayers = new ArrayList<>();
+        Timer timer = new Timer();
         for (Player pl : playersOrder) {
             if (pl.getExcommunications().get(1).has("skipRound") && round == 1) {
                 skippedPlayers.add(pl);
                 pl.sOut("You skip the first round due to your excommunication");
                 continue;
             }
-            this.operation(pl);
+            PlayerOperation op = new PlayerOperation(this, pl);
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            Future<Boolean> f = executor.submit(op);
+            try{
+                f.get(); //if the timer worked the argument would be (20, TimeUnit.SECONDS);
+            } catch (/*TimeoutException | */InterruptedException | ExecutionException to) {
+                f.cancel(true);
+                timeExpired(pl);
+            }
+            executor.shutdownNow();
         }
         for (Player pl : skippedPlayers) {
-            this.operation(pl);
+            //TODO
         }
     }
 
-    private void operation(Player pl) {
+    public void timeExpired(Player pl) {
+        pl.sOut("Time expired!");
+    }
+
+    public void timeExpired(Player pl, FamilyMember fam) { //TODO
+        pl.sOut("Time expired! Reverting famMemIncrease");
+        pl.revertFamValue(fam, famMemIncrease);
+        pl.sOut("Current Res: " + pl.currentRes.toString());
+    }
+
+    /*public void operation(Game g, Player pl) {
         currPlayer = pl;
         pl.sOut("Turn " + this.halfPeriod + ": Player " + pl.playerName +
                 " is the next player for this round:");
@@ -236,14 +257,14 @@ public class Game implements Runnable {
             FamilyMember famMem = pl.getAvailableFamMembers()
                     .get(pl.sInPrompt(1, pl.getAvailableFamMembers().size()) - 1);
             pl.sOut(famMem.getSkinColour() + " family member selected");
+            famMemIncrease = 0; //needed so it doesn't restore the previous player's famMemIncrease when the timer expires
             famMemIncrease = pl.increaseFamValue(famMem);
+            //setFam(famMem); //TODO
             pl.sOut("Available actions:");
             pl.sOut(Utils.displayList(actions));
             pl.sOut("Which action do you want to try?: ");
             board.displayBoard();
             String action = actions.get(pl.sInPrompt(1, actions.size()) - 1);
-            //TODO this should be more streamlined
-
             if ("Floor".equalsIgnoreCase(action)) {
                 ret = Move.floorAction(this.board, famMem);
             } else if ("Market".equalsIgnoreCase(action)) {
@@ -274,7 +295,7 @@ public class Game implements Runnable {
                 pl.sOut("Current Res: " + pl.currentRes.toString());
             }
         }
-    }
+    }*/
 
     private void assignLeaderCards() {
         Map<String, LeaderCard> leaderMap = LeaderUtils.leadersBirth();
