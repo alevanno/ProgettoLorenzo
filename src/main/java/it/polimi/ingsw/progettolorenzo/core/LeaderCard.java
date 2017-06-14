@@ -311,7 +311,7 @@ class GiovanniDalleBandeNere extends LeaderCard {
 
     @Override
     public void onePerRoundAbility() {
-        owner.sOut("You gained 12 militaryPoint.");
+        owner.sOut("You gained 1 coin, 1 wood, 1 stone");
         owner.currentRes = owner.currentRes.merge(new Resources
                 .ResBuilder().wood(1).stone(1).coin(1).build());
         onePerRoundUsage = true;
@@ -405,7 +405,7 @@ class SandroBotticelli extends LeaderCard {
 
 class LudovicoIIIGonzaga extends LeaderCard {
     public LudovicoIIIGonzaga(){
-        super("Ludovico III Gongaza",
+        super("Ludovico III Gonzaga",
                 Arrays.asList(15),
                 Arrays.asList("servant"),
                 false, true, false);

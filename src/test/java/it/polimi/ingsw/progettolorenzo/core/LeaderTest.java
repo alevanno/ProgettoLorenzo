@@ -81,4 +81,62 @@ public class LeaderTest {
         leader2.apply();
         assertTrue(pl.currentRes.servant < tmp.servant);
     }
+
+    @Test
+    public void onePerRoundTest() {
+        //sforza already tested in OneHarvProd
+        //Montafeltro test
+        String action = "y\n1\ny\ny\ny\ny\ny\ny\n2\n";
+        inputStream.setIn(action);
+        LeaderCard montafeltro = testMap.get("Federico Da Montafeltro");
+        montafeltro.setPlayer(pl);
+        montafeltro.activation = true;
+        montafeltro.apply();
+        assertEquals(6, pl.getAvailableFamMembers().get(0).getActionValue());
+        //Buonarroti test
+        LeaderCard buonarroti = testMap.get("Michelangelo Buonarroti");
+        buonarroti.setPlayer(pl);
+        buonarroti.activation = true;
+        Resources tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
+        buonarroti.apply();
+        assertTrue(pl.currentRes.coin > tmp.coin);
+        // BandeNere test
+        LeaderCard bandeNere = testMap.get("Giovanni Dalle Bande Nere");
+        bandeNere.setPlayer(pl);
+        bandeNere.activation = true;
+        tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
+        bandeNere.apply();
+        assertTrue(pl.currentRes.coin > tmp.coin &&
+        pl.currentRes.wood > tmp.wood && pl.currentRes.stone > tmp.stone);
+        // CosimoDeMedici test
+        LeaderCard cosimo = testMap.get("Cosimo Dè Medici");
+        cosimo.setPlayer(pl);
+        cosimo.activation = true;
+        tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
+        cosimo.apply();
+        assertTrue(pl.currentRes.servant > tmp.servant &&
+                pl.currentRes.victoryPoint > tmp.victoryPoint );
+        // Colleoni test
+        LeaderCard colleoni = testMap.get("Bartolomeo Colleoni");
+        colleoni.setPlayer(pl);
+        colleoni.activation = true;
+        tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
+        colleoni.apply();
+        assertTrue(pl.currentRes.victoryPoint > tmp.victoryPoint);
+        // Botticelli test
+        LeaderCard botticelli = testMap.get("Sandro Botticelli");
+        botticelli.setPlayer(pl);
+        botticelli.activation = true;
+        tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
+        botticelli.apply();
+        assertTrue(pl.currentRes.militaryPoint > tmp.militaryPoint &&pl.currentRes.victoryPoint > tmp.victoryPoint);
+        // Gonzaga test
+        LeaderCard gonzaga = testMap.get("Ludovico III Gonzaga");
+        gonzaga.setPlayer(pl);
+        gonzaga.activation = true;
+        tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
+        // choice n 2 in privileges
+        gonzaga.apply();
+        assertTrue(pl.currentRes.servant > tmp.servant);
+    }
 }
