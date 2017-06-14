@@ -25,6 +25,7 @@ public class ImmediateActionTest {
     public void setup() throws IOException {
         gameTest.setup();
         gameTest.initGame();
+        gameTest.game.loadSettings();
         testDeck = gameTest.g.testDeck;
         pl = gameTest.game.getPlayers().get(0);
     }

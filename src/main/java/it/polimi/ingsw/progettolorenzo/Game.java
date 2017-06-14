@@ -140,11 +140,11 @@ public class Game implements Runnable {
             this.assignLeaderCards();
             this.actions = Arrays.asList(
                     "Floor", "Market", "CouncilPalace", "Production",
-                    "Harvest", "ActivateLeaderCard", "DiscardLeaderCard");
+                    "Harvest", "ActivateLeaderCard", "DiscardLeaderCard", "SkipRound");
             } else {
             this.actions = Arrays.asList(
                     "Floor", "Market", "CouncilPalace", "Production",
-                    "Harvest");
+                    "Harvest", "SkipRound");
             }
 
         //assign bonus tile
@@ -261,6 +261,9 @@ public class Game implements Runnable {
                 pl.discardLeaderCard();
                 pl.sOut("Current Res: " + pl.currentRes.toString());
                 continue;
+            } else if ("SkipRound".equalsIgnoreCase(action)) {
+                pl.sOut("You skipped the round");
+                ret = true;
             }
             if (ret) {
                 break;

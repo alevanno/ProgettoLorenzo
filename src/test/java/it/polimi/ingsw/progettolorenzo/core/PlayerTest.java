@@ -25,7 +25,7 @@ public class PlayerTest {
     @Before
     public void setup() throws IOException{
         gameTest.setup();
-        gameTest.initGame();
+        gameTest.game.loadSettings();
         testDeck = gameTest.g.testDeck;
         pl = gameTest.game.getPlayers().get(0);
         inputStream = (PlayerIOLocal) pl.getIo();

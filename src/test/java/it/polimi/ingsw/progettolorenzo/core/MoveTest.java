@@ -21,7 +21,7 @@ public class MoveTest {
     @Before
     public void setup() throws IOException {
         gameTest.setup();
-        gameTest.initGame();
+        gameTest.game.loadSettings();
         testDeck = gameTest.g.testDeck;
         pl = gameTest.game.getPlayers().get(0);
         gameTest.game.setCurrPlayer(pl);
@@ -78,7 +78,7 @@ public class MoveTest {
 
     @Test
     public void prodActionTest() {
-        String actionY = "y";
+        String actionY = "y\n";
         inputStream.setIn(actionY);
         assertTrue(Move.prodAction(board,pl.getAvailableFamMembers().get(0)));
         // false, occupied
