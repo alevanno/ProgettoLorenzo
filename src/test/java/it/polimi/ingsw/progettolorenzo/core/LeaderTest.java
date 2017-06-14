@@ -17,6 +17,7 @@ public class LeaderTest {
     PlayerIOLocal inputStream;
     List<LeaderCard> testList = new ArrayList<>();
     Map<String, LeaderCard> testMap = new HashMap<>();
+    Map<String, Integer> famValues = new HashMap<>();
 
     @Before
     public void setup() throws IOException {
@@ -27,7 +28,6 @@ public class LeaderTest {
         gameTest.game.setCurrPlayer(pl);
         board = gameTest.game.getBoard();
         inputStream = (PlayerIOLocal) pl.getIo();
-        Map<String, Integer> famValues = new HashMap<>();
         famValues.put("Orange", 7);
         famValues.put("Black", 7);
         famValues.put("White", 7);
@@ -84,16 +84,16 @@ public class LeaderTest {
 
     @Test
     public void onePerRoundTest() {
-        //sforza already tested in OneHarvProd
-        //Montafeltro test
-        String action = "y\n1\ny\ny\ny\ny\ny\ny\n2\n";
+        // sforza already tested in OneHarvProd
+        // Montafeltro test
+        String action = "y\n1\ny\ny\ny\ny\ny\ny\n2\ny\ny\n";
         inputStream.setIn(action);
         LeaderCard montafeltro = testMap.get("Federico Da Montafeltro");
         montafeltro.setPlayer(pl);
         montafeltro.activation = true;
         montafeltro.apply();
         assertEquals(6, pl.getAvailableFamMembers().get(0).getActionValue());
-        //Buonarroti test
+        // Buonarroti test
         LeaderCard buonarroti = testMap.get("Michelangelo Buonarroti");
         buonarroti.setPlayer(pl);
         buonarroti.activation = true;
@@ -138,5 +138,79 @@ public class LeaderTest {
         // choice n 2 in privileges
         gonzaga.apply();
         assertTrue(pl.currentRes.servant > tmp.servant);
+        // Savonarola test
+        LeaderCard savonarola = testMap.get("Girolamo Savonarola");
+        savonarola.setPlayer(pl);
+        savonarola.activation = true;
+        tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
+        savonarola.apply();
+        assertTrue(pl.currentRes.faithPoint > tmp.faithPoint);
+    }
+
+    @Test
+    public void permanentAbilityTest() {
+        pl.getLeaderCards().removeAll(pl.getLeaderCards());
+        // brunelleschi test
+        String action = "Avamposto Commerciale\ny\nBosco\ny\n1\ny\n1\ny\n5\n1\n";
+        inputStream.setIn(action);
+        LeaderCard brunelleschi = testMap.get("Filippo Brunelleschi");
+        pl.getLeaderCards().add(brunelleschi);
+        brunelleschi.setPlayer(pl);
+        brunelleschi.activation = true;
+        Resources tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
+        brunelleschi.permanentAbility();
+        FamilyMember blank = pl.getAvailableFamMembers().get(3);
+        // I occupy the tower with blank fam
+        blank.setActionValue(7);
+        Move.floorAction(board, blank);
+        // assert that i cannot have to pay additional coin
+        Move.floorAction(board, pl.getAvailableFamMembers().get(0));
+        assertTrue(pl.currentRes.coin == tmp.coin);
+        // Lucrezia Borgia test
+        LeaderCard lucreziaBorgia = testMap.get("Lucrezia Borgia");
+        pl.getLeaderCards().add(lucreziaBorgia);
+        lucreziaBorgia.setPlayer(pl);
+        lucreziaBorgia.activation = true;
+        lucreziaBorgia.permanentAbility();
+        // from now colored family member have + 2 on their value
+        // (here birth with value )
+        for (FamilyMember fam : pl.getAvailableFamMembers()) {
+            if (!"Blank".equals(fam.getSkinColour())) {
+                assertTrue(fam.getActionValue() == 9);
+            }
+        }
+        pl.famMembersBirth(famValues);
+        for (FamilyMember fam : pl.getAvailableFamMembers()) {
+            if (!"Blank".equals(fam.getSkinColour())) {
+                assertTrue(fam.getActionValue() == 9);
+            }
+        }
+        // Ariosto test
+        LeaderCard ariosto = testMap.get("Ludovico Ariosto");
+        pl.getLeaderCards().add(ariosto);
+        ariosto.setPlayer(pl);
+        ariosto.activation = true;
+        ariosto.permanentAbility();
+        Move.marketAction(board, pl.getAvailableFamMembers().get(0));
+        // i can place fam in occupied spaces
+        assertTrue(Move.marketAction
+                (board, pl.getAvailableFamMembers().get(1)));
+        // SistoIV test
+        LeaderCard sistoIV = testMap.get("SistoIV");
+        pl.getLeaderCards().add(sistoIV);
+        sistoIV.setPlayer(pl);
+        sistoIV.activation = true;
+        sistoIV.permanentAbility();
+        LeaderCard malatesta = testMap.get("Sigismondo Malatesta");
+        LeaderCard cesareBorgia = testMap.get("Cesare Borgia");
+        LeaderCard santaRita = testMap.get("Santa Rita");
+        LeaderCard pico = testMap.get("Pico Della Mirandola");
+        // Lorenzo test
+        LeaderCard lorenzo = testMap.get("Lorenzo Dè Medici");
+        pl.getLeaderCards().add(lorenzo);
+        lorenzo.setPlayer(pl);
+        lorenzo.activation = true;
+        lorenzo.permanentAbility();
+        assertFalse(pl.getLeaderCards().contains(lorenzo));
     }
 }

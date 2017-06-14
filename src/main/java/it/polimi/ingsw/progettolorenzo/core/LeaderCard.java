@@ -86,7 +86,7 @@ class FilippoBrunelleschi extends LeaderCard {
     @Override
     public void permanentAbility() {
         owner.sOut("Permanent ability activated: you will never have to pay" +
-                "the additional cost if a tower is already occupied");
+                " the additional cost if a tower is already occupied");
     }
 }
 
@@ -506,15 +506,23 @@ class LorenzoDeMedici extends LeaderCard {
                 }
             }
         }
-        owner.sOut("Which one do you want to copy?");
-        LeaderCard toCopy = activatedCards.get(
-                owner.sInPrompt(0, counter));
-        toCopy.activation = this.activation;
-        toCopy.onePerRoundUsage = false;
-        owner.getLeaderCards().add(toCopy);
-        // could be empty
-        this.permanentAbility();
-        owner.getLeaderCards().remove(this);
+        while(true) {
+            owner.sOut("Which one do you want to copy?");
+            LeaderCard toCopy = activatedCards.get(
+                    owner.sInPrompt(1, counter) - 1);
+            owner.sOut(toCopy.name + " selected");
+            if (toCopy.name != this.name) {
+                toCopy.activation = this.activation;
+                toCopy.onePerRoundUsage = false;
+                owner.getLeaderCards().add(toCopy);
+                // could be empty
+                toCopy.permanentAbility();
+                owner.getLeaderCards().remove(this);
+                break;
+            } else {
+                owner.sOut("Please choose a valid leader card");
+            }
+        }
     }
 }
 

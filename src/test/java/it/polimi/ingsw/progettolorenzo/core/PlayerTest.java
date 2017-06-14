@@ -120,4 +120,16 @@ public class PlayerTest {
         assertFalse(pl.getLeaderCards().contains(ariosto));
         assertTrue(pl.currentRes.wood > tmp.wood);
     }
+
+    @Test
+    public void activateLeaderTest() {
+        String action = "1\ny\nn\n";
+        inputStream.setIn(action);
+        pl.getLeaderCards().get(0).activationCost = Arrays.asList(0);
+        pl.activateLeaderCard();
+        assertTrue(pl.getLeaderCards().get(0).activation = true);
+        // no more leader cards
+        pl.getLeaderCards().removeAll(pl.getLeaderCards());
+        pl.activateLeaderCard();
+    }
 }
