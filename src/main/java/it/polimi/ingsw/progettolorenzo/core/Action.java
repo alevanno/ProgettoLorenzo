@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 public abstract class Action {
     private final Logger log = Logger.getLogger(this.getClass().getName());
-    public List<BaseAction> actions = new ArrayList<>();
+    private List<BaseAction> actions = new ArrayList<>();
 
     public void addAction(BaseAction action) {
         this.actions.add(action);
