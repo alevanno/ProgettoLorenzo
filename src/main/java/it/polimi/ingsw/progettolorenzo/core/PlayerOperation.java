@@ -17,36 +17,36 @@ public class PlayerOperation implements Callable<Boolean> {
     @Override
     public Boolean call() {
         //try {
-            g.currPlayer = pl;
-            pl.sOut("Turn " + g.halfPeriod + ": Player " + pl.playerName +
+            g.setCurrPlayer(pl);
+            pl.sOut("Turn " + g.getHalfPeriod() + ": Player " + pl.playerName +
                     " is the next player for this round:");
             pl.sOut("Current Res: " + pl.currentRes.toString());
             boolean ret = false;
             while (true) {
-                g.board.displayBoard();
+                g.getBoard().displayBoard();
                 pl.sOut("Which family member do you want to use?: ");
                 pl.sOut(pl.displayFamilyMembers());
                 FamilyMember famMem = pl.getAvailableFamMembers()
                         .get(pl.sInPrompt(1, pl.getAvailableFamMembers().size()) - 1);
                 pl.sOut(famMem.getSkinColour() + " family member selected");
-                g.famMemIncrease = 0; //needed so it doesn't restore the previous player's famMemIncrease when the timer expires
-                g.famMemIncrease = pl.increaseFamValue(famMem);
+                g.rstFamMemIncrease(); //needed so it doesn't restore the previous player's famMemIncrease when the timer expires
+                g.addFamMemIncrease(pl.increaseFamValue(famMem));
                 //setFam(famMem); //TODO
                 pl.sOut("Available actions:");
-                pl.sOut(Utils.displayList(g.actions));
+                pl.sOut(Utils.displayList(g.getActions()));
                 pl.sOut("Which action do you want to try?: ");
-                g.board.displayBoard();
-                String action = g.actions.get(pl.sInPrompt(1, g.actions.size()) - 1);
+                g.getBoard().displayBoard();
+                String action = g.getActions().get(pl.sInPrompt(1, g.getActions().size()) - 1);
                 if ("Floor".equalsIgnoreCase(action)) {
-                    ret = Move.floorAction(g.board, famMem);
+                    ret = Move.floorAction(g.getBoard(), famMem);
                 } else if ("Market".equalsIgnoreCase(action)) {
-                    ret = Move.marketAction(g.board, famMem);
+                    ret = Move.marketAction(g.getBoard(), famMem);
                 } else if ("CouncilPalace".equalsIgnoreCase(action)) {
-                    ret = Move.councilAction(g.board, famMem);
+                    ret = Move.councilAction(g.getBoard(), famMem);
                 } else if ("Production".equalsIgnoreCase(action)) {
-                    ret = Move.prodAction(g.board, famMem);
+                    ret = Move.prodAction(g.getBoard(), famMem);
                 } else if ("Harvest".equalsIgnoreCase(action)) {
-                    ret = Move.harvAction(g.board, famMem);
+                    ret = Move.harvAction(g.getBoard(), famMem);
                 } else if ("ActivateLeaderCard".equalsIgnoreCase(action)) {
                     pl.activateLeaderCard();
                     continue;
@@ -64,7 +64,7 @@ public class PlayerOperation implements Callable<Boolean> {
                 } else {
                     // placed here to abort this operation if player is not satisfied, reverts the value increase by servants
                     pl.sOut("Reverting famMemIncrease");
-                    pl.revertFamValue(famMem, g.famMemIncrease);
+                    pl.revertFamValue(famMem, g.getFamMemIncrease());
                     pl.sOut("Current Res: " + pl.currentRes.toString());
                     return true;
                 }

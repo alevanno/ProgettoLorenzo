@@ -16,18 +16,18 @@ import java.util.stream.StreamSupport;
 
 public class Game implements Runnable {
     private final Logger log = Logger.getLogger(this.getClass().getName());
-    public Board board;
+    private Board board;
     private List<String> types = Arrays.asList(
             "territories", "buildings", "characters", "ventures");
-    public List<String> actions;
+    private List<String> actions;
     private HashMap<String, Deck> unhandledCards = new HashMap<>();
     private List<Player> players = new ArrayList<>(); //active players and their order
-    public int halfPeriod;
-    public Player currPlayer;
+    private int halfPeriod;
+    private Player currPlayer;
     private List<JsonObject> excomms = new ArrayList<>();
     private final boolean personalBonusBoards;
     private final boolean leaderOn;
-    public int famMemIncrease;
+    private int famMemIncrease;
 
 
     public Game(List<Player> listPlayers, boolean personalBonusBoards,
@@ -392,7 +392,15 @@ public class Game implements Runnable {
         return currPlayer;
     }
 
+    public void setCurrPlayer(Player pl) {
+        this.currPlayer = pl;
+    }
+
     public Board getBoard() { return this.board; }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
 
     public List<Player> getPlayers() {
         return this.players;
@@ -404,11 +412,11 @@ public class Game implements Runnable {
         this.famMemIncrease += incomingIncrease;
     }
 
-    public void setBoard(Board board) {
-        this.board = board;
-    }
+    public void rstFamMemIncrease() { this.famMemIncrease = 0; }
 
-    public void setCurrPlayer(Player pl) {
-        this.currPlayer = pl;
-    }
+    public int getFamMemIncrease() { return famMemIncrease; }
+
+    public int getHalfPeriod() { return halfPeriod; }
+
+    public List<String> getActions() { return actions; }
 }
