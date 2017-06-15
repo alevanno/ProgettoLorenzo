@@ -51,12 +51,12 @@ public class ProductionTest {
 
     @Test
     public void claimFamSec() throws Exception {
-        Resources tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
+        Resources tmp = new Resources.ResBuilder().build().merge(pl.getCurrentRes());
         board.productionArea.claimFamSec(pl.getAvailableFamMembers().get(0));
         board.productionArea.apply();
-        System.out.println(pl.currentRes);
-        assertTrue(pl.currentRes.victoryPoint > tmp.victoryPoint
-        && pl.currentRes.coin > tmp.coin);
+        System.out.println(pl.getCurrentRes());
+        assertTrue(pl.getCurrentRes().victoryPoint > tmp.victoryPoint
+        && pl.getCurrentRes().coin > tmp.coin);
     }
 
     @Test
@@ -69,15 +69,15 @@ public class ProductionTest {
             }
         }
         // test prodConversion
-        Resources tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
+        Resources tmp = new Resources.ResBuilder().build().merge(pl.getCurrentRes());
         board.productionArea.prod(pl, 7);
         board.productionArea.apply();
-        assertTrue(pl.currentRes.wood < tmp.coin);
+        assertTrue(pl.getCurrentRes().wood < tmp.coin);
     }
 
     @Test
     public void prodConvTest2() {
-        System.out.println(pl.currentRes);
+        System.out.println(pl.getCurrentRes());
         String action = "1\n1\n1";
         inputStream.setIn(action);
         for (Card c : testDeck) {
@@ -86,11 +86,11 @@ public class ProductionTest {
             }
         }
         // test prodConversion
-        Resources tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
+        Resources tmp = new Resources.ResBuilder().build().merge(pl.getCurrentRes());
         board.productionArea.prod(pl,7);
         board.productionArea.apply();
-        assertTrue(pl.currentRes.wood > tmp.wood);
-        System.out.println(pl.currentRes);
+        assertTrue(pl.getCurrentRes().wood > tmp.wood);
+        System.out.println(pl.getCurrentRes());
     }
 
     @Test
@@ -108,7 +108,7 @@ public class ProductionTest {
         // test prodMultiplier
         board.productionArea.prod(pl, 7);
         board.productionArea.apply();
-        assertEquals(25, pl.currentRes.victoryPoint);
+        assertEquals(25, pl.getCurrentRes().victoryPoint);
     }
 
     @Test
@@ -123,8 +123,8 @@ public class ProductionTest {
         // test prodStaticCardTest
         board.productionArea.prod(pl, 7);
         board.productionArea.apply();
-        assertEquals(2, pl.currentRes.militaryPoint);
-        assertEquals(3, pl.currentRes.victoryPoint);
+        assertEquals(2, pl.getCurrentRes().militaryPoint);
+        assertEquals(3, pl.getCurrentRes().victoryPoint);
     }
 
     @Test
@@ -139,8 +139,8 @@ public class ProductionTest {
         // test prodCouncPriv
         board.productionArea.prod(pl, 7);
         board.productionArea.apply();
-        assertEquals(3, pl.currentRes.wood);
-        assertEquals(3, pl.currentRes.victoryPoint);
+        assertEquals(3, pl.getCurrentRes().wood);
+        assertEquals(3, pl.getCurrentRes().victoryPoint);
     }
 
     @Test
@@ -150,7 +150,7 @@ public class ProductionTest {
                 String.format(excomm), JsonObject.class);
         pl.setExcommunication(excommObj,0);
         board.productionArea.prod(pl, 3);
-        assertEquals(5, pl.currentRes.coin);
+        assertEquals(5, pl.getCurrentRes().coin);
     }
 
     @Test
@@ -162,6 +162,6 @@ public class ProductionTest {
         }
         board.productionArea.prod(pl, 4);
         board.productionArea.apply();
-        assertEquals(1, pl.currentRes.victoryPoint);
+        assertEquals(1, pl.getCurrentRes().victoryPoint);
     }
 }

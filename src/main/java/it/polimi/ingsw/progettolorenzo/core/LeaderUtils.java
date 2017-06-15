@@ -19,12 +19,8 @@ public class LeaderUtils {
     }
 
     public static boolean checkCostResSatisfaction(Player owner, Resources cost) {
-        Resources plRes = owner.currentRes;
-        if (!plRes.merge(cost.inverse()).isNegative()){
-           return true;
-        } else {
-            return false;
-        }
+        Resources plRes = owner.getCurrentRes();
+        return (!plRes.merge(cost.inverse()).isNegative());
     }
 
 
@@ -80,7 +76,7 @@ public class LeaderUtils {
                 owner.sOut("Current " + action + " value: " + value);
                 owner.sOut("Confirm?:");
                 if (owner.sInPromptConf()) {
-                    owner.currentRes = owner.currentRes.merge(new
+                    owner.currentResMerge(new
                             Resources.ResBuilder().servant(value)
                             .build().inverse());
                     ok = true;

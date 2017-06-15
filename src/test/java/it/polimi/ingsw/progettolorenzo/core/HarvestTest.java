@@ -53,12 +53,12 @@ public class HarvestTest {
 
     @Test
     public void claimFamSec() throws Exception {
-        Resources tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
+        Resources tmp = new Resources.ResBuilder().build().merge(pl.getCurrentRes());
         board.harvestArea.claimFamSec(pl.getAvailableFamMembers().get(0));
         board.harvestArea.apply();
-        System.out.println(pl.currentRes);
-        assertTrue(pl.currentRes.wood > tmp.wood
-                && pl.currentRes.stone > tmp.stone);
+        System.out.println(pl.getCurrentRes());
+        assertTrue(pl.getCurrentRes().wood > tmp.wood
+                && pl.getCurrentRes().stone > tmp.stone);
     }
 
     @Test
@@ -73,8 +73,8 @@ public class HarvestTest {
         // test harvStaticCardTest
         board.harvestArea.harv(pl, 7);
         board.harvestArea.apply();
-        assertEquals(2, pl.currentRes.militaryPoint);
-        assertEquals(6, pl.currentRes.servant);
+        assertEquals(2, pl.getCurrentRes().militaryPoint);
+        assertEquals(6, pl.getCurrentRes().servant);
     }
 
     @Test
@@ -89,8 +89,8 @@ public class HarvestTest {
         // test harvCouncPriv
         board.harvestArea.harv(pl, 7);
         board.harvestArea.apply();
-        assertEquals(4, pl.currentRes.wood);
-        assertEquals(4, pl.currentRes.stone);
+        assertEquals(4, pl.getCurrentRes().wood);
+        assertEquals(4, pl.getCurrentRes().stone);
     }
 
     @Test
@@ -101,7 +101,7 @@ public class HarvestTest {
         pl.setExcommunication(excommObj, 0);
         board.harvestArea.harv(pl, 3);
         board.harvestArea.apply();
-        assertEquals(5, pl.currentRes.coin);
+        assertEquals(5, pl.getCurrentRes().coin);
     }
 
     @Test
@@ -113,7 +113,7 @@ public class HarvestTest {
         }
         board.harvestArea.harv(pl, 3);
         board.harvestArea.apply();
-        assertEquals(3, pl.currentRes.wood);
+        assertEquals(3, pl.getCurrentRes().wood);
     }
 
 

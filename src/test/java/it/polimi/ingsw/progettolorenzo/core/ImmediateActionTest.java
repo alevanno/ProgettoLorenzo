@@ -34,7 +34,7 @@ public class ImmediateActionTest {
         LeaderCard leader = new LudovicoAriosto();
         leader.activation = true;
         pl.getLeaderCards().add(leader);
-        Resources tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
+        Resources tmp = new Resources.ResBuilder().build().merge(pl.getCurrentRes());
         for (Card c : testDeck) {
             for(String name : nameList) {
                 if(name.equals(c.cardName)){
@@ -44,8 +44,8 @@ public class ImmediateActionTest {
                 }
             }
         }
-        for (int i = 0; i < pl.currentRes.getAsList().size(); i++) {
-            assertTrue(pl.currentRes.getAsList().get(i) >= tmp.getAsList().get(i));
+        for (int i = 0; i < pl.getCurrentRes().getAsList().size(); i++) {
+            assertTrue(pl.getCurrentRes().getAsList().get(i) >= tmp.getAsList().get(i));
         }
     }
 }

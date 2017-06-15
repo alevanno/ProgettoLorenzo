@@ -10,10 +10,10 @@ public class Move {
         act.logActions();
         pl.sOut("Do you want to confirm?");
         if (pl.sInPromptConf()) {
-            pl.sOut("Previous Res: " + pl.currentRes.toString());
+            pl.sOut("Previous Res: " + pl.getCurrentRes().toString());
             act.apply();
             act.emptyActions();
-            pl.sOut("Current Res: " + pl.currentRes.toString());
+            pl.sOut("Current Res: " + pl.getCurrentRes().toString());
             return true;
         } else {
             act.emptyActions();
@@ -82,7 +82,7 @@ public class Move {
                 if (y != 0 && val != 0) {
                     toMerge.merge(new Resources.ResBuilder().setByString(x, val).build());
                     pl.sOut(toMerge.toString());
-                    pl.currentRes = pl.currentRes.merge(toMerge);
+                    pl.currentResMerge(toMerge);
                 }
             });
             ret = floor.claimFloor(dummy);
@@ -90,7 +90,7 @@ public class Move {
                 pl.getParentGame().addFamMemIncrease(famMemIncrease);
             } else {
                 pl.revertFamValue(dummy, famMemIncrease);
-                pl.currentRes = pl.currentRes.merge(toMerge.inverse());
+                pl.currentResMerge(toMerge.inverse());
             }
         } while (!ret);
     }

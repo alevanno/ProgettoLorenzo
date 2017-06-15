@@ -77,15 +77,15 @@ public class LeaderTest {
         LeaderCard leader2 = testMap.get("Francesco Sforza");
         leader2.setPlayer(pl);
         leader2.activation = true;
-        Resources tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
+        Resources tmp = new Resources.ResBuilder().build().merge(pl.getCurrentRes());
         leader2.apply();
-        assertTrue(pl.currentRes.servant < tmp.servant);
+        assertTrue(pl.getCurrentRes().servant < tmp.servant);
     }
 
     @Test
     public void onePerRoundTest() {
         // sforza already tested in OneHarvProd
-        // Montafeltro test
+        // Montefeltro test
         String action = "y\n1\ny\ny\ny\ny\ny\ny\n2\ny\ny\n";
         inputStream.setIn(action);
         LeaderCard montefeltro = testMap.get("Federico Da Montefeltro");
@@ -97,54 +97,54 @@ public class LeaderTest {
         LeaderCard buonarroti = testMap.get("Michelangelo Buonarroti");
         buonarroti.setPlayer(pl);
         buonarroti.activation = true;
-        Resources tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
+        Resources tmp = new Resources.ResBuilder().build().merge(pl.getCurrentRes());
         buonarroti.apply();
-        assertTrue(pl.currentRes.coin > tmp.coin);
+        assertTrue(pl.getCurrentRes().coin > tmp.coin);
         // BandeNere test
         LeaderCard bandeNere = testMap.get("Giovanni Dalle Bande Nere");
         bandeNere.setPlayer(pl);
         bandeNere.activation = true;
-        tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
+        tmp = new Resources.ResBuilder().build().merge(pl.getCurrentRes());
         bandeNere.apply();
-        assertTrue(pl.currentRes.coin > tmp.coin &&
-        pl.currentRes.wood > tmp.wood && pl.currentRes.stone > tmp.stone);
+        assertTrue(pl.getCurrentRes().coin > tmp.coin &&
+        pl.getCurrentRes().wood > tmp.wood && pl.getCurrentRes().stone > tmp.stone);
         // CosimoDeMedici test
         LeaderCard cosimo = testMap.get("Cosimo Dè Medici");
         cosimo.setPlayer(pl);
         cosimo.activation = true;
-        tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
+        tmp = new Resources.ResBuilder().build().merge(pl.getCurrentRes());
         cosimo.apply();
-        assertTrue(pl.currentRes.servant > tmp.servant &&
-                pl.currentRes.victoryPoint > tmp.victoryPoint );
+        assertTrue(pl.getCurrentRes().servant > tmp.servant &&
+                pl.getCurrentRes().victoryPoint > tmp.victoryPoint );
         // Colleoni test
         LeaderCard colleoni = testMap.get("Bartolomeo Colleoni");
         colleoni.setPlayer(pl);
         colleoni.activation = true;
-        tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
+        tmp = new Resources.ResBuilder().build().merge(pl.getCurrentRes());
         colleoni.apply();
-        assertTrue(pl.currentRes.victoryPoint > tmp.victoryPoint);
+        assertTrue(pl.getCurrentRes().victoryPoint > tmp.victoryPoint);
         // Botticelli test
         LeaderCard botticelli = testMap.get("Sandro Botticelli");
         botticelli.setPlayer(pl);
         botticelli.activation = true;
-        tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
+        tmp = new Resources.ResBuilder().build().merge(pl.getCurrentRes());
         botticelli.apply();
-        assertTrue(pl.currentRes.militaryPoint > tmp.militaryPoint &&pl.currentRes.victoryPoint > tmp.victoryPoint);
+        assertTrue(pl.getCurrentRes().militaryPoint > tmp.militaryPoint &&pl.getCurrentRes().victoryPoint > tmp.victoryPoint);
         // Gonzaga test
         LeaderCard gonzaga = testMap.get("Ludovico III Gonzaga");
         gonzaga.setPlayer(pl);
         gonzaga.activation = true;
-        tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
+        tmp = new Resources.ResBuilder().build().merge(pl.getCurrentRes());
         // choice n 2 in privileges
         gonzaga.apply();
-        assertTrue(pl.currentRes.servant > tmp.servant);
+        assertTrue(pl.getCurrentRes().servant > tmp.servant);
         // Savonarola test
         LeaderCard savonarola = testMap.get("Girolamo Savonarola");
         savonarola.setPlayer(pl);
         savonarola.activation = true;
-        tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
+        tmp = new Resources.ResBuilder().build().merge(pl.getCurrentRes());
         savonarola.apply();
-        assertTrue(pl.currentRes.faithPoint > tmp.faithPoint);
+        assertTrue(pl.getCurrentRes().faithPoint > tmp.faithPoint);
     }
 
     @Test
@@ -157,7 +157,7 @@ public class LeaderTest {
         pl.getLeaderCards().add(brunelleschi);
         brunelleschi.setPlayer(pl);
         brunelleschi.activation = true;
-        Resources tmp = new Resources.ResBuilder().build().merge(pl.currentRes);
+        Resources tmp = new Resources.ResBuilder().build().merge(pl.getCurrentRes());
         brunelleschi.permanentAbility();
         FamilyMember blank = pl.getAvailableFamMembers().get(3);
         // I occupy the tower with blank fam
@@ -165,7 +165,7 @@ public class LeaderTest {
         Move.floorAction(board, blank);
         // assert that i cannot have to pay additional coin
         Move.floorAction(board, pl.getAvailableFamMembers().get(0));
-        assertTrue(pl.currentRes.coin == tmp.coin);
+        assertTrue(pl.getCurrentRes().coin == tmp.coin);
         // Lucrezia Borgia test
         LeaderCard lucreziaBorgia = testMap.get("Lucrezia Borgia");
         pl.getLeaderCards().add(lucreziaBorgia);

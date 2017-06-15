@@ -42,8 +42,8 @@ public class Floor extends Action {
             return true;
         } else if (towerOcc == 1) {
             pl.sOut("Tower already occupied: ");
-            pl.sOut("Current Res:" + pl.currentRes.toString());
-            if (pl.currentRes.coin < 3) {
+            pl.sOut("Current Res:" + pl.getCurrentRes().toString());
+            if (pl.getCurrentRes().coin < 3) {
                 pl.sOut("You don't have enough coins to access this Floor");
                 return  false;
             } else {
@@ -65,7 +65,7 @@ public class Floor extends Action {
     public boolean claimFloor(FamilyMember fam) {
         int value = fam.getActionValue();
         Player p = fam.getParent();
-        Resources tmpRes = p.currentRes;
+        Resources tmpRes = p.getCurrentRes();
         Resources cardCost = this.floorCard.getCardCost(p); //TODO if a discount is present...
         boolean boycottBonus = false;
         //TODO value should be affected also by an excommunication
@@ -89,7 +89,7 @@ public class Floor extends Action {
             fam.getParent().sOut("Insufficient value");
             return false;
         }
-        if (fam.getParent().currentRes.merge(cardCost.inverse()).isNegative()) {
+        if (fam.getParent().getCurrentRes().merge(cardCost.inverse()).isNegative()) {
             fam.getParent().sOut("Insufficient resources");
             return false;
         }

@@ -60,7 +60,7 @@ public class Game implements Runnable {
     private void initPlayers() {
         int initialCoins = 5;
         for (Player p: this.players) {
-            p.currentRes = p.currentRes.merge(
+            p.currentResMerge(
                     new Resources.ResBuilder().coin(initialCoins).build());
             log.fine(String.format("Player %s obtained %d starting coins",
                     p.playerName, initialCoins));
@@ -241,14 +241,14 @@ public class Game implements Runnable {
     public void timeExpired(Player pl, FamilyMember fam) { //TODO
         pl.sOut("Time expired! Reverting famMemIncrease");
         pl.revertFamValue(fam, famMemIncrease);
-        pl.sOut("Current Res: " + pl.currentRes.toString());
+        pl.sOut("Current Res: " + pl.getCurrentRes().toString());
     }
 
     /*public void operation(Game g, Player pl) {
         currPlayer = pl;
         pl.sOut("Turn " + this.halfPeriod + ": Player " + pl.playerName +
                 " is the next player for this round:");
-        pl.sOut("Current Res: " + pl.currentRes.toString());
+        pl.sOut("Current Res: " + pl.getCurrentRes().toString());
         boolean ret = false;
         while (true) {
             this.board.displayBoard();
@@ -280,7 +280,7 @@ public class Game implements Runnable {
                 continue;
             } else if ("DiscardLeaderCard".equalsIgnoreCase(action)){
                 pl.discardLeaderCard();
-                pl.sOut("Current Res: " + pl.currentRes.toString());
+                pl.sOut("Current Res: " + pl.getCurrentRes().toString());
                 continue;
             } else if ("SkipRound".equalsIgnoreCase(action)) {
                 pl.sOut("You skipped the round");
@@ -292,7 +292,7 @@ public class Game implements Runnable {
                 // placed here to abort this operation if player is not satisfied, reverts the value increase by servants
                 pl.sOut("Reverting famMemIncrease");
                 pl.revertFamValue(famMem, famMemIncrease);
-                pl.sOut("Current Res: " + pl.currentRes.toString());
+                pl.sOut("Current Res: " + pl.getCurrentRes().toString());
             }
         }
     }*/
@@ -319,7 +319,7 @@ public class Game implements Runnable {
         //TODO
         for (Player pl: players) {
             int period = currTurn/2;
-            int plFaithP = pl.currentRes.faithPoint;
+            int plFaithP = pl.getCurrentRes().faithPoint;
             pl.sOut("You have " + plFaithP + " Faith Points. The Church requires " + (period + 2));
             if (plFaithP < period + 2) {
                 pl.sOut("You are excommunicated");
@@ -332,13 +332,13 @@ public class Game implements Runnable {
                     for (LeaderCard leader : pl.getLeaderCards()) {
                         if("SistoIV".equals(leader.getName())
                                 && leader.isActivated()) {
-                            pl.currentRes = pl.currentRes.merge(
+                            pl.currentResMerge(
                                     new Resources.ResBuilder().victoryPoint(5).build());
                             break;
                         }
                     }
-                    pl.currentRes = pl.currentRes.merge(Resources.fromJson(faithVictory.get(pl.currentRes.faithPoint)));
-                    pl.currentRes = pl.currentRes.merge(new Resources.ResBuilder()
+                    pl.currentResMerge(Resources.fromJson(faithVictory.get(pl.getCurrentRes().faithPoint)));
+                    pl.currentResMerge(new Resources.ResBuilder()
                             .faithPoint(plFaithP).build().inverse());
                 } else {
                     excommunicate(pl, period);
@@ -353,23 +353,23 @@ public class Game implements Runnable {
 
     private void endgameMilitary () {
         //1st gets 5 victoryP, 2nd gets 2 victoryP, if more than one player is first he gets the prize and the second gets nothing
-        players.sort(Comparator.comparing(p -> p.currentRes.militaryPoint));
+        players.sort(Comparator.comparing(p -> p.getCurrentRes().militaryPoint));
         int plWithMaxMilitary = 0;
-        int maxMilitary = players.get(0).currentRes.militaryPoint;
+        int maxMilitary = players.get(0).getCurrentRes().militaryPoint;
         int secMaxMilitary = 0;
         for (Player p: players) {
-            if (p.currentRes.militaryPoint == maxMilitary) {
+            if (p.getCurrentRes().militaryPoint == maxMilitary) {
                 plWithMaxMilitary++;
-                p.currentRes = p.currentRes.merge(new Resources.ResBuilder().victoryPoint(5).build());
+                p.currentResMerge(new Resources.ResBuilder().victoryPoint(5).build());
                 log.info("Player " + p + " has the highest militaryPoint: he gains 5 victoryPoint");
-            } else if (p.currentRes.militaryPoint > secMaxMilitary) {
-                secMaxMilitary = p.currentRes.militaryPoint;
+            } else if (p.getCurrentRes().militaryPoint > secMaxMilitary) {
+                secMaxMilitary = p.getCurrentRes().militaryPoint;
             }
         }
         if (plWithMaxMilitary == 1) {
             for (Player p: players) {
-                if (p.currentRes.militaryPoint == secMaxMilitary) {
-                    p.currentRes = p.currentRes.merge(new Resources.ResBuilder().victoryPoint(3).build());
+                if (p.getCurrentRes().militaryPoint == secMaxMilitary) {
+                    p.currentResMerge(new Resources.ResBuilder().victoryPoint(3).build());
                     log.info("Player " + p + " has the second highest militaryPoint: he gains 3 victoryPoint");
                 }
             }
@@ -382,7 +382,7 @@ public class Game implements Runnable {
         for (Player pl: players) {
             pl.endgame();
             String msg = String.format("%s scores %d",
-                    pl.playerName, pl.currentRes.victoryPoint);
+                    pl.playerName, pl.getCurrentRes().victoryPoint);
             pl.sOut(msg);
             log.info(msg);
         }

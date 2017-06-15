@@ -16,7 +16,7 @@ public class Player {
     private final String playerColour;
     private final PlayerIO io;
     // FIXME make private
-    public Resources currentRes = new Resources.ResBuilder().servant(3).stone(2).wood(2).build();
+    private Resources currentRes = new Resources.ResBuilder().servant(3).stone(2).wood(2).build();
     private List<FamilyMember> famMemberList = new ArrayList<>();
     private Deck cards = new Deck();
     private List<JsonObject> excommunications = new ArrayList<>(Arrays.asList(new JsonObject(), new JsonObject(), new JsonObject()));
@@ -31,7 +31,7 @@ public class Player {
         this.io = new PlayerIOSocket(socket);
         log.info(String.format(
                 "New player: %s (colour: %s, resources: %s) [socket]",
-                name, colour, this.currentRes));
+                name, colour, this.getCurrentRes()));
     }
 
     public Player(String name, String colour, RmiClient rmi) {
@@ -40,7 +40,7 @@ public class Player {
         this.io = new PlayerIORMI(rmi);
         log.info(String.format(
             "New player: %s (colour: %s, resources: %s) [RMI]",
-            name, colour, this.currentRes));
+            name, colour, this.getCurrentRes()));
     }
 
     public Player(String name, String colour) {
@@ -49,7 +49,7 @@ public class Player {
         this.io = new PlayerIOLocal();
         log.info(String.format(
                 "New player: %s (colour: %s, resources: %s) [local]",
-                name, colour, this.currentRes));
+                name, colour, this.getCurrentRes()));
     }
 
     public String sIn()  {
@@ -140,7 +140,7 @@ public class Player {
         }
         this.sOut("Confirm?: y/n");
         if (this.sInPromptConf()) {
-            this.currentRes = this.currentRes.merge(new
+            this.currentResMerge(new
                     Resources.ResBuilder().servant(servantSpent)
                     .build().inverse());
             return increase;
@@ -176,7 +176,7 @@ public class Player {
             int servantExp = excommunications.get(1).get("servantExpense").getAsInt();
             servantSpent = increase * servantExp;
         } else { servantSpent = increase; }
-        this.currentRes = this.currentRes.merge(new
+        this.currentResMerge(new
                 Resources.ResBuilder().servant(servantSpent)
                 .build());
     }
@@ -210,7 +210,7 @@ public class Player {
                     leaderCards.remove(counter);
                     Resources privRes = this.getParentGame()
                             .getBoard().councilPalace.choosePrivilege(this);
-                    this.currentRes = currentRes.merge(privRes);
+                    this.currentResMerge(privRes);
                     log.info("Council privilege gave -> " + privRes.toString() +
                     " to " + playerName);
                     break;
@@ -237,8 +237,7 @@ public class Player {
             if (loseVictoryRes.getByString(x) != 0) {
                 int a = loseVictoryRes.getByString(x);
                 int b = currentRes.getByString(x);
-                currentRes = currentRes.merge(
-                        new Resources.ResBuilder().victoryPoint(b / a).build().inverse());
+                currentResMerge(new Resources.ResBuilder().victoryPoint(b / a).build().inverse());
                 log.info("Player " + playerName + " loses a victoryPoint every " + a + x + " due to excommunication");
             }
         });
@@ -256,8 +255,7 @@ public class Player {
                 });
             }
         }
-        currentRes = currentRes.merge(
-                new Resources.ResBuilder().victoryPoint(lostVictoryPts.get()).build().inverse());
+        currentResMerge(new Resources.ResBuilder().victoryPoint(lostVictoryPts.get()).build().inverse());
         log.info("Player " + playerName + " loses " + lostVictoryPts + " victoryPoint due to excommunication (buildingCardCost)");
     }
 
@@ -268,7 +266,7 @@ public class Player {
         int countCharacters = 0;
         Resources purpleFinal = new Resources.ResBuilder().build();
         JsonObject excomBase = excommunications.get(2);
-        int sumResources = (currentRes.coin + currentRes.servant + currentRes.stone + currentRes.wood);
+        int sumResources = (getCurrentRes().coin + getCurrentRes().servant + getCurrentRes().stone + getCurrentRes().wood);
         for (Card i : listCards()) {
             String noVictoryType = "";
             if (excomBase.has("noVictoryType")) {
@@ -285,13 +283,13 @@ public class Player {
                 purpleFinal = purpleFinal.merge(Resources.fromJson(i.permanentEff.get("purpleFinal")));
             }
         }
-        currentRes = currentRes.merge(purpleFinal);
+        currentResMerge(purpleFinal);
         log.info("Ventures cards gave " + purpleFinal.victoryPoint + " victoryPoint");
-        currentRes = currentRes.merge(new Resources.ResBuilder().victoryPoint(territoriesVictory.get(countTerritories)).build());
+        currentResMerge(new Resources.ResBuilder().victoryPoint(territoriesVictory.get(countTerritories)).build());
         log.info("Territories cards gave " + countTerritories + " victoryPoint");
-        currentRes = currentRes.merge(new Resources.ResBuilder().victoryPoint(charactersVictory.get(countCharacters)).build());
+        currentResMerge(new Resources.ResBuilder().victoryPoint(charactersVictory.get(countCharacters)).build());
         log.info("Characters cards gave " + countCharacters + " victoryPoint");
-        currentRes = currentRes.merge(new Resources.ResBuilder().victoryPoint(sumResources / 5).build());
+        currentResMerge(new Resources.ResBuilder().victoryPoint(sumResources / 5).build());
         log.info("Personal Resources gave " + sumResources / 5 + " victoryPoint");
 
         if (excomBase.has("lostVictoryRes")) {

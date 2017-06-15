@@ -36,7 +36,7 @@ public class PlayerTest {
     @Test
     public void revertIncreaseValue() throws Exception {
         pl.revertIncreaseValue(4);
-        assertEquals(7, pl.currentRes.servant);
+        assertEquals(7, pl.getCurrentRes().servant);
     }
 
     @Test
@@ -50,13 +50,13 @@ public class PlayerTest {
         assertEquals(6,pl.getAvailableFamMembers().get(0).getActionValue());
         assertEquals(3,pl.getAvailableFamMembers().get(1).getActionValue());
         assertEquals(1,pl.getAvailableFamMembers().get(2).getActionValue());
-        assertEquals(3, pl.currentRes.servant);
+        assertEquals(3, pl.getCurrentRes().servant);
         pl.revertFamValue(pl.getAvailableFamMembers().get(0),3);
-        assertEquals(6, pl.currentRes.servant);
+        assertEquals(6, pl.getCurrentRes().servant);
         pl.revertFamValue(pl.getAvailableFamMembers().get(1),3);
-        assertEquals(9, pl.currentRes.servant);
+        assertEquals(9, pl.getCurrentRes().servant);
         pl.revertFamValue(pl.getAvailableFamMembers().get(2),1);
-        assertEquals(10, pl.currentRes.servant);
+        assertEquals(10, pl.getCurrentRes().servant);
         assertEquals(3,pl.getAvailableFamMembers().get(0).getActionValue());
         assertEquals(0,pl.getAvailableFamMembers().get(1).getActionValue());
         assertEquals(0,pl.getAvailableFamMembers().get(2).getActionValue());
@@ -73,8 +73,8 @@ public class PlayerTest {
         for (int c=0; c<14; c++) {
             pl.addCard(new Card(data.get(new Random().nextInt(95)).getAsJsonObject()));
         }
-        pl.currentRes = new Resources.ResBuilder().coin(10).servant(10).stone(10).wood(10)
-                .faithPoint(10).militaryPoint(15).victoryPoint(40).build();
+        pl.currentResMerge(new Resources.ResBuilder().coin(10).servant(10).stone(10).wood(10)
+                .faithPoint(10).militaryPoint(15).victoryPoint(40).build());
         for (String excomm: excommTest) {
             JsonObject excommObj = new Gson().fromJson(
                     String.format(excomm), JsonObject.class
@@ -114,11 +114,11 @@ public class PlayerTest {
         LeaderCard ariosto = new LudovicoAriosto();
         ariosto.setPlayer(pl);
         Resources tmp = new Resources.ResBuilder()
-                .build().merge(pl.currentRes);
+                .build().merge(pl.getCurrentRes());
         pl.getLeaderCards().add(ariosto);
         pl.discardLeaderCard();
         assertFalse(pl.getLeaderCards().contains(ariosto));
-        assertTrue(pl.currentRes.wood > tmp.wood);
+        assertTrue(pl.getCurrentRes().wood > tmp.wood);
     }
 
     @Test

@@ -67,9 +67,9 @@ class ResourcesAction extends BaseAction {
             Resources malus = Resources.fromJson(player.getExcommunications().get(0).get("resMalus")).inverse();
             Resources reducedRes = this.op.merge(malus);
             player.sOut("Due to your excommunication, you gain less resources");
-            this.player.currentRes = this.player.currentRes.merge(reducedRes);
+            this.player.currentResMerge(reducedRes);
         } else {
-            this.player.currentRes = this.player.currentRes.merge(this.op);
+            this.player.currentResMerge(this.op);
         }
     }
 

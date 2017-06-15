@@ -20,7 +20,7 @@ public class PlayerOperation implements Callable<Boolean> {
             g.setCurrPlayer(pl);
             pl.sOut("Turn " + g.getHalfPeriod() + ": Player " + pl.playerName +
                     " is the next player for this round:");
-            pl.sOut("Current Res: " + pl.currentRes.toString());
+            pl.sOut("Current Res: " + pl.getCurrentRes());
             boolean ret = false;
             while (true) {
                 g.getBoard().displayBoard();
@@ -52,7 +52,7 @@ public class PlayerOperation implements Callable<Boolean> {
                     continue;
                 } else if ("DiscardLeaderCard".equalsIgnoreCase(action)){
                     pl.discardLeaderCard();
-                    pl.sOut("Current Res: " + pl.currentRes.toString());
+                    pl.sOut("Current Res: " + pl.getCurrentRes());
                     continue;
                 } else if ("SkipRound".equalsIgnoreCase(action)) {
                     pl.sOut("You skipped the round");
@@ -65,7 +65,7 @@ public class PlayerOperation implements Callable<Boolean> {
                     // placed here to abort this operation if player is not satisfied, reverts the value increase by servants
                     pl.sOut("Reverting famMemIncrease");
                     pl.revertFamValue(famMem, g.getFamMemIncrease());
-                    pl.sOut("Current Res: " + pl.currentRes.toString());
+                    pl.sOut("Current Res: " + pl.getCurrentRes());
                     return true;
                 }
             }

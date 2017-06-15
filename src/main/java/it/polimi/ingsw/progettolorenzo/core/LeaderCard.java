@@ -181,7 +181,7 @@ class GirolamoSavonarola extends LeaderCard {
     @Override
     public void onePerRoundAbility() {
         owner.sOut("You gained 1 faith point.");
-        owner.currentRes = owner.currentRes.merge(new Resources
+        owner.currentResMerge(new Resources
                 .ResBuilder().faithPoint(1).build());
         onePerRoundUsage = true;
 
@@ -269,7 +269,7 @@ class MichelangeloBuonarroti extends LeaderCard {
     @Override
     public void onePerRoundAbility() {
         owner.sOut("You gained 3 coin.");
-        owner.currentRes = owner.currentRes.merge(new Resources
+        owner.currentResMerge(new Resources
                 .ResBuilder().coin(3).build());
         onePerRoundUsage = true;
 
@@ -312,7 +312,7 @@ class GiovanniDalleBandeNere extends LeaderCard {
     @Override
     public void onePerRoundAbility() {
         owner.sOut("You gained 1 coin, 1 wood, 1 stone");
-        owner.currentRes = owner.currentRes.merge(new Resources
+        owner.currentResMerge(new Resources
                 .ResBuilder().wood(1).stone(1).coin(1).build());
         onePerRoundUsage = true;
 
@@ -335,7 +335,7 @@ class CosimoDeMedici extends LeaderCard {
     @Override
     public void onePerRoundAbility() {
         owner.sOut("You received 3 servant and gained 1 victoryPoint");
-        owner.currentRes = owner.currentRes.merge(new Resources
+        owner.currentResMerge(new Resources
                 .ResBuilder().servant(3).victoryPoint(1).build());
         onePerRoundUsage = true;
     }
@@ -375,7 +375,7 @@ class BartolomeoColleoni extends LeaderCard {
     @Override
     public void onePerRoundAbility() {
         owner.sOut("You gained 4 victoryPoint");
-        owner.currentRes = owner.currentRes.merge(new Resources
+        owner.currentResMerge(new Resources
                 .ResBuilder().victoryPoint(4).build());
         onePerRoundUsage = true;
     }
@@ -397,7 +397,7 @@ class SandroBotticelli extends LeaderCard {
     @Override
     public void onePerRoundAbility() {
         owner.sOut("You gained 2 militaryPoint and 1 victoryPoint");
-        owner.currentRes = owner.currentRes.merge(new Resources
+        owner.currentResMerge(new Resources
                 .ResBuilder().militaryPoint(2).victoryPoint(1).build());
         onePerRoundUsage = true;
     }
@@ -421,7 +421,7 @@ class LudovicoIIIGonzaga extends LeaderCard {
         owner.sOut("You gained 1 councilPrivilege");
         Resources privRes = owner.getParentGame()
                 .getBoard().councilPalace.choosePrivilege(owner);
-        owner.currentRes = owner.currentRes.merge(privRes);
+        owner.currentResMerge(privRes);
         onePerRoundUsage = true;
     }
 }
