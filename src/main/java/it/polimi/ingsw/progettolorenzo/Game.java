@@ -68,7 +68,7 @@ public class Game implements Runnable {
         }
     }
 
-    private void initExcomm() {
+    protected void initExcomm() {
         JsonArray excommFile = Utils.getJsonArray("excommunication.json");
         for (JsonElement excommP : excommFile) {
             // turn the JsonArray into a Java List, then shuffle it
@@ -313,10 +313,8 @@ public class Game implements Runnable {
         }
     }
 
-    private void reportToVatican (int currTurn) {
-        //TODO testing
+    protected void reportToVatican (int currTurn) {
         JsonArray faithVictory = Utils.getJsonArray("faithTrack.json");
-        //TODO
         for (Player pl: players) {
             int period = currTurn/2;
             int plFaithP = pl.getCurrentRes().faithPoint;
@@ -326,9 +324,8 @@ public class Game implements Runnable {
                 excommunicate(pl, period);
             }
             else {
-                pl.sOut("What do you want to do? \n1. Support the Church \n2. Be excommunicated");
-                int choice = pl.sInPrompt(1, 2);
-                if (choice == 1) {
+                pl.sOut("Do you want to support the Church? If not you will be excommunicated");
+                if (pl.sInPromptConf()) {
                     for (LeaderCard leader : pl.getLeaderCards()) {
                         if("SistoIV".equals(leader.getName())
                                 && leader.isActivated()) {
@@ -337,7 +334,10 @@ public class Game implements Runnable {
                             break;
                         }
                     }
-                    pl.currentResMerge(Resources.fromJson(faithVictory.get(pl.getCurrentRes().faithPoint)));
+                    Resources victoryChurch = Resources.fromJson(faithVictory.get(pl.getCurrentRes().faithPoint));
+                    pl.currentResMerge(victoryChurch);
+                    log.info("Player " + pl + " supported the Church: he gains " +
+                            victoryChurch.victoryPoint + " victoryPoint");
                     pl.currentResMerge(new Resources.ResBuilder()
                             .faithPoint(plFaithP).build().inverse());
                 } else {

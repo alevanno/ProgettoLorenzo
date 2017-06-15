@@ -80,4 +80,18 @@ public class GameTest {
         endgameTest.endgameMilitary();
         assertEquals(secMaxPts, players.get(1).getCurrentRes().militaryPoint);
     }
+
+    @Test
+    public void reportToVaticanTest(){
+        game.initExcomm();
+        String action = "y\ny";
+        inputStream.setIn(action);
+        pl.currentResMerge(new Resources.ResBuilder().faithPoint(4).build());
+        game.reportToVatican(2);
+        pl.currentResMerge(new Resources.ResBuilder().faithPoint(3).build());
+        game.reportToVatican(4);
+        pl.currentResMerge(new Resources.ResBuilder().faithPoint(9).build());
+        game.reportToVatican(6);
+        assertEquals(0, pl.getCurrentRes().faithPoint);
+    }
 }
