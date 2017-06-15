@@ -54,7 +54,7 @@ public class LeaderTest {
         leader2.setPlayer(pl);
         LeaderCard leader3 = testMap.get("Filippo Brunelleschi");
         leader3.setPlayer(pl);
-        LeaderCard leader4 = testMap.get("Federico Da Montafeltro");
+        LeaderCard leader4 = testMap.get("Federico Da Montefeltro");
         leader4.setPlayer(pl);
         leader3.activation = true;
         leader4.activation = true;
@@ -88,10 +88,10 @@ public class LeaderTest {
         // Montafeltro test
         String action = "y\n1\ny\ny\ny\ny\ny\ny\n2\ny\ny\n";
         inputStream.setIn(action);
-        LeaderCard montafeltro = testMap.get("Federico Da Montafeltro");
-        montafeltro.setPlayer(pl);
-        montafeltro.activation = true;
-        montafeltro.apply();
+        LeaderCard montefeltro = testMap.get("Federico Da Montefeltro");
+        montefeltro.setPlayer(pl);
+        montefeltro.activation = true;
+        montefeltro.apply();
         assertEquals(6, pl.getAvailableFamMembers().get(0).getActionValue());
         // Buonarroti test
         LeaderCard buonarroti = testMap.get("Michelangelo Buonarroti");
