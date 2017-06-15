@@ -132,4 +132,23 @@ public class PlayerTest {
         pl.getLeaderCards().removeAll(pl.getLeaderCards());
         pl.activateLeaderCard();
     }
+
+    @Test
+    public void increaseFamValueTest() {
+        int initServants = pl.getCurrentRes().servant;
+        Map<String, Integer> famValues = new HashMap<>();
+        famValues.put("Orange", 6);
+        famValues.put("Black", 3);
+        famValues.put("White", 1);
+        pl.famMembersBirth(famValues);
+        String excomm = "{'period': 2,'servantExpense': 2 }";
+        JsonObject excommObj = new Gson().fromJson(
+                String.format(excomm), JsonObject.class);
+        String action = "y\n3\n2\ny\n";
+        inputStream.setIn(action);
+        pl.setExcommunication(excommObj, 1);
+        pl.increaseFamValue(pl.getAvailableFamMembers().get(1));
+        assertEquals(4, pl.getAvailableFamMembers().get(1).getActionValue());
+        assertEquals(initServants-2, pl.getCurrentRes().servant);
+    }
 }

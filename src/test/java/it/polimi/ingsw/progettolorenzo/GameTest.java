@@ -6,6 +6,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -49,5 +51,17 @@ public class GameTest {
         String action = "1\nn\n8\n1\n1\nn\n8\n1\n1\nn\n8\n1\n1\nn\n8\n1\n1\nn\n8\n1\n1\nn\n8\n1\n1\nn\n8\n1\n1\nn\n8\n1\n1\nn\n8\n1\n1\nn\n8\n1\n1\nn\n8\n1\n1\nn\n8\n1\n1\nn\n8\n1\n1\nn\n8\n1\n1\nn\n8\n1\n1\nn\n8\n1\n1\nn\n8\n1\n1\nn\n8\n1\n1\nn\n8\n1\n1\nn\n8\n1\n1\nn\n8\n1\n1\nn\n8\n1\n1\nn\n8\n1\n1\nn\n8\n1";
         inputStream.setIn(action);
         game.run();
+    }
+
+    @Test
+    public void endgameMilitaryTest() {
+        List<Player> players = Arrays.asList(new Player("Ciccio", "Blue"), new Player("Bello", "Red"),
+                new Player("Pallo", "Violet"), new Player("Pinco", "Yellow"));
+        Game endgameTest = new Game(players, false, false);
+        players.get(0).currentResMerge(new Resources.ResBuilder().militaryPoint(20).build());
+        players.get(1).currentResMerge(new Resources.ResBuilder().militaryPoint(20).build());
+        players.get(2).currentResMerge(new Resources.ResBuilder().militaryPoint(19).build());
+        players.get(3).currentResMerge(new Resources.ResBuilder().militaryPoint(15).build());
+        endgameTest.endgameMilitary();
     }
 }
