@@ -12,7 +12,7 @@ import static junit.framework.TestCase.assertEquals;
 public class GameTest {
     public Game game;
     public GameComponentsTest g = new GameComponentsTest();
-    LocalSingleClient client = new LocalSingleClient("Luca", "Blue");
+    LocalSingleClient client = new LocalSingleClient("Toletti", "Blue");
     PlayerIOLocal inputStream;
     Player pl;
 

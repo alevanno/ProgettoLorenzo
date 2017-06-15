@@ -152,4 +152,16 @@ public class ProductionTest {
         board.productionArea.prod(pl, 3);
         assertEquals(5, pl.currentRes.coin);
     }
+
+    @Test
+    public void noCardTest() {
+        for (Card c : testDeck) {
+            if ("Zecca".equals(c.cardName)) {
+                pl.addCard(c);
+            }
+        }
+        board.productionArea.prod(pl, 4);
+        board.productionArea.apply();
+        assertEquals(1, pl.currentRes.victoryPoint);
+    }
 }

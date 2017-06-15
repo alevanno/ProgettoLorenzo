@@ -140,7 +140,7 @@ class LudovicoAriosto extends LeaderCard {
 
 class FedericoDaMontefeltro extends LeaderCard {
     public FedericoDaMontefeltro() {
-        super("Federico Da Montafeltro", Arrays.asList(5),
+        super("Federico Da Montefeltro", Arrays.asList(5),
                 Arrays.asList("territories"),
                 false, true, false);
     }

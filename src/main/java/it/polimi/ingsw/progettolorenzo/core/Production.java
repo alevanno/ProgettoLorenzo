@@ -172,6 +172,9 @@ public class Production extends ActionProdHarv {
                 tempDeck.add(i);
             }
         }
+        if (tempDeck.size() == 0) {
+            log.info("Action value too low: player " + player + " only receives Resources from BonusTile");
+        }
 
         //finally calls all the prodMethods on tempDeck
 
