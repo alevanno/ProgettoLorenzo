@@ -58,10 +58,26 @@ public class GameTest {
         List<Player> players = Arrays.asList(new Player("Ciccio", "Blue"), new Player("Bello", "Red"),
                 new Player("Pallo", "Violet"), new Player("Pinco", "Yellow"));
         Game endgameTest = new Game(players, false, false);
-        players.get(0).currentResMerge(new Resources.ResBuilder().militaryPoint(20).build());
-        players.get(1).currentResMerge(new Resources.ResBuilder().militaryPoint(20).build());
-        players.get(2).currentResMerge(new Resources.ResBuilder().militaryPoint(19).build());
-        players.get(3).currentResMerge(new Resources.ResBuilder().militaryPoint(15).build());
+        int maxPts = 30;
+        players.get(0).currentResMerge(new Resources.ResBuilder().militaryPoint(5).build()); //ciccio
+        players.get(1).currentResMerge(new Resources.ResBuilder().militaryPoint(17).build()); //bello
+        players.get(2).currentResMerge(new Resources.ResBuilder().militaryPoint(maxPts).build()); //pallo
+        players.get(3).currentResMerge(new Resources.ResBuilder().militaryPoint(maxPts).build()); //pinco
         endgameTest.endgameMilitary();
+        assertEquals(maxPts, players.get(0).getCurrentRes().militaryPoint);
+    }
+
+    @Test
+    public void endgameMilitaryTest2() {
+        List<Player> players = Arrays.asList(new Player("Ciccio", "Blue"), new Player("Bello", "Red"),
+                new Player("Pallo", "Violet"), new Player("Pinco", "Yellow"));
+        Game endgameTest = new Game(players, false, false);
+        int secMaxPts = 17;
+        players.get(0).currentResMerge(new Resources.ResBuilder().militaryPoint(17).build()); //ciccio
+        players.get(1).currentResMerge(new Resources.ResBuilder().militaryPoint(17).build()); //bello
+        players.get(2).currentResMerge(new Resources.ResBuilder().militaryPoint(30).build()); //pallo
+        players.get(3).currentResMerge(new Resources.ResBuilder().militaryPoint(17).build()); //pinco
+        endgameTest.endgameMilitary();
+        assertEquals(secMaxPts, players.get(1).getCurrentRes().militaryPoint);
     }
 }

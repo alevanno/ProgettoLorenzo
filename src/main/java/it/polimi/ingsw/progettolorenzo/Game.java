@@ -346,14 +346,14 @@ public class Game implements Runnable {
             }
         }
     }
-     // TODO discuss this excommunications implementation
+
     private void excommunicate(Player p, int period) {
         p.setExcommunication(excomms.get(period-1), period-1);
     }
 
-    private void endgameMilitary () {
+    protected void endgameMilitary () {
         //1st gets 5 victoryP, 2nd gets 2 victoryP, if more than one player is first he gets the prize and the second gets nothing
-        players.sort(Comparator.comparing(p -> p.getCurrentRes().militaryPoint));
+        players.sort(Comparator.comparing(((Player p) -> p.getCurrentRes().militaryPoint)).reversed());
         int plWithMaxMilitary = 0;
         int maxMilitary = players.get(0).getCurrentRes().militaryPoint;
         int secMaxMilitary = 0;
@@ -376,7 +376,6 @@ public class Game implements Runnable {
         }
     }
 
-    //TODO testing
     private void endgame() {
         endgameMilitary();
         for (Player pl: players) {
