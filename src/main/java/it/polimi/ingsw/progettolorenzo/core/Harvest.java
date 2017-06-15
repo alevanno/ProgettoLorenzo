@@ -25,7 +25,6 @@ public class Harvest extends ActionProdHarv {
         }
         if (this.mainHarvest == null || Ariosto != null) {
             if (harv(fam.getParent(), fam.getActionValue())) {
-                //TODO testing
                 this.addAction(new TakeFamilyMember(fam));
                 if(this.mainHarvest == null) {
                     this.addAction(new PlaceFamMemberInProdHarv(fam, this, true));
@@ -64,7 +63,7 @@ public class Harvest extends ActionProdHarv {
     private void harvStaticCards(Deck tempDeck, Player player) {
         //resources given by static Cards
         for (Card i : tempDeck) {
-            if (base(i).get("resources") != null) {
+            if (base(i).has("resources")) {
                 Resources tmp = Resources.fromJson(base(i).get("resources").getAsJsonObject());
                 this.addAction(new ResourcesAction("Resources", tmp, player));
                 log.info("Harvest: Card " + i.cardName + " gave " + tmp.toString());
@@ -75,7 +74,7 @@ public class Harvest extends ActionProdHarv {
     private void harvCouncPriv(Deck tempDeck, Player player) {
         //councilPrivilege given by static Cards
         for (Card i : tempDeck) {
-            if (base(i).get("councilPrivilege") != null) {
+            if (base(i).has("councilPrivilege")) {
                 int priv = base(i).get("councilPrivilege").getAsInt();
                 log.info("Harvest: Card " + i.cardName + " gave " + String.valueOf(priv) + " Council privilege");
                 Set<Resources> privRes = (new Council().chooseMultiPrivilege(priv, player));
@@ -89,24 +88,12 @@ public class Harvest extends ActionProdHarv {
     }
 
     public boolean harv(Player player, int value) {
-        Deck tempDeck = new Deck();
-        for (Card c: player.listCards()) {
-            //TODO testing
-            JsonElement permEff = c.permanentEff.get("productionPlusValue");
-            if(permEff != null) {
-                value += permEff.getAsInt();
-            }
-        }
-        if (player.getExcommunications().get(0).has("harvMalus")) {
-            int harvMalus = player.getExcommunications().get(0).get("harvMalus").getAsInt();
-            player.sOut("Your excommunication lowers the value of this action by " + harvMalus);
-            value -= harvMalus;
-        }
+        value = checkValue(player, value, "harvestPlusValue", "harvMalus");
         if (value < 1) {
             player.sOut("You need an action value of at least 1");
             return false;
         }
-
+        Deck tempDeck = new Deck();
         //filters the current player's deck, keeping Cards with permanentEffect=harvest
         //excludes Cards having too high of an action value
         for (Card i : player.listCards()) {
@@ -115,7 +102,7 @@ public class Harvest extends ActionProdHarv {
                 tempDeck.add(i);
             }
             if (tempDeck.size() == 0) {
-                log.info("Action value too low: you will only receive Resources from your BonusTile");
+                log.info("Action value too low: player " + player + " only receives Resources from BonusTile");
             }
         }
         harvBonusTile(player);

@@ -158,23 +158,12 @@ public class Production extends ActionProdHarv {
 
 
     public boolean prod(Player player, int value) {
-        Deck tempDeck = new Deck();
-        for (Card c: player.listCards()) {
-            JsonElement permEff = c.permanentEff.get("productionPlusValue");
-            if(permEff != null) {
-                value += permEff.getAsInt();
-            }
-        }
-        if (player.getExcommunications().get(0).has("prodMalus")) {
-            int prodMalus = player.getExcommunications().get(0).get("prodMalus").getAsInt();
-            player.sOut("Your excommunication lowers the value of this action by " + prodMalus);
-            value -= prodMalus;
-        }
+        value = checkValue(player, value, "productionPlusValue", "prodMalus");
         if (value < 1) {
             player.sOut("You need an action value of at least 1");
             return false;
         }
-
+        Deck tempDeck = new Deck();
         //filters the current player's deck, keeping Cards with permanentEffect=production
         //excludes Cards having too high of an action value
         for (Card i : player.listCards()) {
