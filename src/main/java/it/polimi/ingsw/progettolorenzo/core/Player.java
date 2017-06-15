@@ -95,50 +95,10 @@ public class Player {
         log.fine("4 family members attached to " + this);
     }
 
-    public BonusTile getBonusT() {
-        return bonusT;
-    }
-
-    public Game getParentGame() {
-        return parentGame;
-    }
-
-    public List<JsonObject> getExcommunications() {
-        return excommunications;
-    }
-
     public void setBonusTile(BonusTile bt) {
         log.info(String.format("[%s] Set bonus tile %s",
                 this, bt));
         this.bonusT = bt;
-    }
-
-    public void setExcommunication(JsonObject e, int index) {
-        this.excommunications.add(index, e);
-    }
-
-    public void setParentGame(Game parentGame) {
-        this.parentGame = parentGame;
-    }
-
-    public void addCard(Card toadd) {
-        this.cards.add(toadd);
-    }
-
-    public Deck listCards() {
-        return this.cards.listCards();
-    }
-
-    protected Card takeCard(int idx) {
-        return this.cards.remove(idx);
-    }
-
-    public List<FamilyMember> getAvailableFamMembers() {
-        return this.famMemberList;
-    }
-
-    public List<LeaderCard> getLeaderCards() {
-        return leaderCards;
     }
 
     public String displayFamilyMembers() {
@@ -221,10 +181,6 @@ public class Player {
                 .build());
     }
 
-    public PlayerIO getIo() {
-        return io;
-    }
-
     // TODO this method affects only the activation of a leader card;
     // we should create an other method to use the One per Round ability
     public boolean activateLeaderCard() {
@@ -283,6 +239,7 @@ public class Player {
                 int b = currentRes.getByString(x);
                 currentRes = currentRes.merge(
                         new Resources.ResBuilder().victoryPoint(b / a).build().inverse());
+                log.info("Player " + playerName + " loses a victoryPoint every " + a + x + " due to excommunication");
             }
         });
     }
@@ -291,7 +248,7 @@ public class Player {
         AtomicInteger lostVictoryPts = new AtomicInteger(0);
         for (Card c : listCards()) {
             if ("buildings".equals(c.cardType)) {
-                Resources cardCost = c.getCardCost(new Player("dummy", "dummy"));
+                Resources cardCost = c.getCardCost(this);
                 loseVictoryCost.resourcesList.forEach((x, y) -> {
                     if (y != 0) {
                         lostVictoryPts.addAndGet(cardCost.getByString(x));
@@ -301,6 +258,7 @@ public class Player {
         }
         currentRes = currentRes.merge(
                 new Resources.ResBuilder().victoryPoint(lostVictoryPts.get()).build().inverse());
+        log.info("Player " + playerName + " loses " + lostVictoryPts + " victoryPoint due to excommunication (buildingCardCost)");
     }
 
     public void endgame() {
@@ -315,6 +273,7 @@ public class Player {
             String noVictoryType = "";
             if (excomBase.has("noVictoryType")) {
                 noVictoryType = excomBase.get("noVictoryType").getAsString();
+                log.info("Player " + playerName + " doesn't receive resources from " + noVictoryType + " cards due to excommunication");
             }
             if (i.cardType.equals("territories") && !noVictoryType.equals("territories")) {
                 countTerritories++;
@@ -327,9 +286,13 @@ public class Player {
             }
         }
         currentRes = currentRes.merge(purpleFinal);
+        log.info("Ventures cards gave " + purpleFinal.victoryPoint + " victoryPoint");
         currentRes = currentRes.merge(new Resources.ResBuilder().victoryPoint(territoriesVictory.get(countTerritories)).build());
+        log.info("Territories cards gave " + countTerritories + " victoryPoint");
         currentRes = currentRes.merge(new Resources.ResBuilder().victoryPoint(charactersVictory.get(countCharacters)).build());
+        log.info("Characters cards gave " + countCharacters + " victoryPoint");
         currentRes = currentRes.merge(new Resources.ResBuilder().victoryPoint(sumResources / 5).build());
+        log.info("Personal Resources gave " + sumResources / 5 + " victoryPoint");
 
         if (excomBase.has("lostVictoryRes")) {
             Resources loseVictoryRes = Resources.fromJson(excomBase.get("lostVictoryRes").getAsJsonObject().get("resources"));
@@ -341,11 +304,62 @@ public class Player {
             endgameLostVictoryCost(loseVictoryCost);
         }
 
-        //TEST
-        System.out.println("excomm " + currentRes);
+        log.info("Final Resources " + currentRes);
+    }
+
+    public PlayerIO getIo() {
+        return io;
     }
 
     public String toString() {
         return this.playerName;
+    }
+
+    public BonusTile getBonusT() {
+        return bonusT;
+    }
+
+    public Game getParentGame() {
+        return parentGame;
+    }
+
+    public List<JsonObject> getExcommunications() {
+        return excommunications;
+    }
+
+    public void setExcommunication(JsonObject e, int index) {
+        this.excommunications.add(index, e);
+    }
+
+    public void setParentGame(Game parentGame) {
+        this.parentGame = parentGame;
+    }
+
+    public void currentResMerge(Resources toMerge) {
+        this.currentRes = this.currentRes.merge(toMerge);
+    }
+
+    public Resources getCurrentRes() {
+        return currentRes;
+    }
+
+    public void addCard(Card toAdd) {
+        this.cards.add(toAdd);
+    }
+
+    public Deck listCards() {
+        return this.cards.listCards();
+    }
+
+    protected Card takeCard(int idx) {
+        return this.cards.remove(idx);
+    }
+
+    public List<FamilyMember> getAvailableFamMembers() {
+        return this.famMemberList;
+    }
+
+    public List<LeaderCard> getLeaderCards() {
+        return leaderCards;
     }
 }

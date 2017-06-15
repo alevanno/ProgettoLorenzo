@@ -211,7 +211,7 @@ public class Game implements Runnable {
 
     private void round(List<Player> playersOrder, int round) {
         List<Player> skippedPlayers = new ArrayList<>();
-        Timer timer = new Timer();
+        //Timer timer = new Timer();
         for (Player pl : playersOrder) {
             if (pl.getExcommunications().get(1).has("skipRound") && round == 1) {
                 skippedPlayers.add(pl);
@@ -338,7 +338,6 @@ public class Game implements Runnable {
                         }
                     }
                     pl.currentRes = pl.currentRes.merge(Resources.fromJson(faithVictory.get(pl.currentRes.faithPoint)));
-                    //FIXME this is so stupid, the player's currentRes should not be final...
                     pl.currentRes = pl.currentRes.merge(new Resources.ResBuilder()
                             .faithPoint(plFaithP).build().inverse());
                 } else {
@@ -353,7 +352,6 @@ public class Game implements Runnable {
     }
 
     private void endgameMilitary () {
-        //FIXME this is horrid, but I'm not sure it could be written some other way
         //1st gets 5 victoryP, 2nd gets 2 victoryP, if more than one player is first he gets the prize and the second gets nothing
         players.sort(Comparator.comparing(p -> p.currentRes.militaryPoint));
         int plWithMaxMilitary = 0;
@@ -363,14 +361,16 @@ public class Game implements Runnable {
             if (p.currentRes.militaryPoint == maxMilitary) {
                 plWithMaxMilitary++;
                 p.currentRes = p.currentRes.merge(new Resources.ResBuilder().victoryPoint(5).build());
+                log.info("Player " + p + " has the highest militaryPoint: he gains 5 victoryPoint");
             } else if (p.currentRes.militaryPoint > secMaxMilitary) {
                 secMaxMilitary = p.currentRes.militaryPoint;
             }
         }
-        if (plWithMaxMilitary > 1) {
+        if (plWithMaxMilitary == 1) {
             for (Player p: players) {
                 if (p.currentRes.militaryPoint == secMaxMilitary) {
                     p.currentRes = p.currentRes.merge(new Resources.ResBuilder().victoryPoint(3).build());
+                    log.info("Player " + p + " has the second highest militaryPoint: he gains 3 victoryPoint");
                 }
             }
         }
