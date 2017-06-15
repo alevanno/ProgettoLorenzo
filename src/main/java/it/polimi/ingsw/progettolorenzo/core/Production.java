@@ -4,11 +4,8 @@ package it.polimi.ingsw.progettolorenzo.core;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
 import java.util.*;
 import java.util.logging.Logger;
-
-import static it.polimi.ingsw.progettolorenzo.core.Utils.intPrompt;
 import static java.lang.String.valueOf;
 
 public class Production extends ActionProdHarv {
@@ -25,12 +22,9 @@ public class Production extends ActionProdHarv {
                 break;
             }
         }
-        //place fam Member only if mainProd = null, but take from pl
-        // the family member and accomplish the action also if
-        // pl have Ariosto leader card
+        // take and place fam Member if mainProd == null or if pl has Ariosto leader card
         if (this.mainProduction == null || Ariosto != null) {
             if (prod(fam.getParent(), fam.getActionValue())) {
-                //TODO testing
                 this.addAction(new TakeFamilyMember(fam));
                 if(this.mainProduction == null) {
                     this.addAction(new PlaceFamMemberInProdHarv(fam, this, true));
@@ -62,7 +56,7 @@ public class Production extends ActionProdHarv {
     private void prodMultiplier(Deck tempDeck, Player player) {
         //handles the "multiplier" type of production
         for (Card i : tempDeck) {
-            if (base(i).get("multiplier") != null) {
+            if (base(i).has("multiplier")) {
                 JsonObject mult = base(i).get("multiplier").getAsJsonObject();
                 String tmpType = mult.get("type").getAsString();
                 Resources tmpRes = Resources.fromJson(mult.get("bonus"));
@@ -78,14 +72,13 @@ public class Production extends ActionProdHarv {
     }
 
     private void prodConversion(Deck tempDeck, Player player) {
-        //TODO le risorse ottenute non possono essere usate per altre conversion subito dopo
         //conversions provided by cards
         for (Card i : tempDeck) {
-            if (base(i).get("conversion") != null) {
+            if (base(i).has("conversion")) {
                 JsonArray arr = base(i).get("conversion").getAsJsonArray();
                 player.sOut("Production: Card " + i.getCardName() + " allows you to convert some resources");
                 player.sOut("Available conversions:  \n0: None");
-                List<ResConv> r = new ArrayList<>();
+                List<ResConv> resConvList = new ArrayList<>();
                 int count = 1;
                 for (int conv = 0; conv < arr.size(); conv++) {
                     JsonArray src = arr.get(conv).getAsJsonObject().get("src").getAsJsonArray();
@@ -95,31 +88,29 @@ public class Production extends ActionProdHarv {
                         Resources resSrc = Resources.fromJson(a);
                         Resources resDest;
                         int councDest;
-                        if (dest.get(0).getAsJsonObject().get("resources") != null) { //FIXME check if these can be replaced with has()
+                        if (dest.get(0).getAsJsonObject().has("resources")) { //FIXME check if these can be replaced with has()
                             resDest = Resources.fromJson(dest.get(0).getAsJsonObject().get("resources"));
-                            r.add(new ResConv(count, resSrc, resDest));
+                            resConvList.add(new ResConv(count, resSrc, resDest));
                             count++;
-                        } else if (dest.get(0).getAsJsonObject().get("councilPrivilege") != null) {
+                        } else if (dest.get(0).getAsJsonObject().has("councilPrivilege")) {
                             councDest = dest.get(0).getAsJsonObject().get("councilPrivilege").getAsInt();
-                            r.add(new ResConv(count, resSrc, councDest));
+                            resConvList.add(new ResConv(count, resSrc, councDest));
                             count++;
                         }
                     }
                 }
-                for (ResConv rc : r) {
+                for (ResConv rc : resConvList) {
                     player.sOut(rc.toString());
                 }
                 int choice = player.sInPrompt(0, count-1);
-
-                if (choice == 0) {
-                } else if (choice != 0) {
-                    this.addAction(new ResourcesAction("Conversion source", r.get(choice - 1).getResSrc().inverse(), player));
-                    player.sOut("Conversion removed " + r.get(choice - 1).getResSrc());
-                    if ((r.get(choice - 1).getResDst() != null)) {
-                        this.addAction(new ResourcesAction("Conversion dest", r.get(choice - 1).getResDst(), player));
-                        player.sOut("Conversion added " + r.get(choice - 1).getResDst().toString());
-                    } else if (r.get(choice - 1).getCouncDst() != 0) {
-                        Set<Resources> privRes = (new Council().chooseMultiPrivilege(r.get(choice - 1).getCouncDst(), player));
+                if (choice != 0) {
+                    this.addAction(new ResourcesAction("Conversion source", resConvList.get(choice - 1).getResSrc().inverse(), player));
+                    player.sOut("Conversion removed " + resConvList.get(choice - 1).getResSrc());
+                    if ((resConvList.get(choice - 1).getResDst() != null)) {
+                        this.addAction(new ResourcesAction("Conversion dest", resConvList.get(choice - 1).getResDst(), player));
+                        player.sOut("Conversion added " + resConvList.get(choice - 1).getResDst().toString());
+                    } else if (resConvList.get(choice - 1).getCouncDst() != 0) {
+                        Set<Resources> privRes = (new Council().chooseMultiPrivilege(resConvList.get(choice - 1).getCouncDst(), player));
                         for (Resources co : privRes) {
                             this.addAction(new ResourcesAction(
                                     "Conversion CouncilPrivilege", co, player));
@@ -141,7 +132,7 @@ public class Production extends ActionProdHarv {
     private void prodStaticCards(Deck tempDeck, Player player) {
         //resources given by static Cards
         for (Card i : tempDeck) {
-            if (base(i).get("resources") != null) {
+            if (base(i).has("resources")) {
                 Resources tmp = Resources.fromJson(base(i).get("resources"));
                 this.addAction(new ResourcesAction("Resources", tmp, player));
                 log.info("Production: Card " + i.getCardName() + " gave " + tmp.toString());
@@ -152,7 +143,7 @@ public class Production extends ActionProdHarv {
     private void prodCouncPriv(Deck tempDeck, Player player) {
         //councilPrivilege given by static Cards
         for (Card i : tempDeck) {
-            if (base(i).get("councilPrivilege") != null) {
+            if (base(i).has("councilPrivilege")) {
                 int priv = base(i).get("councilPrivilege").getAsInt();
                 player.sOut("Production: Card " + i.getCardName() + " gave " + valueOf(priv) + " Council privilege");
                 Set<Resources> privRes = (new Council().chooseMultiPrivilege(priv, player));
@@ -167,10 +158,8 @@ public class Production extends ActionProdHarv {
 
 
     public boolean prod(Player player, int value) {
-        //TODO it would be very nice if eventually the common code between prod and harv was merged in ProdHarvCommon
         Deck tempDeck = new Deck();
         for (Card c: player.listCards()) {
-            //TODO testing
             JsonElement permEff = c.permanentEff.get("productionPlusValue");
             if(permEff != null) {
                 value += permEff.getAsInt();
@@ -195,7 +184,7 @@ public class Production extends ActionProdHarv {
             }
         }
 
-        //Chiamare tutte le funzioni
+        //finally calls all the prodMethods on tempDeck
 
         prodConversion(tempDeck, player);
         prodMultiplier(tempDeck, player);
