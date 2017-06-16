@@ -51,7 +51,12 @@ public class MarketBooth extends Action {
             p.sOut("You need an action value of at least 1");
             return false;
         }
-        if(this.getFamMember() == null || p.leaderIsActive("Ludovico Ariosto")) {
+        //Player can claim the space if getFamMember == null or if he has Ariosto.
+        //With Ariosto a player can claim the space even if he did so himself
+        // previously, granted that one of the famMem is the Blank one
+        if(this.getFamMember() == null || p.leaderIsActive("Ludovico Ariosto") &&
+                (!p.equals(this.getFamMember().getParent()) || p.equals(this.getFamMember().getParent()) &&
+                        ("Blank".equals(fam.getSkinColour()) || "Blank".equals(this.getFamMember().getSkinColour())))) {
             this.addAction(new TakeFamilyMember(fam));
             if (this.getFamMember() == null) {
                 this.addAction(new PlaceFamilyMemberInBooth(fam, this));

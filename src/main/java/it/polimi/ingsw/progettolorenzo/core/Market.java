@@ -28,7 +28,6 @@ public class Market {
         return booths;
     }
 
-    // TODO it needs improvements and it has to show the occupantPlayer
     public void displayBooths(Player pl) {
         pl.sOut("Where do you want to put your Family Member?: ");
         if (pl.getParentGame().getNumOfPlayers() > 3) {

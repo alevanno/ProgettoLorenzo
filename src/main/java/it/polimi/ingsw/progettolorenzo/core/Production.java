@@ -14,9 +14,14 @@ public class Production extends ActionProdHarv {
     private List<FamilyMember> secondaryProduction = new ArrayList<>();
 
     public boolean claimFamMain(FamilyMember fam) {
-        // take and place fam Member if mainProd == null or if pl has Ariosto leader card
-        if (this.mainProduction == null || fam.getParent().leaderIsActive("Ludovico Ariosto")) {
-            if (prod(fam.getParent(), fam.getActionValue())) {
+        Player p = fam.getParent();
+        //Player can claim the space if mainProd == null or if he has Ariosto.
+        //With Ariosto a player can claim the space even if he did so himself
+        // previously, granted that one of the famMem is the Blank one
+        if (this.mainProduction == null || p.leaderIsActive("Ludovico Ariosto") &&
+                (!p.equals(this.mainProduction.getParent()) || p.equals(this.mainProduction.getParent()) &&
+                        ("Blank".equals(fam.getSkinColour()) || "Blank".equals(this.mainProduction.getSkinColour())))) {
+            if (prod(p, fam.getActionValue())) {
                 this.addAction(new TakeFamilyMember(fam));
                 if(this.mainProduction == null) {
                     this.addAction(new PlaceFamMemberInProdHarv(fam, this, true));
