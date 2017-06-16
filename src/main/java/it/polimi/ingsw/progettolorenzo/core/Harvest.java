@@ -15,15 +15,7 @@ public class Harvest extends ActionProdHarv {
     private List<FamilyMember> secondaryHarvest = new ArrayList<>();
 
     public boolean claimFamMain(FamilyMember fam) {
-        LeaderCard Ariosto = null;
-        for (LeaderCard leader : fam.getParent().getLeaderCards()) {
-            if("Ludovico Ariosto".equals(leader.getName())
-                    && leader.isActivated()) {
-                Ariosto = leader;
-                break;
-            }
-        }
-        if (this.mainHarvest == null || Ariosto != null) {
+        if (this.mainHarvest == null || fam.getParent().leaderIsActive("Ludovico Ariosto")) {
             if (harv(fam.getParent(), fam.getActionValue())) {
                 this.addAction(new TakeFamilyMember(fam));
                 if(this.mainHarvest == null) {

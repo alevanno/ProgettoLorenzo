@@ -190,7 +190,7 @@ class GirolamoSavonarola extends LeaderCard {
 
 class SistoIV extends LeaderCard {
     public SistoIV() {
-        super("SistoIV", Arrays.asList(6),
+        super("Sisto IV", Arrays.asList(6),
                 Arrays.asList("coin", "wood", "stone", "servant"),
                 false, false, false);
     }

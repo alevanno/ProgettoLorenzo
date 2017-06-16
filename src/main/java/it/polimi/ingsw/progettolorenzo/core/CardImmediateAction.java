@@ -9,20 +9,16 @@ import java.util.logging.Logger;
 
 public class CardImmediateAction extends Action {
     private final Logger log = Logger.getLogger(this.getClass().getName());
-    public CardImmediateAction(Card card, Player pl) {
 
+    public CardImmediateAction(Card card, Player pl) {
         if (card.immediateEff.containsKey("resources")) {
             int repeat = 1;
             Resources tmp = Resources.fromJson(card.immediateEff.get("resources").getAsJsonObject());
-            for (LeaderCard leader : pl.getLeaderCards()) {
-                if("Ludovico Ariosto".equals(leader.getName())
-                        && leader.isActivated()) {
-                    repeat = 2;
-                    log.info("ImmediateAction: Card " + card.getCardName() + " " +
-                            "gave resources twice thanks to " + leader.getName()
-                    + " leader card");
-                    break;
-                }
+
+            if (pl.leaderIsActive("Santa Rita")) {
+                repeat = 2;
+                log.info("ImmediateAction: Card " + card.getCardName() +
+                        " gave resources twice thanks to Santa Rita leader card");
             }
             for(int i = 0; i < repeat; i++ ) {
                 this.addAction(new ResourcesAction("ImmResources", tmp, pl));

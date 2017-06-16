@@ -14,16 +14,8 @@ public class Production extends ActionProdHarv {
     private List<FamilyMember> secondaryProduction = new ArrayList<>();
 
     public boolean claimFamMain(FamilyMember fam) {
-        LeaderCard Ariosto = null;
-        for (LeaderCard leader : fam.getParent().getLeaderCards()) {
-            if("Ludovico Ariosto".equals(leader.getName())
-                    && leader.isActivated()) {
-                Ariosto = leader;
-                break;
-            }
-        }
         // take and place fam Member if mainProd == null or if pl has Ariosto leader card
-        if (this.mainProduction == null || Ariosto != null) {
+        if (this.mainProduction == null || fam.getParent().leaderIsActive("Ludovico Ariosto")) {
             if (prod(fam.getParent(), fam.getActionValue())) {
                 this.addAction(new TakeFamilyMember(fam));
                 if(this.mainProduction == null) {

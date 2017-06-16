@@ -51,15 +51,7 @@ public class MarketBooth extends Action {
             p.sOut("You need an action value of at least 1");
             return false;
         }
-        LeaderCard Ariosto = null;
-        for (LeaderCard leader : fam.getParent().getLeaderCards()) {
-            if("Ludovico Ariosto".equals(leader.getName())
-                    && leader.isActivated()) {
-                Ariosto = leader;
-            }
-        }
-        // ugly, but it seems to work
-        if(this.getFamMember() == null || Ariosto != null) {
+        if(this.getFamMember() == null || p.leaderIsActive("Ludovico Ariosto")) {
             this.addAction(new TakeFamilyMember(fam));
             if (this.getFamMember() == null) {
                 this.addAction(new PlaceFamilyMemberInBooth(fam, this));

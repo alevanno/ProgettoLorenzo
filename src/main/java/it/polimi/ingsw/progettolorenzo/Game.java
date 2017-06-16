@@ -326,13 +326,9 @@ public class Game implements Runnable {
             else {
                 pl.sOut("Do you want to support the Church? If not you will be excommunicated");
                 if (pl.sInPromptConf()) {
-                    for (LeaderCard leader : pl.getLeaderCards()) {
-                        if("SistoIV".equals(leader.getName())
-                                && leader.isActivated()) {
-                            pl.currentResMerge(
-                                    new Resources.ResBuilder().victoryPoint(5).build());
-                            break;
-                        }
+                    if (pl.leaderIsActive("Sisto IV")) {
+                        pl.currentResMerge(
+                                new Resources.ResBuilder().victoryPoint(5).build());
                     }
                     Resources victoryChurch = Resources.fromJson(faithVictory.get(pl.getCurrentRes().faithPoint));
                     pl.currentResMerge(victoryChurch);

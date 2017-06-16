@@ -205,8 +205,8 @@ public class Player {
         this.sOut("Confirm?");
         int counter = 0;
         if(this.sInPromptConf()) {
-            for (LeaderCard card : leaderCards) {
-                if(leader.getName().equals(card.getName())) {
+            for (LeaderCard leaderCard : leaderCards) {
+                if(leader.getName().equals(leaderCard.getName())) {
                     leaderCards.remove(counter);
                     Resources privRes = this.getParentGame()
                             .getBoard().councilPalace.choosePrivilege(this);
@@ -305,6 +305,16 @@ public class Player {
         log.info("Final Resources " + currentRes);
     }
 
+    public boolean leaderIsActive(String leaderName) {
+        for (LeaderCard leader : this.getLeaderCards()) {
+            if (leaderName.equals(leader.getName())
+                    && leader.isActivated()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public PlayerIO getIo() {
         return io;
     }
@@ -321,9 +331,7 @@ public class Player {
         return parentGame;
     }
 
-    public List<JsonObject> getExcommunications() {
-        return excommunications;
-    }
+    public List<JsonObject> getExcommunications() { return excommunications; }
 
     public void setExcommunication(JsonObject e, int index) {
         this.excommunications.add(index, e);

@@ -93,19 +93,11 @@ public class Floor extends Action {
             fam.getParent().sOut("Insufficient resources");
             return false;
         }
-        LeaderCard Borgia = null;
-        for (LeaderCard leader : fam.getParent().getLeaderCards()) {
-            if("Ludovico Ariosto".equals(leader.getName())
-                    && leader.isActivated()) {
-                Borgia = leader;
-                break;
-            }
-        }
         if (!"Dummy".equals(fam.getSkinColour())) {
             callerFl = this;
         }
-        if(tmpRes.militaryPoint >= floorCard.minMilitaryPoint
-                && !tmpRes.merge(cardCost).isNegative() || Borgia != null) {
+        if ((tmpRes.militaryPoint >= floorCard.minMilitaryPoint
+                && !tmpRes.merge(cardCost).isNegative()) || p.leaderIsActive("Cesare Borgia")) {
             callerFl.addAction(new TakeFamilyMember(fam));
             callerFl.addAction(new PlaceFamilyMemberInFloor(fam, this));
             if (!boycottBonus) {
