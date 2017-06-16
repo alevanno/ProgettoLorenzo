@@ -64,7 +64,7 @@ public class MoveTest {
                 tmpDeck.add(c);
         }
         gameTest.game.setBoard(new Board(tmpDeck, gameTest.game));
-        String action = "Badessa\ny\n3\ny\nAvamposto Commerciale\ny\ny";
+        String action = "Badessa\ny\ny\n3\ny\nAvamposto Commerciale\ny\ny";
         inputStream.setIn(action);
         assertTrue(Move.floorAction(gameTest.game.getBoard(), pl.getAvailableFamMembers().get(0)));
     }

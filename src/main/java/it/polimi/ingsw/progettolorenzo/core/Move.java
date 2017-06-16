@@ -61,6 +61,8 @@ public class Move {
 
     public static void floorActionWithCard(Player pl, Card caller, String type, int value, Resources discount) {
         Board board = pl.getParentGame().getBoard();
+        pl.sOut("Immediate floorActionWithCard from card " + caller + "\nDo you want to exploit it?");
+        if (!pl.sInPromptConf()) { return; }
         FamilyMember dummy = new FamilyMember(pl, value, "Dummy");
         pl.getAvailableFamMembers().add(dummy);
         boolean ret = false;

@@ -109,7 +109,7 @@ public class PlayerTest {
 
     @Test
     public void discardLeaderTest() {
-        String action = "5\ny\n1\n";
+        String action = "5\ny\n1\n1\n";
         inputStream.setIn(action);
         LeaderCard ariosto = new LudovicoAriosto();
         ariosto.setPlayer(pl);

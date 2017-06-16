@@ -193,7 +193,7 @@ public class LeaderTest {
         ariosto.permanentAbility();
         Move.marketAction(board, pl.getAvailableFamMembers().get(0));
         // i can place fam in occupied spaces
-        assertTrue(Move.marketAction
+        assertFalse(Move.marketAction
                 (board, pl.getAvailableFamMembers().get(1)));
         // SistoIV test
         LeaderCard sistoIV = testMap.get("Sisto IV");
