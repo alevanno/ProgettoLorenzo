@@ -196,7 +196,7 @@ public class LeaderTest {
         assertTrue(Move.marketAction
                 (board, pl.getAvailableFamMembers().get(1)));
         // SistoIV test
-        LeaderCard sistoIV = testMap.get("SistoIV");
+        LeaderCard sistoIV = testMap.get("Sisto IV");
         pl.getLeaderCards().add(sistoIV);
         sistoIV.setPlayer(pl);
         sistoIV.activation = true;
