@@ -67,7 +67,7 @@ class FrancescoSforza extends LeaderCard {
 
     @Override
     public void onePerRoundAbility(){
-        LeaderUtils.OneHarvProd("production", owner, this);
+        LeaderUtils.oneHarvProd("production", owner, this);
     }
 }
 
@@ -355,7 +355,7 @@ class LeonardoDaVinci extends LeaderCard {
     }
     @Override
     public void onePerRoundAbility() {
-        LeaderUtils.OneHarvProd("harvest", owner, this);
+        LeaderUtils.oneHarvProd("harvest", owner, this);
     }
 }
 

@@ -15,7 +15,6 @@ public class Player {
     public final String playerName;
     private final String playerColour;
     private final PlayerIO io;
-    // FIXME make private
     private Resources currentRes = new Resources.ResBuilder().servant(3).stone(2).wood(2).build();
     private List<FamilyMember> famMemberList = new ArrayList<>();
     private Deck cards = new Deck();
@@ -85,7 +84,7 @@ public class Player {
                     blankValue += 3;
                 }
             }
-            if (excommunications.get(0).has("harvMalus")) {
+            if (excommunications.get(0).has("actionValMalus")) {
                 val -= 1;
             }
             this.famMemberList.add(new FamilyMember(this, val, s));

@@ -65,25 +65,13 @@ public class LeaderUtils {
         }
     }
 
-    public static void OneHarvProd(String action, Player owner, LeaderCard card) {
-        int value = 0;
-        boolean ok = false;
+    public static void oneHarvProd(String action, Player owner, LeaderCard card) {
+        int value = 1;
         owner.sOut("It allows to call a " + action + " of value 1");
-        owner.sOut("Do you want to increase your it?: ");
+        owner.sOut("Do you want to increase its value?: ");
         if (owner.sInPromptConf()) {
-            while (!ok) {
-                value = owner.increaseValue();
-                owner.sOut("Current " + action + " value: " + value);
-                owner.sOut("Confirm?:");
-                if (owner.sInPromptConf()) {
-                    owner.currentResMerge(new
-                            Resources.ResBuilder().servant(value)
-                            .build().inverse());
-                    ok = true;
-                }
-            }
-        } else {
-            value = 1;
+            value += owner.increaseValue();
+            owner.sOut("Current " + action + " value: " + value);
         }
         if("harvest".equals(action)) {
             owner.getParentGame().getBoard().harvestArea.harv(owner, value);

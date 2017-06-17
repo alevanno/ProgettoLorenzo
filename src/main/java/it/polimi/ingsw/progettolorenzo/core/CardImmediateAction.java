@@ -46,7 +46,6 @@ public class CardImmediateAction extends Action {
             pl.getParentGame().getBoard().harvestArea.harv(pl, value);
         }
 
-        //TODO this action's value can be increased with servants
         if(card.immediateEff.containsKey("pickCard")) {
             String type = card.immediateEff.get("pickCard").getAsJsonObject().get("type").getAsString();
             int value = card.immediateEff.get("pickCard").getAsJsonObject().get("value").getAsInt();

@@ -84,7 +84,7 @@ public class LeaderTest {
 
     @Test
     public void onePerRoundTest() {
-        // sforza already tested in OneHarvProd
+        // sforza already tested in oneHarvProd
         // Montefeltro test
         String action = "y\n1\ny\ny\ny\ny\ny\ny\n2\ny\ny\n";
         inputStream.setIn(action);
