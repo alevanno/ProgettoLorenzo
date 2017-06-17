@@ -117,7 +117,7 @@ public class PlayerTest {
                 .build().merge(pl.getCurrentRes());
         pl.getLeaderCards().add(ariosto);
         pl.discardLeaderCard();
-        assertFalse(pl.getLeaderCards().contains(ariosto));
+        assertTrue(pl.getLeaderCards().size() == 4);
         assertTrue(pl.getCurrentRes().wood > tmp.wood);
     }
 
