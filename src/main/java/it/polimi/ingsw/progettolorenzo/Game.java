@@ -27,7 +27,6 @@ public class Game implements Runnable {
     private List<JsonObject> excomms = new ArrayList<>();
     private final boolean personalBonusBoards;
     private final boolean leaderOn;
-    private int famMemIncrease;
 
 
     public Game(List<Player> listPlayers, boolean personalBonusBoards,
@@ -239,63 +238,10 @@ public class Game implements Runnable {
     }
 
     public void timeExpired(Player pl, FamilyMember fam) { //TODO
-        pl.sOut("Time expired! Reverting famMemIncrease");
-        pl.revertFamValue(fam, famMemIncrease);
+        pl.sOut("Time expired! Reverting lastFamMemIncrease");
+        pl.revertFamValue(fam, pl.getLastFamMemIncrease());
         pl.sOut("Current Res: " + pl.getCurrentRes().toString());
     }
-
-    /*public void operation(Game g, Player pl) {
-        currPlayer = pl;
-        pl.sOut("Turn " + this.halfPeriod + ": Player " + pl.playerName +
-                " is the next player for this round:");
-        pl.sOut("Current Res: " + pl.getCurrentRes().toString());
-        boolean ret = false;
-        while (true) {
-            this.board.displayBoard();
-            pl.sOut("Which family member do you want to use?: ");
-            pl.sOut(pl.displayFamilyMembers());
-            FamilyMember famMem = pl.getAvailableFamMembers()
-                    .get(pl.sInPrompt(1, pl.getAvailableFamMembers().size()) - 1);
-            pl.sOut(famMem.getSkinColour() + " family member selected");
-            famMemIncrease = 0; //needed so it doesn't restore the previous player's famMemIncrease when the timer expires
-            famMemIncrease = pl.increaseFamValue(famMem);
-            //setFam(famMem); //TODO
-            pl.sOut("Available actions:");
-            pl.sOut(Utils.displayList(actions));
-            pl.sOut("Which action do you want to try?: ");
-            board.displayBoard();
-            String action = actions.get(pl.sInPrompt(1, actions.size()) - 1);
-            if ("Floor".equalsIgnoreCase(action)) {
-                ret = Move.floorAction(this.board, famMem);
-            } else if ("Market".equalsIgnoreCase(action)) {
-                ret = Move.marketAction(this.board, famMem);
-            } else if ("CouncilPalace".equalsIgnoreCase(action)) {
-                ret = Move.councilAction(this.board, famMem);
-            } else if ("Production".equalsIgnoreCase(action)) {
-                ret = Move.prodAction(this.board, famMem);
-            } else if ("Harvest".equalsIgnoreCase(action)) {
-                ret = Move.harvAction(this.board, famMem);
-            } else if ("ActivateLeaderCard".equalsIgnoreCase(action)) {
-                pl.activateLeaderCard();
-                continue;
-            } else if ("DiscardLeaderCard".equalsIgnoreCase(action)){
-                pl.discardLeaderCard();
-                pl.sOut("Current Res: " + pl.getCurrentRes().toString());
-                continue;
-            } else if ("SkipRound".equalsIgnoreCase(action)) {
-                pl.sOut("You skipped the round");
-                ret = true;
-            }
-            if (ret) {
-                break;
-            } else {
-                // placed here to abort this operation if player is not satisfied, reverts the value increase by servants
-                pl.sOut("Reverting famMemIncrease");
-                pl.revertFamValue(famMem, famMemIncrease);
-                pl.sOut("Current Res: " + pl.getCurrentRes().toString());
-            }
-        }
-    }*/
 
     private void assignLeaderCards() {
         Map<String, LeaderCard> leaderMap = LeaderUtils.leadersBirth();
@@ -402,14 +348,6 @@ public class Game implements Runnable {
     }
 
     public int getNumOfPlayers() { return players.size(); }
-
-    public void addFamMemIncrease(int incomingIncrease) {
-        this.famMemIncrease += incomingIncrease;
-    }
-
-    public void rstFamMemIncrease() { this.famMemIncrease = 0; }
-
-    public int getFamMemIncrease() { return famMemIncrease; }
 
     public int getHalfPeriod() { return halfPeriod; }
 

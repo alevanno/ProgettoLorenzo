@@ -89,7 +89,7 @@ public class Move {
             });
             ret = floor.claimFloor(dummy);
             if (ret) {
-                pl.getParentGame().addFamMemIncrease(famMemIncrease);
+                pl.addFamMemIncrease(famMemIncrease);
             } else {
                 pl.revertFamValue(dummy, famMemIncrease);
                 pl.currentResMerge(toMerge.inverse());

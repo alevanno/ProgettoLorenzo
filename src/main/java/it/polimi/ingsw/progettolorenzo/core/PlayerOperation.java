@@ -29,8 +29,8 @@ public class PlayerOperation implements Callable<Boolean> {
                 FamilyMember famMem = pl.getAvailableFamMembers()
                         .get(pl.sInPrompt(1, pl.getAvailableFamMembers().size()) - 1);
                 pl.sOut(famMem.getSkinColour() + " family member selected");
-                g.rstFamMemIncrease(); //needed so it doesn't restore the previous player's famMemIncrease when the timer expires
-                g.addFamMemIncrease(pl.increaseFamValue(famMem));
+                pl.rstFamMemIncrease(); //needed so it doesn't restore the previous player's famMemIncrease when the timer expires
+                pl.addFamMemIncrease(pl.increaseFamValue(famMem));
                 //setFam(famMem); //TODO
                 pl.sOut("Available actions:");
                 pl.sOut(Utils.displayList(g.getActions()));
@@ -64,7 +64,7 @@ public class PlayerOperation implements Callable<Boolean> {
                 } else {
                     // placed here to abort this operation if player is not satisfied, reverts the value increase by servants
                     pl.sOut("Reverting famMemIncrease");
-                    pl.revertFamValue(famMem, g.getFamMemIncrease());
+                    pl.revertFamValue(famMem, pl.getLastFamMemIncrease());
                     pl.sOut("Current Res: " + pl.getCurrentRes());
                     return true;
                 }

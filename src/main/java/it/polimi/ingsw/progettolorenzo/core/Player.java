@@ -22,6 +22,7 @@ public class Player {
     private List<LeaderCard> leaderCards = new ArrayList<>();
     private BonusTile bonusT;
     private Game parentGame;
+    private int lastFamMemIncrease;
 
 
     public Player(String name, String colour, Socket socket) {
@@ -367,4 +368,12 @@ public class Player {
     public List<LeaderCard> getLeaderCards() {
         return leaderCards;
     }
+
+    public void addFamMemIncrease(int incomingIncrease) {
+        this.lastFamMemIncrease += incomingIncrease;
+    }
+
+    public void rstFamMemIncrease() { this.lastFamMemIncrease = 0; }
+
+    public int getLastFamMemIncrease() { return lastFamMemIncrease; }
 }
