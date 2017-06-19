@@ -33,10 +33,17 @@ public class Harvest extends ActionProdHarv {
         return false;
     }
 
-    public void claimFamSec(FamilyMember fam) {
+    //TODO testing
+    public boolean claimFamSec(FamilyMember fam) {
+        Player p = fam.getParent();
+        if (!("Blank".equals(fam.getSkinColour())) &&
+                secondaryHarvest.stream().anyMatch(fMem -> p.equals(fMem.getParent()) && !("Blank".equals(fMem.getSkinColour())))) {
+            return false;
+        }
         this.addAction(new TakeFamilyMember(fam));
         this.addAction(new PlaceFamMemberInProdHarv(fam, this, false));
         harv(fam.getParent(), fam.getActionValue() - 3);
+        return false;
     }
 
     protected void placeFamilyMember(FamilyMember fam, boolean isMainSpace) {

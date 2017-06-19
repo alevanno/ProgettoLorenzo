@@ -6,7 +6,7 @@ public abstract class ActionProdHarv extends Action {
 
     public abstract boolean claimFamMain(FamilyMember fam);
 
-    public abstract void claimFamSec(FamilyMember fam);
+    public abstract boolean claimFamSec(FamilyMember fam);
 
     protected abstract void placeFamilyMember(FamilyMember fam, boolean isMainSpace);
 

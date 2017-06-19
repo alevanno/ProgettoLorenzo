@@ -32,10 +32,16 @@ public class Production extends ActionProdHarv {
         return false;
     }
 
-    public void claimFamSec(FamilyMember fam) {
+    public boolean claimFamSec(FamilyMember fam) {
+        Player p = fam.getParent();
+        if (!("Blank".equals(fam.getSkinColour())) &&
+                secondaryProduction.stream().anyMatch(fMem -> p.equals(fMem.getParent()) && !("Blank".equals(fMem.getSkinColour())))) {
+            return false;
+        }
         this.addAction(new TakeFamilyMember(fam));
         this.addAction(new PlaceFamMemberInProdHarv(fam, this, false));
         prod(fam.getParent(), fam.getActionValue() - 3);
+        return true;
     }
 
     protected void placeFamilyMember(FamilyMember fam, boolean isMainSpace) {

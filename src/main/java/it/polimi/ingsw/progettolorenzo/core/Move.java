@@ -127,8 +127,8 @@ public class Move {
             pl.sOut("Main space is occupied");
             if (pl.getParentGame().getNumOfPlayers() > 2) {
                 pl.sOut("Would you like to put your FamMem in the secondary space?");
-                if (pl.sInPromptConf()) {
-                    area.claimFamSec(fam); //the value reduction is handled in Production/Harvest
+                if (pl.sInPromptConf() && area.claimFamSec(fam)) {
+                     //the value reduction is handled in Production/Harvest
                     return confirmation(pl, area);
                 } else {
                     return false;
