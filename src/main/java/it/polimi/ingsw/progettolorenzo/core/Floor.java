@@ -4,7 +4,6 @@ package it.polimi.ingsw.progettolorenzo.core;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import it.polimi.ingsw.progettolorenzo.Game;
 
 import java.util.Map;
 import java.util.HashMap;
@@ -61,57 +60,83 @@ public class Floor extends Action {
         return true;
     }
 
-    // player puts here its famMemb & takes the Card and the eventual bonus;
-    public boolean claimFloor(FamilyMember fam) {
+    //TODO testing
+    private boolean checkEnoughValue(FamilyMember fam) { //checks that the action value is sufficient
         int value = fam.getActionValue();
         Player p = fam.getParent();
-        Resources tmpRes = p.getCurrentRes();
-        Resources cardCost = this.floorCard.getCardCost(p); //TODO if a discount is present...
-        boolean boycottBonus = false;
-        //TODO value should be affected also by an excommunication
-        for (Card c : p.listCards()) {
-            boycottBonus = c.permanentEff.containsKey("boycottInstantTowerBonus");
+        for (Card c : p.listCards()) { //searches for permanent value bonus (cards)
             JsonElement permTowerBonus = c.permanentEff.get("towerBonus");
             if(permTowerBonus != null) {
                 if (permTowerBonus.getAsJsonObject().get("type").getAsString().equals(floorCard.cardType)) {
-                    value += permTowerBonus.getAsJsonObject().get("plusValue").getAsInt();
+                    int valBonus = permTowerBonus.getAsJsonObject().get("plusValue").getAsInt();
+                    p.sOut("Card " + c.cardName + " increases the value of this action by " + valBonus);
+                    value += valBonus;
                 }
             }
-        }//TODO the floor bonus can be used to pay for the card you're taking
-        if (fam.getParent().getExcommunications().get(1).has("valMalus")) {
-            if (fam.getParent().getExcommunications().get(1).get("type").getAsString().equals(parentTower.getType())) {
-                int valMalus = fam.getParent().getExcommunications().get(1).get("valMalus").getAsInt();
-                fam.getParent().sOut("Your excommunication lowers the value of this action by " + valMalus);
+        }
+        if (p.getExcommunications().get(1).has("valMalus")) { //searches for permanent value malus (excomms)
+            if (p.getExcommunications().get(1).get("type").getAsString().equals(parentTower.getType())) {
+                int valMalus = p.getExcommunications().get(1).get("valMalus").getAsInt();
+                p.sOut("Your excommunication lowers the value of this action by " + valMalus);
                 value -= valMalus;
             }
         }
         if (value < this.floorValue) {
-            fam.getParent().sOut("Insufficient value");
+            p.sOut("Insufficient value");
             return false;
         }
-        if (fam.getParent().getCurrentRes().merge(cardCost.inverse()).isNegative()) {
-            fam.getParent().sOut("Insufficient resources");
+        return true;
+    }
+
+    //TODO testing
+    private boolean checkEnoughRes(Player p) {
+        Resources cardCost = this.floorCard.getCardCost(p); //TODO if a discount is present...
+        boolean boycottBonus = false;
+        for (Card c : p.listCards()) { //searches for permanent effects
+            boycottBonus = c.permanentEff.containsKey("boycottInstantTowerBonus");
+        }
+        Resources checkEnoughRes = p.getCurrentRes().merge(cardCost.inverse());
+        if (!boycottBonus) {
+            checkEnoughRes = checkEnoughRes.merge(bonus);
+        }
+        if (checkEnoughRes.isNegative()) {
+            p.sOut("Insufficient resources");
             return false;
+        }
+        if (!(p.getCurrentRes().militaryPoint >= floorCard.minMilitaryPoint
+                || p.leaderIsActive("Cesare Borgia"))) {
+            p.sOut("Insufficient militaryPoint");
+            return false;
+        }
+        return true;
+    }
+
+    // player puts here its famMemb & takes the Card and the eventual bonus;
+    public boolean claimFloor(FamilyMember fam) {
+        Player p = fam.getParent();
+        //if the action value, the resources or the militaryPoints are not sufficient the action fails
+        if (!checkEnoughValue(fam) || !checkEnoughRes(p)) {
+            return false;
+        }
+        boolean boycottBonus = false;
+        for (Card c : p.listCards()) { //searches for the boycottBonus permanent effect
+            boycottBonus = c.permanentEff.containsKey("boycottInstantTowerBonus");
         }
         if (!"Dummy".equals(fam.getSkinColour())) {
             callerFl = this;
         }
-        if ((tmpRes.militaryPoint >= floorCard.minMilitaryPoint
-                && !tmpRes.merge(cardCost).isNegative()) || p.leaderIsActive("Cesare Borgia")) {
-            callerFl.addAction(new TakeFamilyMember(fam));
-            callerFl.addAction(new PlaceFamilyMemberInFloor(fam, this));
-            if (!boycottBonus) {
-                this.addAction(new ResourcesAction("Floor entry bonus", this.bonus, p));
-                log.info("Floor entry bonus: " + this.bonus);
-            }
-            callerFl.addAction(new NestedAction(this.floorCard));
-            callerFl.floorCard.costActionBuilder(p);
-            callerFl.addAction(new NestedAction(
-                new CardImmediateAction(this.floorCard, p)));
-            callerFl.addAction(new CardFromFloorAction(this.floorCard, this, p));
-            return true;
+        callerFl.addAction(new TakeFamilyMember(fam));
+        callerFl.addAction(new PlaceFamilyMemberInFloor(fam, this));
+        if (!boycottBonus) {
+            this.addAction(new ResourcesAction("Floor entry bonus", this.bonus, p));
+            log.info("Floor entry bonus: " + this.bonus);
         }
-        return false;
+        callerFl.addAction(new NestedAction(this.floorCard));
+        callerFl.floorCard.costActionBuilder(p);
+        callerFl.addAction(new NestedAction(
+            new CardImmediateAction(this.floorCard, p)));
+        callerFl.addAction(new CardFromFloorAction(this.floorCard, this, p));
+        return true;
     }
 
     protected void placeFamilyMember(FamilyMember f) {
