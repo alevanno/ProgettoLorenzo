@@ -110,16 +110,18 @@ public class Floor extends Action {
             return false;
         }
         //militaryPoint requirement for territories cards
-        int countTerritories = 0;
-        for (Card i : p.listCards()) {
-            if (i.cardType.equals("territories")) {
-                countTerritories++;
+        if ("territories".equals(floorCard.cardType)) {
+            int countTerritories = 0;
+            for (Card i : p.listCards()) {
+                if (i.cardType.equals("territories")) {
+                    countTerritories++;
+                }
             }
-        }
-        List<Integer> territoriesMilitaryReq = Arrays.asList(0, 3, 7, 12, 18);
-        if (!(p.getCurrentRes().militaryPoint >= territoriesMilitaryReq.get(countTerritories - 1))) {
-            p.sOut("Insufficient militaryPoint");
-            return false;
+            List<Integer> territoriesMilitaryReq = Arrays.asList(0, 0, 3, 7, 12, 18);
+            if (!(p.getCurrentRes().militaryPoint >= territoriesMilitaryReq.get(countTerritories))) {
+                p.sOut("Insufficient militaryPoint");
+                return false;
+            }
         }
         return true;
     }
