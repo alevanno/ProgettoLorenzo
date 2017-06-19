@@ -5,8 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
-import java.util.Map;
-import java.util.HashMap;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class Floor extends Action {
@@ -90,11 +89,12 @@ public class Floor extends Action {
 
     //TODO testing
     private boolean checkEnoughRes(Player p) {
-        Resources cardCost = this.floorCard.getCardCost(p); //TODO if a discount is present...
+        Resources cardCost = this.floorCard.getCardCost(p);
         boolean boycottBonus = false;
-        for (Card c : p.listCards()) { //searches for permanent effects
+        for (Card c : p.listCards()) { //searches for the boycottBonus permanent effect
             boycottBonus = c.permanentEff.containsKey("boycottInstantTowerBonus");
         }
+        //resources requirement for taking the card
         Resources checkEnoughRes = p.getCurrentRes().merge(cardCost.inverse());
         if (!boycottBonus) {
             checkEnoughRes = checkEnoughRes.merge(bonus);
@@ -103,8 +103,21 @@ public class Floor extends Action {
             p.sOut("Insufficient resources");
             return false;
         }
+        //militaryPoint requirement for ventures cards
         if (!(p.getCurrentRes().militaryPoint >= floorCard.minMilitaryPoint
                 || p.leaderIsActive("Cesare Borgia"))) {
+            p.sOut("Insufficient militaryPoint");
+            return false;
+        }
+        //militaryPoint requirement for territories cards
+        int countTerritories = 0;
+        for (Card i : p.listCards()) {
+            if (i.cardType.equals("territories")) {
+                countTerritories++;
+            }
+        }
+        List<Integer> territoriesMilitaryReq = Arrays.asList(0, 3, 7, 12, 18);
+        if (!(p.getCurrentRes().militaryPoint >= territoriesMilitaryReq.get(countTerritories - 1))) {
             p.sOut("Insufficient militaryPoint");
             return false;
         }
