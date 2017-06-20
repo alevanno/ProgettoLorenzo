@@ -61,7 +61,7 @@ public class Game implements Runnable {
         log.fine("Adding player to Game: " + pl.toString());
         synchronized (this.players) {
             if (this.state != GameStatus.INIT) {
-                throw new RuntimeException("Game already started");
+                throw new RuntimeException("Game already started");  // FIXME
             }
             this.players.add(pl);
             if (this.players.size() == this.maxPlayers) {
@@ -133,7 +133,7 @@ public class Game implements Runnable {
             deck.addAll(
                     StreamSupport.stream(d.spliterator(), false)
                             .filter(c -> c.cardPeriod == period)
-                            .limit(4) // FIXME make configurable before Board() is istantiated
+                            .limit(4) // FIXME make configurable before Board() is instantiated
                             .collect(Deck::new, Deck::add, Deck::addAll)
             )
         );
@@ -296,6 +296,7 @@ public class Game implements Runnable {
 
     public void timeExpired(Player pl) {
         pl.sOut("Time expired!");
+        pl.sOut("quit");
     }
 
     public void timeExpired(Player pl, FamilyMember fam) { //TODO
@@ -387,6 +388,7 @@ public class Game implements Runnable {
                     pl.playerName, pl.getCurrentRes().victoryPoint);
             pl.sOut(msg);
             log.info(msg);
+            pl.sOut("quit");
         }
     }
 

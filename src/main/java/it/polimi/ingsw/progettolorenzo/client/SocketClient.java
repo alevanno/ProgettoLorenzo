@@ -5,8 +5,10 @@ import it.polimi.ingsw.progettolorenzo.Config;
 import java.io.*;
 import java.net.Socket;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,11 +36,17 @@ public class SocketClient implements ClientInterface {
         out.println(this.colour);
         out.flush();
         ExecutorService executor = Executors.newFixedThreadPool(2);
-        executor.submit(new InHandler(new BufferedReader(new
+        Future in = executor.submit(new InHandler(new BufferedReader(new
                 InputStreamReader(socket.getInputStream()))));
         executor.submit(new OutHandler(new
                 PrintWriter(new BufferedWriter(new
                 OutputStreamWriter(socket.getOutputStream())))));
+        try {
+            in.get();
+        } catch (ExecutionException | InterruptedException e) {
+            System.exit(0);
+        }
+        System.exit(0);
     }
 
     @Override
@@ -67,6 +75,7 @@ class InHandler implements Runnable {
             try {
                 String line = socketIn.readLine();
                 if (line.equalsIgnoreCase("quit")) {
+                    Console.printLine("You have been disconnected from the server");
                     break;
                 }
                 switch (line.substring(0, 1)) {
@@ -105,7 +114,3 @@ class OutHandler implements Runnable {
         }
     }
 }
-
-
-
-
