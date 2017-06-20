@@ -67,7 +67,7 @@ class FrancescoSforza extends LeaderCard {
 
     @Override
     public void onePerRoundAbility(){
-        LeaderUtils.oneHarvProd("production", owner, this);
+        LeaderUtils.oneHarvProd("harvest", owner, this, 1);
     }
 }
 
@@ -290,8 +290,9 @@ class SantaRita extends LeaderCard {
     }
     @Override
     public void permanentAbility() {
-        owner.sOut("You don’t need to satisfy the military points requirement when " +
-                "you take territory cards ");
+        owner.sOut("Each time you receive wood, stone, coins, or servants " +
+                "as an immediate effect from Development Cards (not from an action space), " +
+                "you receive the resources twice");
     }
 }
 
@@ -355,7 +356,7 @@ class LeonardoDaVinci extends LeaderCard {
     }
     @Override
     public void onePerRoundAbility() {
-        LeaderUtils.oneHarvProd("harvest", owner, this);
+        LeaderUtils.oneHarvProd("production", owner, this, 0);
     }
 }
 

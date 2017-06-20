@@ -119,7 +119,7 @@ public class Floor extends Action {
             }
             List<Integer> territoriesMilitaryReq = Arrays.asList(0, 0, 3, 7, 12, 18);
             if (!(p.getCurrentRes().militaryPoint >= territoriesMilitaryReq.get(countTerritories))
-                    || !p.leaderIsActive("Cesare Borgia")) {
+                    && !p.leaderIsActive("Cesare Borgia")) {
                 p.sOut("Insufficient militaryPoint");
                 return false;
             }

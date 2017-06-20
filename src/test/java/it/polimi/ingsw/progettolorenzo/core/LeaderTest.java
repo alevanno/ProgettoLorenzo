@@ -86,7 +86,7 @@ public class LeaderTest {
     public void onePerRoundTest() {
         // sforza already tested in oneHarvProd
         // Montefeltro test
-        String action = "y\n1\ny\ny\ny\ny\ny\ny\n2\ny\ny\n";
+        String action = "y\n1\ny\ny\ny\ny\ny\ny\n2\ny\ny\n1\ny\n";
         inputStream.setIn(action);
         LeaderCard montefeltro = testMap.get("Federico Da Montefeltro");
         montefeltro.setPlayer(pl);
@@ -145,6 +145,13 @@ public class LeaderTest {
         tmp = new Resources.ResBuilder().build().merge(pl.getCurrentRes());
         savonarola.apply();
         assertTrue(pl.getCurrentRes().faithPoint > tmp.faithPoint);
+        LeaderCard daVinci = testMap.get("Leonardo Da Vinci");
+        pl.getLeaderCards().add(daVinci);
+        daVinci.setPlayer(pl);
+        daVinci.activation = true;
+        daVinci.onePerRoundAbility();
+        assertTrue(pl.getCurrentRes().servant < tmp.servant);
+
     }
 
     @Test
@@ -208,7 +215,7 @@ public class LeaderTest {
 
     @Test
     public void permanentTest2() {
-        String action = "1\n";
+        String action = "Monastero\ny\n1\n";
         inputStream.setIn(action);
         // Malatesta test
         LeaderCard malatesta = testMap.get("Sigismondo Malatesta");
@@ -221,7 +228,28 @@ public class LeaderTest {
         // Blank with +3 on its value
         assertTrue(pl.getAvailableFamMembers().get(3).getActionValue() == 3);
         LeaderCard cesareBorgia = testMap.get("Cesare Borgia");
+        pl.getLeaderCards().add(cesareBorgia);
+        cesareBorgia.setPlayer(pl);
+        cesareBorgia.activation = true;
+        cesareBorgia.apply();
+        cesareBorgia.permanentAbility();
+        Deck tmpDeck = new Deck();
+        for (Card c : testDeck) {
+            if ("Rocca".equals(c.cardName) || "Bosco".equals(c.cardName)) {
+                pl.addCard(c);
+            }
+            if("Monastero".equals(c.cardName)) {
+                tmpDeck.add(c);
+                gameTest.game.setBoard(new Board(tmpDeck, gameTest.game));
+            }
+        }
+        assertTrue(Move.floorAction(gameTest.game.getBoard(), pl.getAvailableFamMembers().get(0)));
+        // Santa Rita test
         LeaderCard santaRita = testMap.get("Santa Rita");
+        pl.getLeaderCards().add(santaRita);
+        santaRita.setPlayer(pl);
+        santaRita.activation = true;
+
         LeaderCard pico = testMap.get("Pico Della Mirandola");
         // Lorenzo test
         LeaderCard lorenzo = testMap.get("Lorenzo Dè Medici");

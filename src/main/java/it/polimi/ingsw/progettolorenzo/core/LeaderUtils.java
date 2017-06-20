@@ -65,9 +65,8 @@ public class LeaderUtils {
         }
     }
 
-    public static void oneHarvProd(String action, Player owner, LeaderCard card) {
-        int value = 1;
-        owner.sOut("It allows to call a " + action + " of value 1");
+    public static void oneHarvProd(String action, Player owner, LeaderCard card, int value) {
+        owner.sOut("It allows to call a " + action + " of value " + value);
         owner.sOut("Do you want to increase its value?: ");
         if (owner.sInPromptConf()) {
             value += owner.increaseValue();
