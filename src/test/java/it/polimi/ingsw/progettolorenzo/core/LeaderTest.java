@@ -249,8 +249,9 @@ public class LeaderTest {
         pl.getLeaderCards().add(santaRita);
         santaRita.setPlayer(pl);
         santaRita.activation = true;
-
+        santaRita.apply();
         LeaderCard pico = testMap.get("Pico Della Mirandola");
+        LeaderCard moro = testMap.get("Ludovico Il Moro");
         // Lorenzo test
         LeaderCard lorenzo = testMap.get("Lorenzo Dè Medici");
         pl.getLeaderCards().add(lorenzo);
