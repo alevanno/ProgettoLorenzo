@@ -10,6 +10,7 @@ import it.polimi.ingsw.progettolorenzo.core.*;
 import java.lang.reflect.Type;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -80,22 +81,23 @@ public class Game implements Runnable {
     }
 
     public void run() {
-        if (this.maxPlayers != 1) {
-            synchronized (this.players) {
-                try {
+        try {
+            if (this.maxPlayers != 1) {
+                synchronized (this.players) {
                     this.players.wait();
-                } catch (InterruptedException e) {
-                    // FIXME deal with it
                 }
             }
+            this.state = GameStatus.STARTED;
+            this.loadSettings();
+            // starts the game and handles the turns
+            this.turnController();
+            this.state = GameStatus.ENDED;
+        } catch (InterruptedException e) {
+            log.log(Level.SEVERE, "Game "+this+" interrupted, shutting down…", e);
+            this.players.forEach(x ->
+                x.sOut("ANNOUNCE: Game is shutting down NOW!")
+            );
         }
-        this.state = GameStatus.STARTED;
-        this.loadSettings();
-        // starts the game and handles the turns
-        this.turnController();
-            }
-        }
-        this.state = GameStatus.ENDED;
     }
 
     @Override
