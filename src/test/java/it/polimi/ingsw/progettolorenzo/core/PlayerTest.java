@@ -70,8 +70,28 @@ public class PlayerTest {
         excommTest.add("{'period': 3, 'lostVictoryCost': {'resources': {'stone': 1,'wood': 1}}, 'type': 'buildings' }");
         excommTest.add("{'period': 3, 'lostVictoryRes': {'resources': {'victoryPoint': 5}}}");
         excommTest.add("{'period': 3, 'noVictoryType': 'territories'}");
+        int territories = 0;
+        int characters = 0;
+        int buildings = 0;
+        int ventures = 0;
         for (int c=0; c<14; c++) {
-            pl.addCard(new Card(data.get(new Random().nextInt(95)).getAsJsonObject()));
+            Card card = new Card(data.get(new Random().nextInt(95)).getAsJsonObject());
+            if ("territories".equals(card.cardType) && territories < 6) {
+                pl.addCard(card);
+                territories++;
+            }
+            if ("characters".equals(card.cardType) && characters < 6) {
+                pl.addCard(card);
+                characters++;
+            }
+            if ("buildings".equals(card.cardType) && buildings < 6) {
+                pl.addCard(card);
+                buildings++;
+            }
+            if ("ventures".equals(card.cardType) && ventures < 6) {
+                pl.addCard(card);
+                ventures++;
+            }
         }
         pl.currentResMerge(new Resources.ResBuilder().coin(10).servant(10).stone(10).wood(10)
                 .faithPoint(10).militaryPoint(15).victoryPoint(40).build());
