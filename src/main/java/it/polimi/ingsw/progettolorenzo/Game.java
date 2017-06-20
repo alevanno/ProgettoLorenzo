@@ -97,6 +97,7 @@ public class Game implements Runnable {
             this.players.forEach(x ->
                 x.sOut("ANNOUNCE: Game is shutting down NOW!")
             );
+            Thread.currentThread().interrupt();
         }
     }
 
