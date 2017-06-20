@@ -105,8 +105,7 @@ public class Floor extends Action {
             return false;
         }
         //militaryPoint requirement for ventures cards
-        if (!(p.getCurrentRes().militaryPoint >= floorCard.minMilitaryPoint
-                || p.leaderIsActive("Cesare Borgia"))) {
+        if (!(p.getCurrentRes().militaryPoint >= floorCard.minMilitaryPoint)) {
             p.sOut("Insufficient militaryPoint");
             return false;
         }
@@ -119,7 +118,8 @@ public class Floor extends Action {
                 }
             }
             List<Integer> territoriesMilitaryReq = Arrays.asList(0, 0, 3, 7, 12, 18);
-            if (!(p.getCurrentRes().militaryPoint >= territoriesMilitaryReq.get(countTerritories))) {
+            if (!(p.getCurrentRes().militaryPoint >= territoriesMilitaryReq.get(countTerritories))
+                    || !p.leaderIsActive("Cesare Borgia")) {
                 p.sOut("Insufficient militaryPoint");
                 return false;
             }

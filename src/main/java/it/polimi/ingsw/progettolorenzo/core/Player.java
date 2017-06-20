@@ -81,14 +81,16 @@ public class Player {
                         .equals(leader.getName()) && leader.isActivated()) {
                     val = 5;
                 }
-                if ("Sigismondo Malatesta".equals(leader.getName()) && leader.isActivated()){
-                    blankValue += 3;
-                }
             }
             if (excommunications.get(0).has("actionValMalus")) {
                 val -= 1;
             }
             this.famMemberList.add(new FamilyMember(this, val, s));
+        }
+        for(LeaderCard leader : leaderCards) {
+            if ("Sigismondo Malatesta".equals(leader.getName()) && leader.isActivated()) {
+                blankValue += 3;
+            }
         }
         this.famMemberList.add(
                 new FamilyMember(this, blankValue, "Blank"));

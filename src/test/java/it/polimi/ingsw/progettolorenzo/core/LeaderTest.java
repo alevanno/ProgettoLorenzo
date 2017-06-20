@@ -179,10 +179,13 @@ public class LeaderTest {
                 assertTrue(fam.getActionValue() == 9);
             }
         }
+        pl.getAvailableFamMembers().removeAll(pl.getAvailableFamMembers());
         pl.famMembersBirth(famValues);
         for (FamilyMember fam : pl.getAvailableFamMembers()) {
             if (!"Blank".equals(fam.getSkinColour())) {
                 assertTrue(fam.getActionValue() == 9);
+            } else {
+                assertTrue(fam.getActionValue() == 0);
             }
         }
         // Ariosto test
@@ -201,7 +204,22 @@ public class LeaderTest {
         sistoIV.setPlayer(pl);
         sistoIV.activation = true;
         sistoIV.permanentAbility();
+    }
+
+    @Test
+    public void permanentTest2() {
+        String action = "1\n";
+        inputStream.setIn(action);
+        // Malatesta test
         LeaderCard malatesta = testMap.get("Sigismondo Malatesta");
+        pl.getLeaderCards().add(malatesta);
+        malatesta.setPlayer(pl);
+        malatesta.activation = true;
+        malatesta.permanentAbility();
+        pl.getAvailableFamMembers().removeAll(pl.getAvailableFamMembers());
+        pl.famMembersBirth(famValues);
+        // Blank with +3 on its value
+        assertTrue(pl.getAvailableFamMembers().get(3).getActionValue() == 3);
         LeaderCard cesareBorgia = testMap.get("Cesare Borgia");
         LeaderCard santaRita = testMap.get("Santa Rita");
         LeaderCard pico = testMap.get("Pico Della Mirandola");
