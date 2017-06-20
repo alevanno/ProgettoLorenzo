@@ -22,30 +22,31 @@ public class Move {
         }
     }
 
-    private static Floor searchCard(Board board, Player pl, String type) {
+    private static Floor searchCard(String cardName, Board board, Player pl, String type) {
         Floor floor = null;
-        do {
-            pl.sOut("Which card do you want to obtain?: ");
-            String cardName = pl.sIn();
-            for (Tower t : board.towers) {
-                for (Floor fl : t.getFloors()) {
-                    if (fl.getCard() != null && fl.getCard().cardName.equalsIgnoreCase(cardName)) {
-                        if ("any".equals(type) || type.equals(fl.getParentTower().getType())) {
-                            floor = fl;
-                        } else {
-                            pl.sOut("It must be of type " + type);
-                        }
+        for (Tower t : board.towers) {
+            for (Floor fl : t.getFloors()) {
+                if (fl.getCard() != null && fl.getCard().cardName.equalsIgnoreCase(cardName)) {
+                    if ("any".equals(type) || type.equals(fl.getParentTower().getType())) {
+                        floor = fl;
+                    } else {
+                        pl.sOut("It must be of type " + type);
                     }
                 }
             }
-            if (floor == null) { pl.sOut("Card " + cardName + " does not exist!"); } //this appears even if it exists but it is of the wrong type
-        } while (floor == null);
+        }
+        if (floor == null) { pl.sOut("Card " + cardName + " does not exist!"); } //this appears even if it exists but it is of the wrong type
         return floor;
     }
 
     public static boolean floorAction(Board board, FamilyMember famMem) {
         Player pl = famMem.getParent();
-        Floor floor = searchCard(board, pl, "any");
+        Floor floor;
+        do {
+            pl.sOut("Which card do you want to obtain?: ");
+            String cardName = pl.sIn();
+            floor = searchCard(cardName, board, pl, "any");
+        } while (floor == null);
         int towerOcc = floor.getParentTower().checkTowerOcc(famMem);
         if (!floor.accessFloor(pl, towerOcc)) {
             return false;
@@ -72,8 +73,11 @@ public class Move {
             board.displayBoard();
             int famMemIncrease = pl.increaseFamValue(dummy);
             final Resources toMerge = new Resources.ResBuilder().build();
-            do { floor = searchCard(board, pl, type);
-            } while (floor.getCard().equals(caller));
+            do {
+                pl.sOut("Which card do you want to obtain?: ");
+                String cardName = pl.sIn();
+                floor = searchCard(cardName, board, pl, type);
+            } while (floor == null || floor.getCard().equals(caller));
             int towerOcc = floor.getParentTower().checkTowerOcc(dummy);
             if (!floor.accessFloor(pl, towerOcc)) { //TODO check where are the 3 coins going
                 continue;
@@ -127,12 +131,8 @@ public class Move {
             pl.sOut("Main space is occupied");
             if (pl.getParentGame().getNumOfPlayers() > 2) {
                 pl.sOut("Would you like to put your FamMem in the secondary space?");
-                if (pl.sInPromptConf() && area.claimFamSec(fam)) {
-                     //the value reduction is handled in Production/Harvest
-                    return confirmation(pl, area);
-                } else {
-                    return false;
-                }
+                //the value reduction is handled in Production/Harvest
+                return pl.sInPromptConf() && area.claimFamSec(fam) && confirmation(pl, area);
             } else {
                 return false;
             }
