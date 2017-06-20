@@ -51,7 +51,7 @@ class ConnectionService implements Runnable {
         try {
             serverSocket = new ServerSocket(port, 0, address);
             log.info("Socket server ready on " + address + ", port: " + port);
-            while (true) {
+            while (!Thread.currentThread().isInterrupted()) {
                 try {
                     Socket socket = serverSocket.accept();
                     log.info("new SocketClient connection");
