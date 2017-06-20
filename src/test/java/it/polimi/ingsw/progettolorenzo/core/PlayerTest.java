@@ -123,9 +123,11 @@ public class PlayerTest {
 
     @Test
     public void activateLeaderTest() {
-        String action = "1\ny\nn\n";
+        String action = "5\ny\nn\n";
         inputStream.setIn(action);
-        pl.getLeaderCards().get(0).activationCost = Arrays.asList(0);
+        LeaderCard ariosto = new LudovicoAriosto();
+        ariosto.setPlayer(pl);
+        pl.getLeaderCards().add(ariosto);
         pl.activateLeaderCard();
         assertTrue(pl.getLeaderCards().get(0).activation = true);
         // no more leader cards
