@@ -15,7 +15,7 @@ public class Floor extends Action {
     private FamilyMember famMember;
     private Card floorCard;
     private int floorValue;
-    private static Floor callerFl; //this is needed for floorActionWithCard
+    private Floor callerFl; //this is needed for floorActionWithCard
 
 
     public Floor(Resources bonus, Card card, Tower tower, int floorValue) {
@@ -23,6 +23,7 @@ public class Floor extends Action {
         this.floorCard = card;
         this.parentTower = tower;
         this.floorValue = floorValue;
+        this.callerFl = this;
         log.fine(String.format(
                 "Floor instantiated <bonus: %s, card: %s, tower: %s>",
                 bonus, card, tower));
@@ -141,6 +142,13 @@ public class Floor extends Action {
         }
     }
 
+    public boolean claimFloorWithCard(FamilyMember fam, Floor callerFloor) {
+        callerFl = callerFloor;
+        boolean ret = claimFloor(fam);
+        if (!ret) { callerFl = this; }
+        return ret;
+    }
+
     // player puts here its famMemb & takes the Card and the eventual bonus;
     public boolean claimFloor(FamilyMember fam) {
         Player p = fam.getParent();
@@ -151,9 +159,6 @@ public class Floor extends Action {
         boolean boycottBonus = false;
         for (Card c : p.listCards()) { //searches for the boycottBonus permanent effect
             boycottBonus = c.permanentEff.containsKey("boycottInstantTowerBonus");
-        }
-        if (!"Dummy".equals(fam.getSkinColour())) {
-            callerFl = this;
         }
         callerFl.addAction(new TakeFamilyMember(fam));
         callerFl.addAction(new PlaceFamilyMemberInFloor(fam, this));

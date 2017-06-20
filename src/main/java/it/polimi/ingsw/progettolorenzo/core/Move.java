@@ -91,7 +91,8 @@ public class Move {
                     pl.currentResMerge(toMerge);
                 }
             });
-            ret = floor.claimFloor(dummy);
+            Floor callerFloor = searchCard(caller.cardName, board, pl, "any");
+            ret = floor.claimFloorWithCard(dummy, callerFloor);
             if (ret) {
                 pl.addFamMemIncrease(famMemIncrease);
             } else {
