@@ -286,9 +286,9 @@ public class Player {
         currentResMerge(purpleFinal);
         log.info("Ventures cards gave " + purpleFinal.victoryPoint + " victoryPoint");
         currentResMerge(new Resources.ResBuilder().victoryPoint(territoriesVictory.get(countTerritories)).build());
-        log.info("Territories cards gave " + countTerritories + " victoryPoint");
+        log.info("Territories cards gave " + territoriesVictory.get(countTerritories) + " victoryPoint");
         currentResMerge(new Resources.ResBuilder().victoryPoint(charactersVictory.get(countCharacters)).build());
-        log.info("Characters cards gave " + countCharacters + " victoryPoint");
+        log.info("Characters cards gave " + charactersVictory.get(countCharacters) + " victoryPoint");
         currentResMerge(new Resources.ResBuilder().victoryPoint(sumResources / 5).build());
         log.info("Personal Resources gave " + sumResources / 5 + " victoryPoint");
 
