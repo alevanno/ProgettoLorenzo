@@ -73,6 +73,15 @@ public class Game implements Runnable {
         this.state = GameStatus.ENDED;
     }
 
+    @Override
+    public String toString() {
+        return String.format(
+            "%s%d/%d players, %s personal Boards, %s leaders cards",
+            this.state.str(), this.players.size(), this.maxPlayers,
+            this.personalBonusBoards, this.leaderOn
+        );
+    }
+
     private void initPlayers() {
         int initialCoins = 5;
         for (Player p: this.players) {
