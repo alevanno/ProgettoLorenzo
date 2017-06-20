@@ -125,10 +125,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         this.addPlayer(player);
     }
 
-    protected void endGame(Game game) {
-        this.games.remove(game);
-    }
-
     private Game firstPlayer(Player pl) {
         pl.sOut("It seems you're the first player! :)");
         pl.sOut("You get to choose how this game will be played.");
