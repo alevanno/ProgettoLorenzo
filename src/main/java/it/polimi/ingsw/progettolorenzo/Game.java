@@ -92,13 +92,7 @@ public class Game implements Runnable {
         this.state = GameStatus.STARTED;
         this.loadSettings();
         // starts the game and handles the turns
-        for (halfPeriod = 1; halfPeriod < 7 ; halfPeriod++) {
-            this.turn();
-            if (halfPeriod % 2 == 0) {
-                this.reportToVatican(halfPeriod);
-            }
-            if (halfPeriod == 6) {
-                this.endgame();
+        this.turnController();
             }
         }
         this.state = GameStatus.ENDED;
@@ -238,6 +232,19 @@ public class Game implements Runnable {
         StringBuilder sb = new StringBuilder();
         this.unhandledCards.forEach((n, d) -> sb.append(n + "=" + d.size() + " "));
         log.fine(String.format("Loaded %scards", sb));
+    }
+
+
+    private void turnController() throws InterruptedException {
+        for (halfPeriod = 1; halfPeriod < 7; halfPeriod++) {
+            this.turn();
+            if (halfPeriod % 2 == 0) {
+                this.reportToVatican(halfPeriod);
+            }
+            if (halfPeriod == 6) {
+                this.endgame();
+            }
+        }
     }
 
     private void turn() { //which is comprised of 4 rounds
