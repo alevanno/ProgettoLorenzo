@@ -94,9 +94,10 @@ public class Game implements Runnable {
             this.state = GameStatus.ENDED;
         } catch (InterruptedException e) {
             log.log(Level.SEVERE, "Game "+this+" interrupted, shutting down…", e);
-            this.players.forEach(x ->
-                x.sOut("ANNOUNCE: Game is shutting down NOW!")
-            );
+            this.players.forEach(x -> {
+                x.sOut("ANNOUNCE: Game is shutting down NOW!");
+                x.sOut("quit");
+            });
             Thread.currentThread().interrupt();
         }
     }

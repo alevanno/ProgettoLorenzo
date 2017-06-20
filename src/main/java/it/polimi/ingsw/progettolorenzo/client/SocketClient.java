@@ -66,8 +66,7 @@ class InHandler implements Runnable {
         while (true) {
             try {
                 String line = socketIn.readLine();
-                if (line.equalsIgnoreCase("quit")
-                        || line.equalsIgnoreCase("end")) {
+                if (line.equalsIgnoreCase("quit")) {
                     break;
                 }
                 switch (line.substring(0, 1)) {
