@@ -36,28 +36,59 @@ public class Game implements Runnable {
             "territories", "buildings", "characters", "ventures");
     private List<String> actions;
     private HashMap<String, Deck> unhandledCards = new HashMap<>();
+    private final int maxPlayers;
+    private final boolean personalBonusBoards;
+    private final boolean leaderOn;
     private List<Player> players = new ArrayList<>(); //active players and their order
     private int halfPeriod;
     private Player currPlayer;
     private List<JsonObject> excomms = new ArrayList<>();
-    private final boolean personalBonusBoards;
-    private final boolean leaderOn;
 
 
-    public Game(List<Player> listPlayers, boolean personalBonusBoards,
-                boolean leaderOn) {
-        MyLogger.setup();
+    public Game(Player firstPlayer, int maxPlayers,
+                boolean personalBonusBoards, boolean leaderOn) {
         log.info("Starting the game...");
-        listPlayers.forEach(
-                p -> p.setParentGame(this)
-        );
-        this.players = listPlayers;
+        firstPlayer.setParentGame(this);
+        this.players.add(firstPlayer);
+        this.maxPlayers = maxPlayers;
+        this.personalBonusBoards = personalBonusBoards;
+        this.leaderOn = leaderOn;
+        firstPlayer.sOut("The game is ready.  Waiting on the other players now");
+    }
+
+    public Game(List<Player> players, boolean personalBonusBoards,
+                boolean leaderOn) {
+        log.info("Starzo tests failedting the game...");
+        this.players = players;
+        this.players.forEach(x -> x.setParentGame(this));
+        this.maxPlayers = this.players.size();
         this.personalBonusBoards = personalBonusBoards;
         this.leaderOn = leaderOn;
     }
 
-    public void run() {
+    protected void addPlayer(Player pl) {
+        log.fine("Adding player to Game: " + pl.toString());
+        synchronized (this.players) {
+            if (this.state != GameStatus.INIT) {
+                throw new RuntimeException("Game already started");
+            }
+            this.players.add(pl);
+            if (this.players.size() == this.maxPlayers) {
+                this.players.notify();  // actually started the game
+            }
+        }
+    }
 
+    public void run() {
+        if (this.maxPlayers != 1) {
+            synchronized (this.players) {
+                try {
+                    this.players.wait();
+                } catch (InterruptedException e) {
+                    // FIXME deal with it
+                }
+            }
+        }
         this.state = GameStatus.STARTED;
         this.loadSettings();
         // starts the game and handles the turns

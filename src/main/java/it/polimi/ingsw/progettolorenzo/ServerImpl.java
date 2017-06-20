@@ -72,46 +72,39 @@ class ConnectionService implements Runnable {
 
 public class ServerImpl extends UnicastRemoteObject implements Server {
     private transient final Logger log = Logger.getLogger(this.getClass().getName());
-    private int playersNum;
-    private boolean personalBonusBoards;
-    private boolean leaderOn;
-    private transient List<Player> players = new ArrayList<>();
+    private List<Game> games = new ArrayList<>();
+    private ExecutorService gamesExecutor = Executors.newCachedThreadPool();
 
     private ServerImpl() throws IOException {
         super();
     }
 
     private void startServer() throws IOException {
-        ExecutorService games = Executors.newCachedThreadPool();
         ExecutorService connections = Executors.newSingleThreadExecutor();
         connections.submit(new ConnectionService(this));
-        while (true) {
-            synchronized (this.players) {
-                try {
-                    log.warning("players waiting…");
-                    this.players.wait();
-                    games.submit(
-                        new Game(this.players, this.personalBonusBoards,
-                                this.leaderOn)
-                    );
-                    games.shutdown();  // TODO support multiple games
-                    break;
-                } catch (InterruptedException e) {
-                    log.log(Level.SEVERE, e.getMessage(), e);
-                }
-            }
-        }
-
     }
 
-    private void addPlayer(Player player) {
-        synchronized (this.players) {
-            this.players.add(player);
-            if (this.players.size() == 1) {
-                this.firstPlayer(player);
+    private void addPlayer(Player pl) {
+        synchronized (this.games) {
+            if (this.games.size() == 0) {
+                pl.sOut("No currently running games, starting a new one…");
+                Game g = this.firstPlayer(pl);
+                this.games.add(g);
+                this.gamesExecutor.submit(g);
+                return;
             }
-            if (this.players.size() == this.playersNum) {
-                this.players.notify();
+            pl.sOut("Available games:");
+            this.games.forEach(x -> pl.sOut("  + " + x.toString()));
+            pl.sOut("Do you want to join (true) or create a new game " +
+                "yourself (false)?");
+            if (pl.sInPromptConf()) {
+                pl.sOut("Which game do you want to join?");
+                this.games.get(pl.sInPrompt(1, this.games.size())-1)
+                    .addPlayer(pl);
+            } else {
+                Game g = this.firstPlayer(pl);
+                this.games.add(g);
+                this.gamesExecutor.submit(g);
             }
         }
     }
@@ -132,23 +125,29 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         this.addPlayer(player);
     }
 
-    private void firstPlayer(Player pl) {
+    protected void endGame(Game game) {
+        this.games.remove(game);
+    }
+
+    private Game firstPlayer(Player pl) {
         pl.sOut("It seems you're the first player! :)");
         pl.sOut("You get to choose how this game will be played.");
         pl.sOut("How many players?");
-        this.playersNum = pl.sInPrompt(1, 4);
+        int maxplayers = pl.sInPrompt(1, 4);
         pl.sOut("Basic or advanced rules? (LeaderCards and " +
-                "different bonus board)");
+            "different bonus board)");
         String bonusBoard = pl.sIn();
+        boolean personalBonusBoards = false;
+        boolean leaderOn = false;
         if ("advanced".equalsIgnoreCase(bonusBoard)) {
-            this.personalBonusBoards = true;
-            this.leaderOn = true;
-        } else {
-            this.personalBonusBoards = false;
-            this.leaderOn = false;
+            personalBonusBoards = true;
+            leaderOn = true;
         }
-        log.info(String.format("Game settings: %d players, %s boards",
-            this.playersNum, this.personalBonusBoards));
+        log.info(String.format(
+            "Game settings: %d players, %s boards, %s leader cars",
+            maxplayers, personalBonusBoards, leaderOn
+        ));
+        return new Game(pl, maxplayers, personalBonusBoards, leaderOn);
     }
 
     public static void main(String[] args) {
