@@ -249,7 +249,7 @@ public class Game implements Runnable {
         }
     }
 
-    private void turn() { //which is comprised of 4 rounds
+    private void turn() throws InterruptedException { //which is comprised of 4 rounds
         List<Player> playersOrder = new ArrayList<>(players); //the order stays the same for the duration of the turn
         this.resetBoard((halfPeriod +1) / 2);
         Map<String, Integer> famValues = new HashMap<>();
@@ -274,10 +274,13 @@ public class Game implements Runnable {
         }
     }
 
-    private void round(List<Player> playersOrder, int round) {
+    private void round(List<Player> playersOrder, int round) throws InterruptedException {
         List<Player> skippedPlayers = new ArrayList<>();
         //Timer timer = new Timer();
         for (Player pl : playersOrder) {
+            if (Thread.currentThread().isInterrupted()) {
+                throw new InterruptedException();
+            }
             if (pl.getExcommunications().get(1).has("skipRound") && round == 1) {
                 skippedPlayers.add(pl);
                 pl.sOut("You skip the first round due to your excommunication");
