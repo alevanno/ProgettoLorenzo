@@ -57,21 +57,27 @@ public class GameTest {
     public void endgameMilitaryTest() {
         List<Player> players = Arrays.asList(new Player("Ciccio", "Blue"), new Player("Bello", "Red"),
                 new Player("Pallo", "Violet"), new Player("Pinco", "Yellow"));
-        Game endgameTest = new Game(players, false, false);
+        Game endgameTest = new Game(players.get(0), 4, false, false);
+        for (int i=1; i<4; i++) {
+            endgameTest.addPlayer(players.get(i));
+        }
         int maxPts = 30;
         players.get(0).currentResMerge(new Resources.ResBuilder().militaryPoint(5).build()); //ciccio
         players.get(1).currentResMerge(new Resources.ResBuilder().militaryPoint(17).build()); //bello
         players.get(2).currentResMerge(new Resources.ResBuilder().militaryPoint(maxPts).build()); //pallo
         players.get(3).currentResMerge(new Resources.ResBuilder().militaryPoint(maxPts).build()); //pinco
         endgameTest.endgameMilitary();
-        assertEquals(maxPts, players.get(0).getCurrentRes().militaryPoint);
+        assertEquals(maxPts, endgameTest.getPlayers().get(0).getCurrentRes().militaryPoint);
     }
 
     @Test
     public void endgameMilitaryTest2() {
         List<Player> players = Arrays.asList(new Player("Ciccio", "Blue"), new Player("Bello", "Red"),
                 new Player("Pallo", "Violet"), new Player("Pinco", "Yellow"));
-        Game endgameTest = new Game(players, false, false);
+        Game endgameTest = new Game(players.get(0), 4, false, false);
+        for (int i=1; i<4; i++) {
+            endgameTest.addPlayer(players.get(i));
+        }
         int secMaxPts = 17;
         players.get(0).currentResMerge(new Resources.ResBuilder().militaryPoint(17).build()); //ciccio
         players.get(1).currentResMerge(new Resources.ResBuilder().militaryPoint(17).build()); //bello

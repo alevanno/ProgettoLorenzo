@@ -20,10 +20,7 @@ public class GameComponentsTest {
     public Deck testDeck = new Deck();
     public Board board;
 
-    List<Player> players = new ArrayList<>(Arrays.asList(
-            new Player("luca","Red", sock1)
-    ));
-    Game game = new Game(players,true, true);
+    Game game = new Game(new Player("luca","Red", sock1), 1,true, true);
 
     @Before
     public void deckSetup() {

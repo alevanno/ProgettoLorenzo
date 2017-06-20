@@ -240,7 +240,7 @@ public class Player {
                 int a = loseVictoryRes.getByString(x);
                 int b = currentRes.getByString(x);
                 currentResMerge(new Resources.ResBuilder().victoryPoint(b / a).build().inverse());
-                log.info("Player " + playerName + " loses a victoryPoint every " + a + x + " due to excommunication");
+                log.info("Player " + playerName + " loses a victoryPoint every " + a + " " + x + " due to excommunication");
             }
         });
     }

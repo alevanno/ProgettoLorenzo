@@ -57,16 +57,6 @@ public class Game implements Runnable {
         firstPlayer.sOut("The game is ready.  Waiting on the other players now");
     }
 
-    public Game(List<Player> players, boolean personalBonusBoards,
-                boolean leaderOn) {
-        log.info("Starzo tests failedting the game...");
-        this.players = players;
-        this.players.forEach(x -> x.setParentGame(this));
-        this.maxPlayers = this.players.size();
-        this.personalBonusBoards = personalBonusBoards;
-        this.leaderOn = leaderOn;
-    }
-
     protected void addPlayer(Player pl) {
         log.fine("Adding player to Game: " + pl.toString());
         synchronized (this.players) {
@@ -95,7 +85,7 @@ public class Game implements Runnable {
         } catch (InterruptedException e) {
             log.log(Level.SEVERE, "Game "+this+" interrupted, shutting down…", e);
             this.players.forEach(x -> {
-                x.sOut("ANNOUNCE: Game is shutting down NOW!");
+                x.sOut("ANNOUNCEMENT: Game is shutting down NOW!");
                 x.sOut("quit");
             });
             Thread.currentThread().interrupt();
