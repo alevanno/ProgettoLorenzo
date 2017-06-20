@@ -34,7 +34,6 @@ public class Client {
                    !"socket".equals(mode) &&
                    !"local".equals(mode)) {
                 mode = Console.readLine("RMI or socket? ").replace("\n", "");
-                System.out.println(mode);
             }
         }
         ClientInterface client;
