@@ -126,11 +126,26 @@ public class Floor extends Action {
         return true;
     }
 
+    private boolean checkNotExceedingCard(Player p) {
+        int count = 0;
+        for (Card c : p.listCards()) {
+            if (this.getCard().cardType.equals(c.cardType)) {
+                count++;
+            }
+        }
+        if (count < 6) {
+            return true;
+        } else {
+            p.sOut("You cannot have more than 6 cards per type");
+            return false;
+        }
+    }
+
     // player puts here its famMemb & takes the Card and the eventual bonus;
     public boolean claimFloor(FamilyMember fam) {
         Player p = fam.getParent();
         //if the action value, the resources or the militaryPoints are not sufficient the action fails
-        if (!checkEnoughValue(fam) || !checkEnoughRes(p)) {
+        if (!checkEnoughValue(fam) || !checkEnoughRes(p) || !checkNotExceedingCard(p)) {
             return false;
         }
         boolean boycottBonus = false;
