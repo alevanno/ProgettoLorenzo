@@ -55,11 +55,11 @@ public class PlayerIOSocket implements PlayerIO{
                         new OutputStreamWriter(
                                 this.socket.getOutputStream())));
             }
+            this.socketOut.println(s);
+            this.socketOut.flush();
         } catch (IOException e) {
             // FIXME handle this better
             log.log(Level.WARNING, e.getMessage(), e);
         }
-        this.socketOut.println(s);
-        this.socketOut.flush();
     }
 }
