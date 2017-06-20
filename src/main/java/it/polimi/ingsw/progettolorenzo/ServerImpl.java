@@ -72,8 +72,8 @@ class ConnectionService implements Runnable {
 
 public class ServerImpl extends UnicastRemoteObject implements Server {
     private transient final Logger log = Logger.getLogger(this.getClass().getName());
-    private List<Game> games = new ArrayList<>();
-    private ExecutorService gamesExecutor = Executors.newCachedThreadPool();
+    private transient List<Game> games = new ArrayList<>();
+    private transient ExecutorService gamesExecutor = Executors.newCachedThreadPool();
 
     private ServerImpl() throws IOException {
         super();
