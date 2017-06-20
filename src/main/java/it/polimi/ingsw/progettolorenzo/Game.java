@@ -14,8 +14,23 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+enum GameStatus {
+    INIT(" "),
+    STARTED("[STARETED]"),
+    ENDED("[ENDED]");
+
+    private String str;
+    GameStatus(String str) {
+        this.str = str;
+    }
+    public String str() {
+        return this.str;
+    }
+}
+
 public class Game implements Runnable {
     private final Logger log = Logger.getLogger(this.getClass().getName());
+    private GameStatus state = GameStatus.INIT;
     private Board board;
     private List<String> types = Arrays.asList(
             "territories", "buildings", "characters", "ventures");
@@ -43,6 +58,7 @@ public class Game implements Runnable {
 
     public void run() {
 
+        this.state = GameStatus.STARTED;
         this.loadSettings();
         // starts the game and handles the turns
         for (halfPeriod = 1; halfPeriod < 7 ; halfPeriod++) {
@@ -54,6 +70,7 @@ public class Game implements Runnable {
                 this.endgame();
             }
         }
+        this.state = GameStatus.ENDED;
     }
 
     private void initPlayers() {
