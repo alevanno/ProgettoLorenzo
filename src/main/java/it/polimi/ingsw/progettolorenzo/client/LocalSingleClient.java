@@ -3,13 +3,13 @@ package it.polimi.ingsw.progettolorenzo.client;
 
 import it.polimi.ingsw.progettolorenzo.Game;
 import it.polimi.ingsw.progettolorenzo.core.Player;
-import java.io.IOException;
+
 import java.util.Arrays;
 
-public class LocalSingleClient implements ClientInterface{
+public class LocalSingleClient implements ClientInterface {
     private final String name;
     private final String colour;
-    Game g;
+    private Game g;
 
     public LocalSingleClient(String name, String colour) {
         this.name = name;
