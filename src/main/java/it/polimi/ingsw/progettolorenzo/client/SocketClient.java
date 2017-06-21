@@ -1,7 +1,7 @@
 package it.polimi.ingsw.progettolorenzo.client;
 
 import it.polimi.ingsw.progettolorenzo.Config;
-import it.polimi.ingsw.progettolorenzo.client.inf.CliInterface;
+import it.polimi.ingsw.progettolorenzo.client.inf.Interface;
 
 import java.io.*;
 import java.net.Socket;
@@ -18,9 +18,9 @@ public class SocketClient implements ClientInterface {
     private final String name;
     private final String colour;
     private Socket socket;
-    private CliInterface c;
+    private Interface c;
 
-    public SocketClient(String name, String colour, CliInterface inf) {
+    public SocketClient(String name, String colour, Interface inf) {
         this.name = name;
         this.colour = colour;
         this.c = inf;
@@ -68,9 +68,9 @@ public class SocketClient implements ClientInterface {
 class InHandler implements Runnable {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private BufferedReader socketIn;
-    private CliInterface c;
+    private Interface c;
 
-    public InHandler(BufferedReader socketIn, CliInterface inf) {
+    public InHandler(BufferedReader socketIn, Interface inf) {
         this.socketIn=socketIn;
         this.c= inf;
     }
@@ -94,9 +94,9 @@ class InHandler implements Runnable {
 
 class OutHandler implements Runnable {
     private PrintWriter socketOut;
-    private CliInterface inf;
+    private Interface inf;
 
-    public OutHandler(PrintWriter socketOut, CliInterface inf) {
+    public OutHandler(PrintWriter socketOut, Interface inf) {
         this.socketOut = socketOut;
         this.inf = inf;
     }

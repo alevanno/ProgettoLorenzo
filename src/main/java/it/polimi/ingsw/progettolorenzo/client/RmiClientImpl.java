@@ -2,7 +2,7 @@ package it.polimi.ingsw.progettolorenzo.client;
 
 import it.polimi.ingsw.progettolorenzo.Config;
 import it.polimi.ingsw.progettolorenzo.Server;
-import it.polimi.ingsw.progettolorenzo.client.inf.CliInterface;
+import it.polimi.ingsw.progettolorenzo.client.inf.Interface;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -18,9 +18,9 @@ public class RmiClientImpl extends UnicastRemoteObject implements ClientInterfac
     private transient Scanner in = new Scanner(System.in);
     public final String name;
     public final String colour;
-    private transient CliInterface c;
+    private transient Interface c;
 
-    public RmiClientImpl(String name, String colour, CliInterface inf) throws
+    public RmiClientImpl(String name, String colour, Interface inf) throws
         RemoteException {
         super();
         this.name = name;
