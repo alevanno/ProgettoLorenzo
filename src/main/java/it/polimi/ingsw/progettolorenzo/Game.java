@@ -17,7 +17,7 @@ import java.util.stream.StreamSupport;
 
 enum GameStatus {
     INIT(" "),
-    STARTED("[STARETED]"),
+    STARTED("[STARTED]"),
     ENDED("[ENDED]");
 
     private String str;
@@ -126,7 +126,7 @@ public class Game implements Runnable {
             // pick the first, random one
             JsonObject excomm = allExcomms.get(0).getAsJsonObject();
             excomms.add(excomm);
-            log.info("Excomunication loaded: " + excomm);
+            log.info("Excommunication loaded: " + excomm);
         }
     }
 
@@ -206,12 +206,12 @@ public class Game implements Runnable {
     }
 
     public boolean getFirstAvailPlace(Player pl, int councilPlace) {
-        /*int index = players.indexOf(pl);
+        int index = players.indexOf(pl);
         if (index > councilPlace) {
             players.remove(index);
             players.add(councilPlace, pl);
             return true;
-        }*/
+        }
         return false;
     }
 

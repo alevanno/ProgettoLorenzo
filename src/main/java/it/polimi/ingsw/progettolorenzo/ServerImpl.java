@@ -97,9 +97,13 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
             this.games.forEach(x -> pl.sOut("  + " + x.toString()));
             pl.sOut("Do you want to join one of them? Otherwise a new game will be created");
             if (pl.sInPromptConf()) {
-                pl.sOut("Which game do you want to join?");
-                this.games.get(pl.sInPrompt(1, this.games.size())-1)
-                    .addPlayer(pl);
+                if (this.games.size() == 1) {
+                    this.games.get(0).addPlayer(pl);
+                } else {
+                    pl.sOut("Which game do you want to join?");
+                    this.games.get(pl.sInPrompt(1, this.games.size()) - 1)
+                            .addPlayer(pl);
+                }
             } else {
                 Game g = this.firstPlayer(pl);
                 this.games.add(g);
