@@ -267,7 +267,6 @@ public class LeaderTest {
         pl.famMembersBirth(famValues);
         for (Card c : testDeck) {
             if("Banca".equals(c.cardName) || "Fiera".equals(c.cardName)) {
-                System.out.println(c.cardName);
                 tmpDeck.add(c);
             }
         }
