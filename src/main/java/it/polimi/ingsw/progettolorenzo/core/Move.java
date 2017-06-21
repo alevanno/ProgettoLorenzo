@@ -22,7 +22,7 @@ public class Move {
         }
     }
 
-    private static Floor searchCard(String cardName, Board board, Player pl, String type) {
+    public static Floor searchCard(String cardName, Board board, Player pl, String type) {
         Floor floor = null;
         for (Tower t : board.towers) {
             for (Floor fl : t.getFloors()) {

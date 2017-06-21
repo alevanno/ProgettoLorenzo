@@ -13,6 +13,8 @@ public class Tower {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private final List<Floor> floors = new ArrayList<>();
     private final String type;
+
+
     public Tower(String type, JsonArray floors, Deck cardList) {
         this.type = type;
 

@@ -21,7 +21,8 @@ public class Board {
     public final Council councilPalace = new Council();
     public final Market marketSpace = new Market();
     private Game game;
-    // FIXME instantiate all the other things
+
+
     public Board(Deck cardList, Game game) {
         this.game = game;
         JsonArray data = Utils.getJsonArray("towers.json");

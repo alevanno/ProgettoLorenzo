@@ -60,8 +60,7 @@ public class Floor extends Action {
         return true;
     }
 
-    //TODO testing
-    private boolean checkEnoughValue(FamilyMember fam) { //checks that the action value is sufficient
+    protected boolean checkEnoughValue(FamilyMember fam) { //checks that the action value is sufficient
         int value = fam.getActionValue();
         Player p = fam.getParent();
         for (Card c : p.listCards()) { //searches for permanent value bonus (cards)
@@ -88,8 +87,7 @@ public class Floor extends Action {
         return true;
     }
 
-    //TODO testing
-    private boolean checkEnoughRes(Player p) {
+    protected boolean checkEnoughRes(Player p) {
         Resources cardCost = this.floorCard.getCardCost(p);
         boolean boycottBonus = false;
         for (Card c : p.listCards()) { //searches for the boycottBonus permanent effect
