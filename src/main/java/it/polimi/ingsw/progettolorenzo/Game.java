@@ -54,7 +54,9 @@ public class Game implements Runnable {
         this.maxPlayers = maxPlayers;
         this.personalBonusBoards = personalBonusBoards;
         this.leaderOn = leaderOn;
-        firstPlayer.sOut("The game is ready.  Waiting on the other players now");
+        if (maxPlayers > 1) {
+            firstPlayer.sOut("The game is ready.  Waiting on the other players now");
+        }
     }
 
     protected void addPlayer(Player pl) {
