@@ -65,6 +65,7 @@ public class Game implements Runnable {
             if (this.state != GameStatus.INIT) {
                 throw new RuntimeException("Game already started");  // FIXME
             }
+            pl.setParentGame(this);
             this.players.add(pl);
             if (this.players.size() == this.maxPlayers) {
                 this.players.notify();  // actually started the game
@@ -204,13 +205,13 @@ public class Game implements Runnable {
         this.loadCards();
     }
 
-    public boolean getFirstAvailPlace(Player pl, int councPlace) {
-        int index = players.indexOf(pl);
-        if (index > councPlace) {
+    public boolean getFirstAvailPlace(Player pl, int councilPlace) {
+        /*int index = players.indexOf(pl);
+        if (index > councilPlace) {
             players.remove(index);
-            players.add(councPlace, pl);
+            players.add(councilPlace, pl);
             return true;
-        }
+        }*/
         return false;
     }
 
@@ -270,7 +271,6 @@ public class Game implements Runnable {
 
     private void round(List<Player> playersOrder, int round) throws InterruptedException {
         List<Player> skippedPlayers = new ArrayList<>();
-        //Timer timer = new Timer();
         for (Player pl : playersOrder) {
             if (Thread.currentThread().isInterrupted()) {
                 throw new InterruptedException();
@@ -284,10 +284,14 @@ public class Game implements Runnable {
             ExecutorService executor = Executors.newSingleThreadExecutor();
             Future<Boolean> f = executor.submit(op);
             try{
-                f.get(); //if the timer worked the argument would be (20, TimeUnit.SECONDS);
-            } catch (/*TimeoutException | */InterruptedException | ExecutionException to) {
+                f.get(); //if the timer worked the argument would be (30, TimeUnit.SECONDS);
+                System.out.println("bau");
+            /*} catch (TimeoutException to) {
                 f.cancel(true);
-                timeExpired(pl);
+                timeExpired(pl);*/
+            } catch ( InterruptedException | ExecutionException in) {
+                f.cancel(true);
+                in.printStackTrace();
             }
             executor.shutdownNow();
         }

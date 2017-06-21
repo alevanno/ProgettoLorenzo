@@ -66,7 +66,7 @@ public class PlayerOperation implements Callable<Boolean> {
                     pl.sOut("Reverting famMemIncrease");
                     pl.revertFamValue(famMem, pl.getLastFamMemIncrease());
                     pl.sOut("Current Res: " + pl.getCurrentRes());
-                    return true;
+                    //return true;
                 }
             }
         //} catch () {

@@ -7,6 +7,7 @@ public class Council extends Action {
     private final List<Resources> privilegeChoices;
     public final Resources bonusEntry;
     private int firstAvailSpace = 0;
+    List<FamilyMember> councilSpace = new ArrayList<>();
 
     public Council() {
         JsonObject data = Utils.getJsonObject("council.json");
@@ -70,6 +71,7 @@ public class Council extends Action {
     }
 
     protected void placeFamilyMember(FamilyMember fam) {
+        councilSpace.add(fam);
         if (fam.getParent().getParentGame().getFirstAvailPlace(fam.getParent(), firstAvailSpace)) { firstAvailSpace++; };
     }
 }
