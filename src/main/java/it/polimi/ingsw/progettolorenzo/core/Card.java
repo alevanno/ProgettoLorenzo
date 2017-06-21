@@ -78,7 +78,7 @@ public class Card extends Action {
     public void costActionBuilder(Player pl) {
         int discount = 0;
         if (pl.leaderIsActive("Pico Della Mirandola")){
-            if(this.getCardCost(pl).coin > 3) {
+            if(this.getCardCost(pl).coin >= 3) {
                 discount = 3;
             } else if (this.getCardCost(pl).coin < 3 &&
                     this.getCardCost(pl).coin > 0) {

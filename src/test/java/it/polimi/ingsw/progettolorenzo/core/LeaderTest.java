@@ -86,7 +86,7 @@ public class LeaderTest {
     public void onePerRoundTest() {
         // sforza already tested in oneHarvProd
         // Montefeltro test
-        String action = "y\n1\ny\ny\ny\ny\ny\ny\n2\ny\ny\n1\ny\n";
+        String action = "y\n1\ny\ny\ny\ny\ny\ny\n2\ny\ny\n1\ny\n1\ny\n";
         inputStream.setIn(action);
         LeaderCard montefeltro = testMap.get("Federico Da Montefeltro");
         montefeltro.setPlayer(pl);
@@ -149,7 +149,7 @@ public class LeaderTest {
         pl.getLeaderCards().add(daVinci);
         daVinci.setPlayer(pl);
         daVinci.activation = true;
-        daVinci.onePerRoundAbility();
+        daVinci.apply();
         assertTrue(pl.getCurrentRes().servant < tmp.servant);
 
     }
@@ -166,6 +166,7 @@ public class LeaderTest {
         brunelleschi.activation = true;
         Resources tmp = new Resources.ResBuilder().build().merge(pl.getCurrentRes());
         brunelleschi.permanentAbility();
+        brunelleschi.apply();
         FamilyMember blank = pl.getAvailableFamMembers().get(3);
         // I occupy the tower with blank fam
         blank.setActionValue(7);
@@ -179,6 +180,7 @@ public class LeaderTest {
         lucreziaBorgia.setPlayer(pl);
         lucreziaBorgia.activation = true;
         lucreziaBorgia.permanentAbility();
+        lucreziaBorgia.apply();
         // from now colored family member have + 2 on their value
         // (here birth with value )
         for (FamilyMember fam : pl.getAvailableFamMembers()) {
@@ -210,18 +212,20 @@ public class LeaderTest {
         pl.getLeaderCards().add(sistoIV);
         sistoIV.setPlayer(pl);
         sistoIV.activation = true;
+        sistoIV.apply();
         sistoIV.permanentAbility();
     }
 
     @Test
     public void permanentTest2() {
-        String action = "Monastero\ny\n1\n";
+        String action = "Monastero\ny\nFiera\ny\nBanca\ny\ny\n1\n";
         inputStream.setIn(action);
         // Malatesta test
         LeaderCard malatesta = testMap.get("Sigismondo Malatesta");
         pl.getLeaderCards().add(malatesta);
         malatesta.setPlayer(pl);
         malatesta.activation = true;
+        malatesta.apply();
         malatesta.permanentAbility();
         pl.getAvailableFamMembers().removeAll(pl.getAvailableFamMembers());
         pl.famMembersBirth(famValues);
@@ -250,13 +254,44 @@ public class LeaderTest {
         santaRita.setPlayer(pl);
         santaRita.activation = true;
         santaRita.apply();
+        santaRita.permanentAbility();
+        // Pico test
         LeaderCard pico = testMap.get("Pico Della Mirandola");
+        pl.getLeaderCards().add(pico);
+        pico.setPlayer(pl);
+        pico.activation = true;
+        pico.apply();
+        pico.permanentAbility();
+        tmpDeck = new Deck();
+        pl.getAvailableFamMembers().removeAll(pl.getAvailableFamMembers());
+        pl.famMembersBirth(famValues);
+        for (Card c : testDeck) {
+            if("Banca".equals(c.cardName) || "Fiera".equals(c.cardName)) {
+                System.out.println(c.cardName);
+                tmpDeck.add(c);
+            }
+        }
+        gameTest.game.setBoard(new Board(tmpDeck, gameTest.game));
+        Move.floorAction(gameTest.game.getBoard(), pl.getAvailableFamMembers().get(0));
+        pl.getAvailableFamMembers().get(2).setActionValue(7);
+        assertTrue(Move.floorAction(gameTest.game.getBoard(), pl.getAvailableFamMembers().get(2)));
+        // Moro test
         LeaderCard moro = testMap.get("Ludovico Il Moro");
+        pl.getLeaderCards().add(moro);
+        moro.setPlayer(pl);
+        moro.activation = true;
+        moro.apply();
+        moro.permanentAbility();
+        assertEquals(5, pl.getAvailableFamMembers().get(0).getActionValue());
+        pl.getAvailableFamMembers().removeAll(pl.getAvailableFamMembers());
+        pl.famMembersBirth(famValues);
+        assertEquals(5, pl.getAvailableFamMembers().get(0).getActionValue());
         // Lorenzo test
         LeaderCard lorenzo = testMap.get("Lorenzo Dè Medici");
         pl.getLeaderCards().add(lorenzo);
         lorenzo.setPlayer(pl);
         lorenzo.activation = true;
+        lorenzo.apply();
         lorenzo.permanentAbility();
         assertFalse(pl.getLeaderCards().contains(lorenzo));
     }
