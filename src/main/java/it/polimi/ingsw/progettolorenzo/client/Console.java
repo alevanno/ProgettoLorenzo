@@ -16,9 +16,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Console {
-    private transient final Logger log = Logger.getLogger(this.getClass().getName());
+    private Console() {
+        throw new IllegalStateException("Not to be instantiated");
+    }
 
-    protected static void printLine(String format, Object... args) {
+    public static void printLine(String format, Object... args) {
         if (format.startsWith("☃")) {
             Console.formatBoard(format.substring(1));
             return;
@@ -39,7 +41,8 @@ public class Console {
         return new Scanner(System.in).nextLine();
     }
 
-    public void formatBoard(String input) {
+    private static void formatBoard(String input) {
+        final Logger log = Logger.getLogger(Console.class.getName());
         JsonObject boardIn = new Gson().fromJson(input, JsonObject.class);
         printLine("The board as it is now:");
         try {
@@ -55,7 +58,7 @@ public class Console {
 
     }
 
-    private class BoardWindow extends BasicWindow {
+    private static class BoardWindow extends BasicWindow {
         Panel mainPanel = new Panel();
         public BoardWindow(JsonObject input) {
             super("Board");
