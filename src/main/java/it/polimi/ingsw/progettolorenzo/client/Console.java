@@ -19,6 +19,10 @@ public class Console {
     private transient final Logger log = Logger.getLogger(this.getClass().getName());
 
     protected static void printLine(String format, Object... args) {
+        if (format.startsWith("☃")) {
+            Console.formatBoard(format.substring(1));
+            return;
+        }
         if (System.console() != null) {
             System.console().format(format+"%n", args);
             System.console().flush();

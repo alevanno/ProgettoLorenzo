@@ -78,15 +78,8 @@ class InHandler implements Runnable {
                     Console.printLine("You have been disconnected from the server");
                     break;
                 }
-                switch (line.substring(0, 1)) {
-                    case "☃":
-                        new Console().formatBoard(line.substring(1));
-                        break;
-                    default:
-                        Console.printLine(line);
-                        break;
-                }
-            } catch (IOException e) {
+                Console.printLine(line);
+           } catch (IOException e) {
                 log.log(Level.SEVERE, e.getMessage(), e);
                 break;
             }
