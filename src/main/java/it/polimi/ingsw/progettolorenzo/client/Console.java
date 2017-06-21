@@ -20,7 +20,7 @@ public class Console {
 
     protected static void printLine(String format, Object... args) {
         if (System.console() != null) {
-            System.console().format(format, args);
+            System.console().format(format+"%n", args);
             System.console().flush();
         } else {
             System.out.println(String.format(format, args));
