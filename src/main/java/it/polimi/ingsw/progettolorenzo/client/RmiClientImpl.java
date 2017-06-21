@@ -31,7 +31,7 @@ public class RmiClientImpl extends UnicastRemoteObject implements ClientInterfac
 
     @Override
     public void sOut(String msg) throws RemoteException {
-        System.out.println(msg);
+        Console.printLine(msg);
     }
 
     @Override
