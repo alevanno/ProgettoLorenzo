@@ -10,6 +10,7 @@
     },
     "client": {
         "mode": "ask",
+        "interface": "cli",
         "socket": {
             "serverAddress": "localhost",
             "port": 29999

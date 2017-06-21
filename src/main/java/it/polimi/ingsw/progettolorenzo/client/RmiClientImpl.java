@@ -17,11 +17,14 @@ public class RmiClientImpl extends UnicastRemoteObject implements ClientInterfac
     private transient Scanner in = new Scanner(System.in);
     public final String name;
     public final String colour;
+    private transient Console c;
 
-    public RmiClientImpl(String name, String colour) throws RemoteException {
+    public RmiClientImpl(String name, String colour, Console inf) throws
+        RemoteException {
         super();
         this.name = name;
         this.colour = colour;
+        this.c = inf;
     }
 
     @Override
@@ -31,7 +34,7 @@ public class RmiClientImpl extends UnicastRemoteObject implements ClientInterfac
 
     @Override
     public void sOut(String msg) throws RemoteException {
-        Console.printLine(msg);
+        this.c.printLine(msg);
     }
 
     @Override

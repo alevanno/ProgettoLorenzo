@@ -17,30 +17,32 @@ public class SocketClient implements ClientInterface {
     private final String name;
     private final String colour;
     private Socket socket;
+    private Console c;
 
-    public SocketClient(String name, String colour) {
+    public SocketClient(String name, String colour, Console inf) {
         this.name = name;
         this.colour = colour;
+        this.c = inf;
     }
 
     @Override
     public void startClient() throws IOException {
-        String address = Config.Client.socket.get("serverAddress").getAsString();
+       String address = Config.Client.socket.get("serverAddress").getAsString();
         int port = Config.Client.socket.get("port").getAsInt();
         log.info("Connecting to " + address + ":" + port + "…");
         this.socket = new Socket(address, port);
-        Console.printLine("Connection Established");
-        Console.printLine("Waiting for players connection....");
+        this.c.printLine("Connection Established");
+        this.c.printLine("Waiting for players connection....");
         PrintWriter out = new PrintWriter(socket.getOutputStream());
         out.println(this.name);
         out.println(this.colour);
         out.flush();
         ExecutorService executor = Executors.newFixedThreadPool(2);
         Future in = executor.submit(new InHandler(new BufferedReader(new
-                InputStreamReader(socket.getInputStream()))));
+                InputStreamReader(socket.getInputStream())), c));
         executor.submit(new OutHandler(new
                 PrintWriter(new BufferedWriter(new
-                OutputStreamWriter(socket.getOutputStream())))));
+                OutputStreamWriter(socket.getOutputStream()))), c));
         try {
             in.get();
         } catch (ExecutionException | InterruptedException e) {
@@ -53,7 +55,7 @@ public class SocketClient implements ClientInterface {
     public void endClient() {
         if (this.socket != null) {
             try {
-                socket.close();
+                this.socket.close();
             } catch (IOException e) {
                 log.log(Level.SEVERE, e.getMessage(), e);
             }
@@ -65,9 +67,11 @@ public class SocketClient implements ClientInterface {
 class InHandler implements Runnable {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private BufferedReader socketIn;
+    private Console c;
 
-    public InHandler(BufferedReader socketIn) {
+    public InHandler(BufferedReader socketIn, Console inf) {
         this.socketIn=socketIn;
+        this.c= inf;
     }
 
     public void run() {
@@ -75,10 +79,10 @@ class InHandler implements Runnable {
             try {
                 String line = socketIn.readLine();
                 if (line.equalsIgnoreCase("quit")) {
-                    Console.printLine("You have been disconnected from the server");
+                    this.c.printLine("You have been disconnected from the server");
                     break;
                 }
-                Console.printLine(line);
+                this.c.printLine(line);
            } catch (IOException e) {
                 log.log(Level.SEVERE, e.getMessage(), e);
                 break;
@@ -89,9 +93,11 @@ class InHandler implements Runnable {
 
 class OutHandler implements Runnable {
     private PrintWriter socketOut;
+    private Console inf;
 
-    public OutHandler(PrintWriter socketOut) {
+    public OutHandler(PrintWriter socketOut, Console inf) {
         this.socketOut = socketOut;
+        this.inf = inf;
     }
 
     public void run() {
