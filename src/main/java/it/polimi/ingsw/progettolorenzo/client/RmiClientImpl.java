@@ -17,9 +17,9 @@ public class RmiClientImpl extends UnicastRemoteObject implements ClientInterfac
     private transient Scanner in = new Scanner(System.in);
     public final String name;
     public final String colour;
-    private transient Console c;
+    private transient CliInterface c;
 
-    public RmiClientImpl(String name, String colour, Console inf) throws
+    public RmiClientImpl(String name, String colour, CliInterface inf) throws
         RemoteException {
         super();
         this.name = name;

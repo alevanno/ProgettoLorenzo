@@ -13,10 +13,10 @@ public class Client {
     public static void main(String[] args) throws IOException {
         final Logger log = Logger.getLogger(Client.class.getName());
         MyLogger.setup();
-        Console c;
+        CliInterface c;
         switch (Config.client.get("interface").getAsString()) {
             case "cli":
-                c = new Console();
+                c = new CliInterface();
                 break;
             default:
                 throw new IllegalArgumentException("client.interface variable not valid");

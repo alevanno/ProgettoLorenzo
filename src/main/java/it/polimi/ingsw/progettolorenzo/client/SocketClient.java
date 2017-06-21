@@ -17,9 +17,9 @@ public class SocketClient implements ClientInterface {
     private final String name;
     private final String colour;
     private Socket socket;
-    private Console c;
+    private CliInterface c;
 
-    public SocketClient(String name, String colour, Console inf) {
+    public SocketClient(String name, String colour, CliInterface inf) {
         this.name = name;
         this.colour = colour;
         this.c = inf;
@@ -67,9 +67,9 @@ public class SocketClient implements ClientInterface {
 class InHandler implements Runnable {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private BufferedReader socketIn;
-    private Console c;
+    private CliInterface c;
 
-    public InHandler(BufferedReader socketIn, Console inf) {
+    public InHandler(BufferedReader socketIn, CliInterface inf) {
         this.socketIn=socketIn;
         this.c= inf;
     }
@@ -93,9 +93,9 @@ class InHandler implements Runnable {
 
 class OutHandler implements Runnable {
     private PrintWriter socketOut;
-    private Console inf;
+    private CliInterface inf;
 
-    public OutHandler(PrintWriter socketOut, Console inf) {
+    public OutHandler(PrintWriter socketOut, CliInterface inf) {
         this.socketOut = socketOut;
         this.inf = inf;
     }

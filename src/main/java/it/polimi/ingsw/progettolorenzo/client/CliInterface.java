@@ -15,7 +15,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class Console {
+public class CliInterface {
 
     public void printLine(String format, Object... args) {
         if (format.startsWith("☃")) {
@@ -39,7 +39,7 @@ public class Console {
     }
 
     private void formatBoard(String input) {
-        final Logger log = Logger.getLogger(Console.class.getName());
+        final Logger log = Logger.getLogger(CliInterface.class.getName());
         JsonObject boardIn = new Gson().fromJson(input, JsonObject.class);
         printLine("The board as it is now:");
         try {
