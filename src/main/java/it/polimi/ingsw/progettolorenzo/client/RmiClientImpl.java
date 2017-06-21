@@ -2,6 +2,7 @@ package it.polimi.ingsw.progettolorenzo.client;
 
 import it.polimi.ingsw.progettolorenzo.Config;
 import it.polimi.ingsw.progettolorenzo.Server;
+import it.polimi.ingsw.progettolorenzo.client.inf.CliInterface;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;

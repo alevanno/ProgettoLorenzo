@@ -1,4 +1,4 @@
-package it.polimi.ingsw.progettolorenzo.client;
+package it.polimi.ingsw.progettolorenzo.client.inf;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -15,8 +15,9 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class CliInterface {
+public class CliInterface implements Interface {
 
+    @Override
     public void printLine(String format, Object... args) {
         if (format.startsWith("☃")) {
             this.formatBoard(format.substring(1));
@@ -30,7 +31,8 @@ public class CliInterface {
         }
     }
 
-    protected String readLine(String format, Object... args) {
+    @Override
+    public String readLine(String format, Object... args) {
         if (System.console() != null) {
             return System.console().readLine(format, args);
         }
