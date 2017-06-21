@@ -2,7 +2,6 @@ package it.polimi.ingsw.progettolorenzo.client;
 
 import it.polimi.ingsw.progettolorenzo.Config;
 import it.polimi.ingsw.progettolorenzo.MyLogger;
-import jdk.nashorn.internal.runtime.regexp.joni.exception.ValueException;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -20,7 +19,7 @@ public class Client {
                 c = new Console();
                 break;
             default:
-                throw new ValueException("client.interface variable not valid");
+                throw new IllegalArgumentException("client.interface variable not valid");
         }
 
         String name = c.readLine("Insert player name: ");
@@ -57,7 +56,7 @@ public class Client {
                 client = new LocalSingleClient(name, colour);
                 break;
             default:
-                throw new ValueException("client.mode variable not valid");
+                throw new IllegalArgumentException("client.mode variable not valid");
         }
 
         try {
