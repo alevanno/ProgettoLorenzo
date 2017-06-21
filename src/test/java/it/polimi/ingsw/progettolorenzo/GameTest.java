@@ -1,7 +1,10 @@
 package it.polimi.ingsw.progettolorenzo;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import it.polimi.ingsw.progettolorenzo.client.LocalSingleClient;
 import it.polimi.ingsw.progettolorenzo.core.*;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,28 +13,65 @@ import java.util.Arrays;
 import java.util.List;
 
 import static junit.framework.TestCase.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 public class GameTest {
+    public Deck testDeck = new Deck();
+    public Board board;
     public Game game;
-    public GameComponentsTest g = new GameComponentsTest();
     LocalSingleClient client = new LocalSingleClient("Toletti", "Blue");
     PlayerIOLocal inputStream;
     Player pl;
 
 
     @Before
+    public void deckSetup() {
+        JsonArray cardsData = Utils.getJsonArray("cards.json");
+        for (JsonElement c : cardsData) {
+            Card card = new Card(c.getAsJsonObject());
+            this.testDeck.add(card);
+        }
+    }
+
+    @Before
+    public void boardSetup() {
+        this.board = new Board(this.testDeck, game);
+    }
+
+    @Before
     public void setup() {
-        g.deckSetup();
-        g.boardSetup();
+        this.deckSetup();
+        this.boardSetup();
         client.testSingleAction();
         game = client.getGame();
-        Deck deck = g.testDeck;
         pl = game.getPlayers().get(0);
-
-        client.getGame().setBoard(new Board(deck, game));
+        client.getGame().setBoard(new Board(testDeck, game));
         inputStream = (PlayerIOLocal) pl.getIo();
 
 
+    }
+
+
+    @Test
+    public void boardBirth1() {
+        assertNotNull(this.board);
+    }
+
+    @Test
+    public void towersBirth() {
+        Assert.assertEquals(4, this.board.towers.size());
+    }
+    @Test
+    public void prodBirth() {
+        assertNotNull(this.board.productionArea);
+    }
+    @Test
+    public void harvBirth() {
+        assertNotNull(this.board.harvestArea);
+    }
+    @Test
+    public void councilBirth() {
+        assertNotNull(this.board.councilPalace);
     }
     @Test
     public void initGame() throws IOException {

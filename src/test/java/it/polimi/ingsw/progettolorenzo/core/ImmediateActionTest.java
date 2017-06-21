@@ -26,7 +26,7 @@ public class ImmediateActionTest {
         gameTest.setup();
         gameTest.initGame();
         gameTest.game.loadSettings();
-        testDeck = gameTest.g.testDeck;
+        testDeck = gameTest.testDeck;
         pl = gameTest.game.getPlayers().get(0);
     }
     @Test
