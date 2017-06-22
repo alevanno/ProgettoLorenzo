@@ -183,7 +183,6 @@ public class Player {
                 .build());
     }
 
-    // TODO this method affects only the activation of a leader card;
     // we should create an other method to use the One per Round ability
     public boolean activateLeaderCard() {
         this.sOut("Which Leader card do you want to activate?");

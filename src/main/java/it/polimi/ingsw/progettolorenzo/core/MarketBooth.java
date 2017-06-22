@@ -39,10 +39,8 @@ public class MarketBooth extends Action {
     }
 
     //actionBuilder for MarketBooth class;
-    //TODO Game should handle the return value;
     public boolean claimSpace(FamilyMember fam) {
         Player p = fam.getParent();
-        //FIXME this portion should be in Game
         if (p.getExcommunications().get(1).has("blockedMarket")) {
             p.sOut("Your excommunication prevents you to put your famMembers in the Market");
             return false;

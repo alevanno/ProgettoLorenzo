@@ -91,7 +91,7 @@ public class Production extends ActionProdHarv {
                         Resources resSrc = Resources.fromJson(a);
                         Resources resDest;
                         int councDest;
-                        if (dest.get(0).getAsJsonObject().has("resources")) { //FIXME check if these can be replaced with has()
+                        if (dest.get(0).getAsJsonObject().has("resources")) {
                             resDest = Resources.fromJson(dest.get(0).getAsJsonObject().get("resources"));
                             resConvList.add(new ResConv(count, resSrc, resDest));
                             count++;
