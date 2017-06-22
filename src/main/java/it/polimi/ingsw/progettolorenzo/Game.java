@@ -44,6 +44,7 @@ public class Game implements Runnable {
     private int halfPeriod;
     private Player currPlayer;
     private List<JsonObject> excomms = new ArrayList<>();
+    private final int timeout = Utils.getJsonObject("settings.json").get("timeout").getAsInt();
 
 
     public Game(Player firstPlayer, int maxPlayers,
@@ -280,24 +281,28 @@ public class Game implements Runnable {
                 pl.sOut("You skip the first round due to your excommunication");
                 continue;
             }
-            PlayerOperation op = new PlayerOperation(this, pl);
-            ExecutorService executor = Executors.newSingleThreadExecutor();
-            Future<Boolean> f = executor.submit(op);
-            try{
-                f.get(); //if the timer worked the argument would be (30, TimeUnit.SECONDS);
-                System.out.println("bau");
-            /*} catch (TimeoutException to) {
-                f.cancel(true);
-                timeExpired(pl);*/
-            } catch ( InterruptedException | ExecutionException in) {
-                f.cancel(true);
-                in.printStackTrace();
-            }
-            executor.shutdownNow();
+            operation(pl);
         }
         for (Player pl : skippedPlayers) {
-            //TODO
+            operation(pl);
         }
+    }
+
+    public void operation (Player pl) {
+        PlayerOperation op = new PlayerOperation(this, pl);
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<Boolean> f = executor.submit(op);
+        try{
+            f.get(timeout, TimeUnit.SECONDS); //if the timer worked the argument would be ();
+            System.out.println("bau");
+        } catch (TimeoutException to) {
+            f.cancel(true);
+            timeExpired(pl);
+        } catch ( InterruptedException | ExecutionException in) {
+            f.cancel(true);
+            in.printStackTrace();
+        }
+        executor.shutdownNow();
     }
 
     public void timeExpired(Player pl) {
