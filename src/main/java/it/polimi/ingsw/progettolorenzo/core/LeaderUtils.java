@@ -25,20 +25,24 @@ public class LeaderUtils {
 
 
     public static boolean commonApply(Player owner, LeaderCard card, boolean checkT, boolean checkC) {
-        if (card.hasOnePerRoundAbility() && card.isActivated()) {
-            owner.sOut("Would you like to activate the one per round ability? ");
-            boolean ret = owner.sInPromptConf();
-            if (ret) {
-                if(card.onePerRoundUsage) {
-                    owner.sOut("You have already activated it in this round");
+        if (card.isActivated()) {
+            if (card.hasOnePerRoundAbility()) {
+                owner.sOut("Would you like to activate the one per round ability? ");
+                boolean ret = owner.sInPromptConf();
+                if (ret) {
+                    if (card.onePerRoundUsage) {
+                        owner.sOut("You have already activated the one per round ability in this turn");
+                        return false;
+                    }
+                    card.onePerRoundAbility();
+                    return true;
+                } else {
+                    owner.sOut("You didn't activate the one per round ability");
                     return false;
                 }
-                card.onePerRoundAbility();
-                return true;
-            } else {
-                owner.sOut("You didn't activate the one per round ability");
-                return false;
             }
+            owner.sOut("You have already activated this Leader Card!");
+            return false;
         }
         if ((checkC && checkT) || (checkC ^ checkT)) {
             owner.sOut("You satisfy the "+ card.name + " leader card " +
@@ -46,15 +50,10 @@ public class LeaderUtils {
             owner.sOut("Would you activate it?");
             boolean ret = owner.sInPromptConf();
             if(ret){
-                if(!card.isActivated()) {
-                    card.activation = true;
-                    card.permanentAbility();
-                    owner.sOut("Leader card activated");
-                    return true;
-                } else {
-                    owner.sOut("You have already activated this Leader Card!");
-                    return false;
-                }
+                card.activation = true;
+                card.permanentAbility();
+                owner.sOut("Leader card activated");
+                return true;
             } else {
                 owner.sOut("You didn't activate the Leader card");
                 return false;

@@ -47,7 +47,7 @@ public class LeaderTest {
 
     @Test
     public void leaderUtilsTest(){
-        String action = "y\ny\nn\ny\n1\n1";
+        String action = "y\nn\ny\n1\n";
         LeaderCard leader = testMap.get("Lorenzo Dè Medici");
         leader.setPlayer(pl);
         LeaderCard leader2 = testMap.get("Francesco Sforza");
