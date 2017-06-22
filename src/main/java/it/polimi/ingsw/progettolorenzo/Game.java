@@ -300,7 +300,7 @@ public class Game implements Runnable {
             timeExpired(pl);
         } catch ( InterruptedException | ExecutionException in) {
             f.cancel(true);
-            in.printStackTrace();
+            log.log(Level.SEVERE, in.getMessage(), in);
         }
         executor.shutdownNow();
     }
