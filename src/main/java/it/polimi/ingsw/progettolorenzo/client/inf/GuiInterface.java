@@ -87,19 +87,22 @@ public class GuiInterface extends Application implements Interface {
         Button btn = new Button();
         btn.setText("Confirm");
         root.add(btn, 1, 1);
+        btn.setDefaultButton(true);
         btn.setOnAction(new EventHandler<ActionEvent>() {
 
             @Override
             public void handle(ActionEvent e) {
                 System.out.println(userTextField.getText());
                 synchronized (msgInMonitor) {
+                    log.info("storing the text");
                     msgIn = userTextField.getText();
                     msgInMonitor.notify();
+                    log.info("done notifying msgIn");
                 }
+                userTextField.clear();
             }
         });
 
-        guiStarted = true;
         synchronized (guiMonitor) {
             guiStarted = true;
             log.info("notifying…");
@@ -121,13 +124,13 @@ public class GuiInterface extends Application implements Interface {
                  Runnable t = () ->
                         javafx.application.Application.launch(this.getClass());
                 new Thread(t).start();
-                //try {
+                try {
                     log.info("going to wait for gui…");
-                    //this.guiMonitor.wait();
+                    this.guiMonitor.wait();
                     log.info("done waiting");
-               // } catch (InterruptedException e) {
-               //     log.severe("Failed to start the GUI");
-               // }
+                } catch (InterruptedException e) {
+                    log.severe("Failed to start the GUI");
+                }
             }
         }
         log.info("attempting delivery");
@@ -144,7 +147,9 @@ public class GuiInterface extends Application implements Interface {
         this.printLine(format, args);
         try {
             synchronized (msgInMonitor) {
+                log.info("going to wait for a new message to send to server");
                 msgInMonitor.wait();
+                log.info("sending over ["+msgIn+"]");
                 return msgIn;
             }
         } catch (InterruptedException e) {
