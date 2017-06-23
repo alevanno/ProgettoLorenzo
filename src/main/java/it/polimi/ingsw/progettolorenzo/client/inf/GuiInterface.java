@@ -10,11 +10,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.GridPane;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
-
 import java.util.logging.Logger;
 
 public class GuiInterface extends Application implements Interface {
@@ -34,10 +35,16 @@ public class GuiInterface extends Application implements Interface {
         root.setHgap(10);
         root.setVgap(10);
         root.setPadding(new Insets(25, 25, 25, 25));
-        Scene scene = new Scene(root);
+        Scene scene = new Scene(root, 1400, 900);
+
+        BackgroundImage myBI= new BackgroundImage(new Image("Gui/cathedral.jpg",1400,900,false,true),
+                BackgroundRepeat.REPEAT, BackgroundRepeat.NO_REPEAT, BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT);
+        root.setBackground(new Background(myBI));
 
         Label text = new Label("foo");
-        text.setFont(Font.font("Serif", FontWeight.NORMAL, 20));
+        text.setFont(Font.font("Serif", FontWeight.NORMAL, 30));
+        text.setTextFill(Color.BEIGE);
 
         Task<Void> task = new Task<Void>() {
             @Override
@@ -78,7 +85,7 @@ public class GuiInterface extends Application implements Interface {
         root.add(userTextField, 0, 1);
 
         Button btn = new Button();
-        btn.setText("Hello World!");
+        btn.setText("Confirm");
         root.add(btn, 1, 1);
         btn.setOnAction(new EventHandler<ActionEvent>() {
 
