@@ -141,7 +141,7 @@ public class GuiInterface extends Application implements Interface {
                 return msgIn;
             }
         } catch (InterruptedException e) {
-            return "";// FIXME
+            return "";// FIXME                      // NOSONAR
         }
     }
 }
