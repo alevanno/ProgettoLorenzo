@@ -41,6 +41,7 @@ public class Board {
     }
 
     public JsonObject serialize() {
+        // TODO display all the things, now only the towers
         Map<String, Object> ret = new HashMap<>();
         List<JsonObject> towers = new ArrayList<>();
         this.towers.forEach(
