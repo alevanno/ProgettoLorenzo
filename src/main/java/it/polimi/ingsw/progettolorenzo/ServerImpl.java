@@ -74,6 +74,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     private transient final Logger log = Logger.getLogger(this.getClass().getName());
     private transient List<Game> games = new ArrayList<>();
     private transient ExecutorService gamesExecutor = Executors.newCachedThreadPool();
+    private transient ExecutorService tempPlayers = Executors.newCachedThreadPool();
 
     private ServerImpl() throws IOException {
         super();
@@ -82,6 +83,20 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
     private void startServer() throws IOException {
         ExecutorService connections = Executors.newSingleThreadExecutor();
         connections.submit(new ConnectionService(this));
+    }
+
+    private class AddPlayer implements Runnable {
+        private Player player;
+
+        protected AddPlayer(Player player) {
+            log.fine("Creating a new player (new thread)");
+            this.player =  player;
+        }
+
+        @Override
+        public void run() {
+            ServerImpl.this.addPlayer(this.player);
+        }
     }
 
     private void addPlayer(Player pl) {
@@ -117,7 +132,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         String name, String colour, RmiClient rmiClient
     ) throws RemoteException {
         Player player = new Player(name, colour, rmiClient);
-        this.addPlayer(player);
+        this.tempPlayers.submit(new AddPlayer(player));
     }
 
     public void addPlayer(Socket socket) throws IOException {
@@ -125,7 +140,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         String name = socketIn.nextLine();
         String colour = socketIn.nextLine();
         Player player = new Player(name, colour, socket);
-        this.addPlayer(player);
+        this.tempPlayers.submit(new AddPlayer(player));
     }
 
     private Game firstPlayer(Player pl) {
