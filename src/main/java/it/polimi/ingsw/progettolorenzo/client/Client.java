@@ -2,6 +2,7 @@ package it.polimi.ingsw.progettolorenzo.client;
 
 import it.polimi.ingsw.progettolorenzo.Config;
 import it.polimi.ingsw.progettolorenzo.MyLogger;
+import it.polimi.ingsw.progettolorenzo.client.inf.Interface;
 import it.polimi.ingsw.progettolorenzo.client.inf.CliInterface;
 
 import java.io.IOException;
@@ -14,7 +15,7 @@ public class Client {
     public static void main(String[] args) throws IOException {
         final Logger log = Logger.getLogger(Client.class.getName());
         MyLogger.setup();
-        CliInterface c;
+        Interface c;
         switch (Config.client.get("interface").getAsString()) {
             case "cli":
                 c = new CliInterface();
