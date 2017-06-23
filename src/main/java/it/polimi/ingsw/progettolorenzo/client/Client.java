@@ -4,6 +4,7 @@ import it.polimi.ingsw.progettolorenzo.Config;
 import it.polimi.ingsw.progettolorenzo.MyLogger;
 import it.polimi.ingsw.progettolorenzo.client.inf.Interface;
 import it.polimi.ingsw.progettolorenzo.client.inf.CliInterface;
+import it.polimi.ingsw.progettolorenzo.client.inf.GuiInterface;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -19,6 +20,9 @@ public class Client {
         switch (Config.client.get("interface").getAsString()) {
             case "cli":
                 c = new CliInterface();
+                break;
+            case "gui":
+                c = new GuiInterface();
                 break;
             default:
                 throw new IllegalArgumentException("client.interface variable not valid");
