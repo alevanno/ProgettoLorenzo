@@ -7,6 +7,7 @@ public class Config {
     private static final JsonObject allConf = Utils.getJsonObject("settings.json");
     public static final JsonObject server = allConf.get("server").getAsJsonObject();
     public static final JsonObject client = allConf.get("client").getAsJsonObject();
+    public static final JsonObject game = allConf.get("game").getAsJsonObject();
 
     private Config() {
         throw new IllegalStateException("Utility class");
@@ -24,6 +25,13 @@ public class Config {
         public static final JsonObject socket = client.get("socket").getAsJsonObject();
         public static final JsonObject rmi = client.get("rmi").getAsJsonObject();
         private Client() {
+            throw new IllegalStateException("Utility class");
+        }
+    }
+
+    public static class Game {
+        public static final int turnTimeout = game.get("timeout").getAsInt();
+        private Game() {
             throw new IllegalStateException("Utility class");
         }
     }

@@ -19,5 +19,7 @@
             "port": 29998
         }
     },
-    "timeout": 60
+    "game": {
+        "timeout": 60
+    }
 }
