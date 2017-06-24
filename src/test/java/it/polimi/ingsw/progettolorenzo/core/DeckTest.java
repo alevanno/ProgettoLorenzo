@@ -2,6 +2,7 @@ package it.polimi.ingsw.progettolorenzo.core;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import it.polimi.ingsw.progettolorenzo.core.exc.CardNotFoundException;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -41,7 +42,7 @@ public class DeckTest {
     }
 
     @Test
-    public void removeTest2() {
+    public void removeTest2() throws CardNotFoundException {
         this.testDeck.remove(this.testCard);
         assertEquals(0, this.testDeck.size());
     }

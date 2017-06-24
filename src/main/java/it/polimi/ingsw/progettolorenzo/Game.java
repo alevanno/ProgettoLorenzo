@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.progettolorenzo.core.*;
+import it.polimi.ingsw.progettolorenzo.core.exc.CardNotFoundException;
 import it.polimi.ingsw.progettolorenzo.core.exc.GameAlreadyStartedException;
 
 import java.lang.reflect.Type;
@@ -149,7 +150,11 @@ public class Game implements Runnable {
             tmpDeck.listCards().forEach(c -> {
                 for (Card card : deck) {
                     if (c.cardName.equals(card.cardName)) {
-                        tmpDeck.remove(c);
+                        try {
+                            tmpDeck.remove(c);
+                        } catch (CardNotFoundException e) {
+                            // FIXME deal appropriatly with the exception
+                        }
                     }
                 }
             });

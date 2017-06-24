@@ -1,5 +1,7 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
+import it.polimi.ingsw.progettolorenzo.core.exc.CardNotFoundException;
+
 import java.util.List;
 import java.util.Iterator;
 import java.util.ArrayList;
@@ -31,10 +33,9 @@ public class Deck implements Iterable<Card> {
         return this.cards.remove(idx);
     }
 
-    public boolean remove(Card c) {
+    public boolean remove(Card c) throws CardNotFoundException {
         if (!this.cards.remove(c)) {
-            log.severe("Specified Card not present in the Deck.");
-            System.exit(1);
+            throw new CardNotFoundException(c);
         }
         return true;
     }
