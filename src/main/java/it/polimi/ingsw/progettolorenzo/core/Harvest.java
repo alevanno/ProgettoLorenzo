@@ -1,7 +1,6 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;

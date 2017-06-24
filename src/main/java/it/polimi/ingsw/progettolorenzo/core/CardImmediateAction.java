@@ -3,7 +3,6 @@ package it.polimi.ingsw.progettolorenzo.core;
 
 import com.google.gson.JsonObject;
 
-import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
