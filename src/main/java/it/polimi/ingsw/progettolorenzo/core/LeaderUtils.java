@@ -15,11 +15,7 @@ public class LeaderUtils {
                 counter++;
             }
         }
-        if (counter >= cost) {
-            return true;
-        } else {
-            return false;
-        }
+        return counter >= cost;
     }
 
     public static boolean checkCostResSatisfaction(Player owner, Resources cost) {
