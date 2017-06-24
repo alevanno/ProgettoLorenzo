@@ -79,7 +79,9 @@ public class Game implements Runnable {
         try {
             if (this.maxPlayers != 1) {
                 synchronized (this.players) {
-                    this.players.wait();
+                    while (this.players.size() < this.maxPlayers) {
+                        this.players.wait();
+                    }
                 }
             }
             this.state = GameStatus.STARTED;
