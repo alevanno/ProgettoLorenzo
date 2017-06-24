@@ -113,7 +113,7 @@ public class Floor extends Action {
         if ("territories".equals(floorCard.cardType)) {
             int countTerritories = 0;
             for (Card i : p.listCards()) {
-                if (i.cardType.equals("territories")) {
+                if ("territories".equals(i.cardType)) {
                     countTerritories++;
                 }
             }
