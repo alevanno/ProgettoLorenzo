@@ -24,22 +24,25 @@ public class LeaderUtils {
     }
 
 
+    private static boolean onePerRoundApply(Player owner, LeaderCard card) {
+        owner.sOut("Would you like to activate the one per round ability? ");
+        if (owner.sInPromptConf()) {
+            if (card.onePerRoundUsage) {
+                owner.sOut("You have already activated the one per round ability in this turn");
+                return false;
+            }
+            card.onePerRoundAbility();
+            return true;
+        } else {
+            owner.sOut("You didn't activate the one per round ability");
+            return false;
+        }
+    }
+
     public static boolean commonApply(Player owner, LeaderCard card, boolean checkT, boolean checkC) {
         if (card.isActivated()) {
             if (card.hasOnePerRoundAbility()) {
-                owner.sOut("Would you like to activate the one per round ability? ");
-                boolean ret = owner.sInPromptConf();
-                if (ret) {
-                    if (card.onePerRoundUsage) {
-                        owner.sOut("You have already activated the one per round ability in this turn");
-                        return false;
-                    }
-                    card.onePerRoundAbility();
-                    return true;
-                } else {
-                    owner.sOut("You didn't activate the one per round ability");
-                    return false;
-                }
+                onePerRoundApply(owner, card);
             }
             owner.sOut("You have already activated this Leader Card!");
             return false;
