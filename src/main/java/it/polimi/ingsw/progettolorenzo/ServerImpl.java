@@ -48,23 +48,17 @@ class ConnectionService implements Runnable {
         InetAddress address = InetAddress.getByName(
             Config.Server.socket.get("bind").getAsString()
         );
-        ServerSocket serverSocket = null;
-        try {
-            serverSocket = new ServerSocket(port, 0, address);
+        try (ServerSocket sock = new ServerSocket(port, 0, address)) {
             log.info("Socket server ready on " + address + ", port: " + port);
             while (!Thread.currentThread().isInterrupted()) {
                 try {
-                    Socket socket = serverSocket.accept();
+                    Socket socket = sock.accept();
                     log.info("new SocketClient connection");
                     server.addPlayer(socket);
                 } catch (IOException e) {
                     log.log(Level.SEVERE, e.getMessage(), e);
                     throw e;
                 }
-            }
-        } finally {
-            if (serverSocket != null) {
-                serverSocket.close();
             }
         }
     }
