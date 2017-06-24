@@ -87,7 +87,7 @@ public class RmiClientImpl extends UnicastRemoteObject implements ClientInterfac
 
     @Override
     public void endClient() {
-        // nothing to do to end the client
+        // TODO properly terminate the RMI connection
     }
 
     @Override
