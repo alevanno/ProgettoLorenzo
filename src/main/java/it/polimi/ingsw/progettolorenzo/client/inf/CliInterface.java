@@ -9,13 +9,73 @@ import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import it.polimi.ingsw.progettolorenzo.core.Resources;
 
+import java.io.Console;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+interface CliIO {
+    void printLine(String format, Object... args);
+    String readLine();
+    String readLine(String format, Object... args);
+}
+
+class CliIOConsole implements CliIO {
+    private Console console = System.console();
+
+    @Override
+    public void printLine(String format, Object... args) {
+        console.format(format+"%n", args);
+        console.flush();
+    }
+
+    @Override
+    public String readLine() {
+        return console.readLine();
+    }
+
+    @Override
+    public String readLine(String format, Object... args) {
+        return System.console().readLine(format, args);
+    }
+
+}
+
+class CliIoBase implements CliIO {
+    private Scanner scanner = new Scanner(System.in);
+
+    @Override
+    public void printLine(String format, Object... args) {
+        System.out.println(String.format(format, args));
+    }
+
+    @Override
+    public String readLine() {
+        return scanner.nextLine();
+    }
+
+    @Override
+    public String readLine(String format, Object... args) {
+        this.printLine(format, args);
+        return this.readLine();
+    }
+}
+
 public class CliInterface implements Interface {
+    private final Logger log = Logger.getLogger(this.getClass().getName());
+    private CliIO io;
+
+    public CliInterface() {
+        if (System.console() != null) {
+            log.fine("Using a Console object for I/O");
+            this.io = new CliIOConsole();
+        } else {
+            log.fine("Using basic I/O");
+            this.io = new CliIoBase();
+        }
+    }
 
     @Override
     public void printLine(String format, Object... args) {
@@ -23,21 +83,16 @@ public class CliInterface implements Interface {
             this.formatBoard(format.substring(1));
             return;
         }
-        if (System.console() != null) {
-            System.console().format(format+"%n", args);
-            System.console().flush();
-        } else {
-            System.out.println(String.format(format, args));
-        }
+        this.io.printLine(format, args);
+    }
+
+    public String readLine() {
+        return this.io.readLine();
     }
 
     @Override
     public String readLine(String format, Object... args) {
-        if (System.console() != null) {
-            return System.console().readLine(format, args);
-        }
-        System.out.print(String.format(format, args));
-        return new Scanner(System.in).nextLine();
+        return this.io.readLine(format, args);
     }
 
     private void formatBoard(String input) {
