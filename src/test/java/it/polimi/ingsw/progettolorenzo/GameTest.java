@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import it.polimi.ingsw.progettolorenzo.client.LocalSingleClient;
 import it.polimi.ingsw.progettolorenzo.core.*;
+import it.polimi.ingsw.progettolorenzo.core.exc.GameAlreadyStartedException;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -94,7 +95,7 @@ public class GameTest {
     }
 
     @Test
-    public void endgameMilitaryTest() {
+    public void endgameMilitaryTest() throws GameAlreadyStartedException {
         List<Player> players = Arrays.asList(new Player("Ciccio", "Blue"), new Player("Bello", "Red"),
                 new Player("Pallo", "Violet"), new Player("Pinco", "Yellow"));
         Game endgameTest = new Game(players.get(0), 4, false, false);
@@ -111,7 +112,7 @@ public class GameTest {
     }
 
     @Test
-    public void endgameMilitaryTest2() {
+    public void endgameMilitaryTest2() throws GameAlreadyStartedException {
         List<Player> players = Arrays.asList(new Player("Ciccio", "Blue"), new Player("Bello", "Red"),
                 new Player("Pallo", "Violet"), new Player("Pinco", "Yellow"));
         Game endgameTest = new Game(players.get(0), 4, false, false);

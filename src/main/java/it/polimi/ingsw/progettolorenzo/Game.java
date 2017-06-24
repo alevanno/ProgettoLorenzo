@@ -61,11 +61,11 @@ public class Game implements Runnable {
         }
     }
 
-    protected void addPlayer(Player pl) {
+    protected void addPlayer(Player pl) throws GameAlreadyStartedException {
         log.fine("Adding player to Game: " + pl.toString());
         synchronized (this.players) {
             if (this.state != GameStatus.INIT) {
-                throw new GameAlreadyStartedException();  // FIXME
+                throw new GameAlreadyStartedException();
             }
             pl.setParentGame(this);
             this.players.add(pl);

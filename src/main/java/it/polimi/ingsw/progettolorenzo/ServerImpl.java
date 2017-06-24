@@ -2,6 +2,7 @@ package it.polimi.ingsw.progettolorenzo;
 
 import it.polimi.ingsw.progettolorenzo.client.RmiClient;
 import it.polimi.ingsw.progettolorenzo.core.Player;
+import it.polimi.ingsw.progettolorenzo.core.exc.GameAlreadyStartedException;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -113,11 +114,23 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
             pl.sOut("Do you want to join one of them? Otherwise a new game will be created");
             if (pl.sInPromptConf()) {
                 if (this.games.size() == 1) {
-                    this.games.get(0).addPlayer(pl);
+                    try {
+                        this.games.get(0).addPlayer(pl);
+                    } catch (GameAlreadyStartedException e) {
+                        pl.sOut("Fatal Error.  The game already started. " +
+                            "Try to connect again.");
+                        log.log(Level.SEVERE, e.getMessage(), e);
+                    }
                 } else {
                     pl.sOut("Which game do you want to join?");
-                    this.games.get(pl.sInPrompt(1, this.games.size()) - 1)
+                    try {
+                        this.games.get(pl.sInPrompt(1, this.games.size()) - 1)
                             .addPlayer(pl);
+                    } catch (GameAlreadyStartedException e) {
+                        pl.sOut("Fatal Error.  The game you want to join " +
+                            "already started.  Try connecting again");
+                        log.log(Level.SEVERE, e.getMessage(), e);
+                    }
                 }
             } else {
                 Game g = this.firstPlayer(pl);
