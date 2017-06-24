@@ -115,9 +115,8 @@ public class Player {
     }
 
     protected void takeFamilyMember(FamilyMember famMember) {
-        if (!this.famMemberList.remove(famMember)) {
-            System.exit(1);
-        }
+        // this won't fail as we don't want it to fail.  Right?
+        this.famMemberList.remove(famMember);
     }
 
     //TODO this should be moved to action, so that ResourceAction can be used
