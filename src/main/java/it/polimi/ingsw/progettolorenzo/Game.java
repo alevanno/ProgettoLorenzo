@@ -144,8 +144,8 @@ public class Game implements Runnable {
                             .collect(Deck::new, Deck::add, Deck::addAll)
             )
         );
-        for (String type : this.unhandledCards.keySet()) {
-            Deck tmpDeck = this.unhandledCards.get(type);
+        for (Map.Entry<String,Deck> entry : this.unhandledCards.entrySet()) {
+            Deck tmpDeck = entry.getValue();
             tmpDeck.listCards().forEach(c -> {
                 for (Card card : deck) {
                     if (c.cardName.equals(card.cardName)) {
