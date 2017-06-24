@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.progettolorenzo.GameTest;
+import it.polimi.ingsw.progettolorenzo.core.player.PlayerIOLocal;
 import org.junit.Before;
 import org.junit.Test;
 

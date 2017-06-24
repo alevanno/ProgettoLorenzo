@@ -1,17 +1,15 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.progettolorenzo.GameTest;
+import it.polimi.ingsw.progettolorenzo.core.player.PlayerIOLocal;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
-import java.net.Socket;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
 import static org.junit.Assert.*;
 

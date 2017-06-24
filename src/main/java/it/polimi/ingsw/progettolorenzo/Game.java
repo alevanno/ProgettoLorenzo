@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.progettolorenzo.core.*;
 import it.polimi.ingsw.progettolorenzo.core.exc.CardNotFoundException;
 import it.polimi.ingsw.progettolorenzo.core.exc.GameAlreadyStartedException;
+import it.polimi.ingsw.progettolorenzo.core.player.PlayerOperation;
 
 import java.lang.reflect.Type;
 import java.util.*;

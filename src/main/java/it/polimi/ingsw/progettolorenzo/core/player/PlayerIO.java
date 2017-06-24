@@ -1,8 +1,8 @@
-package it.polimi.ingsw.progettolorenzo.core;
+package it.polimi.ingsw.progettolorenzo.core.player;
 
 import java.util.Scanner;
 
-interface PlayerIO {
+public interface PlayerIO {
     String sIn();
 
     int sInPrompt(int minValue, int maxValue);

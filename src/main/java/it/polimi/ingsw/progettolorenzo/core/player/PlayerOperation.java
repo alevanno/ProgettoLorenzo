@@ -1,6 +1,10 @@
-package it.polimi.ingsw.progettolorenzo.core;
+package it.polimi.ingsw.progettolorenzo.core.player;
 
 import it.polimi.ingsw.progettolorenzo.Game;
+import it.polimi.ingsw.progettolorenzo.core.FamilyMember;
+import it.polimi.ingsw.progettolorenzo.core.Move;
+import it.polimi.ingsw.progettolorenzo.core.Player;
+import it.polimi.ingsw.progettolorenzo.core.Utils;
 
 import java.util.concurrent.Callable;
 

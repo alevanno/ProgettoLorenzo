@@ -1,12 +1,12 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
 import it.polimi.ingsw.progettolorenzo.GameTest;
+import it.polimi.ingsw.progettolorenzo.core.player.PlayerIOLocal;
 import org.junit.Before;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-import java.net.Socket;
 import java.util.*;
 
 public class LeaderTest {

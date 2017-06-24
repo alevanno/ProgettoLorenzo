@@ -1,4 +1,4 @@
-package it.polimi.ingsw.progettolorenzo.core;
+package it.polimi.ingsw.progettolorenzo.core.player;
 
 import java.io.*;
 import java.util.Scanner;

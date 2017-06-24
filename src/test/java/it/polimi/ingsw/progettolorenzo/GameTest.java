@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import it.polimi.ingsw.progettolorenzo.client.LocalSingleClient;
 import it.polimi.ingsw.progettolorenzo.core.*;
 import it.polimi.ingsw.progettolorenzo.core.exc.GameAlreadyStartedException;
+import it.polimi.ingsw.progettolorenzo.core.player.PlayerIOLocal;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

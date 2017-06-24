@@ -1,11 +1,11 @@
-package it.polimi.ingsw.progettolorenzo.core;
+package it.polimi.ingsw.progettolorenzo.core.player;
 
 
 import it.polimi.ingsw.progettolorenzo.client.RmiClient;
 import java.rmi.RemoteException;
 import java.util.logging.Logger;
 
-class PlayerIORMI implements PlayerIO {
+public class PlayerIORMI implements PlayerIO {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private RmiClient rmi;
 

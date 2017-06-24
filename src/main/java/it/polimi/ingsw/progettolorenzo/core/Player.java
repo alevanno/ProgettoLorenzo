@@ -3,6 +3,10 @@ package it.polimi.ingsw.progettolorenzo.core;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.progettolorenzo.Game;
 import it.polimi.ingsw.progettolorenzo.client.RmiClient;
+import it.polimi.ingsw.progettolorenzo.core.player.PlayerIO;
+import it.polimi.ingsw.progettolorenzo.core.player.PlayerIOLocal;
+import it.polimi.ingsw.progettolorenzo.core.player.PlayerIORMI;
+import it.polimi.ingsw.progettolorenzo.core.player.PlayerIOSocket;
 
 import java.net.Socket;
 import java.util.*;
