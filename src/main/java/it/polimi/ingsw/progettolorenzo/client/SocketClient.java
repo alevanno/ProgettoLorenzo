@@ -5,7 +5,6 @@ import it.polimi.ingsw.progettolorenzo.client.inf.Interface;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -94,17 +93,16 @@ class InHandler implements Runnable {
 
 class OutHandler implements Runnable {
     private PrintWriter socketOut;
-    private Interface inf;
+    private Interface c;
 
     public OutHandler(PrintWriter socketOut, Interface inf) {
         this.socketOut = socketOut;
-        this.inf = inf;
+        this.c = inf;
     }
 
     public void run() {
-        Scanner stdin = new Scanner(System.in);
         while (true) {
-            String inputLine = stdin.nextLine();
+            String inputLine = this.c.readLine();
             socketOut.println(inputLine);
             socketOut.flush();
 
