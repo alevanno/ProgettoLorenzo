@@ -26,14 +26,11 @@ public final class MyLogger {
         ch.setLevel(LEVEL);
 
         // add a filter to remove sun.rmi stuff from outor logs
-        ch.setFilter(new Filter() {
-            @Override
-            public boolean isLoggable(LogRecord rec) {
-                String n = rec.getSourceClassName();
-                return (!n.startsWith("sun.rmi") &&
-                        !n.startsWith("sun.awt") && !n.startsWith("java.awt")
-                && !n.startsWith("sun.lwawt"));
-            }
+        ch.setFilter((LogRecord rec) -> {
+            String n = rec.getSourceClassName();
+            return (!n.startsWith("sun.rmi") &&
+                !n.startsWith("sun.awt") && !n.startsWith("java.awt")
+            && !n.startsWith("sun.lwawt"));
         });
 
         // the actual Logger
