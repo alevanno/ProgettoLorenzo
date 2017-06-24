@@ -14,11 +14,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class RmiClientImpl extends UnicastRemoteObject implements ClientInterface, RmiClient {
-    private transient final Logger log = Logger.getLogger(this.getClass().getName());
-    private transient Scanner in = new Scanner(System.in);
+    private final transient Logger log = Logger.getLogger(this.getClass().getName());
+    private final transient Scanner in = new Scanner(System.in);
+    private final transient Interface c;
     public final String name;
     public final String colour;
-    private transient Interface c;
 
     public RmiClientImpl(String name, String colour, Interface inf) throws
         RemoteException {
