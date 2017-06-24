@@ -51,7 +51,6 @@ public class SocketClient implements ClientInterface {
             // those two in ClientInterface
             throw new IOException(e);
         }
-        System.exit(0);
     }
 
     @Override
