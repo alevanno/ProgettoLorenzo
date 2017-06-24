@@ -138,10 +138,10 @@ public class Game implements Runnable {
         Deck deck = new Deck();
         this.unhandledCards.forEach((n, d) -> //n: type, d: deck
             deck.addAll(
-                    StreamSupport.stream(d.spliterator(), false)
-                            .filter(c -> c.cardPeriod == period)
-                            .limit(4) // FIXME make configurable before Board() is instantiated
-                            .collect(Deck::new, Deck::add, Deck::addAll)
+                StreamSupport.stream(d.spliterator(), false)
+                    .filter(c -> c.cardPeriod == period)
+                    .limit(4) // FIXME make configurable before Board() is instantiated
+                    .collect(Deck::new, Deck::add, Deck::addAll)
             )
         );
         for (Map.Entry<String,Deck> entry : this.unhandledCards.entrySet()) {
