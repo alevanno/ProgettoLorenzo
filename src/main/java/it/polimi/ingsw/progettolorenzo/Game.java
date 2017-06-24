@@ -313,12 +313,6 @@ public class Game implements Runnable {
         pl.sOut("quit");
     }
 
-    public void timeExpired(Player pl, FamilyMember fam) { //TODO
-        pl.sOut("Time expired! Reverting lastFamMemIncrease");
-        pl.revertFamValue(fam, pl.getLastFamMemIncrease());
-        pl.sOut("Current Res: " + pl.getCurrentRes().toString());
-    }
-
     private void assignLeaderCards() {
         Map<String, LeaderCard> leaderMap = LeaderUtils.leadersBirth();
         List<LeaderCard> valuesList = new ArrayList<>(leaderMap.values());
