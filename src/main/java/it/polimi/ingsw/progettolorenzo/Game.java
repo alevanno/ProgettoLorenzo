@@ -295,10 +295,10 @@ public class Game implements Runnable {
         PlayerOperation op = new PlayerOperation(this, pl);
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Future<Boolean> f = executor.submit(op);
-        try{
-            f.get(TURN_TIMEOUT, TimeUnit.SECONDS); //if the timer worked the argument would be ();
-            System.out.println("bau");
-        } catch (TimeoutException to) {
+        try {
+            f.get(TURN_TIMEOUT, TimeUnit.SECONDS);
+        } catch (TimeoutException e) {
+            log.log(Level.INFO, "Player operation timed out", e);
             f.cancel(true);
             timeExpired(pl);
         } catch ( InterruptedException | ExecutionException in) {
