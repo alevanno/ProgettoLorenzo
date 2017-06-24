@@ -4,6 +4,10 @@ import java.util.*;
 
 public class LeaderUtils {
 
+    private LeaderUtils() {
+        throw new IllegalStateException("Utility class");
+    }
+
     public static boolean checkCardTypeSatisfaction(Player owner, String type, int cost) {
         int counter = 0;
         for (Card card : owner.listCards()) {
