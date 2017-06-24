@@ -97,4 +97,9 @@ public class RmiClientImpl extends UnicastRemoteObject implements ClientInterfac
         // Just return false, two RmiClientImpl objects are never equal really.
         return false;
     }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

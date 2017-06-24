@@ -175,6 +175,11 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         return false;
     }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
     public static void main(String[] args) {
         Logger log = Logger.getLogger(ServerImpl.class.getName());
         MyLogger.setup();
