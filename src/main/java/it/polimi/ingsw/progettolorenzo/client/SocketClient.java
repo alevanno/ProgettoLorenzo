@@ -80,7 +80,7 @@ class InHandler implements Runnable {
         while (true) {
             try {
                 String line = socketIn.readLine();
-                if (line.equalsIgnoreCase("quit")) {
+                if ("quit".equals(line)) {
                     throw new IOException("You have been disconnected from " +
                         "the server.");
                 }
@@ -109,7 +109,7 @@ class OutHandler implements Runnable {
             socketOut.println(inputLine);
             socketOut.flush();
 
-            if (inputLine.equals("quit")) {
+            if ("quit".equals(inputLine)) {
                 break;
             }
         }
