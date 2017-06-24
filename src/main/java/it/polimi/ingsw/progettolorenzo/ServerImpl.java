@@ -91,7 +91,7 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         @Override
         public void run() {
             synchronized (games) {
-                if (games.size() == 0) {
+                if (games.isEmpty()) {
                     pl.sOut("No currently running games, starting a new one…");
                     Game g = this.firstPlayer();
                     games.add(g);
