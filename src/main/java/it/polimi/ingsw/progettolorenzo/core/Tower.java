@@ -74,7 +74,6 @@ public class Tower {
     public int checkTowerOcc(FamilyMember fam) {
         Player actionPl = fam.getParent();
         List<FamilyMember> occupantsList = new ArrayList<>();
-        boolean isFree = false;
         fillOccupantList(occupantsList);
 
         if (occupantsList.size() == 0) {

@@ -223,7 +223,6 @@ public class Player {
 
     public void displayLeaderCards() {
         for (LeaderCard card : leaderCards) {
-            int i = 0;
             String toDisplay = card.getName() + " -> cost: " +
                     card.getActivationCost() +" : " + card.getCardCostType();
             if (card.isActivated()) {

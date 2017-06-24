@@ -16,7 +16,6 @@ public class PlayerOperation implements Callable<Boolean> {
 
     @Override
     public Boolean call() {
-        //try {
             g.setCurrPlayer(pl);
             pl.sOut("Turn " + g.getHalfPeriod() + ": Player " + pl.playerName +
                     " is the next player for this round:");
@@ -61,17 +60,13 @@ public class PlayerOperation implements Callable<Boolean> {
                 }
                 if (ret) {
                     return true;
-                    //break;
                 } else {
                     // placed here to abort this operation if player is not satisfied, reverts the value increase by servants
                     pl.sOut("Reverting famMemIncrease");
                     pl.revertFamValue(famMem, pl.getLastFamMemIncrease());
                     pl.sOut("Current Res: " + pl.getCurrentRes());
-                    //return true;
+                    //return true;   // FIXME  return needed or not needed?!
                 }
             }
-        //} catch () {
-         //   return true;
-        //}
     }
 }
