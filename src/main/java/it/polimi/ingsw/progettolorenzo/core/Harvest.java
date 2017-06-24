@@ -80,7 +80,7 @@ public class Harvest extends ActionProdHarv {
         for (Card i : tempDeck) {
             if (base(i).has("councilPrivilege")) {
                 int priv = base(i).get("councilPrivilege").getAsInt();
-                log.info("Harvest: Card " + i.cardName + " gave " + String.valueOf(priv) + " Council privilege");
+                log.info("Harvest: Card " + i.cardName + " gave " + priv + " Council privilege");
                 Set<Resources> privRes = (new Council().chooseMultiPrivilege(priv, player));
                 for (Resources r : privRes) {
                     this.addAction(new ResourcesAction(
