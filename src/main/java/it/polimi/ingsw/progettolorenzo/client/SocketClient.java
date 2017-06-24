@@ -38,15 +38,18 @@ public class SocketClient implements ClientInterface {
         out.println(this.colour);
         out.flush();
         ExecutorService executor = Executors.newFixedThreadPool(2);
-        Future in = executor.submit(new InHandler(new BufferedReader(new
+        Future stdin = executor.submit(new InHandler(new BufferedReader(new
                 InputStreamReader(socket.getInputStream())), c));
         executor.submit(new OutHandler(new
                 PrintWriter(new BufferedWriter(new
                 OutputStreamWriter(socket.getOutputStream()))), c));
         try {
-            in.get();
+            stdin.get();
         } catch (ExecutionException | InterruptedException e) {
-            System.exit(0);
+            log.log(Level.SEVERE, "Failed to get stdin", e);
+            // bundle those exceptions inside a IOException to avoid having
+            // those two in ClientInterface
+            throw new IOException(e);
         }
         System.exit(0);
     }
