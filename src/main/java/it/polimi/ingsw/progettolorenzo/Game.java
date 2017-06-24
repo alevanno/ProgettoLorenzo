@@ -44,7 +44,7 @@ public class Game implements Runnable {
     private int halfPeriod;
     private Player currPlayer;
     private List<JsonObject> excomms = new ArrayList<>();
-    private final int timeout = Config.Game.turnTimeout;
+    private final int timeout = Config.Game.TURN_TIMEOUT;
 
 
     public Game(Player firstPlayer, int maxPlayers,
