@@ -60,25 +60,27 @@ public class Floor extends Action {
         return true;
     }
 
-    protected boolean checkEnoughValue(FamilyMember fam) { //checks that the action value is sufficient
+    protected boolean checkEnoughValue(FamilyMember fam) {
+        // check that the action value is sufficient
         int value = fam.getActionValue();
         Player p = fam.getParent();
-        for (Card c : p.listCards()) { //searches for permanent value bonus (cards)
+
+        // search for permanent value bonus (cards)
+        for (Card c : p.listCards()) {
             JsonElement permTowerBonus = c.permanentEff.get("towerBonus");
-            if(permTowerBonus != null) {
-                if (permTowerBonus.getAsJsonObject().get("type").getAsString().equals(floorCard.cardType)) {
+            if (permTowerBonus != null &&
+                permTowerBonus.getAsJsonObject().get("type").getAsString().equals(floorCard.cardType)) {
                     int valBonus = permTowerBonus.getAsJsonObject().get("plusValue").getAsInt();
                     p.sOut("Card " + c.cardName + " increases the value of this action by " + valBonus);
                     value += valBonus;
-                }
             }
         }
-        if (p.getExcommunications().get(1).has("valMalus")) { //searches for permanent value malus (excomms)
-            if (p.getExcommunications().get(1).get("type").getAsString().equals(parentTower.getType())) {
+        // search for permanent value malus (excommunication)
+        if (p.getExcommunications().get(1).has("valMalus") &&
+            p.getExcommunications().get(1).get("type").getAsString().equals(parentTower.getType())) {
                 int valMalus = p.getExcommunications().get(1).get("valMalus").getAsInt();
                 p.sOut("Your excommunication lowers the value of this action by " + valMalus);
                 value -= valMalus;
-            }
         }
         if (value < this.floorValue) {
             p.sOut("Insufficient value");
