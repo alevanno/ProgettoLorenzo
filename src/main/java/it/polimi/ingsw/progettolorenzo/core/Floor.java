@@ -145,7 +145,9 @@ public class Floor extends Action {
     public boolean claimFloorWithCard(FamilyMember fam, Floor callerFloor) {
         callerFl = callerFloor;
         boolean ret = claimFloor(fam);
-        if (!ret) { callerFl = this; }
+        if (!ret) {
+            callerFl = this;
+        }
         return ret;
     }
 
