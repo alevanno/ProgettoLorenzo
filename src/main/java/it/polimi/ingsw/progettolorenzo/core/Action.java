@@ -24,6 +24,6 @@ public abstract class Action {
 
     public void logActions() {
         log.fine("Actions staged for " + this + ":");
-        this.actions.forEach(x -> x.logAction());
+        this.actions.forEach(BaseAction::logAction);
     }
 }
