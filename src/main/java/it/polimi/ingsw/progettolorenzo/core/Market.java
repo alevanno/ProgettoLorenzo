@@ -7,13 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Market {
-
     List<MarketBooth> booths = new ArrayList<>();
     private int numOfBooths;
-
-    public int getNumOfBooths() {
-        return numOfBooths;
-    }
 
     public Market()  {
         JsonObject data = Utils.getJsonObject("market.json");
@@ -21,6 +16,10 @@ public class Market {
         booths.add(new MarketBooth(data.get("secondBooth").getAsJsonObject()));
         booths.add(new MarketBooth(data.get("thirdBooth").getAsJsonObject()));
         booths.add(new MarketBooth(data.get("fourthBooth").getAsJsonObject()));
+    }
+
+    public int getNumOfBooths() {
+        return numOfBooths;
     }
 
     public List<MarketBooth> getBooths() {
