@@ -97,7 +97,6 @@ public class CliInterface implements Interface {
     }
 
     private void formatBoard(String input) {
-        final Logger log = Logger.getLogger(CliInterface.class.getName());
         JsonObject boardIn = new Gson().fromJson(input, JsonObject.class);
         printLine("The board as it is now:");
         try {
