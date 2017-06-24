@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import it.polimi.ingsw.progettolorenzo.core.*;
+import it.polimi.ingsw.progettolorenzo.core.exc.GameAlreadyStartedException;
 
 import java.lang.reflect.Type;
 import java.util.*;
@@ -44,7 +45,7 @@ public class Game implements Runnable {
     private int halfPeriod;
     private Player currPlayer;
     private List<JsonObject> excomms = new ArrayList<>();
-    private final int timeout = Config.Game.TURN_TIMEOUT;
+    private static final int TURN_TIMEOUT = Config.Game.TURN_TIMEOUT;
 
 
     public Game(Player firstPlayer, int maxPlayers,
@@ -64,7 +65,7 @@ public class Game implements Runnable {
         log.fine("Adding player to Game: " + pl.toString());
         synchronized (this.players) {
             if (this.state != GameStatus.INIT) {
-                throw new RuntimeException("Game already started");  // FIXME
+                throw new GameAlreadyStartedException();  // FIXME
             }
             pl.setParentGame(this);
             this.players.add(pl);
@@ -293,7 +294,7 @@ public class Game implements Runnable {
         ExecutorService executor = Executors.newSingleThreadExecutor();
         Future<Boolean> f = executor.submit(op);
         try{
-            f.get(timeout, TimeUnit.SECONDS); //if the timer worked the argument would be ();
+            f.get(TURN_TIMEOUT, TimeUnit.SECONDS); //if the timer worked the argument would be ();
             System.out.println("bau");
         } catch (TimeoutException to) {
             f.cancel(true);
