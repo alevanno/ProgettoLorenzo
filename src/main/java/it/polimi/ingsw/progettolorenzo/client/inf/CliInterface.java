@@ -86,6 +86,7 @@ public class CliInterface implements Interface {
         this.io.printLine(format, args);
     }
 
+    @Override
     public String readLine() {
         return this.io.readLine();
     }

@@ -143,8 +143,7 @@ public class GuiInterface extends Application implements Interface {
     }
 
     @Override
-    public String readLine(String format, Object... args) {
-        this.printLine(format, args);
+    public String readLine() {
         try {
             synchronized (msgInMonitor) {
                 log.info("going to wait for a new message to send to server");
@@ -156,4 +155,11 @@ public class GuiInterface extends Application implements Interface {
             return "";// FIXME
         }
     }
+
+    @Override
+    public String readLine(String format, Object... args) {
+        this.printLine(format, args);
+        return this.readLine();
+    }
+
 }
