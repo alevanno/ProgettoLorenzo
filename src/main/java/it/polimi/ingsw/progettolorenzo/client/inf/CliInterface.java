@@ -112,7 +112,7 @@ public class CliInterface implements Interface {
 
     }
 
-    private static class BoardWindow extends BasicWindow {
+    private class BoardWindow extends BasicWindow {
         Panel mainPanel = new Panel();
         public BoardWindow(JsonObject input) {
             super("Board");
@@ -127,6 +127,9 @@ public class CliInterface implements Interface {
                         entry.getValue().getAsJsonArray().forEach(
                                 t -> this.addTower(t.getAsJsonObject())
                         );
+                        break;
+                    default:
+                        log.severe("Unknown element in the board: " + entry.getKey());
                         break;
                 }
             }
