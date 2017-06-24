@@ -81,11 +81,12 @@ class InHandler implements Runnable {
             try {
                 String line = socketIn.readLine();
                 if (line.equalsIgnoreCase("quit")) {
-                    this.c.printLine("You have been disconnected from the server");
-                    break;
+                    throw new IOException("You have been disconnected from " +
+                        "the server.");
                 }
                 this.c.printLine(line);
            } catch (IOException e) {
+                this.c.printLine(e.getMessage());
                 log.log(Level.SEVERE, e.getMessage(), e);
                 break;
             }
