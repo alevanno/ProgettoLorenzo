@@ -147,10 +147,11 @@ public class Floor extends Action {
         return ret;
     }
 
-    // player puts here its famMemb & takes the Card and the eventual bonus;
+    // player puts here its famMemb & takes the Card and the eventual bonus
     public boolean claimFloor(FamilyMember fam) {
         Player p = fam.getParent();
-        //if the action value, the resources or the militaryPoints are not sufficient the action fails
+        // fail the action if the action value, the resources or the
+        // militaryPoints are not sufficient
         if (!checkEnoughValue(fam) || !checkEnoughRes(p) || !checkNotExceedingCard(p)) {
             return false;
         }

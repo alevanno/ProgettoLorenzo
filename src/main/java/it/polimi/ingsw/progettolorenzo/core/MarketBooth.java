@@ -38,7 +38,6 @@ public class MarketBooth extends Action {
         this.famMember = f;
     }
 
-    //actionBuilder for MarketBooth class;
     public boolean claimSpace(FamilyMember fam) {
         Player p = fam.getParent();
         if (p.getExcommunications().get(1).has("blockedMarket")) {

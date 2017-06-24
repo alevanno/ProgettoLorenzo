@@ -31,7 +31,8 @@ public class PlayerOperation implements Callable<Boolean> {
                 pl.sOut(famMem.getSkinColour() + " family member selected");
                 pl.rstFamMemIncrease(); //needed so it doesn't restore the previous player's famMemIncrease when the timer expires
                 pl.addFamMemIncrease(pl.increaseFamValue(famMem));
-                //setFam(famMem); //TODO
+                // TODO
+                //setFam(famMem);
                 pl.sOut("Available actions:");
                 pl.sOut(Utils.displayList(g.getActions()));
                 pl.sOut("Which action do you want to try?: ");
