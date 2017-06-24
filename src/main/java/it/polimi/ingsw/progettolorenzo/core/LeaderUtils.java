@@ -42,7 +42,7 @@ public class LeaderUtils {
     public static boolean commonApply(Player owner, LeaderCard card, boolean checkT, boolean checkC) {
         if (card.isActivated()) {
             if (card.hasOnePerRoundAbility()) {
-                onePerRoundApply(owner, card);
+                return onePerRoundApply(owner, card);
             }
             owner.sOut("You have already activated this Leader Card!");
             return false;
