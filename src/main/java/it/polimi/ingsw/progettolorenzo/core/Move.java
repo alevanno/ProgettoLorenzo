@@ -35,7 +35,11 @@ public class Move {
                 }
             }
         }
-        if (floor == null) { pl.sOut("Card " + cardName + " does not exist!"); } //this appears even if it exists but it is of the wrong type
+        if (floor == null) {
+            // this appears even if it exists but it is of the wrong type
+            pl.sOut("Card " + cardName + " does not exist!");
+            // FIXME use CardNotFoundException here
+        }
         return floor;
     }
 
@@ -63,7 +67,9 @@ public class Move {
     public static void floorActionWithCard(Player pl, Card caller, String type, int value, Resources discount) {
         Board board = pl.getParentGame().getBoard();
         pl.sOut("Immediate floorActionWithCard from card " + caller + "\nDo you want to exploit it?");
-        if (!pl.sInPromptConf()) { return; }
+        if (!pl.sInPromptConf()) {
+            return;
+        }
         FamilyMember dummy = new FamilyMember(pl, value, "Dummy");
         pl.getAvailableFamMembers().add(dummy);
         boolean ret = false;
