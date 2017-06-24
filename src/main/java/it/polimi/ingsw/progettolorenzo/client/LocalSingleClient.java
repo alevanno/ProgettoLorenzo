@@ -31,5 +31,7 @@ public class LocalSingleClient implements ClientInterface {
     }
 
     @Override
-    public void endClient() {}
+    public void endClient() {
+        // nothing to do to end the client
+    }
 }

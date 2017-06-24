@@ -86,7 +86,9 @@ public class RmiClientImpl extends UnicastRemoteObject implements ClientInterfac
     }
 
     @Override
-    public void endClient() {}
+    public void endClient() {
+        // nothing to do to end the client
+    }
 
     @Override
     public boolean equals(Object obj) {
