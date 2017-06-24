@@ -65,9 +65,9 @@ public class Card extends Action {
 
     public Resources getCardCost(Player pl) {
         if (this.cardCost.size() > 1) {
-            System.out.println("You can choose what to pay:");
+            pl.sOut("You can choose what to pay:");
             for (Resources item : this.cardCost) {
-                System.out.println(item.toString());
+                pl.sOut(item.toString());
             }
             int choice = pl.sInPrompt(0, this.cardCost.size() - 1);
             return this.cardCost.get(choice);
