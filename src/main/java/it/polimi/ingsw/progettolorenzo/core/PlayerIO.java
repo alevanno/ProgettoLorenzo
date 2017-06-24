@@ -29,8 +29,12 @@ interface PlayerIO {
             sOut("Input 'y' (yes) or 'n' (no)");
             choice = in.next().substring(0,1);
         } while (!"y".equalsIgnoreCase(choice) && !"n".equalsIgnoreCase(choice));
-        if ("y".equalsIgnoreCase(choice)) { return true; }
-        if ("n".equalsIgnoreCase(choice)) { return false; }
+        if ("y".equalsIgnoreCase(choice)) {
+            return true;
+        }
+        if ("n".equalsIgnoreCase(choice)) {
+            return false;
+        }
         return false;
     }
 
