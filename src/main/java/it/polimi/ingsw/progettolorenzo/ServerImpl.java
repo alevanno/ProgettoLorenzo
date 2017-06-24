@@ -75,62 +75,79 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         super();
     }
 
-    private void startServer() throws IOException {
+    private void startServer() {
         ExecutorService connections = Executors.newSingleThreadExecutor();
         connections.submit(new ConnectionService(this));
     }
 
     private class AddPlayer implements Runnable {
-        private Player player;
+        private Player pl;
 
         protected AddPlayer(Player player) {
             log.fine("Creating a new player (new thread)");
-            this.player =  player;
+            this.pl = player;
         }
 
         @Override
         public void run() {
-            ServerImpl.this.addPlayer(this.player);
-        }
-    }
-
-    private void addPlayer(Player pl) {
-        synchronized (this.games) {
-            if (this.games.size() == 0) {
-                pl.sOut("No currently running games, starting a new one…");
-                Game g = this.firstPlayer(pl);
-                this.games.add(g);
-                this.gamesExecutor.submit(g);
-                return;
-            }
-            pl.sOut("Available games:");
-            this.games.forEach(x -> pl.sOut("  + " + x.toString()));
-            pl.sOut("Do you want to join one of them? Otherwise a new game will be created");
-            if (pl.sInPromptConf()) {
-                if (this.games.size() == 1) {
-                    try {
-                        this.games.get(0).addPlayer(pl);
-                    } catch (GameAlreadyStartedException e) {
-                        pl.sOut("Fatal Error.  The game already started. " +
-                            "Try to connect again.");
-                        log.log(Level.SEVERE, e.getMessage(), e);
+            synchronized (games) {
+                if (games.size() == 0) {
+                    pl.sOut("No currently running games, starting a new one…");
+                    Game g = this.firstPlayer();
+                    games.add(g);
+                    gamesExecutor.submit(g);
+                    return;
+                }
+                pl.sOut("Available games:");
+                games.forEach(x -> pl.sOut("  + " + x.toString()));
+                pl.sOut("Do you want to join one of them? Otherwise a new game will be created");
+                if (pl.sInPromptConf()) {
+                    if (games.size() == 1) {
+                        try {
+                            games.get(0).addPlayer(pl);
+                        } catch (GameAlreadyStartedException e) {
+                            pl.sOut("Fatal Error.  The game already started. " +
+                                "Try to connect again.");
+                            log.log(Level.SEVERE, e.getMessage(), e);
+                        }
+                    } else {
+                        pl.sOut("Which game do you want to join?");
+                        try {
+                            games.get(pl.sInPrompt(1, games.size()) - 1)
+                                .addPlayer(pl);
+                        } catch (GameAlreadyStartedException e) {
+                            pl.sOut("Fatal Error.  The game you want to join " +
+                                "already started.  Try connecting again");
+                            log.log(Level.SEVERE, e.getMessage(), e);
+                        }
                     }
                 } else {
-                    pl.sOut("Which game do you want to join?");
-                    try {
-                        this.games.get(pl.sInPrompt(1, this.games.size()) - 1)
-                            .addPlayer(pl);
-                    } catch (GameAlreadyStartedException e) {
-                        pl.sOut("Fatal Error.  The game you want to join " +
-                            "already started.  Try connecting again");
-                        log.log(Level.SEVERE, e.getMessage(), e);
-                    }
+                    Game g = this.firstPlayer();
+                    games.add(g);
+                    gamesExecutor.submit(g);
                 }
-            } else {
-                Game g = this.firstPlayer(pl);
-                this.games.add(g);
-                this.gamesExecutor.submit(g);
             }
+        }
+
+        private Game firstPlayer() {
+            pl.sOut("It seems you're the first player! :)");
+            pl.sOut("You get to choose how this game will be played.");
+            pl.sOut("How many players?");
+            int maxplayers = pl.sInPrompt(1, 4);
+            pl.sOut("Basic or advanced rules? (LeaderCards and " +
+                "different bonus board)");
+            String bonusBoard = pl.sIn();
+            boolean personalBonusBoards = false;
+            boolean leaderOn = false;
+            if ("advanced".equalsIgnoreCase(bonusBoard)) {
+                personalBonusBoards = true;
+                leaderOn = true;
+            }
+            log.info(String.format(
+                "Game settings: %d players, %s boards, %s leader cars",
+                maxplayers, personalBonusBoards, leaderOn
+            ));
+            return new Game(pl, maxplayers, personalBonusBoards, leaderOn);
         }
     }
 
@@ -148,27 +165,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
         String colour = socketIn.nextLine();
         Player player = new Player(name, colour, socket);
         this.tempPlayers.submit(new AddPlayer(player));
-    }
-
-    private Game firstPlayer(Player pl) {
-        pl.sOut("It seems you're the first player! :)");
-        pl.sOut("You get to choose how this game will be played.");
-        pl.sOut("How many players?");
-        int maxplayers = pl.sInPrompt(1, 4);
-        pl.sOut("Basic or advanced rules? (LeaderCards and " +
-            "different bonus board)");
-        String bonusBoard = pl.sIn();
-        boolean personalBonusBoards = false;
-        boolean leaderOn = false;
-        if ("advanced".equalsIgnoreCase(bonusBoard)) {
-            personalBonusBoards = true;
-            leaderOn = true;
-        }
-        log.info(String.format(
-            "Game settings: %d players, %s boards, %s leader cars",
-            maxplayers, personalBonusBoards, leaderOn
-        ));
-        return new Game(pl, maxplayers, personalBonusBoards, leaderOn);
     }
 
     @Override
