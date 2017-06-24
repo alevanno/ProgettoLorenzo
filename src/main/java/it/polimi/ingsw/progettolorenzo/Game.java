@@ -348,8 +348,9 @@ public class Game implements Runnable {
                     }
                     Resources victoryChurch = Resources.fromJson(faithVictory.get(pl.getCurrentRes().faithPoint));
                     pl.currentResMerge(victoryChurch);
-                    log.info("Player " + pl + " supported the Church: he gains " +
-                            victoryChurch.victoryPoint + " victoryPoint");
+                    log.info(String.format(
+                        "Player %s supported the Church: he gains %d " +
+                            "victoryPoints", pl, victoryChurch.victoryPoint));
                     pl.currentResMerge(new Resources.ResBuilder()
                             .faithPoint(plFaithP).build().inverse());
                 } else {
