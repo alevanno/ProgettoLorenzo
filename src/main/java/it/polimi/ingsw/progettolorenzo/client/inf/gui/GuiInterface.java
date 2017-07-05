@@ -8,6 +8,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GuiInterface extends Application implements Interface {
@@ -29,10 +30,10 @@ public class GuiInterface extends Application implements Interface {
 
         synchronized (guiMonitor) {
             guiStarted = true;
-            log.info("notifying…");
+            log.finest("GUI started, notifying the monitor…");
             guiMonitor.notify();
         }
-        log.info("done notify");
+        log.finest("GUI started, the monitor has been notified");
 
         stage.setTitle("Lorenzo il Magnifico");
         Scene scene = new Scene(root, 1400, 900);
@@ -42,29 +43,29 @@ public class GuiInterface extends Application implements Interface {
 
     @Override
     public void printLine(String format, Object... args) {
-        log.info("new message arrived: '"+format+"'");
+        log.fine("new message arrived: ["+format+"]");
         synchronized (guiMonitor) {
             if (!guiStarted) {
+                log.finest("GUI not yet started, spawning the thread…");
                 Runnable t = () ->
                     javafx.application.Application.launch(this.getClass());
                 new Thread(t).start();
                 try {
-                    log.info("going to wait for gui…");
+                    log.finest("GUI thread started, waiting for ACK");
                     guiMonitor.wait();
-                    log.info("done waiting");
+                    log.finest("GUI thread started, ACK received, continuing…");
                 } catch (InterruptedException e) {
-                    log.severe("Failed to start the GUI");
+                    log.log(Level.SEVERE, "Failed to start the GUI", e);
                 }
             }
         }
-        log.info("attempting delivery");
         controller.updateMainLabel(String.format(format, args));
     }
 
     @Override
     public String readLine() {
         String msgIn = controller.readForm();
-        log.info("Sending over ["+msgIn+"]");
+        log.finer("Sending over the message: ["+msgIn+"]");
         return msgIn;
     }
 

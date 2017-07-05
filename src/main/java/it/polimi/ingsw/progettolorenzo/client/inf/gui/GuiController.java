@@ -18,12 +18,12 @@ public class GuiController {
     @FXML private TextField userTextField;
 
     protected void setInf(GuiInterface inf) {
-        log.info("set inf");
         this.inf = inf;
     }
 
     protected void updateMainLabel(String msg) {
         Platform.runLater(() -> mainLabel.setText(msg));
+        log.finest("Successfully updated the label");
     }
 
     protected String readForm() {
