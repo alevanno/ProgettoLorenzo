@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
 
 import java.util.logging.Logger;
 
@@ -16,6 +17,7 @@ public class GuiController {
 
     @FXML private Label mainLabel;
     @FXML private TextField userTextField;
+    @FXML private GridPane towers;
 
     protected void setInf(GuiInterface inf) {
         this.inf = inf;
