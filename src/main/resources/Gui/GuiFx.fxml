@@ -8,9 +8,9 @@
 
 <AnchorPane prefHeight="900.0" prefWidth="1300.0" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1" fx:controller="it.polimi.ingsw.progettolorenzo.client.inf.gui.GuiController">
    <children>
-      <SplitPane dividerPositions="0.5" orientation="HORIZONTAL">
+      <SplitPane dividerPositions="0.5580322828593389" orientation="HORIZONTAL">
         <items>
-          <SplitPane dividerPositions="0.732620320855615" orientation="VERTICAL">
+          <SplitPane dividerPositions="0.7219251336898396" orientation="VERTICAL">
             <items>
                 <AnchorPane prefHeight="679.0" prefWidth="699.0" styleClass="topBoard" />
                 <AnchorPane prefHeight="254.0" prefWidth="699.0" styleClass="bottomBoard" />
@@ -21,9 +21,9 @@
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
               <AnchorPane>
                    <children>
-                      <Label fx:id="mainLabel" layoutX="25.0" layoutY="38.0" prefHeight="65.0" prefWidth="553.0" text="test text" />
-                      <TextField fx:id="userTextField" layoutX="25.0" layoutY="134.0" prefHeight="26.0" prefWidth="553.0" />
-                      <Button defaultButton="true" layoutX="25.0" layoutY="199.0" mnemonicParsing="false" onAction="#handleBtnPress" text="Button" />
+                      <Label fx:id="mainLabel" layoutX="25.0" layoutY="38.0" prefHeight="65.0" prefWidth="523.0" text="test text" />
+                      <TextField fx:id="userTextField" layoutX="25.0" layoutY="134.0" prefHeight="26.0" prefWidth="523.0" />
+                      <Button defaultButton="true" layoutX="486.0" layoutY="192.0" mnemonicParsing="false" onAction="#handleBtnPress" text="Send" />
                    </children>
                 </AnchorPane>
             </items>
