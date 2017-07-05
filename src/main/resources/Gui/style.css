@@ -1,0 +1,13 @@
+.topBoard {
+    -fx-background-image: url("boardTop.jpg");
+    -fx-background-size: cover;
+}
+
+.bottomBoard {
+    -fx-background-image: url("boardBottom.jpg");
+    -fx-background-size: cover;
+}
+
+.split-pane-divider {
+    -fx-padding: 0 1 0 1;
+}
