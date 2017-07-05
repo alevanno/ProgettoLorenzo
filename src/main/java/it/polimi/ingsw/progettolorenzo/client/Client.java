@@ -4,7 +4,7 @@ import it.polimi.ingsw.progettolorenzo.Config;
 import it.polimi.ingsw.progettolorenzo.MyLogger;
 import it.polimi.ingsw.progettolorenzo.client.inf.Interface;
 import it.polimi.ingsw.progettolorenzo.client.inf.CliInterface;
-import it.polimi.ingsw.progettolorenzo.client.inf.GuiInterface;
+import it.polimi.ingsw.progettolorenzo.client.inf.gui.GuiInterface;
 
 import java.io.IOException;
 import java.util.Arrays;
