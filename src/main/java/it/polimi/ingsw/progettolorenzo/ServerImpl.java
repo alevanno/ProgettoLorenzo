@@ -134,17 +134,31 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
             pl.sOut("You get to choose how this game will be played.");
             pl.sOut("How many players?");
             int maxplayers = pl.sInPrompt(1, 4);
-            pl.sOut("Basic or advanced rules? (LeaderCards and " +
-                "different bonus board)");
-            String bonusBoard = pl.sIn();
             boolean personalBonusBoards = false;
             boolean leaderOn = false;
-            if ("advanced".equalsIgnoreCase(bonusBoard)) {
-                personalBonusBoards = true;
-                leaderOn = true;
+            switch(Config.game.get("rules").getAsString()) {
+                case "basic":
+                    break;
+                case "advanced":
+                    personalBonusBoards = true;
+                    leaderOn = true;
+                    break;
+                case "ask":
+                    pl.sOut("Basic or advanced rules? (LeaderCards and " +
+                        "different bonus board)");
+                    String bonusBoard = pl.sIn();
+                    if ("advanced".equalsIgnoreCase(bonusBoard)) {
+                        personalBonusBoards = true;
+                        leaderOn = true;
+                    }
+                    break;
+                default:
+                    log.severe("game.rules setting not valid");
+                    // FIXME properly handle
+                    break;
             }
             log.info(String.format(
-                "Game settings: %d players, %s boards, %s leader cars",
+                "Game settings: %d players, %s boards, %s leader cards",
                 maxplayers, personalBonusBoards, leaderOn
             ));
             return new Game(pl, maxplayers, personalBonusBoards, leaderOn);
