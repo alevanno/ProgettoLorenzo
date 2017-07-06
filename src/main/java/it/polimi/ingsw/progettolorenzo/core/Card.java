@@ -75,6 +75,10 @@ public class Card extends Action {
         return this.cardCost.get(0);
     }
 
+    public List<Resources> getCardCosts() {
+        return this.cardCost;
+    }
+
     public void costActionBuilder(Player pl) {
         int discount = 0;
         if (pl.leaderIsActive("Pico Della Mirandola")){
