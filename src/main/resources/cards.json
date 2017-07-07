@@ -1,6 +1,7 @@
 [
     {
         "cost": [],
+        "id": 1,
         "immediateAction": {},
         "name": "Avamposto Commerciale",
         "period": 1,
@@ -16,6 +17,7 @@
     },
     {
         "cost": [],
+        "id": 2,
         "immediateAction": {
             "resources": {
                 "wood": 1
@@ -35,6 +37,7 @@
     },
     {
         "cost": [],
+        "id": 3,
         "immediateAction": {},
         "name": "Borgo",
         "period": 1,
@@ -51,6 +54,7 @@
     },
     {
         "cost": [],
+        "id": 4,
         "immediateAction": {
             "resources": {
                 "stone": 2
@@ -70,6 +74,7 @@
     },
     {
         "cost": [],
+        "id": 5,
         "immediateAction": {
             "resources": {
                 "wood": 1
@@ -89,6 +94,7 @@
     },
     {
         "cost": [],
+        "id": 6,
         "immediateAction": {
             "resources": {
                 "militaryPoint": 2,
@@ -110,6 +116,7 @@
     },
     {
         "cost": [],
+        "id": 7,
         "immediateAction": {},
         "name": "Rocca",
         "period": 1,
@@ -126,6 +133,7 @@
     },
     {
         "cost": [],
+        "id": 8,
         "immediateAction": {
             "resources": {
                 "coin": 3
@@ -143,6 +151,7 @@
     },
     {
         "cost": [],
+        "id": 9,
         "immediateAction": {
             "resources": {
                 "coin": 1
@@ -162,6 +171,7 @@
     },
     {
         "cost": [],
+        "id": 10,
         "immediateAction": {
             "resources": {
                 "servant": 2,
@@ -183,6 +193,7 @@
     },
     {
         "cost": [],
+        "id": 11,
         "immediateAction": {
             "resources": {
                 "servant": 2,
@@ -204,6 +215,7 @@
     },
     {
         "cost": [],
+        "id": 12,
         "immediateAction": {
             "resources": {
                 "wood": 1
@@ -223,6 +235,7 @@
     },
     {
         "cost": [],
+        "id": 13,
         "immediateAction": {
             "resources": {
                 "servant": 2,
@@ -244,6 +257,7 @@
     },
     {
         "cost": [],
+        "id": 14,
         "immediateAction": {
             "resources": {
                 "faithPoint": 1
@@ -263,6 +277,7 @@
     },
     {
         "cost": [],
+        "id": 15,
         "immediateAction": {},
         "name": "Maniero",
         "period": 2,
@@ -279,6 +294,7 @@
     },
     {
         "cost": [],
+        "id": 16,
         "immediateAction": {
             "resources": {
                 "coin": 4
@@ -300,6 +316,7 @@
     },
     {
         "cost": [],
+        "id": 17,
         "immediateAction": {
             "resources": {
                 "coin": 1,
@@ -320,6 +337,7 @@
     },
     {
         "cost": [],
+        "id": 18,
         "immediateAction": {
             "resources": {
                 "victoryPoint": 1,
@@ -341,6 +359,7 @@
     },
     {
         "cost": [],
+        "id": 19,
         "immediateAction": {
             "resources": {
                 "militaryPoint": 2
@@ -361,6 +380,7 @@
     },
     {
         "cost": [],
+        "id": 20,
         "immediateAction": {
             "resources": {
                 "victoryPoint": 3
@@ -381,6 +401,7 @@
     },
     {
         "cost": [],
+        "id": 21,
         "immediateAction": {
             "councilPrivilege": 1,
             "resources": {
@@ -402,6 +423,7 @@
     },
     {
         "cost": [],
+        "id": 22,
         "immediateAction": {
             "resources": {
                 "faithPoint": 1
@@ -422,6 +444,7 @@
     },
     {
         "cost": [],
+        "id": 23,
         "immediateAction": {
             "resources": {
                 "coin": 2,
@@ -443,6 +466,7 @@
     },
     {
         "cost": [],
+        "id": 24,
         "immediateAction": {
             "resources": {
                 "militaryPoint": 2,
@@ -469,6 +493,7 @@
                 "wood": 1
             }
         ],
+        "id": 25,
         "immediateAction": {
             "resources": {
                 "victoryPoint": 5
@@ -496,6 +521,7 @@
                 "wood": 3
             }
         ],
+        "id": 26,
         "immediateAction": {
             "resources": {
                 "victoryPoint": 5
@@ -523,6 +549,7 @@
                 "stone": 2
             }
         ],
+        "id": 27,
         "immediateAction": {
             "resources": {
                 "victoryPoint": 6
@@ -550,6 +577,7 @@
                 "wood": 2
             }
         ],
+        "id": 28,
         "immediateAction": {
             "resources": {
                 "victoryPoint": 6
@@ -577,6 +605,7 @@
                 "wood": 2
             }
         ],
+        "id": 29,
         "immediateAction": {
             "resources": {
                 "victoryPoint": 3
@@ -588,30 +617,30 @@
             "production": {
                 "conversion": [
                     {
-                        "src": [
-                            {
-                                "wood": 1
-                            }
-                        ],
                         "dest": [
                             {
                                 "resources": {
                                     "coin": 3
                                 }
                             }
+                        ],
+                        "src": [
+                            {
+                                "wood": 1
+                            }
                         ]
                     },
                     {
-                        "src": [
-                            {
-                                "wood": 2
-                            }
-                        ],
                         "dest": [
                             {
                                 "resources": {
                                     "coin": 5
                                 }
+                            }
+                        ],
+                        "src": [
+                            {
+                                "wood": 2
                             }
                         ]
                     }
@@ -628,6 +657,7 @@
                 "stone": 2
             }
         ],
+        "id": 30,
         "immediateAction": {
             "resources": {
                 "victoryPoint": 2
@@ -639,30 +669,30 @@
             "production": {
                 "conversion": [
                     {
-                        "src": [
-                            {
-                                "stone": 1
-                            }
-                        ],
                         "dest": [
                             {
                                 "resources": {
                                     "coin": 3
                                 }
                             }
+                        ],
+                        "src": [
+                            {
+                                "stone": 1
+                            }
                         ]
                     },
                     {
-                        "src": [
-                            {
-                                "stone": 2
-                            }
-                        ],
                         "dest": [
                             {
                                 "resources": {
                                     "coin": 5
                                 }
+                            }
+                        ],
+                        "src": [
+                            {
+                                "stone": 2
                             }
                         ]
                     }
@@ -678,6 +708,7 @@
                 "wood": 2
             }
         ],
+        "id": 31,
         "immediateAction": {
             "resources": {
                 "faithPoint": 1
@@ -689,16 +720,16 @@
             "production": {
                 "conversion": [
                     {
-                        "src": [
-                            {
-                                "coin": 1
-                            }
-                        ],
                         "dest": [
                             {
                                 "resources": {
                                     "faithPoint": 1
                                 }
+                            }
+                        ],
+                        "src": [
+                            {
+                                "coin": 1
                             }
                         ]
                     }
@@ -714,6 +745,7 @@
                 "stone": 2
             }
         ],
+        "id": 32,
         "immediateAction": {
             "resources": {
                 "victoryPoint": 1
@@ -725,14 +757,14 @@
             "production": {
                 "conversion": [
                     {
-                        "src": [
-                            {
-                                "coin": 1
-                            }
-                        ],
                         "dest": [
                             {
                                 "councilPrivilege": 1
+                            }
+                        ],
+                        "src": [
+                            {
+                                "coin": 1
                             }
                         ]
                     }
@@ -749,6 +781,7 @@
                 "wood": 2
             }
         ],
+        "id": 33,
         "immediateAction": {
             "resources": {
                 "victoryPoint": 3
@@ -760,17 +793,17 @@
             "production": {
                 "conversion": [
                     {
-                        "src": [
-                            {
-                                "coin": 3
-                            }
-                        ],
                         "dest": [
                             {
                                 "resources": {
                                     "stone": 2,
                                     "wood": 2
                                 }
+                            }
+                        ],
+                        "src": [
+                            {
+                                "coin": 3
                             }
                         ]
                     }
@@ -786,6 +819,7 @@
                 "wood": 3
             }
         ],
+        "id": 34,
         "immediateAction": {
             "resources": {
                 "victoryPoint": 4
@@ -797,30 +831,30 @@
             "production": {
                 "conversion": [
                     {
-                        "src": [
-                            {
-                                "coin": 1
-                            }
-                        ],
                         "dest": [
                             {
                                 "resources": {
                                     "victoryPoint": 3
                                 }
                             }
+                        ],
+                        "src": [
+                            {
+                                "coin": 1
+                            }
                         ]
                     },
                     {
-                        "src": [
-                            {
-                                "coin": 2
-                            }
-                        ],
                         "dest": [
                             {
                                 "resources": {
                                     "victoryPoint": 5
                                 }
+                            }
+                        ],
+                        "src": [
+                            {
+                                "coin": 2
                             }
                         ]
                     }
@@ -836,6 +870,7 @@
                 "wood": 4
             }
         ],
+        "id": 35,
         "immediateAction": {
             "resources": {
                 "victoryPoint": 5
@@ -847,30 +882,30 @@
             "production": {
                 "conversion": [
                     {
-                        "src": [
-                            {
-                                "wood": 1
-                            }
-                        ],
                         "dest": [
                             {
                                 "resources": {
                                     "victoryPoint": 3
                                 }
                             }
+                        ],
+                        "src": [
+                            {
+                                "wood": 1
+                            }
                         ]
                     },
                     {
-                        "src": [
-                            {
-                                "wood": 3
-                            }
-                        ],
                         "dest": [
                             {
                                 "resources": {
                                     "victoryPoint": 7
                                 }
+                            }
+                        ],
+                        "src": [
+                            {
+                                "wood": 3
                             }
                         ]
                     }
@@ -886,6 +921,7 @@
                 "stone": 4
             }
         ],
+        "id": 36,
         "immediateAction": {
             "resources": {
                 "victoryPoint": 6
@@ -897,30 +933,30 @@
             "production": {
                 "conversion": [
                     {
-                        "src": [
-                            {
-                                "stone": 1
-                            }
-                        ],
                         "dest": [
                             {
                                 "resources": {
                                     "victoryPoint": 3
                                 }
                             }
+                        ],
+                        "src": [
+                            {
+                                "stone": 1
+                            }
                         ]
                     },
                     {
-                        "src": [
-                            {
-                                "stone": 3
-                            }
-                        ],
                         "dest": [
                             {
                                 "resources": {
                                     "victoryPoint": 7
                                 }
+                            }
+                        ],
+                        "src": [
+                            {
+                                "stone": 3
                             }
                         ]
                     }
@@ -937,6 +973,7 @@
                 "wood": 1
             }
         ],
+        "id": 37,
         "immediateAction": {
             "resources": {
                 "victoryPoint": 4
@@ -948,18 +985,18 @@
             "production": {
                 "conversion": [
                     {
-                        "src": [
-                            {
-                                "servant": 1,
-                                "stone": 1,
-                                "wood": 1
-                            }
-                        ],
                         "dest": [
                             {
                                 "resources": {
                                     "victoryPoint": 6
                                 }
+                            }
+                        ],
+                        "src": [
+                            {
+                                "servant": 1,
+                                "stone": 1,
+                                "wood": 1
                             }
                         ]
                     }
@@ -975,6 +1012,7 @@
                 "stone": 3
             }
         ],
+        "id": 38,
         "immediateAction": {
             "resources": {
                 "faithPoint": 1,
@@ -987,17 +1025,17 @@
             "production": {
                 "conversion": [
                     {
-                        "src": [
-                            {
-                                "faithPoint": 1
-                            }
-                        ],
                         "dest": [
                             {
                                 "resources": {
                                     "coin": 2,
                                     "victoryPoint": 2
                                 }
+                            }
+                        ],
+                        "src": [
+                            {
+                                "faithPoint": 1
                             }
                         ]
                     }
@@ -1014,6 +1052,7 @@
                 "wood": 1
             }
         ],
+        "id": 39,
         "immediateAction": {
             "resources": {
                 "victoryPoint": 3
@@ -1025,16 +1064,16 @@
             "production": {
                 "conversion": [
                     {
-                        "src": [
-                            {
-                                "servant": 1
-                            }
-                        ],
                         "dest": [
                             {
                                 "resources": {
                                     "militaryPoint": 3
                                 }
+                            }
+                        ],
+                        "src": [
+                            {
+                                "servant": 1
                             }
                         ]
                     }
@@ -1052,6 +1091,7 @@
                 "wood": 2
             }
         ],
+        "id": 40,
         "immediateAction": {
             "resources": {
                 "victoryPoint": 8
@@ -1078,6 +1118,7 @@
                 "wood": 1
             }
         ],
+        "id": 41,
         "immediateAction": {
             "resources": {
                 "victoryPoint": 7
@@ -1102,6 +1143,7 @@
                 "wood": 3
             }
         ],
+        "id": 42,
         "immediateAction": {
             "resources": {
                 "victoryPoint": 8
@@ -1113,17 +1155,17 @@
             "production": {
                 "conversion": [
                     {
-                        "src": [
-                            {
-                                "coin": 4
-                            }
-                        ],
                         "dest": [
                             {
                                 "resources": {
                                     "stone": 3,
                                     "wood": 3
                                 }
+                            }
+                        ],
+                        "src": [
+                            {
+                                "coin": 4
                             }
                         ]
                     }
@@ -1141,6 +1183,7 @@
                 "wood": 4
             }
         ],
+        "id": 43,
         "immediateAction": {
             "resources": {
                 "victoryPoint": 10
@@ -1166,6 +1209,7 @@
                 "wood": 2
             }
         ],
+        "id": 44,
         "immediateAction": {
             "resources": {
                 "victoryPoint": 9
@@ -1192,6 +1236,7 @@
                 "wood": 3
             }
         ],
+        "id": 45,
         "immediateAction": {
             "resources": {
                 "victoryPoint": 9
@@ -1203,17 +1248,17 @@
             "production": {
                 "conversion": [
                     {
-                        "src": [
-                            {
-                                "coin": 1
-                            }
-                        ],
                         "dest": [
                             {
                                 "resources": {
                                     "servant": 2,
                                     "victoryPoint": 4
                                 }
+                            }
+                        ],
+                        "src": [
+                            {
+                                "coin": 1
                             }
                         ]
                     }
@@ -1230,6 +1275,7 @@
                 "wood": 1
             }
         ],
+        "id": 46,
         "immediateAction": {
             "resources": {
                 "faithPoint": 1,
@@ -1242,19 +1288,19 @@
             "production": {
                 "conversion": [
                     {
+                        "dest": [
+                            {
+                                "resources": {
+                                    "faithPoint": 2
+                                }
+                            }
+                        ],
                         "src": [
                             {
                                 "stone": 1
                             },
                             {
                                 "wood": 1
-                            }
-                        ],
-                        "dest": [
-                            {
-                                "resources": {
-                                    "faithPoint": 2
-                                }
                             }
                         ]
                     }
@@ -1272,6 +1318,7 @@
                 "wood": 2
             }
         ],
+        "id": 47,
         "immediateAction": {
             "resources": {
                 "victoryPoint": 7
@@ -1283,17 +1330,17 @@
             "production": {
                 "conversion": [
                     {
-                        "src": [
-                            {
-                                "servant": 1
-                            }
-                        ],
                         "dest": [
                             {
                                 "resources": {
                                     "militaryPoint": 3,
                                     "victoryPoint": 1
                                 }
+                            }
+                        ],
+                        "src": [
+                            {
+                                "servant": 1
                             }
                         ]
                     }
@@ -1310,6 +1357,7 @@
                 "wood": 4
             }
         ],
+        "id": 48,
         "immediateAction": {
             "resources": {
                 "faithPoint": 3,
@@ -1334,6 +1382,7 @@
                 "coin": 2
             }
         ],
+        "id": 49,
         "immediateAction": {
             "resources": {
                 "militaryPoint": 3
@@ -1355,6 +1404,7 @@
                 "coin": 4
             }
         ],
+        "id": 50,
         "immediateAction": {},
         "name": "Costruttore",
         "period": 1,
@@ -1375,6 +1425,7 @@
                 "coin": 4
             }
         ],
+        "id": 51,
         "immediateAction": {},
         "name": "Dama",
         "period": 1,
@@ -1395,6 +1446,7 @@
                 "coin": 2
             }
         ],
+        "id": 52,
         "immediateAction": {
             "councilPrivilege": 1
         },
@@ -1414,6 +1466,7 @@
                 "coin": 3
             }
         ],
+        "id": 53,
         "immediateAction": {},
         "name": "Contadino",
         "period": 1,
@@ -1428,6 +1481,7 @@
                 "coin": 3
             }
         ],
+        "id": 54,
         "immediateAction": {},
         "name": "Artigiano",
         "period": 1,
@@ -1442,6 +1496,7 @@
                 "coin": 2
             }
         ],
+        "id": 55,
         "immediateAction": {
             "resources": {
                 "faithPoint": 4
@@ -1460,6 +1515,7 @@
                 "coin": 3
             }
         ],
+        "id": 56,
         "immediateAction": {
             "pickCard": {
                 "type": "any",
@@ -1480,6 +1536,7 @@
                 "coin": 4
             }
         ],
+        "id": 57,
         "immediateAction": {
             "pickCard": {
                 "type": "territories",
@@ -1500,6 +1557,7 @@
                 "coin": 4
             }
         ],
+        "id": 58,
         "immediateAction": {
             "pickCard": {
                 "discount": {
@@ -1521,6 +1579,7 @@
                 "coin": 3
             }
         ],
+        "id": 59,
         "immediateAction": {
             "pickCard": {
                 "discount": {
@@ -1541,6 +1600,7 @@
                 "coin": 4
             }
         ],
+        "id": 60,
         "immediateAction": {
             "councilPrivilege": 1,
             "pickCard": {
@@ -1559,6 +1619,7 @@
                 "coin": 4
             }
         ],
+        "id": 61,
         "immediateAction": {},
         "name": "Fattore",
         "period": 2,
@@ -1573,6 +1634,7 @@
                 "coin": 4
             }
         ],
+        "id": 62,
         "immediateAction": {},
         "name": "Studioso",
         "period": 2,
@@ -1587,6 +1649,7 @@
                 "coin": 5
             }
         ],
+        "id": 63,
         "immediateAction": {
             "resources": {
                 "faithPoint": 3
@@ -1603,6 +1666,7 @@
                 "coin": 5
             }
         ],
+        "id": 64,
         "immediateAction": {
             "councilPrivilege": 3
         },
@@ -1617,6 +1681,7 @@
                 "coin": 6
             }
         ],
+        "id": 65,
         "immediateAction": {
             "multiplier": {
                 "bonus": {
@@ -1636,6 +1701,7 @@
                 "coin": 6
             }
         ],
+        "id": 66,
         "immediateAction": {
             "multiplier": {
                 "bonus": {
@@ -1655,6 +1721,7 @@
                 "coin": 7
             }
         ],
+        "id": 67,
         "immediateAction": {
             "multiplier": {
                 "bonus": {
@@ -1674,6 +1741,7 @@
                 "coin": 6
             }
         ],
+        "id": 68,
         "immediateAction": {
             "multiplier": {
                 "bonus": {
@@ -1693,6 +1761,7 @@
                 "coin": 4
             }
         ],
+        "id": 69,
         "immediateAction": {
             "immediateHarv": 4,
             "resources": {
@@ -1710,6 +1779,7 @@
                 "coin": 5
             }
         ],
+        "id": 70,
         "immediateAction": {
             "immediateProd": 4,
             "resources": {
@@ -1727,6 +1797,7 @@
                 "coin": 5
             }
         ],
+        "id": 71,
         "immediateAction": {
             "resMultiplier": {
                 "bonus": {
@@ -1748,6 +1819,7 @@
                 "coin": 6
             }
         ],
+        "id": 72,
         "immediateAction": {
             "councilPrivilege": 1,
             "pickCard": {
@@ -1766,6 +1838,7 @@
                 "coin": 4
             }
         ],
+        "id": 73,
         "immediateAction": {
             "resources": {
                 "militaryPoint": 5
@@ -1788,6 +1861,7 @@
                 "wood": 1
             }
         ],
+        "id": 74,
         "immediateAction": {
             "resources": {
                 "faithPoint": 1
@@ -1808,6 +1882,7 @@
                 "stone": 3
             }
         ],
+        "id": 75,
         "immediateAction": {
             "councilPrivilege": 1,
             "resources": {
@@ -1830,6 +1905,7 @@
                 "wood": 2
             }
         ],
+        "id": 76,
         "immediateAction": {
             "councilPrivilege": 2
         },
@@ -1848,6 +1924,7 @@
                 "militaryPoint": 2
             }
         ],
+        "id": 77,
         "immediateAction": {
             "resources": {
                 "coin": 3
@@ -1869,6 +1946,7 @@
                 "wood": 3
             }
         ],
+        "id": 78,
         "immediateAction": {
             "resources": {
                 "servant": 4
@@ -1889,6 +1967,7 @@
                 "militaryPoint": 3
             }
         ],
+        "id": 79,
         "immediateAction": {
             "resources": {
                 "faithPoint": 2
@@ -1915,6 +1994,7 @@
                 "wood": 1
             }
         ],
+        "id": 80,
         "immediateAction": {
             "resources": {
                 "faithPoint": 3
@@ -1936,6 +2016,7 @@
                 "coin": 6
             }
         ],
+        "id": 81,
         "immediateAction": {
             "resources": {
                 "militaryPoint": 6
@@ -1958,6 +2039,7 @@
                 "wood": 2
             }
         ],
+        "id": 82,
         "immediateAction": {
             "resources": {
                 "faithPoint": 2
@@ -1978,6 +2060,7 @@
                 "stone": 4
             }
         ],
+        "id": 83,
         "immediateAction": {
             "councilPrivilege": 1,
             "resources": {
@@ -1999,6 +2082,7 @@
                 "militaryPoint": 3
             }
         ],
+        "id": 84,
         "immediateAction": {
             "councilPrivilege": 1,
             "resources": {
@@ -2022,6 +2106,7 @@
                 "servant": 2
             }
         ],
+        "id": 85,
         "immediateAction": {
             "immediateHarv": 4
         },
@@ -2040,6 +2125,7 @@
                 "wood": 4
             }
         ],
+        "id": 86,
         "immediateAction": {
             "resources": {
                 "servant": 5
@@ -2060,6 +2146,7 @@
                 "militaryPoint": 4
             }
         ],
+        "id": 87,
         "immediateAction": {
             "resources": {
                 "coin": 5,
@@ -2087,6 +2174,7 @@
                 "wood": 2
             }
         ],
+        "id": 88,
         "immediateAction": {
             "resources": {
                 "faithPoint": 3
@@ -2108,6 +2196,7 @@
                 "coin": 8
             }
         ],
+        "id": 89,
         "immediateAction": {
             "resources": {
                 "militaryPoint": 7
@@ -2130,6 +2219,7 @@
                 "wood": 3
             }
         ],
+        "id": 90,
         "immediateAction": {
             "pickCard": {
                 "type": "any",
@@ -2154,6 +2244,7 @@
                 "stone": 6
             }
         ],
+        "id": 91,
         "immediateAction": {
             "councilPrivilege": 1,
             "resources": {
@@ -2175,6 +2266,7 @@
                 "wood": 6
             }
         ],
+        "id": 92,
         "immediateAction": {
             "resources": {
                 "faithPoint": 3
@@ -2195,6 +2287,7 @@
                 "militaryPoint": 6
             }
         ],
+        "id": 93,
         "immediateAction": {
             "resources": {
                 "coin": 3,
@@ -2219,6 +2312,7 @@
                 "servant": 3
             }
         ],
+        "id": 94,
         "immediateAction": {
             "immediateProd": 3
         },
@@ -2237,6 +2331,7 @@
                 "militaryPoint": 8
             }
         ],
+        "id": 95,
         "immediateAction": {
             "resources": {
                 "faithPoint": 4
@@ -2263,6 +2358,7 @@
                 "wood": 3
             }
         ],
+        "id": 96,
         "immediateAction": {
             "resources": {
                 "faithPoint": 2
