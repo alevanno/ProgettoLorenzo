@@ -27,7 +27,7 @@ public class LeaderUtils {
     private static boolean onePerRoundApply(Player owner, LeaderCard card) {
         owner.sOut("Would you like to activate the one per round ability? ");
         if (owner.sInPromptConf()) {
-            if (card.onePerRoundUsage) {
+            if (card.onePerTurnUsage) {
                 owner.sOut("You have already activated the one per round ability in this turn");
                 return false;
             }
@@ -80,7 +80,7 @@ public class LeaderUtils {
             owner.getParentGame().getBoard().productionArea.prod(owner, value);
         }
         owner.sOut("One per round ability accomplished");
-        card.onePerRoundUsage = true;
+        card.onePerTurnUsage = true;
     }
 
     public static boolean checkMultiType(List<String> types,
