@@ -6,11 +6,14 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.progettolorenzo.core.Card;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -25,9 +28,21 @@ public class GuiController {
     private static String msgIn;
     private static final Object msgInObserver = new Object();
 
-    @FXML private Label mainLabel;
+    @FXML private TextArea mainLabel;
     @FXML private TextField userTextField;
     @FXML private GridPane towers;
+
+    @FXML
+    public void initialize() {
+        this.mainLabel.textProperty().addListener(new ChangeListener<Object>() {
+            @Override
+            public void changed(ObservableValue<?> observable, Object oldValue,
+                                Object newValue) {
+                // this will scroll to the bottom
+                mainLabel.setScrollTop(Double.MAX_VALUE);
+            }
+        });
+    }
 
     protected void setInf(GuiInterface inf) {
         this.inf = inf;
@@ -38,7 +53,7 @@ public class GuiController {
         if (msg.startsWith("☃")) {
             op = new UpdateBoard(msg.substring(1));
         } else {
-            op = () -> mainLabel.setText(msg);
+            op = () -> mainLabel.appendText("\n"+msg);
         }
         Platform.runLater(op);
         log.finest("Successfully updated the label");

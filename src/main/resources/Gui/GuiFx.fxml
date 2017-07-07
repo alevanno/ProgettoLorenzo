@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -40,9 +41,9 @@
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" />
               <AnchorPane>
                    <children>
-                      <Label fx:id="mainLabel" layoutX="25.0" layoutY="38.0" prefHeight="65.0" prefWidth="523.0" text="test text" />
-                      <TextField fx:id="userTextField" layoutX="25.0" layoutY="134.0" prefHeight="26.0" prefWidth="523.0" />
-                      <Button defaultButton="true" layoutX="486.0" layoutY="192.0" mnemonicParsing="false" onAction="#handleBtnPress" text="Send" />
+                      <TextField fx:id="userTextField" layoutX="25.0" layoutY="185.0" prefHeight="26.0" prefWidth="523.0" />
+                      <Button defaultButton="true" layoutX="486.0" layoutY="243.0" mnemonicParsing="false" onAction="#handleBtnPress" text="Send" />
+                        <TextArea fx:id="mainLabel" layoutX="25.0" layoutY="43.0" prefHeight="111.0" prefWidth="523.0" />
                    </children>
                 </AnchorPane>
             </items>
