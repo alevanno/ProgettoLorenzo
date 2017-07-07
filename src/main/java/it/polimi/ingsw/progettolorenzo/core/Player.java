@@ -1,5 +1,6 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.progettolorenzo.Game;
 import it.polimi.ingsw.progettolorenzo.client.RmiClient;
@@ -379,4 +380,15 @@ public class Player {
     public void rstFamMemIncrease() { this.lastFamMemIncrease = 0; }
 
     public int getLastFamMemIncrease() { return lastFamMemIncrease; }
+
+    public JsonObject serialize() {
+        Map<String, Object> ret = new HashMap<>();
+        ret.put("playerName", this.playerName);
+        ret.put("playerColour", this.playerColour);
+        ret.put("resources", this.currentRes);
+        ret.put("excomm", this.excommunications);
+        ret.put("cards", this.cards.serialize());
+        return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
+    }
+
 }

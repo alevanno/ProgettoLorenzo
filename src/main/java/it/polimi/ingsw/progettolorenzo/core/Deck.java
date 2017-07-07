@@ -1,5 +1,8 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import it.polimi.ingsw.progettolorenzo.core.exc.CardNotFoundException;
 
 import java.util.List;
@@ -64,5 +67,13 @@ public class Deck implements Iterable<Card> {
 
     public void shuffleCards() {
         Collections.shuffle(this.cards);
+    }
+
+    public JsonArray serialize() {
+        List<JsonObject> ret = new ArrayList<>();
+        this.cards.forEach(
+            c -> ret.add(c.serialize())
+        );
+        return new Gson().fromJson(new Gson().toJson(ret), JsonArray.class);
     }
 }

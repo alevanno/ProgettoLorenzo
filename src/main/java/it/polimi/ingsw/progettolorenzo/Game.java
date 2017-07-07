@@ -433,6 +433,9 @@ public class Game implements Runnable {
 
     public JsonObject serialize() {
         Map<String, Object> ret = new HashMap<>();
+        List<JsonObject> players = new ArrayList<>();
+        this.players.forEach(p -> players.add(p.serialize()));
+        ret.put("players", players);
         ret.put("board", this.board.serialize());
         return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
     }
