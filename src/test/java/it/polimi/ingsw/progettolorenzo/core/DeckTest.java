@@ -8,7 +8,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class DeckTest {
-    private String cardStr = "{'name': 'c', 'period': 1, 'type': 'foo'}";
+    private String cardStr = "{'id': 0, 'name': 'c', 'period': 1, 'type': 'foo'}";
     private Card testCard = new Card(new Gson().fromJson(cardStr, JsonObject.class));
     private Deck testDeck;
 

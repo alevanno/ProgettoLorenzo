@@ -7,7 +7,8 @@ import com.google.gson.JsonObject;
 
 public class CardTest {
     String cardCostStr = "{'wood': 1, 'woody': 3, 'faithPoint': 0}";
-    String cardStr = "{'name': 'c', 'period': 1, 'type': 'foo', 'cost': [%s]}";
+    String cardStr = "{'id': 0, 'name': 'c', 'period': 1, 'type': 'foo', " +
+        "'cost': [%s]}";
 
     @Test
     public void load1() {
