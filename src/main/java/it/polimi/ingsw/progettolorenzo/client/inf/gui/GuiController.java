@@ -5,6 +5,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.progettolorenzo.core.Card;
+import it.polimi.ingsw.progettolorenzo.core.Resources;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -27,6 +28,14 @@ public class GuiController {
     @FXML private TextField userTextField;
     @FXML private GridPane towers;
     @FXML private AnchorPane bigPane;
+    @FXML private Label playerName;
+    @FXML private Label currCoin;
+    @FXML private Label currWood;
+    @FXML private Label currStone;
+    @FXML private Label currServant;
+    @FXML private Label currFaith;
+    @FXML private Label currMilitary;
+    @FXML private Label currVictory;
 
     @FXML
     public void initialize() {
@@ -111,7 +120,22 @@ public class GuiController {
 
         @Override
         public void run() {
-            updateBoard(gameIn.get("board").getAsJsonObject());
+            this.updateBoard(gameIn.get("board").getAsJsonObject());
+            // FIXME deal properly with multiple users
+            this.updatePlayer(gameIn.get("players").getAsJsonArray().get(0).getAsJsonObject());
+        }
+
+        private void updatePlayer(JsonObject plJ) {
+            // TODO excomm, cards, colour
+            playerName.setText(plJ.get("playerName").getAsString());
+            Resources curRes = Resources.fromJson(plJ.get("resources"));
+            currCoin.setText(String.valueOf(curRes.coin));
+            currWood.setText(String.valueOf(curRes.wood));
+            currStone.setText(String.valueOf(curRes.stone));
+            currServant.setText(String.valueOf(curRes.servant));
+            currFaith.setText(String.valueOf(curRes.faithPoint));
+            currMilitary.setText(String.valueOf(curRes.militaryPoint));
+            currVictory.setText(String.valueOf(curRes.victoryPoint));
         }
 
         private void updateBoard(JsonObject boardJ) {
