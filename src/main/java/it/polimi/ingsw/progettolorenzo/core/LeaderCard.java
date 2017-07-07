@@ -50,7 +50,7 @@ public class LeaderCard {
      * Implemented due to Lorenzo De Medici card permanent ability.
      * @return a new instance of the same card.
      */
-    public LeaderCard clone() {
+    public LeaderCard cloneCard() {
         return new LeaderCard(this.name, this.activationCost, this.types,
                 this.activation, this.onePerRound, this.onePerTurnUsage);
     }
@@ -627,7 +627,7 @@ class LorenzoDeMedici extends LeaderCard {
         while(true) {
             owner.sOut("Which one do you want to copy?");
             LeaderCard toCopy = activatedCards.get(
-                    owner.sInPrompt(1, counter) - 1).clone();
+                    owner.sInPrompt(1, counter) - 1).cloneCard();
             owner.sOut(toCopy.name + " selected");
             if (toCopy.name != this.name) {
                 toCopy.activation = this.activation;
