@@ -20,7 +20,7 @@
         }
     },
     "game": {
-        "rules": "basic",
+        "rules": "ask",
         "timeout": 60
     }
 }
