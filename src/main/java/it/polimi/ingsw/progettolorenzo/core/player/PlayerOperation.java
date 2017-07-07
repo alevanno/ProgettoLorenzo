@@ -26,7 +26,7 @@ public class PlayerOperation implements Callable<Boolean> {
             pl.sOut("Current Res: " + pl.getCurrentRes());
             boolean ret = false;
             while (true) {
-                g.getBoard().displayBoard();
+                g.displayGame();
                 pl.sOut("Which family member do you want to use?: ");
                 pl.sOut(pl.displayFamilyMembers());
                 FamilyMember famMem = pl.getAvailableFamMembers()
@@ -39,7 +39,7 @@ public class PlayerOperation implements Callable<Boolean> {
                 pl.sOut("Available actions:");
                 pl.sOut(Utils.displayList(g.getActions()));
                 pl.sOut("Which action do you want to try?: ");
-                g.getBoard().displayBoard();
+                g.displayGame();
                 String action = g.getActions().get(pl.sInPrompt(1, g.getActions().size()) - 1);
                 if ("Floor".equalsIgnoreCase(action)) {
                     ret = Move.floorAction(g.getBoard(), famMem);

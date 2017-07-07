@@ -430,4 +430,17 @@ public class Game implements Runnable {
     public int getHalfPeriod() { return halfPeriod; }
 
     public List<String> getActions() { return actions; }
+
+    public JsonObject serialize() {
+        Map<String, Object> ret = new HashMap<>();
+        ret.put("board", this.board.serialize());
+        return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
+    }
+
+    public void displayGame() {
+        this.players.forEach(p ->
+            p.sOut("☃" + new Gson().toJson(this.serialize()))
+        );
+    }
+
 }

@@ -116,12 +116,13 @@ public class CliInterface implements Interface {
         Panel mainPanel = new Panel();
         public BoardWindow(JsonObject input) {
             super("Board");
+            JsonObject boardJ = input.get("board").getAsJsonObject();
             this.mainPanel.setLayoutManager(new LinearLayout(Direction
                     .HORIZONTAL));
 
             this.setComponent(mainPanel.withBorder(Borders.doubleLineBevel
                     ("Towers")));
-            for (Map.Entry<String,JsonElement> entry : input.entrySet()) {
+            for (Map.Entry<String,JsonElement> entry : boardJ.entrySet()) {
                 switch (entry.getKey()) {
                     case "towers":
                         entry.getValue().getAsJsonArray().forEach(

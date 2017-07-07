@@ -76,7 +76,8 @@ public class Move {
         do {
             pl.sOut("Card " + caller.cardName + " allows you to take another card of type " + type);
             Floor floor;
-            board.displayBoard();
+
+            pl.getParentGame().displayGame();
             int famMemIncrease = pl.increaseFamValue(dummy);
             final Resources toMerge = new Resources.ResBuilder().build();
             do {

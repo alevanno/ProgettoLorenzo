@@ -50,9 +50,4 @@ public class Board {
         ret.put("towers", towers);
         return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
     }
-
-    public void displayBoard() {
-        Player currPlayer = game.getCurrPlayer();
-        currPlayer.sOut("☃" + new Gson().toJson(this.serialize()));
-    }
 }

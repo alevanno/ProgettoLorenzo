@@ -95,7 +95,7 @@ public class GuiController {
     }
 
     private class UpdateBoard implements Runnable {
-        private JsonObject boardIn;
+        private JsonObject gameIn;
 
         private class NotedButton extends Button {
             public int CardId;
@@ -106,12 +106,16 @@ public class GuiController {
         }
 
         UpdateBoard(String input) {
-            this.boardIn = new Gson().fromJson(input, JsonObject.class);
+            this.gameIn = new Gson().fromJson(input, JsonObject.class);
         }
 
         @Override
         public void run() {
-            JsonArray towersJ = this.boardIn.get("towers").getAsJsonArray();
+            updateBoard(gameIn.get("board").getAsJsonObject());
+        }
+
+        private void updateBoard(JsonObject boardJ) {
+            JsonArray towersJ = boardJ.get("towers").getAsJsonArray();
             if(towersJ.size() > 4) {
                 log.severe("more than 4 towers are not supported here!");
             }
