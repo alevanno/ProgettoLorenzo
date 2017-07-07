@@ -26,6 +26,7 @@ public class GuiController {
     @FXML private TextArea mainLabel;
     @FXML private TextField userTextField;
     @FXML private GridPane towers;
+    @FXML private AnchorPane bigPane;
 
     @FXML
     public void initialize() {
@@ -75,8 +76,34 @@ public class GuiController {
         this.userTextField.clear();
     }
 
+    protected void handleCardBtnPress(ActionEvent event) {
+        int cardId = ((UpdateBoard.NotedButton) event.getSource()).CardId;
+
+        Image img = new Image(
+            String.format("Gui/cards/%d.png", cardId),
+            1000.0,  // arbitrary big
+            300.0,
+            true,
+            false,
+            true
+        );
+
+        this.bigPane.setBackground(new Background(new BackgroundImage(img,
+            BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+            BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)
+        ));
+    }
+
     private class UpdateBoard implements Runnable {
         private JsonObject boardIn;
+
+        private class NotedButton extends Button {
+            public int CardId;
+
+            NotedButton() {
+                super();
+            }
+        }
 
         UpdateBoard(String input) {
             this.boardIn = new Gson().fromJson(input, JsonObject.class);
@@ -136,18 +163,20 @@ public class GuiController {
 
             Image img = new Image(
                 String.format("Gui/cards/%d.png", card.id),
-                1000,
+                1000.0,  // arbitrary big
                 170.0,
                 true,
                 false,
                 true
             );
 
-            Button btn = new Button();
+            NotedButton btn = new NotedButton();
             btn.setBackground(new Background(new BackgroundImage(img,
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)
             ));
+            btn.CardId = card.id;
+            btn.setOnAction(e -> handleCardBtnPress(e));
 
             AnchorPane a = new AnchorPane(btn);
             AnchorPane.setBottomAnchor(btn, 0.0);
