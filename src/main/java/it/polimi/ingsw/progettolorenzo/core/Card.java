@@ -6,6 +6,7 @@ import com.google.gson.*;
 
 
 public class Card extends Action {
+    public final int id;
     public final String cardName;
     public final String cardType;
     public final int cardPeriod;
@@ -17,6 +18,7 @@ public class Card extends Action {
 
 
     public Card(JsonObject src) {
+        this.id = src.get("id").getAsInt();
         this.cardName = src.get("name").getAsString();
         this.cardType = src.get("type").getAsString();
         this.cardPeriod = src.get("period").getAsInt();
@@ -100,6 +102,7 @@ public class Card extends Action {
 
     public JsonObject serialize() {
         Map<String,Object> ret = new HashMap<>();
+        ret.put("id", this.id);
         ret.put("name", this.cardName);
         ret.put("period", this.cardPeriod);
         ret.put("type", this.cardType);
