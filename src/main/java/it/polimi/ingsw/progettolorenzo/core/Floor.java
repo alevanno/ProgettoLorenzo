@@ -8,6 +8,15 @@ import com.google.gson.JsonObject;
 import java.util.*;
 import java.util.logging.Logger;
 
+/**
+ * This is the class representing the floor of a tower.
+ * It handles by itself the access to the floor (i.e, checks
+ * of value and resources.
+ * It inherits all the characteristics of Action class.
+ *
+ * @see Action
+ * @see Tower
+ */
 public class Floor extends Action {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private final Resources bonus;
@@ -17,7 +26,13 @@ public class Floor extends Action {
     private int floorValue;
     private Floor callerFl; //this is needed for floorActionWithCard
 
-
+    /**
+     * The constructor that generates a new Floor object
+     * @param bonus the resources that a player could obtain accessing to the floor.
+     * @param card the development card that could be taken from the floor.
+     * @param tower the parent tower of the floor.
+     * @param floorValue the minValue to access the floor.
+     */
     public Floor(Resources bonus, Card card, Tower tower, int floorValue) {
         this.bonus = bonus;
         this.floorCard = card;
@@ -29,9 +44,19 @@ public class Floor extends Action {
                 bonus, card, tower));
     }
 
+    /**
+     * It handles the access to the floor.
+     * If the player is owning the Filippo Brunelleschi leader Card and the tower isn't already occupied by the player
+     * itself, he can skip the payment of the additional coins.
+     * @see FilippoBrunelleschi#permanentAbility()
+     * @param pl the player wanting to access the floor
+     * @param towerOcc the boolean value representing the parent tower's occupancy (from pl itself or other player)
+     * @return the boolean value representing the access possibility. The floor can be occupied, free with
+     * coin to pay or inaccessible due to tower occupancy rules.
+     */
     public boolean accessFloor(Player pl, int towerOcc){ //returns true if the floor is accessed and takes the coins from the player if necessary
         for(LeaderCard leader : pl.getLeaderCards()){
-            if("Filippo Brunelleschi".equals(leader.getName()) && leader.isActivated()) {
+            if("Filippo Brunelleschi".equals(leader.getName()) && leader.isActivated() && towerOcc != 2) {
                 // it allows to avoid additional payment
                 return true;
             }
@@ -60,6 +85,13 @@ public class Floor extends Action {
         return true;
     }
 
+    /**
+     * It checks the satisfaction of the minValue to access the floor.
+     * It could be increased or decreased due to card's permanent effects and excommunication card.
+     * @see Card
+     * @param fam the family member which want to attempt the floor access.
+     * @return the boolean value of the value satisfaction.
+     */
     protected boolean checkEnoughValue(FamilyMember fam) {
         // check that the action value is sufficient
         int value = fam.getActionValue();
@@ -89,6 +121,16 @@ public class Floor extends Action {
         return true;
     }
 
+    /**
+     * It checks that player's current res are > than the card's cost.
+     * The boycottBonus represent one of the development card permanent effects.
+     * If it is != null, the eventual floor bonus can't be used to satisfy the payment of the floor.
+     * @param p the player who's accessing the floor.
+     * @return the boolean value of the resources satisfaction.
+     * It return false if the player has insufficient resources or it has insufficient minimum required
+     * military point (for Terrain and ventures card).
+     * If the player owns Cesare Borgia leader and it is activated, he can avoid the check for terrain cards.
+     */
     protected boolean checkEnoughRes(Player p) {
         Resources cardCost = this.floorCard.getCardCost(p);
         boolean boycottBonus = false;
@@ -127,6 +169,11 @@ public class Floor extends Action {
         return true;
     }
 
+    /**
+     * it checks if the player has more than 6 cards of the same type of the floor card.
+     * @param p the player's attempting to access the floor
+     * @return the boolean value representing the check.
+     */
     private boolean checkNotExceedingCard(Player p) {
         int count = 0;
         for (Card c : p.listCards()) {
@@ -142,6 +189,15 @@ public class Floor extends Action {
         }
     }
 
+    /**
+     * By the calling of this method, the player take the card with another card.
+     * It is invoked by an ImmediateAction.
+     * @see CardImmediateAction
+     * @see #claimFloor(FamilyMember)
+     * @param fam the family member claiming the floor.
+     * @param callerFloor the floor containing the card that invoked this action
+     * @return the boolean value representing the success (or not) of the claim.
+     */
     public boolean claimFloorWithCard(FamilyMember fam, Floor callerFloor) {
         callerFl = callerFloor;
         boolean ret = claimFloor(fam);
@@ -151,6 +207,14 @@ public class Floor extends Action {
         return ret;
     }
 
+    /**
+     * This represent the main floor claim.
+     * First it checks if the action is possible by a boolean condition of all the checks defined in this class.
+     * If it pass them , it add to the callerFloor the series of all the base actions needed to claim a Floor.
+     * @see BaseAction
+     * @param fam the family member claiming the floor
+     * @return the boolean value representing the success (or not) of the floor claiming.
+     */
     // player puts here its famMemb & takes the Card and the eventual bonus
     public boolean claimFloor(FamilyMember fam) {
         Player p = fam.getParent();
@@ -201,6 +265,10 @@ public class Floor extends Action {
         return parentTower;
     }
 
+    /**
+     * It serialize floor information to send to Client.
+     * @return The JsonObject containing all the needed floor information.
+     */
     public JsonObject serialize() {
         Map<String, Object> ret = new HashMap<>();
         if (this.floorCard != null) {
