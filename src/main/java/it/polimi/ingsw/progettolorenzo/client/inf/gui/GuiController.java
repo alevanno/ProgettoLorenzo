@@ -11,14 +11,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
-import javafx.scene.control.Label;
-import javafx.scene.control.SplitPane;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.layout.*;
 
 import java.util.logging.Logger;
 
@@ -139,23 +134,27 @@ public class GuiController {
         private AnchorPane addCard(JsonObject cardJ) {
             Card card = new Card(cardJ);
 
-            VBox ret = new VBox(
-                new Label(card.cardName),
-                new HBox(
-                    new Label("period: "),
-                    new Label(String.valueOf(card.cardPeriod))
-                ),
-                new HBox(
-                    new Label("type: "),
-                    new Label(card.cardType)
-                )
+            Image img = new Image(
+                String.format("Gui/cards/%d.png", card.id),
+                1000,
+                170.0,
+                true,
+                false,
+                true
             );
-            HBox ccost = new HBox(new Label("cost: "));
-            card.getCardCosts().forEach(r ->
-                ccost.getChildren().add(new Label(r.toString()))
-            );
-            ret.getChildren().add(ccost);
-            return new AnchorPane(ret);
+
+            Button btn = new Button();
+            btn.setBackground(new Background(new BackgroundImage(img,
+                BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)
+            ));
+
+            AnchorPane a = new AnchorPane(btn);
+            AnchorPane.setBottomAnchor(btn, 0.0);
+            AnchorPane.setTopAnchor(btn, 0.0);
+            AnchorPane.setRightAnchor(btn, 0.0);
+            AnchorPane.setLeftAnchor(btn, 0.0);
+            return a;
         }
     }
 
