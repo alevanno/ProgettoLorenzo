@@ -1,3 +1,13 @@
+@font-face {
+    font-family: 'Blackadder ITC';
+    src: url('Blackadder.TTF');
+}
+
+.decoratedText {
+    -fx-font-family: "Blackadder ITC";
+    -fx-font-size: 34;
+}
+
 .topBoard {
     -fx-background-image: url("boardTop.jpg");
     -fx-background-size: cover;
@@ -11,3 +21,42 @@
 .split-pane-divider {
     -fx-padding: 0 1 0 1;
 }
+
+.resDisplay {
+    -fx-background-size: contain;
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: center;
+}
+
+
+
+.coinPng {
+    -fx-background-image: url("resIcons/coin.png");
+}
+
+.woodPng {
+    -fx-background-image: url("resIcons/wood.png");
+}
+
+.stonePng {
+    -fx-background-image: url("resIcons/stone.png");
+}
+
+.servantPng {
+    -fx-background-image: url("resIcons/servant.png");
+    -fx-background-size: 80%;
+}
+
+.faithPng {
+    -fx-background-image: url("resIcons/faithPoint.png");
+}
+
+.militaryPng {
+    -fx-background-image: url("resIcons/militaryPoint.png");
+}
+
+.victoryPng {
+    -fx-background-image: url("resIcons/victoryPoint.png");
+}
+
+
