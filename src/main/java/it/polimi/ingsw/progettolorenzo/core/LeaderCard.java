@@ -2,7 +2,6 @@ package it.polimi.ingsw.progettolorenzo.core;
 
 
 import it.polimi.ingsw.progettolorenzo.Game;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -65,8 +64,8 @@ public class LeaderCard {
      * @return the accomplishment of one of the possible action given in commonApply by a boolean value.
      */
     public boolean apply() {
-        throw new NotImplementedException();
-    };
+        throw new UnsupportedOperationException();
+    }
 
     /**
      * Set the card owner. It is used in {@link Game#assignLeaderCards()}.
