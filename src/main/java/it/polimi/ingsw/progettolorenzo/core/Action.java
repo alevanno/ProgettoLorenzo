@@ -43,6 +43,7 @@ public abstract class Action {
      * ArrayList representing the actions.
      */
     public void emptyActions() {
+        this.actions.forEach(a -> a.clear());
         this.actions.clear();
     }
 
