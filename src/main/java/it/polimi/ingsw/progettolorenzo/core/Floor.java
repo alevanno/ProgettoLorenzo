@@ -4,6 +4,7 @@ package it.polimi.ingsw.progettolorenzo.core;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import it.polimi.ingsw.progettolorenzo.Game;
 
 import java.util.*;
 import java.util.logging.Logger;
@@ -139,6 +140,9 @@ public class Floor extends Action {
         }
         //resources requirement for taking the card
         Resources checkEnoughRes = p.getCurrentRes().merge(cardCost.inverse());
+        if (!this.equals(callerFl)) {
+            checkEnoughRes = checkEnoughRes.merge(callerFl.floorCard.getCardCost(p).inverse());
+        }
         if (!boycottBonus) {
             checkEnoughRes = checkEnoughRes.merge(bonus);
         }
