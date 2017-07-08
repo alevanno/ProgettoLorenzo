@@ -173,27 +173,28 @@ public class GuiController {
 
         private void updatePlayerCards(JsonArray cardsJ) {
             int territories = 0;
-            int buildings = 0;
             int characters = 0;
+            int buildings = 0;
             int ventures = 0;
+            double height = 80.0;
 
             for (JsonElement c : cardsJ) {
                 Card card = new Card(c.getAsJsonObject());
                 switch (card.cardType) {
                     case "territories":
-                        playerCards.add(addCard(card), territories, 0);
+                        playerCards.add(addCard(card, height), territories, 0);
                         territories++;
                         break;
-                    case "buildings":
-                        playerCards.add(addCard(card), buildings, 1);
-                        buildings++;
-                        break;
                     case "characters":
-                        playerCards.add(addCard(card), characters, 2);
+                        playerCards.add(addCard(card,height), characters, 1);
                         characters++;
                         break;
+                    case "buildings":
+                        playerCards.add(addCard(card, height), buildings, 2);
+                        buildings++;
+                        break;
                     case "ventures":
-                        playerCards.add(addCard(card), ventures, 3);
+                        playerCards.add(addCard(card, height), ventures, 3);
                         ventures++;
                         break;
                     default:
@@ -222,6 +223,7 @@ public class GuiController {
             if(towersJ.size() > 4) {
                 log.severe("more than 4 towers are not supported here!");
             }
+            towers.getChildren().clear();
             for(int i=0; i<towersJ.size(); i++) {
                 JsonObject towerJ = towersJ.get(i).getAsJsonObject();
                 JsonArray floorsJ = towerJ.get("floors").getAsJsonArray();
@@ -238,12 +240,12 @@ public class GuiController {
                     JsonElement card = floorJ.get("card");
                     if (card != null) {
                         floorPane.getItems().add(
-                                addCard(new Card(card.getAsJsonObject()))
+                                addCard(new Card(card.getAsJsonObject()), 170.0)
                         );
                     } else {
                         floorPane.getItems().add(
                                 new AnchorPane(
-                                        new Label("No card here!")
+                                        new Label()
                                 )
                         );
                     }
@@ -263,11 +265,11 @@ public class GuiController {
             }
         }
 
-        private AnchorPane addCard(Card card) {
+        private AnchorPane addCard(Card card, double height) {
             Image img = new Image(
                 String.format("Gui/cards/%d.png", card.id),
                 1000.0,  // arbitrary big
-                170.0,
+                height,
                 true,
                 false,
                 true
