@@ -13,7 +13,6 @@ import java.util.logging.Logger;
 
 
 public class Deck implements Iterable<Card> {
-    private final Logger log = Logger.getLogger(this.getClass().getName());
     private List<Card> cards;
 
     public Deck() {
