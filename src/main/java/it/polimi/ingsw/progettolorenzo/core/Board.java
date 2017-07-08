@@ -13,6 +13,14 @@ import java.util.Map;
 import java.util.logging.Logger;
 import java.util.stream.StreamSupport;
 
+/**
+ * This class collect and instantiate all the board's elements:
+ * towers list, the {@link Production} area, the {@link Harvest}
+ * area, the {@link Council} palace and the {@link Market} area.
+ * All the towers are also serialized to be handled by the Client view.
+ *
+ * @see Game
+ */
 public class Board {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     public final List<Tower> towers = new ArrayList<>();
@@ -22,7 +30,14 @@ public class Board {
     public final Market marketSpace = new Market();
     private Game game;
 
-
+    /**
+     * All the parameters to instantiate the towers are loaded from file.
+     * The constructor initialize 4 towers by the development card's type and
+     * the floor type.
+     * The Deck representing the the cards displayed in the turn is split by card's type.
+     * @param cardList the {@link Deck} that arrives from {@link Game}.
+     * @param game the current game.
+     */
     public Board(Deck cardList, Game game) {
         this.game = game;
         JsonArray data = Utils.getJsonArray("towers.json");
@@ -40,6 +55,11 @@ public class Board {
         }
     }
 
+    /**
+     * it calls every single {@link Tower#serialize()} and add the info in a map, which
+     * is serialized and sent to Client.
+     * @return the JsonObject representing the serialized towers info
+     */
     public JsonObject serialize() {
         // TODO display all the things, now only the towers
         Map<String, Object> ret = new HashMap<>();
