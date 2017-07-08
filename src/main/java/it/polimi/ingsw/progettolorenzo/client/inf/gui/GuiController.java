@@ -31,6 +31,7 @@ public class GuiController {
     @FXML private TextField userTextField;
     @FXML private GridPane towers;
     @FXML private AnchorPane bigPane;
+    @FXML private GridPane playerCards;
     @FXML private Label playerName;
     @FXML private Label currCoin;
     @FXML private Label currWood;
@@ -156,9 +157,10 @@ public class GuiController {
         }
 
         private void updatePlayer(JsonObject plJ) {
-            // TODO excomm, cards
+            // TODO excomm, check everything again…
             playerName.setText(plJ.get("playerName").getAsString());
             playerName.setTextFill(Color.valueOf(plJ.get("playerColour").getAsString()));
+            updatePlayerCards(plJ.get("cards").getAsJsonArray());
             Resources curRes = Resources.fromJson(plJ.get("resources"));
             currCoin.setText(String.valueOf(curRes.coin));
             currWood.setText(String.valueOf(curRes.wood));
@@ -167,6 +169,38 @@ public class GuiController {
             currFaith.setText(String.valueOf(curRes.faithPoint));
             currMilitary.setText(String.valueOf(curRes.militaryPoint));
             currVictory.setText(String.valueOf(curRes.victoryPoint));
+        }
+
+        private void updatePlayerCards(JsonArray cardsJ) {
+            int territories = 0;
+            int buildings = 0;
+            int characters = 0;
+            int ventures = 0;
+
+            for (JsonElement c : cardsJ) {
+                Card card = new Card(c.getAsJsonObject());
+                switch (card.cardType) {
+                    case "territories":
+                        playerCards.add(addCard(card), territories, 0);
+                        territories++;
+                        break;
+                    case "buildings":
+                        playerCards.add(addCard(card), buildings, 1);
+                        buildings++;
+                        break;
+                    case "characters":
+                        playerCards.add(addCard(card), characters, 2);
+                        characters++;
+                        break;
+                    case "ventures":
+                        playerCards.add(addCard(card), ventures, 3);
+                        ventures++;
+                        break;
+                    default:
+                        log.severe("unknown type of card, no idea how come…");
+                        break;
+                }
+            }
         }
 
         private void updateBoard(JsonObject boardJ) {
@@ -204,7 +238,7 @@ public class GuiController {
                     JsonElement card = floorJ.get("card");
                     if (card != null) {
                         floorPane.getItems().add(
-                                addCard(card.getAsJsonObject())
+                                addCard(new Card(card.getAsJsonObject()))
                         );
                     } else {
                         floorPane.getItems().add(
@@ -229,9 +263,7 @@ public class GuiController {
             }
         }
 
-        private AnchorPane addCard(JsonObject cardJ) {
-            Card card = new Card(cardJ);
-
+        private AnchorPane addCard(Card card) {
             Image img = new Image(
                 String.format("Gui/cards/%d.png", card.id),
                 1000.0,  // arbitrary big
