@@ -10,6 +10,10 @@ abstract class BaseAction {
         this.actionName = name;
     }
 
+    public void clear(){
+        // usually nothing to do here.
+    }
+
     public abstract void apply();
 
     public void logAction() {
@@ -35,6 +39,11 @@ class NestedAction extends BaseAction {
     protected NestedAction(Action action) {
         super("Nested action");
         this.action = action;
+    }
+
+    @Override
+    public void clear() {
+        this.action.emptyActions();
     }
 
     @Override
