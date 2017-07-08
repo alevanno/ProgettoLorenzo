@@ -16,6 +16,7 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
 
 import java.util.logging.Logger;
 
@@ -63,6 +64,16 @@ public class GuiController {
         }
         Platform.runLater(op);
         log.finest("Successfully updated the label");
+    }
+
+    protected void bigError(String msg) {
+        Label lbl = new Label(msg);
+        lbl.setTextFill(Color.RED);
+        lbl.setFont(Font.font("bold", 14));
+        Platform.runLater(() -> {
+            bigPane.setBackground(Background.EMPTY);
+            bigPane.getChildren().add(lbl);
+        });
     }
 
     protected String readForm() {
