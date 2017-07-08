@@ -45,7 +45,7 @@ public class GuiInterface extends Application implements Interface {
     public void printLine(String format, Object... args) {
         log.fine("new message arrived: ["+format+"]");
         synchronized (guiMonitor) {
-            if (!guiStarted) {
+            while (!guiStarted) {
                 log.finest("GUI not yet started, spawning the thread…");
                 Runnable t = () ->
                     javafx.application.Application.launch(this.getClass());
