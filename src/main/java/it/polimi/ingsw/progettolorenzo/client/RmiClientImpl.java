@@ -19,6 +19,7 @@ public class RmiClientImpl extends UnicastRemoteObject implements ClientInterfac
     private final transient Interface c;
     public final String name;
     public final String colour;
+    Server srv;
 
     public RmiClientImpl(String name, String colour, Interface inf) throws
         RemoteException {
@@ -35,7 +36,11 @@ public class RmiClientImpl extends UnicastRemoteObject implements ClientInterfac
 
     @Override
     public void sOut(String msg) throws RemoteException {
-        this.c.printLine(msg);
+        if (msg.equals("quit")) {
+            throw new RemoteException();
+        } else {
+            this.c.printLine(msg);
+        }
     }
 
     @Override
@@ -77,7 +82,7 @@ public class RmiClientImpl extends UnicastRemoteObject implements ClientInterfac
             Config.Client.rmi.get("port").getAsInt()
         );
         try {
-            Server srv = (Server) reg.lookup("Lorenzo");
+            srv = (Server) reg.lookup("Lorenzo");
             srv.addPlayer(this.name, this.colour, this);
         } catch (NotBoundException e) {
             log.log(Level.SEVERE, e.getMessage(), e);
@@ -87,6 +92,13 @@ public class RmiClientImpl extends UnicastRemoteObject implements ClientInterfac
 
     @Override
     public void endClient() {
+
+        try {
+            UnicastRemoteObject.unexportObject(this, true);
+            //srv.removeRmiClient(this);
+        } catch (RemoteException e) {
+            log.log(Level.SEVERE, e.getMessage(), e);
+        }
         // TODO properly terminate the RMI connection
     }
 

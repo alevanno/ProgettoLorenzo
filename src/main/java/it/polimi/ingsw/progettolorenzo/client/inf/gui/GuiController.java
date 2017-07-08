@@ -39,6 +39,9 @@ public class GuiController {
     @FXML private Label currFaith;
     @FXML private Label currMilitary;
     @FXML private Label currVictory;
+    @FXML private Label blackDice;
+    @FXML private Label whiteDice;
+    @FXML private Label orangeDice;
 
     @FXML
     public void initialize() {
@@ -147,6 +150,7 @@ public class GuiController {
         @Override
         public void run() {
             this.updateBoard(gameIn.get("board").getAsJsonObject());
+            this.updateDices(gameIn.get("famValues"));
             // TODO display "players" too, somewhere
             this.updatePlayer(gameIn.get("you").getAsJsonObject());
         }
@@ -167,6 +171,20 @@ public class GuiController {
 
         private void updateBoard(JsonObject boardJ) {
             JsonArray towersJ = boardJ.get("towers").getAsJsonArray();
+            this.updateTowers(towersJ);
+        }
+
+        private void updateDices(JsonElement famValues) {
+            if (famValues == null) {
+                return;
+            }
+            JsonObject dicesValues = famValues.getAsJsonObject();
+            blackDice.setText(dicesValues.get("Black").getAsString());
+            whiteDice.setText(dicesValues.get("White").getAsString());
+            orangeDice.setText(dicesValues.get("Orange").getAsString());
+        }
+
+        private void updateTowers(JsonArray towersJ) {
             if(towersJ.size() > 4) {
                 log.severe("more than 4 towers are not supported here!");
             }
@@ -186,26 +204,24 @@ public class GuiController {
                     JsonElement card = floorJ.get("card");
                     if (card != null) {
                         floorPane.getItems().add(
-                            addCard(card.getAsJsonObject())
+                                addCard(card.getAsJsonObject())
                         );
                     } else {
                         floorPane.getItems().add(
-                            new AnchorPane(
-                                new Label("No card here!")
-                            )
+                                new AnchorPane(
+                                        new Label("No card here!")
+                                )
                         );
                     }
                     JsonElement famMember = floorJ.get("famMember");
                     if (famMember != null) {
                         floorPane.getItems().add(
-                            new Label(famMember.getAsJsonObject().toString())
+                                new Label(famMember.getAsJsonObject().toString())
                         );
                     } else {
-                        floorPane.getItems().add(
-                            new AnchorPane(
-                                new Label("No player here!")
-                            )
-                        );
+                        Label lbl = new Label("No player here!");
+                        lbl.setWrapText(true);
+                        floorPane.getItems().add(new AnchorPane(lbl));
                     }
 
                     towers.add(floorPane, i, j);

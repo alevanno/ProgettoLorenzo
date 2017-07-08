@@ -36,7 +36,7 @@ public class GuiInterface extends Application implements Interface {
         log.finest("GUI started, the monitor has been notified");
 
         stage.setTitle("Lorenzo il Magnifico");
-        Scene scene = new Scene(root, 1400, 900);
+        Scene scene = new Scene(root, 1303, 937);
         stage.setScene(scene);
         stage.show();
     }
