@@ -15,6 +15,7 @@ import javafx.geometry.Orientation;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 
 import java.util.logging.Logger;
 
@@ -126,8 +127,9 @@ public class GuiController {
         }
 
         private void updatePlayer(JsonObject plJ) {
-            // TODO excomm, cards, colour
+            // TODO excomm, cards
             playerName.setText(plJ.get("playerName").getAsString());
+            playerName.setTextFill(Color.valueOf(plJ.get("playerColour").getAsString()));
             Resources curRes = Resources.fromJson(plJ.get("resources"));
             currCoin.setText(String.valueOf(curRes.coin));
             currWood.setText(String.valueOf(curRes.wood));
