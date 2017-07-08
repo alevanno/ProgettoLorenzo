@@ -4,7 +4,17 @@ import java.util.*;
 
 import com.google.gson.*;
 
-
+/**
+ * The Card class extends {@link Action} to implement the {@link #costActionBuilder(Player)}
+ * method. It replicate in the best possible way a real game card.
+ * The id field represent the number identifying the card.
+ * The cardName, cardType, cardPeriod characterize the card.
+ * the minMilitaryPoint indicates the minimum military points required to
+ * obtain the card (that is a different concept from the military points to satisfy).
+ * The resources representing the cardCost are added to a list; there can be a cost choice.
+ * The immediate and permanent effects are represented in a Map, in order to retrieve them
+ * in a simple and fast way.
+ */
 public class Card extends Action {
     public final int id;
     public final String cardName;
@@ -16,7 +26,10 @@ public class Card extends Action {
     public final Map<String, JsonElement> immediateEff = new HashMap<>();
     public final Map<String, JsonElement> permanentEff = new HashMap<>();
 
-
+    /**
+     * All the class fields are initialized from file.
+     * @param src the json object containing the card's info.
+     */
     public Card(JsonObject src) {
         this.id = src.get("id").getAsInt();
         this.cardName = src.get("name").getAsString();
@@ -65,6 +78,11 @@ public class Card extends Action {
         return cardName;
     }
 
+    /**
+     *
+     * @param pl the player who's has to be displayed the cost info.
+     * @return
+     */
     public Resources getCardCost(Player pl) {
         if (this.cardCost.size() > 1) {
             pl.sOut("You can choose what to pay:");
@@ -81,6 +99,14 @@ public class Card extends Action {
         return this.cardCost;
     }
 
+    /**
+     * The {@link ResourcesAction} is added in the actions Card's list.
+     * There's a discount on the cost by owning and activating Pico della Mirandola
+     * leader card.
+     * @see ResourcesAction
+     * @see Action
+     * @param pl the player having to pay the cost
+     */
     public void costActionBuilder(Player pl) {
         int discount = 0;
         if (pl.leaderIsActive("Pico Della Mirandola")){
@@ -100,6 +126,10 @@ public class Card extends Action {
         );
     }
 
+    /**
+     * It serialize in a JsonObject the card's info to be sent to the Client
+     * @return the JsonObject to be sent away.
+     */
     public JsonObject serialize() {
         Map<String,Object> ret = new HashMap<>();
         ret.put("id", this.id);
