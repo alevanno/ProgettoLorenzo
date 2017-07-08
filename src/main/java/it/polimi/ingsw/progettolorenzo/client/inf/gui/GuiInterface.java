@@ -56,6 +56,7 @@ public class GuiInterface extends Application implements Interface {
                     log.finest("GUI thread started, ACK received, continuing…");
                 } catch (InterruptedException e) {
                     log.log(Level.SEVERE, "Failed to start the GUI", e);
+                    Thread.currentThread().interrupt();
                 }
             }
         }

@@ -18,6 +18,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GuiController {
@@ -82,7 +83,12 @@ public class GuiController {
                 msgInObserver.wait();
                 return msgIn;
             } catch (InterruptedException e) {
-                return "";  // FIXME
+                this.bigError(
+                    "A severe error happened, the game might misbehave"
+                );
+                log.log(Level.SEVERE, e.getMessage(), e);
+                Thread.currentThread().interrupt();
+                return "";  //FIXME
             }
         }
 
