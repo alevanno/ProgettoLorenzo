@@ -48,6 +48,7 @@ public class Game implements Runnable {
     private Player currPlayer;
     private List<JsonObject> excomms = new ArrayList<>();
     private static final int TURN_TIMEOUT = Config.Game.TURN_TIMEOUT;
+    private Map<String, Integer> famValues;
 
 
     public Game(Player firstPlayer, int maxPlayers,
@@ -255,18 +256,19 @@ public class Game implements Runnable {
     }
 
     private void turn() throws InterruptedException { //which is comprised of 4 rounds
-        List<Player> playersOrder = new ArrayList<>(players); //the order stays the same for the duration of the turn
+        this.famValues = new HashMap<>();
+        //the order stays the same for the duration of the turn
+        List<Player> playersOrder = new ArrayList<>(players);
         this.resetBoard((halfPeriod +1) / 2);
-        Map<String, Integer> famValues = new HashMap<>();
-        famValues.put("Orange", new Random().nextInt(5) + 1);
-        famValues.put("Black", new Random().nextInt(5) + 1);
-        famValues.put("White", new Random().nextInt(5) + 1);
+        this.famValues.put("Orange", new Random().nextInt(5) + 1);
+        this.famValues.put("Black", new Random().nextInt(5) + 1);
+        this.famValues.put("White", new Random().nextInt(5) + 1);
         log.fine("Dices thrown");
 
         for (Player pl : players) {
-            pl.famMembersBirth(famValues);
+            pl.famMembersBirth(this.famValues);
             pl.sOut("Dice thrown!");
-            pl.sOut("Values: " + famValues);
+            pl.sOut("Values: " + this.famValues);
             for (LeaderCard leader : pl.getLeaderCards()) {
                 if(leader.hasOnePerRoundAbility()){
                     leader.setOnePerRoundUsage(false);
@@ -441,6 +443,9 @@ public class Game implements Runnable {
         );
         ret.put("players", playersJ);
         ret.put("you", targetPlayer.serialize());
+        if (this.famValues != null) {
+            ret.put("famValues", this.famValues);
+        }
         ret.put("board", this.board.serialize());
         return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
     }
