@@ -247,7 +247,7 @@ public class Floor extends Action {
 
     /**
      * Simple method to get the occupant family member
-     * @return the FamilyMember {@link FamilyMember} occupying the Floor
+     * @return the {@link FamilyMember} occupying the Floor
      */
     public FamilyMember getFamMember() {
         return this.famMember;
