@@ -72,6 +72,8 @@ public class Council extends Action {
 
     protected void placeFamilyMember(FamilyMember fam) {
         councilSpace.add(fam);
-        if (fam.getParent().getParentGame().getFirstAvailPlace(fam.getParent(), firstAvailSpace)) { firstAvailSpace++; };
+        if (fam.getParent().getParentGame().getFirstAvailPlace(fam.getParent(), firstAvailSpace)) {
+            firstAvailSpace++;
+        }
     }
 }
