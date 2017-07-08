@@ -87,7 +87,7 @@ public class GuiController {
     }
 
     protected void handleCardBtnPress(ActionEvent event) {
-        int cardId = ((UpdateBoard.NotedButton) event.getSource()).CardId;
+        int cardId = ((UpdateBoard.NotedButton) event.getSource()).getCardId();
 
         Image img = new Image(
             String.format("Gui/cards/%d.png", cardId),
@@ -108,10 +108,18 @@ public class GuiController {
         private JsonObject gameIn;
 
         private class NotedButton extends Button {
-            public int CardId;
+            private int cardId;
 
             NotedButton() {
                 super();
+            }
+
+            public int getCardId() {
+                return cardId;
+            }
+
+            public void setCardId(int cardId) {
+                this.cardId = cardId;
             }
         }
 
@@ -205,7 +213,7 @@ public class GuiController {
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)
             ));
-            btn.CardId = card.id;
+            btn.setCardId(card.id);
             btn.setOnAction(e -> handleCardBtnPress(e));
 
             AnchorPane a = new AnchorPane(btn);
