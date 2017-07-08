@@ -122,18 +122,10 @@ public class CliInterface implements Interface {
 
             this.setComponent(mainPanel.withBorder(Borders.doubleLineBevel
                     ("Towers")));
-            for (Map.Entry<String,JsonElement> entry : boardJ.entrySet()) {
-                switch (entry.getKey()) {
-                    case "towers":
-                        entry.getValue().getAsJsonArray().forEach(
-                                t -> this.addTower(t.getAsJsonObject())
-                        );
-                        break;
-                    default:
-                        log.severe("Unknown element in the board: " + entry.getKey());
-                        break;
-                }
-            }
+            // TODO handle also other elements of the board
+            boardJ.get("towers").getAsJsonArray().forEach(
+                t -> addTower(t.getAsJsonObject())
+            );
         }
 
         public void addTower(JsonObject input) {
