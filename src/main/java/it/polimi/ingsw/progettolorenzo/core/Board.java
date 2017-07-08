@@ -43,11 +43,11 @@ public class Board {
     public JsonObject serialize() {
         // TODO display all the things, now only the towers
         Map<String, Object> ret = new HashMap<>();
-        List<JsonObject> towers = new ArrayList<>();
+        List<JsonObject> towersJ = new ArrayList<>();
         this.towers.forEach(
-                t -> towers.add(t.serialize())
+                t -> towersJ.add(t.serialize())
         );
-        ret.put("towers", towers);
+        ret.put("towers", towersJ);
         return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
     }
 }
