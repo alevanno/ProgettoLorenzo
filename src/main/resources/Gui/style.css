@@ -18,6 +18,22 @@
     -fx-background-size: cover;
 }
 
+.territoriesBg {
+    -fx-background-color: rgba(34, 139, 30, 0.3);
+}
+
+.charactersBg {
+    -fx-background-color: rgba(30, 144, 255, 0.3);
+}
+
+.buildingsBg{
+    -fx-background-color: rgba(255, 223, 0, 0.3);
+}
+
+.venturesBg{
+    -fx-background-color: rgba(186, 85, 211, 0.3);
+}
+
 .split-pane-divider {
     -fx-padding: 0 1 0 1;
 }
@@ -27,8 +43,6 @@
     -fx-background-repeat: no-repeat;
     -fx-background-position: center;
 }
-
-
 
 .coinPng {
     -fx-background-image: url("resIcons/coin.png");

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.text.*?>
 <?import java.lang.*?>
@@ -54,7 +55,7 @@
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                      <children>
                         <AnchorPane fx:id="bigPane" layoutX="14.0" layoutY="14.0" prefHeight="317.0" prefWidth="214.0" style="-fx-background-color: beige;" />
-                        <GridPane fx:id="playerCards" layoutX="240.0" layoutY="14.0" prefHeight="317.0" prefWidth="320.0" style="-fx-grid-lines-visible: true;">
+                        <GridPane fx:id="playerCards" layoutX="240.0" layoutY="14.0" prefHeight="317.0" prefWidth="320.0" style="-fx-grid-lines-visible: false;">
                           <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -69,6 +70,32 @@
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
+                           <children>
+                              <Pane prefHeight="200.0" prefWidth="200.0" styleClass="territoriesBg" />
+                              <Pane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" styleClass="territoriesBg" GridPane.columnIndex="1" />
+                              <Pane layoutX="63.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" styleClass="territoriesBg" GridPane.columnIndex="2" />
+                              <Pane prefHeight="200.0" prefWidth="200.0" styleClass="territoriesBg" GridPane.columnIndex="3" />
+                              <Pane layoutX="169.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" styleClass="territoriesBg" GridPane.columnIndex="4" />
+                              <Pane layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="200.0" styleClass="territoriesBg" GridPane.columnIndex="5" />
+                              <Pane prefHeight="200.0" prefWidth="200.0" styleClass="charactersBg" GridPane.rowIndex="1" />
+                              <Pane prefHeight="200.0" prefWidth="200.0" styleClass="buildingsBg" GridPane.rowIndex="2" />
+                              <Pane prefHeight="200.0" prefWidth="200.0" styleClass="venturesBg" GridPane.rowIndex="3" />
+                              <Pane layoutX="10.0" layoutY="90.0" prefHeight="200.0" prefWidth="200.0" styleClass="charactersBg" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                              <Pane layoutX="10.0" layoutY="90.0" prefHeight="200.0" prefWidth="200.0" styleClass="charactersBg" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                              <Pane layoutX="10.0" layoutY="90.0" prefHeight="200.0" prefWidth="200.0" styleClass="charactersBg" GridPane.columnIndex="5" GridPane.rowIndex="1" />
+                              <Pane layoutX="10.0" layoutY="90.0" prefHeight="200.0" prefWidth="200.0" styleClass="charactersBg" GridPane.columnIndex="4" GridPane.rowIndex="1" />
+                              <Pane layoutX="10.0" layoutY="90.0" prefHeight="200.0" prefWidth="200.0" styleClass="charactersBg" GridPane.columnIndex="3" GridPane.rowIndex="1" />
+                              <Pane layoutX="10.0" layoutY="169.0" prefHeight="200.0" prefWidth="200.0" styleClass="buildingsBg" GridPane.columnIndex="5" GridPane.rowIndex="2" />
+                              <Pane layoutX="10.0" layoutY="169.0" prefHeight="200.0" prefWidth="200.0" styleClass="buildingsBg" GridPane.columnIndex="4" GridPane.rowIndex="2" />
+                              <Pane layoutX="10.0" layoutY="169.0" prefHeight="200.0" prefWidth="200.0" styleClass="buildingsBg" GridPane.columnIndex="3" GridPane.rowIndex="2" />
+                              <Pane layoutX="10.0" layoutY="169.0" prefHeight="200.0" prefWidth="200.0" styleClass="buildingsBg" GridPane.columnIndex="2" GridPane.rowIndex="2" />
+                              <Pane layoutX="10.0" layoutY="169.0" prefHeight="200.0" prefWidth="200.0" styleClass="buildingsBg" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                              <Pane layoutX="10.0" layoutY="248.0" prefHeight="200.0" prefWidth="200.0" styleClass="venturesBg" GridPane.columnIndex="4" GridPane.rowIndex="3" />
+                              <Pane layoutX="10.0" layoutY="248.0" prefHeight="200.0" prefWidth="200.0" styleClass="venturesBg" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                              <Pane layoutX="10.0" layoutY="248.0" prefHeight="200.0" prefWidth="200.0" styleClass="venturesBg" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                              <Pane layoutX="10.0" layoutY="248.0" prefHeight="200.0" prefWidth="200.0" styleClass="venturesBg" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                              <Pane layoutX="10.0" layoutY="248.0" prefHeight="200.0" prefWidth="200.0" styleClass="venturesBg" GridPane.columnIndex="5" GridPane.rowIndex="3" />
+                           </children>
                         </GridPane>
                         <Label layoutX="75.0" layoutY="341.0" text="Information Pane" />
                         <Label layoutX="364.0" layoutY="341.0" text="Player's Cards" />
@@ -166,6 +193,29 @@
                            </children>
                         </GridPane>
                         <Label fx:id="playerName" alignment="CENTER_RIGHT" layoutX="335.0" layoutY="379.0" prefHeight="56.0" prefWidth="226.0" styleClass="decoratedText" />
+                        <Label fx:id="playerStatus" alignment="CENTER_RIGHT" layoutX="335.0" layoutY="435.0" prefHeight="0.0" prefWidth="226.0" style="-fx-font-size: 25;" styleClass="decoratedText" />
+                        <GridPane fx:id="famMemHome" layoutX="30.0" layoutY="407.0" prefHeight="214.0" prefWidth="60.0">
+                          <columnConstraints>
+                            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                          </columnConstraints>
+                          <rowConstraints>
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                          </rowConstraints>
+                           <children>
+                              <Circle fill="DODGERBLUE" radius="18.0" stroke="BLACK" strokeType="INSIDE" GridPane.rowIndex="1" />
+                              <Circle fill="DODGERBLUE" radius="18.0" stroke="BLACK" strokeType="INSIDE" GridPane.rowIndex="2" />
+                              <Circle fill="DODGERBLUE" radius="18.0" stroke="BLACK" strokeType="INSIDE" GridPane.rowIndex="3" />
+                           </children>
+                        </GridPane>
+                        <Circle fill="DODGERBLUE" layoutX="228.0" layoutY="532.0" radius="18.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Circle fill="#1fffc8" layoutX="228.0" layoutY="532.0" radius="11.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Button layoutX="152.0" layoutY="637.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="133.0" text="Show Bonus Tile" />
+                        <Button layoutX="290.0" layoutY="637.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="133.0" text="Show Excomms" />
+                        <Button layoutX="428.0" layoutY="637.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="133.0" text="Show Players order" />
+                        <Button layoutX="14.0" layoutY="637.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="133.0" text="Show Council" />
                      </children></AnchorPane>
               <AnchorPane prefHeight="340.0" prefWidth="574.0">
                    <children>
