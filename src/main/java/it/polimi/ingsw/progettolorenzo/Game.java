@@ -431,18 +431,23 @@ public class Game implements Runnable {
 
     public List<String> getActions() { return actions; }
 
-    public JsonObject serialize() {
+    private JsonObject serialize(Player targetPlayer) {
         Map<String, Object> ret = new HashMap<>();
-        List<JsonObject> players = new ArrayList<>();
-        this.players.forEach(p -> players.add(p.serialize()));
-        ret.put("players", players);
+        List<JsonObject> playersJ = new ArrayList<>();
+        this.players.stream().filter(
+            p -> p.playerName != targetPlayer.playerName
+        ).forEach(
+            p -> playersJ.add(p.serialize())
+        );
+        ret.put("players", playersJ);
+        ret.put("you", targetPlayer.serialize());
         ret.put("board", this.board.serialize());
         return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
     }
 
     public void displayGame() {
         this.players.forEach(p ->
-            p.sOut("☃" + new Gson().toJson(this.serialize()))
+            p.sOut("☃" + new Gson().toJson(this.serialize(p)))
         );
     }
 

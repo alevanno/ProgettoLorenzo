@@ -121,8 +121,8 @@ public class GuiController {
         @Override
         public void run() {
             this.updateBoard(gameIn.get("board").getAsJsonObject());
-            // FIXME deal properly with multiple users
-            this.updatePlayer(gameIn.get("players").getAsJsonArray().get(0).getAsJsonObject());
+            // TODO display "players" too, somewhere
+            this.updatePlayer(gameIn.get("you").getAsJsonObject());
         }
 
         private void updatePlayer(JsonObject plJ) {
