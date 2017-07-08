@@ -275,6 +275,7 @@ public class Floor extends Action {
 
     /**
      * It serialize floor information to send to Client.
+     * @see Game#displayGame()
      * @return The JsonObject containing all the needed floor information.
      */
     public JsonObject serialize() {
