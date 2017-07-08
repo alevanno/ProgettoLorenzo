@@ -94,14 +94,14 @@ public class LeaderCard {
 
     /**
      * Every child Card that have a permanent ability override
-     * this metod. Generally it consists into a string message
+     * this method. Generally it consists into a string message
      * (containing the description of the action) sent to Player's Client
      * by {@link Player#sOut(String)} and eventually the implementation of the action;
      * in fact the here the implementation can be empty and declared where the check for
      * the ability has to be done.
      */
     public void permanentAbility(){
-        throw new UnsupportedOperationException(NOTIMPLEMENTED);
+        // it should be empty
     }
 
     /**
@@ -113,7 +113,7 @@ public class LeaderCard {
      * @see #setOnePerRoundUsage(boolean).
      */
     public void onePerRoundAbility() {
-        throw new UnsupportedOperationException(NOTIMPLEMENTED);
+        // it should be empty
     }
 
     public boolean hasOnePerRoundAbility() {

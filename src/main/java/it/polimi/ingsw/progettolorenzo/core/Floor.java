@@ -245,10 +245,18 @@ public class Floor extends Action {
         this.famMember = f;
     }
 
+    /**
+     * Simple method to get the occupant family member
+     * @return the FamilyMember {@link FamilyMember} occupying the Floor
+     */
     public FamilyMember getFamMember() {
         return this.famMember;
     }
 
+    /**
+     * It checks the occupancy of the floor
+     * @return the boolean value representing the presence of a family member
+     */
     public boolean isBusy() {
         return this.famMember != null;
     }
