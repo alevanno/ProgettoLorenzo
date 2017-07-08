@@ -45,6 +45,8 @@ public class LeaderCard {
         this.onePerTurnUsage = onePerRoundUsage;
     }
 
+    private final static String NOTIMPLEMENTED  = "Not available in the base class";
+
     /**
      * Implemented due to Lorenzo De Medici card permanent ability.
      * @return a new instance of the same card.
@@ -64,7 +66,7 @@ public class LeaderCard {
      * @return the accomplishment of one of the possible action given in commonApply by a boolean value.
      */
     public boolean apply() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException(NOTIMPLEMENTED);
     }
 
     /**
@@ -98,7 +100,9 @@ public class LeaderCard {
      * in fact the here the implementation can be empty and declared where the check for
      * the ability has to be done.
      */
-    public void permanentAbility(){};
+    public void permanentAbility(){
+        throw new UnsupportedOperationException(NOTIMPLEMENTED);
+    }
 
     /**
      * This has void return value because the method is used every time
@@ -108,13 +112,18 @@ public class LeaderCard {
      * At the end of the action onePerTurnUsage is set to true.
      * @see #setOnePerRoundUsage(boolean).
      */
-    public void onePerRoundAbility(){};
+    public void onePerRoundAbility() {
+        throw new UnsupportedOperationException(NOTIMPLEMENTED);
+    }
+
     public boolean hasOnePerRoundAbility() {
         return this.onePerRound;
     }
+
     public void setOnePerRoundUsage(boolean bool){
         this.onePerTurnUsage = bool;
-    }}
+    }
+}
 
 
 
