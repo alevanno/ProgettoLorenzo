@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 public class Player {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     public final String playerName;
-    private final String playerColour;
+    public final String playerColour;
     private final PlayerIO io;
     private Resources currentRes = new Resources.ResBuilder().servant(3).stone(2).wood(2).build();
     private List<FamilyMember> famMemberList = new ArrayList<>();
