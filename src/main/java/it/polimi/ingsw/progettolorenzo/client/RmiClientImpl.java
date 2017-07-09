@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 
 public class RmiClientImpl extends UnicastRemoteObject implements ClientInterface, RmiClient {
     private final transient Logger log = Logger.getLogger(this.getClass().getName());
-    private final transient Scanner in = new Scanner(System.in);
     private final transient Interface c;
     public final String name;
     public final String colour;
@@ -31,7 +30,7 @@ public class RmiClientImpl extends UnicastRemoteObject implements ClientInterfac
 
     @Override
     public String sIn() throws RemoteException {
-        return this.in.nextLine();
+        return this.c.readLine();
     }
 
     @Override
@@ -43,18 +42,24 @@ public class RmiClientImpl extends UnicastRemoteObject implements ClientInterfac
         }
     }
 
+
     @Override
     public int sInPrompt(int minValue, int maxValue) throws RemoteException {
         int choice;
+        String in;
         do {
             this.sOut("Input an int between " + minValue + " and " +
                 maxValue);
-            while (!this.in.hasNextInt()) {
-                this.in.nextLine();
-                this.sOut("Please input an int");
+            while(true) {
+                in = this.sIn();
+                try {
+                    choice = Integer.valueOf(in).intValue();
+                } catch (NumberFormatException e) {
+                    this.sOut("Please input an int");
+                    continue;
+                }
+                break;
             }
-            choice = this.in.nextInt();
-            this.in.nextLine();
         } while (choice < minValue || choice > (maxValue));
         return choice;
     }
@@ -64,7 +69,7 @@ public class RmiClientImpl extends UnicastRemoteObject implements ClientInterfac
         String choice;
         do {
             sOut("Input 'y' (yes) or 'n' (no)");
-            choice = this.in.next().substring(0, 1);
+            choice = this.sIn().substring(0, 1);
         }
         while (!"y".equalsIgnoreCase(choice) && !"n".equalsIgnoreCase(choice));
         if ("y".equalsIgnoreCase(choice)) {
