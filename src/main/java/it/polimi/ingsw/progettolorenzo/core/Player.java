@@ -50,6 +50,7 @@ public class Player {
     private BonusTile bonusT;
     private Game parentGame;
     private int lastFamMemIncrease;
+    private boolean timeouted = false;
 
     /**
      * The constructor to instantiate a new socket Player. It maps the IO
@@ -98,20 +99,39 @@ public class Player {
                 name, colour, this.getCurrentRes()));
     }
 
-    public String sIn()  {
-        return this.io.sIn();
+    public String sIn() {
+        if (!this.timeouted) {
+            return this.io.sIn();
+        }
+        return "";
     }
 
     public int sInPrompt(int minValue, int maxValue) {
-        return this.io.sInPrompt(minValue, maxValue);
+        if (!this.timeouted) {
+            return this.io.sInPrompt(minValue, maxValue);
+        }
+        return 0;
     }
 
     public boolean sInPromptConf() {
-        return this.io.sInPromptConf();
+        if (!this.timeouted) {
+            return this.io.sInPromptConf();
+        }
+        return false;
     }
 
     public void sOut(String s) {
-        this.io.sOut(s);
+        if (!this.timeouted) {
+            this.io.sOut(s);
+        }
+    }
+
+    /**
+     * Calling this will flag the player as timeouted, and ignore any tentative
+     * of input/output.
+     */
+    public void setTimeouted() {
+        this.timeouted = true;
     }
 
     /**

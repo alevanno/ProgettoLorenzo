@@ -393,6 +393,7 @@ public class Game implements Runnable {
     public void timeExpired(Player pl) {
         pl.sOut("Time expired!");
         pl.sOut("quit");
+        pl.setTimeouted();
     }
 
     /**
