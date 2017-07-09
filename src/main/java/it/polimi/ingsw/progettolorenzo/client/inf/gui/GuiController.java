@@ -286,13 +286,14 @@ public class GuiController {
                     // fam member
                     JsonElement famMember = floorJ.get("famMember");
                     if (famMember != null) {
-                        floorPane.getItems().add(
-                            new Label(famMember.getAsJsonObject().toString())
-                        );
-                    } else {
-                        Label lbl = new Label("No player here!");
-                        lbl.setWrapText(true);
-                        floorPane.getItems().add(new AnchorPane(lbl));
+                        VBox vb = new VBox(
+                            addFamMember(famMember.getAsJsonObject()));
+                        vb.setAlignment(Pos.CENTER);
+                        vb.setMinHeight(vb.getMaxHeight());
+                        HBox hb = new HBox(vb);
+                        hb.setAlignment(Pos.CENTER);
+                        hb.setMinWidth(vb.getMaxWidth());
+                        floorPane.getItems().add(hb);
                     }
                     FadeTransition ft = new FadeTransition(Duration.millis(1000), towers);
                     ft.setFromValue(0.1);
