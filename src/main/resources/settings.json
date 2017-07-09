@@ -9,7 +9,7 @@
         }
     },
     "client": {
-        "mode": "socket",
+        "mode": "ask",
         "interface": "gui",
         "socket": {
             "serverAddress": "localhost",
@@ -20,7 +20,7 @@
         }
     },
     "game": {
-        "rules": "basic",
+        "rules": "ask",
         "timeout": 120
     }
 }
