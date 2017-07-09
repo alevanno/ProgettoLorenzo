@@ -5,10 +5,20 @@ import com.google.gson.JsonObject;
 
 import java.util.*;
 
-
-// FIXME This class suffers from a very rare form of DRY violation.
-// FIXME Breeding code is nice, but this is not a rabbit family.
-
+/**
+ * This class represent the data structure which contains the resources of the game.
+ * victory points, military points and faith points are placed here in addition to
+ * coin, wood, stone and servant to make coding easier.
+ * It allows to easily exchange the single int resources between players and the game itself.
+ * All the fields are added to a Map.
+ *
+ * Resources class is not directly instantiable; the structure of the static
+ * class {@link ResBuilder} allows to {@link ResBuilder#build()} every kind of
+ * Resources.
+ * The class also handle by itself creating resources from file by{@link #fromJson(JsonElement)}.
+ *
+ * @see ResBuilder
+ */
 public class Resources {
     public final int coin;
     public final int wood;
@@ -45,10 +55,22 @@ public class Resources {
         this.resourcesList.put("faithPoint", this.faithPoint);
     }
 
+    /**
+     * It allows to get the value of a single integer resource by name.
+     * @param s the string representing the resource.
+     * @return the int corresponding to the value retrieved from the map, with key s.
+     */
     public int getByString(String s) {
         return this.resourcesList.get(s);
     }
 
+    /**
+     * This is the static class that allows to create new instances of {@link Resources} class.
+     * There is a method for every single integer resource. Every class field has a default
+     * value of zero, making possible to create various combination of resources.
+     * The {@link #build()} method really creates the resources object filling
+     * the constructor with the fields of its class.
+     */
     public static class ResBuilder {
         private int nCoin = 0;
         private int nWood = 0;
@@ -87,6 +109,13 @@ public class Resources {
             return this;
         }
 
+        /**
+         * It assign the desired value to a ResBuilder field by matching
+         * the name with the string s.
+         * @param s the string representing the name of the resource to set
+         * @param val the integer representing the value of the resource
+         * @return the same ResBuilder instance with the new desired field's value.
+         */
         public ResBuilder setByString(String s, int val) {
             if("coin".equals(s)) {
                 return this.coin(val);
@@ -112,6 +141,11 @@ public class Resources {
             return this;
         }
 
+        /**
+         * It has to be invoked to effectively create the new instance of Resources.
+         * @return A new instance of Resources class filling all the constructor's
+         * fields.
+         */
         public Resources build() {
             return new Resources(
                 this.nCoin,
@@ -125,7 +159,13 @@ public class Resources {
         }
     }
 
-
+    /**
+     * This method allows to directly create Resources from file.
+     * The JsonObject is unpacked by {@link Utils#returnZeroIfMissing(JsonObject, String)}
+     * and every single value is used as param of the methods that fill class fields.
+     * @param src the JsonObject containing all the needed information to create a resource.
+     * @return A new Resources instance.
+     */
     public static Resources fromJson(JsonObject src) {
         return new ResBuilder()
             .coin(Utils.returnZeroIfMissing(src, "coin"))
@@ -138,6 +178,13 @@ public class Resources {
             .build();
     }
 
+    /**
+     * It first checks that the src is not null, then
+     * return the {@link #fromJson(JsonObject)}.
+     * Otherwise, it creates a new empty instance of Resources.
+     * @param src the JsonElement containing the resources information.
+     * @return An empty or filled instance of Resources.
+     */
     public static Resources fromJson(JsonElement src) {
         if (src != null) {
             return Resources.fromJson(src.getAsJsonObject());
@@ -146,7 +193,13 @@ public class Resources {
         }
     }
 
-
+    /**
+     * It sums every single "this" integer value with the correspondent
+     * value of the param Resources and create a new Resources with
+     * the updated fields.
+     * @param op the Resources object to be merged.
+     * @return the new Resources instance which fields are the sum of the old and the param value.
+     */
     public Resources merge(Resources op) {
         return new ResBuilder()
             .coin(this.coin + op.coin)
@@ -159,6 +212,10 @@ public class Resources {
             .build();
     }
 
+    /**
+     * It creates a new instance of Resources class by inverting the value of every field
+     * @return the new Resources instance with all the inverted fields .
+     */
     public Resources inverse() {
         return new ResBuilder()
             .coin(-this.coin)
@@ -171,6 +228,11 @@ public class Resources {
             .build();
     }
 
+    /**
+     * It creates a new instance of Resources class by multiplying every class field with the param int.
+     * @param mult the integer value used for multiplying every class field.
+     * @return the new Resources instance with all the fields multiplied by mult param.
+     */
     public Resources multiplyRes(int mult) {
         return new ResBuilder()
                 .coin(this.coin * mult)
@@ -201,6 +263,10 @@ public class Resources {
         return out;
     }
 
+    /**
+     * It fills a List with all the class fields.
+     * @return the List containing all the class fields.
+     */
     public List<Integer> getAsList() {
         List<Integer> resList = new ArrayList<>();
         resList.add(this.coin);
@@ -213,6 +279,10 @@ public class Resources {
         return resList;
     }
 
+    /**
+     * Simple method checking the presence of a negative class field.
+     * @return the boolean value representing the presence of a negative class field.
+     */
     public boolean isNegative() {
         for(int i : this.getAsList()) {
             if (i < 0) {
