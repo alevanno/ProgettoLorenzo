@@ -21,17 +21,6 @@ abstract class BaseAction {
     }
 }
 
-class NullAction extends BaseAction {
-    protected NullAction() {
-        super("Null action.  To be implemented.  XXX");
-    }
-
-    @Override
-    public void apply() {
-        // empty
-    }
-}
-
 class NestedAction extends BaseAction {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private Action action;
