@@ -18,6 +18,7 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,6 +44,7 @@ public class GuiController {
     @FXML private Label blackDice;
     @FXML private Label whiteDice;
     @FXML private Label orangeDice;
+    @FXML private GridPane famMemHome;
 
     @FXML
     public void initialize() {
@@ -161,6 +163,7 @@ public class GuiController {
             playerName.setText(plJ.get("playerName").getAsString());
             playerName.setTextFill(Color.valueOf(plJ.get("playerColour").getAsString()));
             updatePlayerCards(plJ.get("cards").getAsJsonArray());
+            updateFamMember(plJ.get("famMembers").getAsJsonArray());
             Resources curRes = Resources.fromJson(plJ.get("resources"));
             currCoin.setText(String.valueOf(curRes.coin));
             currWood.setText(String.valueOf(curRes.wood));
@@ -169,6 +172,15 @@ public class GuiController {
             currFaith.setText(String.valueOf(curRes.faithPoint));
             currMilitary.setText(String.valueOf(curRes.militaryPoint));
             currVictory.setText(String.valueOf(curRes.victoryPoint));
+        }
+
+        private void updateFamMember(JsonArray famList) {
+            int row = 0;
+            for (JsonElement famJ : famList) {
+                AnchorPane famMemIcon = addFamMember(famJ.getAsJsonObject());
+                famMemHome.add(famMemIcon, 0, row);
+                row++;
+            }
         }
 
         private void updatePlayerCards(JsonArray cardsJ) {

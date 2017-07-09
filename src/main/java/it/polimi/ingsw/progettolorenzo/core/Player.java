@@ -386,6 +386,9 @@ public class Player {
         ret.put("playerName", this.playerName);
         ret.put("playerColour", this.playerColour);
         ret.put("resources", this.currentRes);
+        List<JsonObject> famMembersJ = new ArrayList<>();
+        this.famMemberList.forEach(f -> famMembersJ.add(f.serialize()));
+        ret.put("famMembers", famMembersJ);
         ret.put("excomm", this.excommunications);
         ret.put("cards", this.cards.serialize());
         return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
