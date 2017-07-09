@@ -9,16 +9,26 @@ import java.util.*;
 import java.util.logging.Logger;
 import static java.lang.String.valueOf;
 
+/**
+ *This class represents the Production Area (main space and secondary space)
+ *and it includes the methods that assign Production bonuses.
+ *It inherits the features of the Action class.
+ */
 public class Production extends ActionProdHarv {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private FamilyMember mainProduction = null;
     private List<FamilyMember> secondaryProduction = new ArrayList<>();
 
+    /**
+     * Player can claim the space if mainHarv == null or if he has Ariosto.
+     * With Ariosto a player can claim the space even if he did so himself
+     * previously, granted that one of the famMem is the Blank one.
+     * Claiming the space initiates an Harvest action.
+     * @param fam the family member claiming the place.
+     * @return indicates whether the action has been successful
+     */
     public boolean claimFamMain(FamilyMember fam) {
         Player p = fam.getParent();
-        //Player can claim the space if mainProd == null or if he has Ariosto.
-        //With Ariosto a player can claim the space even if he did so himself
-        // previously, granted that one of the famMem is the Blank one
         if (this.mainProduction == null || p.leaderIsActive("Ludovico Ariosto") &&
                 (!p.equals(this.mainProduction.getParent()) || p.equals(this.mainProduction.getParent()) &&
                         ("Blank".equals(fam.getSkinColour()) || "Blank".equals(this.mainProduction.getSkinColour())))) {
@@ -33,6 +43,13 @@ public class Production extends ActionProdHarv {
         return false;
     }
 
+    /**
+     * Player can always claim this space (with a value reduction) unless
+     * he did so previously. Int this case he can only claim the space with
+     * the Blank family member.
+     * @param fam the family member claiming the place.
+     * @return indicates whether the action has been successful
+     */
     public boolean claimFamSec(FamilyMember fam) {
         Player p = fam.getParent();
         if (!("Blank".equals(fam.getSkinColour())) &&
@@ -57,6 +74,12 @@ public class Production extends ActionProdHarv {
         return i.permanentEff.get("production").getAsJsonObject();
     }
 
+    /**
+     * Gives the bonus from cards that multiply some resources by the
+     * number of cards of some type in the player's board
+     * @param tempDeck the cards eligible for this action
+     * @param player the player accomplishing the action
+     */
     private void prodMultiplier(Deck tempDeck, Player player) {
         //handles the "multiplier" type of production
         for (Card i : tempDeck) {
@@ -75,6 +98,12 @@ public class Production extends ActionProdHarv {
         }
     }
 
+    /**
+     * Allows the player to choose which resources he wants to convert,
+     * if he has cards that allow it.
+     * @param tempDeck the cards eligible for this action
+     * @param player the player accomplishing the action
+     */
     private void prodConversion(Deck tempDeck, Player player) {
         //conversions provided by cards
         for (Card i : tempDeck) {
@@ -126,6 +155,10 @@ public class Production extends ActionProdHarv {
         }
     }
 
+    /**
+     * Gives the Production bonus from the BonusTile
+     * @param player the player accomplishing the action
+     */
     private void prodBonusTile(Player player) {
         //resources given by BonusTile
         this.addAction(new ResourcesAction(
@@ -133,6 +166,11 @@ public class Production extends ActionProdHarv {
         log.info("Production: The Player's BonusTile gave " + player.getBonusT().getProductionRes().toString());
     }
 
+    /**
+     * Gives the Production bonus from passive cards
+     * @param tempDeck the cards eligible for this action
+     * @param player the player accomplishing the action
+     */
     private void prodStaticCards(Deck tempDeck, Player player) {
         //resources given by static Cards
         for (Card i : tempDeck) {
@@ -144,6 +182,12 @@ public class Production extends ActionProdHarv {
         }
     }
 
+    /**
+     * Gives one or more council privileges from the cards that provide
+     * it in Production
+     * @param tempDeck the cards eligible for this action
+     * @param player the player accomplishing the action
+     */
     private void prodCouncPriv(Deck tempDeck, Player player) {
         //councilPrivilege given by static Cards
         for (Card i : tempDeck) {
@@ -160,7 +204,14 @@ public class Production extends ActionProdHarv {
         }
     }
 
-
+    /**
+     * It represents the Production action, taking into account bonuses and
+     * maluses. It collects the eligible cards from the player's board
+     * in a temporary deck and passes them to more specialized methods.
+     * @param player the player that accomplishes the action
+     * @param value the value of the Harvest action
+     * @return False if the value is insufficient, True otherwise.
+     */
     public boolean prod(Player player, int value) {
         value = checkValue(player, value, "productionPlusValue", "prodMalus");
         if (value < 1) {

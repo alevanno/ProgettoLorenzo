@@ -8,7 +8,9 @@ import java.util.*;
 import java.util.logging.Logger;
 
 /**
- *
+ *This class represents the Harvest Area (main space and secondary space)
+ *and it includes the methods that assign Harvest bonuses.
+ *It inherits the features of the Action class.
  */
 public class Harvest extends ActionProdHarv {
     private final Logger log = Logger.getLogger(this.getClass().getName());
@@ -17,14 +19,14 @@ public class Harvest extends ActionProdHarv {
 
     /**
      * Player can claim the space if mainHarv == null or if he has Ariosto.
-     * with Ariosto a player can claim the space even if he did so himself
-     * previously, granted that one of the famMem is the Blank one
+     * With Ariosto a player can claim the space even if he did so himself
+     * previously, granted that one of the famMem is the Blank one.
+     * Claiming the space initiates an Harvest action.
      * @param fam the family member claiming the place.
-     * @return
+     * @return indicates whether the action has been successful
      */
     public boolean claimFamMain(FamilyMember fam) {
         Player p = fam.getParent();
-        //
         if (this.mainHarvest == null || fam.getParent().leaderIsActive("Ludovico Ariosto")&&
                 (!p.equals(this.mainHarvest.getParent()) || p.equals(this.mainHarvest.getParent()) &&
                         ("Blank".equals(fam.getSkinColour()) || "Blank".equals(this.mainHarvest.getSkinColour())))) {
@@ -39,6 +41,13 @@ public class Harvest extends ActionProdHarv {
         return false;
     }
 
+    /**
+     * Player can always claim this space (with a value reduction) unless
+     * he did so previously. Int this case he can only claim the space with
+     * the Blank family member.
+     * @param fam the family member claiming the place.
+     * @return indicates whether the action has been successful
+     */
     public boolean claimFamSec(FamilyMember fam) {
         Player p = fam.getParent();
         if (!("Blank".equals(fam.getSkinColour())) &&
@@ -63,6 +72,10 @@ public class Harvest extends ActionProdHarv {
         return i.permanentEff.get("harvest").getAsJsonObject();
     }
 
+    /**
+     * Gives the Harvest bonus from the BonusTile
+     * @param player the player accomplishing the action
+     */
     private void harvBonusTile(Player player) {
         //resources given by bonusTile
         this.addAction(new ResourcesAction(
@@ -70,6 +83,11 @@ public class Harvest extends ActionProdHarv {
         log.info("Harvest: The Player's BonusTile gave " + player.getBonusT().getHarvestRes().toString());
     }
 
+    /**
+     * Gives the Harvest bonus from passive cards
+     * @param tempDeck the cards eligible for this action
+     * @param player the player accomplishing the action
+     */
     private void harvStaticCards(Deck tempDeck, Player player) {
         //resources given by static Cards
         for (Card i : tempDeck) {
@@ -81,6 +99,12 @@ public class Harvest extends ActionProdHarv {
         }
     }
 
+    /**
+     * Gives one or more council privileges from the cards that provide
+     * it in Harvest
+     * @param tempDeck the cards eligible for this action
+     * @param player the player accomplishing the action
+     */
     private void harvCouncPriv(Deck tempDeck, Player player) {
         //councilPrivilege given by static Cards
         for (Card i : tempDeck) {
@@ -97,6 +121,14 @@ public class Harvest extends ActionProdHarv {
         }
     }
 
+    /**
+     * It represents the Harvest action, taking into account bonuses and
+     * maluses. It collects the eligible cards from the player's board
+     * in a temporary deck and passes them to more specialized methods.
+     * @param player the player that accomplishes the action
+     * @param value the value of the Harvest action
+     * @return False if the value is insufficient, True otherwise.
+     */
     public boolean harv(Player player, int value) {
         value = checkValue(player, value, "harvestPlusValue", "harvMalus");
         if (value < 1) {
