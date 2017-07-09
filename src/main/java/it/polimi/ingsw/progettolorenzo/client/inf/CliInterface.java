@@ -195,10 +195,10 @@ public class CliInterface implements Interface {
             panel.setLayoutManager(new LinearLayout((Direction.VERTICAL)));
             panel.addComponent(Panels.horizontal(
                     new Label("Fam colour:"),
-                    new Label(input.get("colour").getAsString())
+                    new Label(input.get("skinColour").getAsString())
             ));
             return panel.withBorder(Borders.singleLineReverseBevel(
-                    "Occupant: " + input.get("parent").getAsString()
+                    "Occupant: " + input.get("parentName").getAsString()
             ));
         }
     }
