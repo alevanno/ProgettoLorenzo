@@ -29,7 +29,13 @@ public class Player {
     private Game parentGame;
     private int lastFamMemIncrease;
 
-
+    /**
+     * The constructor to instantiate a new socket Player. It maps the IO
+     with a new {@link PlayerIOSocket}.
+     * @param name the player's name
+     * @param colour the player's color
+     * @param socket the socket to map with the player.
+     */
     public Player(String name, String colour, Socket socket) {
         this.playerName = name;
         this.playerColour = colour;
@@ -39,6 +45,13 @@ public class Player {
                 name, colour, this.getCurrentRes()));
     }
 
+    /**
+     * The constructor to instantiate a new socket Player. It maps the IO
+     * with a new {@link PlayerIORMI}.
+     * @param name the player's name
+     * @param colour the player's color
+     * @param rmi the RmiClient to map with the player.
+     */
     public Player(String name, String colour, RmiClient rmi) {
         this.playerName = name;
         this.playerColour = colour;
@@ -48,6 +61,12 @@ public class Player {
             name, colour, this.getCurrentRes()));
     }
 
+    /**
+     * The constructor to instantiate a new local Player. It maps the IO
+     * with a new {@link PlayerIOLocal}.
+     * @param name the player's name
+     * @param colour the player's color
+     */
     public Player(String name, String colour) {
         this.playerName = name;
         this.playerColour = colour;
@@ -73,6 +92,18 @@ public class Player {
         this.io.sOut(s);
     }
 
+    /**
+     * It handles by itself the creation of new instances of {@link FamilyMember} class.
+     * The colored family member are instantiated with the values of the param map.
+     * The blank one has a default value of 0.
+     * Values to assign can change by owning Lucrezia Borgia || Ludovico il Moro leader card ||
+     * Sigismondo Malatesta;
+     * excommunications have effect too.
+     *
+     * @see FamilyMember
+     * @see LeaderCard
+     * @param famValues the map containing the colored family member values to assign
+     */
     public void famMembersBirth(Map<String, Integer> famValues) {
         List <String> colorList = Arrays.asList("Orange", "Black", "White");
         int blankValue = 0;
@@ -102,12 +133,20 @@ public class Player {
         log.fine("4 family members attached to " + this);
     }
 
+    /**
+     * @see #famMembersBirth(Map)
+     * @param bt the bonus tile to be set
+     */
     public void setBonusTile(BonusTile bt) {
         log.info(String.format("[%s] Set bonus tile %s",
                 this, bt));
         this.bonusT = bt;
     }
 
+    /**
+     * It builds a string with a specific format containing the family members information
+     * @return
+     */
     public String displayFamilyMembers() {
         int i = 1;
         StringBuilder ret = new StringBuilder();
@@ -124,9 +163,13 @@ public class Player {
         this.famMemberList.remove(famMember);
     }
 
-    //TODO this should be moved to action, so that ResourceAction can be used
-    //call this if you want to increase an action NOT done through a FamMem
-    public int increaseValue() { //remember to use revertIncreaseValue if the action is not accepted
+    /**
+     * It allows to increase an action NOT done through a family Member.
+     * A player can spent servant in order to increase the value of an action.
+     * Utilized together with {@link #revertFamValue(FamilyMember, int)} if the action is not accepted.
+     * @return the action increase value.
+     */
+    public int increaseValue() {
         int increase;
         int servantSpent;
         int currServant = currentRes.servant;
@@ -155,6 +198,13 @@ public class Player {
         }
     }
 
+    /**
+     * It allows to increase an action done through a family member.
+     * It modifies the family member's value.
+     * @see #increaseValue()
+     * @param famMember the family member which value has to be increased.
+     * @return the action value increase
+     */
     //call this if you want to increase an action done through a FamMem
     public int increaseFamValue(FamilyMember famMember) { //remember to use revertFamValue if the action is not accepted
         this.sOut("Do you want to increase your "
@@ -169,13 +219,24 @@ public class Player {
         return increase;
     }
 
+    /**
+     * It allows to revert the family member value increase by servants and calls {@link
+     * #revertIncreaseValue(int)} to give the servants back to the player.
+     * @see #revertIncreaseValue(int)
+     * @param famMem the family member to revert
+     * @param increase the increase to subtract to the family member's action value.
+     *                 It also represents the number of servants to give back to the player.
+     */
     public void revertFamValue(FamilyMember famMem, int increase) {
-        //reverts the value increase by servants
         famMem.setActionValue(famMem
                 .getActionValue() - increase);
         this.revertIncreaseValue(increase);
     }
 
+    /**
+     * It Gives the servants (spent to increase an action value) back to the player.
+     * @param increase it represents the number of servants to give back to the player.
+     */
     public void revertIncreaseValue(int increase) { //gives the servants (spent to increase an action value) back to the player
         int servantSpent;
         if (excommunications.get(1).has("servantExpense")) {
@@ -187,7 +248,12 @@ public class Player {
                 .build());
     }
 
-    // we should create an other method to use the One per Round ability
+    /**
+     * It handles both the activation (permanent ability) and the usage of a one per turn ability.
+     *
+     * @see #displayLeaderCards()
+     * @return the boolean value representing the activation (or not) of a leader card.
+     */
     public boolean activateLeaderCard() {
         this.sOut("Which Leader card do you want to activate?");
         if (leaderCards.isEmpty()) {
@@ -200,6 +266,10 @@ public class Player {
 
     }
 
+    /**
+     * It removes the desired leader card from the leader cards list and it calls
+     * the {@link Council#choosePrivilege(Player)} method to choose a privilege.
+     */
     public void discardLeaderCard() {
         this.sOut("Which Leader card do you want to discard? ");
         this.displayLeaderCards();
@@ -225,6 +295,9 @@ public class Player {
         }
     }
 
+    /**
+     * It format a string in order to display leader cards information to the player.
+     */
     public void displayLeaderCards() {
         for (LeaderCard card : leaderCards) {
             String toDisplay = card.getName() + " -> cost: " +
