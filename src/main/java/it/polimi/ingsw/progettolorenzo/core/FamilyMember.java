@@ -41,7 +41,7 @@ public class FamilyMember {
 
     public JsonObject serialize() {
         Map<String, Object> ret = new HashMap<>();
-        ret.put("colour", this.skinColour);
+        ret.put("skinColour", this.skinColour);
         ret.put("parentName", this.parent.playerName);
         ret.put("parentColour", this.parent.playerColour);
         return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);

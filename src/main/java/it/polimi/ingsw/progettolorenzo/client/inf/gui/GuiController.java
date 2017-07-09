@@ -16,6 +16,8 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 
 import java.util.List;
@@ -300,6 +302,24 @@ public class GuiController {
             AnchorPane.setTopAnchor(btn, 0.0);
             AnchorPane.setRightAnchor(btn, 0.0);
             AnchorPane.setLeftAnchor(btn, 0.0);
+            return a;
+        }
+
+        private AnchorPane addFamMember(JsonObject famMember) {
+            Circle external = new Circle(
+                18.0,
+                Paint.valueOf(famMember.get("parentColour").getAsString())
+            );
+            String skinColour = famMember.get("skinColour").getAsString();
+            Paint c;
+            if ("Blank".equals(skinColour)) {
+                c = new Color(1, 1, 1, 0.5);
+            } else {
+                c = Paint.valueOf(skinColour);
+            }
+            Circle internal = new Circle(11.0, c);
+            AnchorPane a = new AnchorPane(external, internal);
+            a.setCenterShape(true);
             return a;
         }
     }
