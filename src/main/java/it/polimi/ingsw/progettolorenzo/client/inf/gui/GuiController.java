@@ -37,11 +37,12 @@ public class GuiController {
     private static String msgIn;
     private static final Object msgInObserver = new Object();
 
+    private Pane bonusTile = new Pane(
+        new Label("I don't yet know about your bonus tile"));
     private SplitPane council = new SplitPane(
         new Label("The council palace is not yet known"));
     private HBox excomm = new HBox(
-        new Label("the excommunications are not yet known")
-    );
+        new Label("the excommunications are not yet known"));
 
     @FXML private TextArea mainLabel;
     @FXML private TextField userTextField;
@@ -195,15 +196,21 @@ public class GuiController {
     }
 
     @FXML
+    protected void showBonusTile(ActionEvent event) {
+        this.bigPane.getChildren().clear();
+        this.bigPane.getChildren().add(this.bonusTile);
+    }
+
+    @FXML
     protected void showCouncil(ActionEvent event) {
         this.bigPane.getChildren().clear();
-        this.bigPane.getChildren().add(council);
+        this.bigPane.getChildren().add(this.council);
     }
 
     @FXML
     protected void showExcomm(ActionEvent event) {
         this.bigPane.getChildren().clear();
-        this.bigPane.getChildren().add(excomm);
+        this.bigPane.getChildren().add(this.excomm);
     }
 
     private class UpdateBoard implements Runnable {
@@ -260,7 +267,6 @@ public class GuiController {
         }
 
         private void updatePlayer(JsonObject plJ) {
-            // TODO excomm, check everything again…
             playerName.setText(plJ.get("playerName").getAsString());
             playerName.setTextFill(Color.valueOf(plJ.get("playerColour").getAsString()));
             updatePlayerCards(plJ.get("cards").getAsJsonArray());
@@ -273,6 +279,19 @@ public class GuiController {
             currFaith.setText(String.valueOf(curRes.faithPoint));
             currMilitary.setText(String.valueOf(curRes.militaryPoint));
             currVictory.setText(String.valueOf(curRes.victoryPoint));
+            bonusTile.getChildren().clear();
+            bonusTile.getChildren().add(new ImageView(new Image(
+               String.format(
+                   "Gui/bonusTiles/%d.png",
+                   plJ.get("bonusTile").getAsJsonObject().get("id").getAsInt()
+               ),
+               1000.0,  // arbitrary big
+               317.0,
+               true,
+               false,
+               true
+               )
+           ));
         }
 
         private void updateFamMember(JsonArray famList) {
