@@ -6,6 +6,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import it.polimi.ingsw.progettolorenzo.core.Card;
 import it.polimi.ingsw.progettolorenzo.core.Resources;
+import javafx.animation.FadeTransition;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -19,8 +20,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
-
-import java.util.List;
+import javafx.util.Duration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -273,7 +273,12 @@ public class GuiController {
                         lbl.setWrapText(true);
                         floorPane.getItems().add(new AnchorPane(lbl));
                     }
-
+                    FadeTransition ft = new FadeTransition(Duration.millis(1000), towers);
+                    ft.setFromValue(0.1);
+                    ft.setToValue(1.0);
+                    ft.setCycleCount(1);
+                    ft.setAutoReverse(false);
+                    ft.play();
                     towers.add(floorPane, i, j);
                 }
             }
