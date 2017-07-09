@@ -7,16 +7,24 @@ import com.google.gson.JsonObject;
 import java.util.*;
 import java.util.logging.Logger;
 
+/**
+ *
+ */
 public class Harvest extends ActionProdHarv {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private FamilyMember mainHarvest;
     private List<FamilyMember> secondaryHarvest = new ArrayList<>();
 
+    /**
+     * Player can claim the space if mainHarv == null or if he has Ariosto.
+     * with Ariosto a player can claim the space even if he did so himself
+     * previously, granted that one of the famMem is the Blank one
+     * @param fam the family member claiming the place.
+     * @return
+     */
     public boolean claimFamMain(FamilyMember fam) {
         Player p = fam.getParent();
-        //Player can claim the space if mainHarv == null or if he has Ariosto.
-        //With Ariosto a player can claim the space even if he did so himself
-        // previously, granted that one of the famMem is the Blank one
+        //
         if (this.mainHarvest == null || fam.getParent().leaderIsActive("Ludovico Ariosto")&&
                 (!p.equals(this.mainHarvest.getParent()) || p.equals(this.mainHarvest.getParent()) &&
                         ("Blank".equals(fam.getSkinColour()) || "Blank".equals(this.mainHarvest.getSkinColour())))) {

@@ -17,6 +17,7 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -37,6 +38,7 @@ public class GuiController {
 
     @FXML private TextArea mainLabel;
     @FXML private TextField userTextField;
+    @FXML private Button sendBtn;
     @FXML private GridPane towers;
     @FXML private AnchorPane bigPane;
     @FXML private GridPane playerCards;
@@ -140,11 +142,17 @@ public class GuiController {
         this.userTextField.clear();
     }
 
-    protected void handleCardBtnPress(ActionEvent event) {
-        int cardId = ((UpdateBoard.NotedButton) event.getSource()).getCardId();
+    protected void handleCardBtnPress(MouseEvent event) {
+        Card card = ((UpdateBoard.NotedButton) event.getSource()).getCard();
+
+        if (event.getClickCount() == 2) {
+            userTextField.setText(card.cardName);
+            sendBtn.fire();
+            return;
+        }
 
         Image img = new Image(
-            String.format("Gui/cards/%d.png", cardId),
+            String.format("Gui/cards/%d.png", card.id),
             1000.0,  // arbitrary big
             300.0,
             true,
@@ -162,18 +170,18 @@ public class GuiController {
         private JsonObject gameIn;
 
         private class NotedButton extends Button {
-            private int cardId;
+            private Card card;
 
             NotedButton() {
                 super();
             }
 
-            public int getCardId() {
-                return cardId;
+            public Card getCard() {
+                return card;
             }
 
-            public void setCardId(int cardId) {
-                this.cardId = cardId;
+            public void setCard(Card card) {
+                this.card = card;
             }
         }
 
@@ -381,8 +389,8 @@ public class GuiController {
                 BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
                 BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)
             ));
-            btn.setCardId(card.id);
-            btn.setOnAction(e -> handleCardBtnPress(e));
+            btn.setCard(card);
+            btn.setOnMouseClicked(e -> handleCardBtnPress(e));
 
             AnchorPane a = new AnchorPane(btn);
             AnchorPane.setBottomAnchor(btn, 0.0);

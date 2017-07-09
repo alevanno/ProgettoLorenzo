@@ -9,8 +9,8 @@
         }
     },
     "client": {
-        "mode": "ask",
-        "interface": "cli",
+        "mode": "socket",
+        "interface": "gui",
         "socket": {
             "serverAddress": "localhost",
             "port": 29999
@@ -20,7 +20,7 @@
         }
     },
     "game": {
-        "rules": "ask",
-        "timeout": 60
+        "rules": "basic",
+        "timeout": 120
     }
 }
