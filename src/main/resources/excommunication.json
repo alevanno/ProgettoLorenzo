@@ -1,6 +1,7 @@
 [
   [
     {
+      "number": 1,
       "period": 1,
       "resMalus": {
         "resources": {
@@ -9,6 +10,7 @@
       }
     },
     {
+      "number": 2,
       "period": 1,
       "resMalus": {
         "resources": {
@@ -17,6 +19,7 @@
       }
     },
     {
+      "number": 3,
       "period": 1,
       "resMalus": {
         "resources": {
@@ -25,6 +28,7 @@
       }
     },
     {
+      "number": 4,
       "period": 1,
       "resMalus": {
         "resources": [
@@ -38,71 +42,80 @@
       }
     },
     {
+      "number": 5,
       "period": 1,
       "harvMalus": 3
     },
     {
+      "number": 6,
       "period": 1,
       "prodMalus": 3
     },
     {
+      "number": 7,
       "period": 1,
       "actionValMalus": 1
     }
   ],
   [
     {
+      "number": 1,
       "period": 2,
       "type": "territories",
       "valMalus": 4
     },
     {
+      "number": 2,
       "period": 2,
       "type": "buildings",
       "valMalus": 4
     },
     {
+      "number": 3,
       "period": 2,
       "type": "characters",
       "valMalus": 4
     },
     {
+      "number": 4,
       "period": 2,
       "type": "ventures",
       "valMalus": 4
     },
     {
+      "number": 5,
       "period": 2,
       "blockedMarket": 1
     },
     {
+      "number": 6,
       "period": 2,
       "servantExpense": 2
     },
     {
-      "period": 2,
-      "type": "territories",
-      "valMalus": 4
-    },
-    {
+      "number": 7,
       "period": 2,
       "skipRound": 1
     }
   ],
   [
     {
+      "number": 1,
       "period": 3,
       "noVictoryType": "characters"
     },
     {
+      "number": 2,
       "period": 3,
       "noVictoryType": "ventures"
     },
     {
+      "number": 3,
       "period": 3,
       "noVictoryType": "territories"
     },
     {
+      "number": 4,
       "period": 3,
       "lostVictoryRes": {
         "resources": {
@@ -111,6 +124,7 @@
       }
     },
     {
+      "number": 5,
       "period": 3,
       "lostVictoryRes": {
         "resources": {
@@ -119,6 +133,7 @@
       }
     },
     {
+      "number": 6,
       "period": 3,
       "lostVictoryCost": {
         "resources": {
@@ -129,6 +144,7 @@
       "type": "buildings"
     },
     {
+      "number": 7,
       "period": 3,
       "lostVictoryRes": {
         "resources": {
