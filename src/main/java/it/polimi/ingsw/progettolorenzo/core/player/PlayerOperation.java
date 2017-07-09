@@ -8,7 +8,10 @@ import it.polimi.ingsw.progettolorenzo.core.Utils;
 
 import java.util.concurrent.Callable;
 
-
+/**
+ * This class is the starting point for the chain of a player's
+ * operations (such as Production, Market, Floor etc...).
+ */
 public class PlayerOperation implements Callable<Boolean> {
     private Game g;
     private Player pl;
@@ -18,6 +21,14 @@ public class PlayerOperation implements Callable<Boolean> {
         this.pl = player;
     }
 
+    /**
+     * This method implements the call method from the Callable interface.
+     * It allows the player to choose a family member, possibly increase its value
+     * and to choose which category of action he wants to start. If the
+     * advanced rules are active it allows to activate Leader Cards. If the
+     * action is not successful it restores the possible family member's value
+     * increase.
+     */
     @Override
     public Boolean call() {
             g.setCurrPlayer(pl);
@@ -69,7 +80,6 @@ public class PlayerOperation implements Callable<Boolean> {
                     pl.sOut("Reverting famMemIncrease");
                     pl.revertFamValue(famMem, pl.getLastFamMemIncrease());
                     pl.sOut("Current Res: " + pl.getCurrentRes());
-                    //return true;   // FIXME  return needed or not needed?!
                 }
             }
     }
