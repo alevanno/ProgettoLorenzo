@@ -2,6 +2,14 @@ package it.polimi.ingsw.progettolorenzo.core;
 
 import java.util.logging.Logger;
 
+/**
+ * The class representing all the "basic" little actions.
+ * It cannot be instantiated; all the child implement
+ * the apply() method.
+ *
+ * All the BaseAction are effectively applied by the
+ * calling {@link Action}
+ */
 abstract class BaseAction {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     public final String actionName;

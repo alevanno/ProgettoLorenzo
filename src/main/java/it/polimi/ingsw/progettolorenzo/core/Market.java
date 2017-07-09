@@ -8,10 +8,16 @@ import com.google.gson.JsonObject;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This class is basically the container of the {@link MarketBooth}s.
+ */
 public class Market {
     List<MarketBooth> booths = new ArrayList<>();
     private int numOfBooths;
 
+    /**
+     * The info of the booth type are loaded  from file.
+     */
     public Market()  {
         JsonObject data = Utils.getJsonObject("market.json");
         booths.add(new MarketBooth(data.get("firstBooth").getAsJsonObject()));
@@ -28,6 +34,10 @@ public class Market {
         return booths;
     }
 
+    /**
+     * It handles the format of visualization (for command line interface)
+     * @param pl the player to which the booths have to be displayed
+     */
     public void displayBooths(Player pl) {
         pl.sOut("Where do you want to put your Family Member?: ");
         if (pl.getParentGame().getNumOfPlayers() > 3) {
@@ -46,6 +56,10 @@ public class Market {
         }
     }
 
+    /**
+     * Serialize the booths information into a JsonArray
+     * @return the JsonArray containing the booths information
+     */
     public JsonArray serialize() {
         List<JsonObject> ret = new ArrayList<>();
         this.booths.forEach(b -> ret.add(b.serialize()));
