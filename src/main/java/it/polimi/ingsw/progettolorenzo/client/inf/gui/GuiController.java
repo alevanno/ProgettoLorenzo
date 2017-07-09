@@ -64,6 +64,8 @@ public class GuiController {
         marketBooth1, marketBooth2, marketBooth3, marketBooth4
     );
 
+    
+
     @FXML
     public void initialize() {
         this.mainLabel.textProperty().addListener(new ChangeListener<Object>() {
@@ -292,7 +294,7 @@ public class GuiController {
                     JsonElement card = floorJ.get("card");
                     AnchorPane p = new AnchorPane();
                     if (card != null) {
-                        p = addCard(new Card(card.getAsJsonObject()), 170.0);
+                        p = addCard(new Card(card.getAsJsonObject()), 155.0);
                     }
                     DoubleBinding width = floorPane.widthProperty()
                         .multiply(0.54545454545454);
@@ -311,7 +313,7 @@ public class GuiController {
                         hb.setMinWidth(vb.getMaxWidth());
                         floorPane.getItems().add(hb);
                     }
-                    FadeTransition ft = new FadeTransition(Duration.millis(1000), towers);
+                    FadeTransition ft = new FadeTransition(Duration.millis(800), towers);
                     ft.setFromValue(0.1);
                     ft.setToValue(1.0);
                     ft.setCycleCount(1);
