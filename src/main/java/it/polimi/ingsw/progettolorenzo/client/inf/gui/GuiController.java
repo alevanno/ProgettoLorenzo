@@ -36,6 +36,8 @@ public class GuiController {
     private static String msgIn;
     private static final Object msgInObserver = new Object();
 
+    private SplitPane council = new SplitPane(
+        new Label("The council palace is not yet known"));
     @FXML private TextArea mainLabel;
     @FXML private TextField userTextField;
     @FXML private Button sendBtn;
@@ -91,9 +93,13 @@ public class GuiController {
         if (msg.startsWith("☃")) {
             op = new UpdateBoard(msg.substring(1));
         } else if (msg.startsWith("Input an int between")) {
-            op = this.btnPromptInt(min, max); //FIXME
+            op = () -> {
+//                op = this.btnPromptInt(min, max); //FIXME
+            };
         } else if (msg.startsWith("Input 'y'")) {
-            this.btnPromptConf;
+            op = () -> {
+//                this.btnPromptConf;
+            };
         } else {
             op = () -> mainLabel.appendText("\n" + msg);
         }
@@ -105,12 +111,13 @@ public class GuiController {
 
     }
 
-    protected void btnPromptConf {
+    protected void btnPromptConf() {
 
     }
 
     protected void updateBigPane(Background bg) {
         this.bigPane.setBackground(bg);
+        this.bigPane.getChildren().clear();
         FadeTransition ft = new FadeTransition(Duration.millis(250), bigPane);
         ft.setFromValue(0.1);
         ft.setToValue(1.0);
@@ -120,9 +127,9 @@ public class GuiController {
 
     }
 
-    protected void updateBigPane(String msg) {
-        Label lbl = new Label(msg);
-        lbl.setTextFill(Color.RED);
+    protected void updateBigPane(Label lbl) {
+        this.bigPane.getChildren().clear();
+        lbl.setWrapText(true);
         lbl.setFont(Font.font("bold", 14));
         Platform.runLater(() -> {
             bigPane.setBackground(Background.EMPTY);
@@ -136,9 +143,11 @@ public class GuiController {
                 msgInObserver.wait();
                 return msgIn;
             } catch (InterruptedException e) {
-                this.updateBigPane(
+                Label lbl = new Label(
                     "A severe error happened, the game might misbehave"
                 );
+                lbl.setTextFill(Color.RED);
+                this.updateBigPane(lbl);
                 log.log(Level.SEVERE, e.getMessage(), e);
                 Thread.currentThread().interrupt();
                 return "";  //FIXME
@@ -179,6 +188,13 @@ public class GuiController {
             BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)
         ));
     }
+
+    @FXML
+    protected void showCouncil(ActionEvent event) {
+        this.bigPane.getChildren().clear();
+        this.bigPane.getChildren().add(council);
+    }
+
 
     private class UpdateBoard implements Runnable {
         private JsonObject gameIn;
@@ -282,6 +298,21 @@ public class GuiController {
             this.updateMarket(boardJ.get("market").getAsJsonArray());
             this.updateProdHarv(boardJ.get("production").getAsJsonObject(), prodSpace, secondaryProd);
             this.updateProdHarv(boardJ.get("harvest").getAsJsonObject(), harvSpace, secondaryHarv);
+            this.updateCouncil(boardJ.get("council").getAsJsonArray());
+        }
+
+        private void updateCouncil(JsonArray councilJ) {
+            SplitPane sp = new SplitPane();
+            sp.setOrientation(Orientation.VERTICAL);
+
+            if (councilJ.size() == 0) {
+                sp.getItems().add(new Label("The council is empty!"));
+            }
+            councilJ.forEach(famJ ->
+                sp.getItems().add(addFamMember(famJ.getAsJsonObject()))
+            );
+
+            council = sp;
         }
 
         private void updateDices(JsonElement famValues) {

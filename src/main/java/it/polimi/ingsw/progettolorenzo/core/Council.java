@@ -1,5 +1,7 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import java.util.*;
 
@@ -106,5 +108,11 @@ public class Council extends Action {
         if (fam.getParent().getParentGame().getFirstAvailPlace(fam.getParent(), firstAvailSpace)) {
             firstAvailSpace++;
         }
+    }
+
+    public JsonArray serialize() {
+        List<JsonObject> ret = new ArrayList<>();
+        this.councilSpace.forEach(f -> ret.add(f.serialize()));
+        return new Gson().fromJson(new Gson().toJson(ret), JsonArray.class);
     }
 }
