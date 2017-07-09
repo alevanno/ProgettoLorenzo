@@ -14,7 +14,29 @@ import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Logger;
 
-
+/**
+ * The Player class contains all the information of a real player.
+ * Name and Colour identify the player into the game.
+ * The io field represent the type of connection (rmi, socket, or local) and the different
+ * implementation of the IO to be used for that player.
+ * This means that Player class is the direct connection between {@link it.polimi.ingsw.progettolorenzo.client.Client}
+ * and model by using a specific type of IO.
+ * It is initialized with some basic Resources;
+ * it handles by itself the family members birth and the assigment
+ * of the bonusTile.
+ * The excommunication list is a field (empty by default) which will
+ * contain the eventual excommunications.
+ * The leader cards list is filled by {@link Game#assignLeaderCards()}
+ * only if the game has started with advanced rules.
+ * There's a ref to the parent Game.
+ * The field lastFamMemIncrease indicates the last family member increased by {@link #increaseFamValue(FamilyMember)}.
+ *
+ * @see it.polimi.ingsw.progettolorenzo.client.Client
+ * @see PlayerIOSocket
+ * @see PlayerIORMI
+ * @see PlayerIOLocal
+ * @see Game
+ */
 public class Player {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     public final String playerName;
@@ -382,6 +404,12 @@ public class Player {
         log.info("Final Resources " + currentRes);
     }
 
+    /**
+     * Simple method to check if a player owns and has activated
+     * the leader card specified by the param string
+     * @param leaderName the leader card name
+     * @return the boolean value representing the activation or not of the leader card.
+     */
     public boolean leaderIsActive(String leaderName) {
         for (LeaderCard leader : this.getLeaderCards()) {
             if (leaderName.equals(leader.getName())
@@ -454,6 +482,10 @@ public class Player {
 
     public int getLastFamMemIncrease() { return lastFamMemIncrease; }
 
+    /**
+     * It serialize into a JsonObject all the player information.
+     * @return the JsonObject containing all the player information
+     */
     public JsonObject serialize() {
         Map<String, Object> ret = new HashMap<>();
         ret.put("playerName", this.playerName);
