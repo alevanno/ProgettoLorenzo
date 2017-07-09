@@ -75,7 +75,18 @@ public class GuiController {
         log.finest("Successfully updated the label");
     }
 
-    protected void bigError(String msg) {
+    protected void updateBigPane(Background bg) {
+        this.bigPane.setBackground(bg);
+        FadeTransition ft = new FadeTransition(Duration.millis(400), bigPane);
+        ft.setFromValue(0.1);
+        ft.setToValue(1.0);
+        ft.setCycleCount(1);
+        ft.setAutoReverse(false);
+        ft.play();
+
+    }
+
+    protected void updateBigPane(String msg) {
         Label lbl = new Label(msg);
         lbl.setTextFill(Color.RED);
         lbl.setFont(Font.font("bold", 14));
@@ -91,7 +102,7 @@ public class GuiController {
                 msgInObserver.wait();
                 return msgIn;
             } catch (InterruptedException e) {
-                this.bigError(
+                this.updateBigPane(
                     "A severe error happened, the game might misbehave"
                 );
                 log.log(Level.SEVERE, e.getMessage(), e);
@@ -123,7 +134,7 @@ public class GuiController {
             true
         );
 
-        this.bigPane.setBackground(new Background(new BackgroundImage(img,
+        this.updateBigPane(new Background(new BackgroundImage(img,
             BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
             BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)
         ));
@@ -183,7 +194,14 @@ public class GuiController {
                 AnchorPane famMemIcon = addFamMember(famJ.getAsJsonObject());
                 famMemHome.add(famMemIcon, 0, row);
                 row++;
+
             }
+            FadeTransition ft = new FadeTransition(Duration.millis(1000), famMemHome);
+            ft.setFromValue(0.1);
+            ft.setToValue(1.0);
+            ft.setCycleCount(1);
+            ft.setAutoReverse(false);
+            ft.play();
         }
 
         private void updatePlayerCards(JsonArray cardsJ) {
