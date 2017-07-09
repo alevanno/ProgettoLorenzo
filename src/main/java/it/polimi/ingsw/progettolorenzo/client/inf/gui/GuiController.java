@@ -62,14 +62,16 @@ public class GuiController {
     @FXML private StackPane marketBooth2;
     @FXML private StackPane marketBooth3;
     @FXML private StackPane marketBooth4;
-    private List<Pane> market = Arrays.asList(
-        marketBooth1, marketBooth2, marketBooth3, marketBooth4
-    );
+    private List<StackPane> market;
 
     
 
     @FXML
     public void initialize() {
+        this.market = Arrays.asList(
+            this.marketBooth1, this.marketBooth2,
+            this.marketBooth3, this.marketBooth4
+        );
         this.mainLabel.textProperty().addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue,
