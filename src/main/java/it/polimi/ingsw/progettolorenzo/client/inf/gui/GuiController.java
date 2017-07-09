@@ -90,11 +90,23 @@ public class GuiController {
         Runnable op;
         if (msg.startsWith("☃")) {
             op = new UpdateBoard(msg.substring(1));
+        } else if (msg.startsWith("Input an int between")) {
+            op = this.btnPromptInt(min, max); //FIXME
+        } else if (msg.startsWith("Input 'y'")) {
+            this.btnPromptConf;
         } else {
-            op = () -> mainLabel.appendText("\n"+msg);
+            op = () -> mainLabel.appendText("\n" + msg);
         }
         Platform.runLater(op);
         log.finest("Successfully updated the label");
+    }
+
+    protected void btnPromptInt(int min, int max) {
+
+    }
+
+    protected void btnPromptConf {
+
     }
 
     protected void updateBigPane(Background bg) {

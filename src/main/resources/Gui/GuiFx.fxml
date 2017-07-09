@@ -103,7 +103,7 @@
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
                      <children>
                         <AnchorPane fx:id="bigPane" layoutX="14.0" layoutY="14.0" prefHeight="317.0" prefWidth="214.0" style="-fx-background-color: beige;" />
-                        <GridPane fx:id="playerCards" layoutX="240.0" layoutY="14.0" prefHeight="317.0" prefWidth="320.0" style="-fx-grid-lines-visible: false;">
+                        <GridPane fx:id="playerCards" layoutX="240.0" layoutY="14.0" prefHeight="317.0" prefWidth="320.0">
                           <columnConstraints>
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                               <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -242,7 +242,7 @@
                         </GridPane>
                         <Label fx:id="playerName" alignment="CENTER_RIGHT" layoutX="335.0" layoutY="379.0" prefHeight="56.0" prefWidth="226.0" styleClass="decoratedText" />
                         <Label fx:id="playerStatus" alignment="CENTER_RIGHT" layoutX="335.0" layoutY="435.0" prefHeight="0.0" prefWidth="226.0" style="-fx-font-size: 25;" styleClass="decoratedText" />
-                        <GridPane fx:id="famMemHome" layoutX="30.0" layoutY="407.0" prefHeight="214.0" prefWidth="60.0">
+                        <GridPane fx:id="famMemHome" layoutX="51.0" layoutY="389.0" prefHeight="214.0" prefWidth="60.0" style="-fx-background-color: beige;">
                           <columnConstraints>
                             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                           </columnConstraints>
@@ -253,10 +253,10 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                         </GridPane>
-                        <Button layoutX="152.0" layoutY="637.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="133.0" text="Show Bonus Tile" />
-                        <Button layoutX="290.0" layoutY="637.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="133.0" text="Show Excomms" />
-                        <Button layoutX="428.0" layoutY="637.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="133.0" text="Show Players order" />
-                        <Button layoutX="14.0" layoutY="637.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="133.0" text="Show Council" />
+                        <Button fx:id="bonusTileBtn" layoutX="221.0" layoutY="637.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="133.0" text="Show Bonus Tile" />
+                        <Button fx:id="excommBtn" layoutX="427.0" layoutY="637.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="133.0" text="Show Excomms" />
+                        <Button fx:id="councilBtn" layoutX="14.0" layoutY="637.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="133.0" text="Show Council" />
+                        <Label layoutX="77.0" layoutY="488.0" rotate="-90.0" text="Family Members" />
                      </children></AnchorPane>
               <AnchorPane prefHeight="340.0" prefWidth="574.0">
                    <children>
