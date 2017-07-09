@@ -38,7 +38,6 @@ public class Move {
         if (floor == null) {
             // this appears even if it exists but it is of the wrong type
             pl.sOut("Card " + cardName + " does not exist!");
-            // FIXME use CardNotFoundException here
         }
         return floor;
     }

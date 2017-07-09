@@ -77,6 +77,13 @@ public class Game implements Runnable {
         }
     }
 
+    /**
+     * Add a new {@link Player} to the Game, and then starts the game if the
+     * number of players of this game has been reached.
+     * @param pl the player to be added
+     * @throws GameAlreadyStartedException thrown when trying to add a {@link Player}
+     *   to an already started game.
+     */
     protected void addPlayer(Player pl) throws GameAlreadyStartedException {
         log.fine("Adding player to Game: " + pl.toString());
         synchronized (this.players) {
@@ -91,6 +98,10 @@ public class Game implements Runnable {
         }
     }
 
+    /**
+     * The main function of the game thread; it loads the game settings, and awaits
+     * for the players to join, then starts the first turn.
+     **/
     public void run() {
         try {
             if (this.maxPlayers != 1) {
@@ -124,6 +135,9 @@ public class Game implements Runnable {
         );
     }
 
+    /**
+     * Assigns the initial resources to all players.
+     */
     private void initPlayers() {
         int initialCoins = 5;
         for (Player p: this.players) {
@@ -135,6 +149,9 @@ public class Game implements Runnable {
         }
     }
 
+    /**
+     * Loads the excommunications and select 3 of them to be used in the game.
+     */
     protected void initExcomm() {
         JsonArray excommFile = Utils.getJsonArray("excommunication.json");
         for (JsonElement excommP : excommFile) {
@@ -150,13 +167,17 @@ public class Game implements Runnable {
         }
     }
 
+    /**
+     * Instantiate a new {@link Board}, picking cards out of unhandled ones.
+     * @param period the period for which to create the board
+     */
     private void resetBoard(int period) {
         Deck deck = new Deck();
         this.unhandledCards.forEach((n, d) -> //n: type, d: deck
             deck.addAll(
                 StreamSupport.stream(d.spliterator(), false)
                     .filter(c -> c.cardPeriod == period)
-                    .limit(4) // FIXME make configurable before Board() is instantiated
+                    .limit(4)
                     .collect(Deck::new, Deck::add, Deck::addAll)
             )
         );
@@ -168,7 +189,7 @@ public class Game implements Runnable {
                         try {
                             tmpDeck.remove(c);
                         } catch (CardNotFoundException e) {
-                            // FIXME deal appropriatly with the exception
+                            // FIXME deal appropriately with the exception
                         }
                     }
                 }
@@ -179,6 +200,10 @@ public class Game implements Runnable {
         this.board = new Board(deck, this);
     }
 
+    /**
+     * Pick a Bonus Tile for every user and assign them to each user.
+     * Run when the game first starts.
+     */
     private void assignBonusT() {
         JsonArray allBonuses = Utils.getJsonArray("bonusTile.json");
         if (!this.personalBonusBoards) {
@@ -203,6 +228,9 @@ public class Game implements Runnable {
         }
     }
 
+    /**
+     * Container method calling several game initializers.
+     */
     public void loadSettings() {
         // init players
         this.initPlayers();
@@ -229,6 +257,17 @@ public class Game implements Runnable {
         this.loadCards();
     }
 
+    /**
+     * The method is used to determine the player order in the next round:
+     * it ensures that, if the player places a Family Member in
+     * the council during this round, and gets a place higher than the
+     * current, he is moved up in the players list
+     * @param pl the player that gets the first available space
+     * @param councilPlace the place that the player currently occupies in
+     *                     the council palace
+     * @return the boolean value represents whether or not the player has
+     * moved up in the order
+     */
     public boolean getFirstAvailPlace(Player pl, int councilPlace) {
         int index = players.indexOf(pl);
         if (index > councilPlace) {
@@ -239,6 +278,10 @@ public class Game implements Runnable {
         return false;
     }
 
+    /**
+     * it loads cards information from a json, split them according to card type
+     * and finally shuffle them.
+     */
     private void loadCards() {
         JsonArray cardsData = Utils.getJsonArray("cards.json");
 
@@ -255,7 +298,11 @@ public class Game implements Runnable {
         log.fine(String.format("Loaded %scards", sb));
     }
 
-
+    /**
+     * it handles turns progress, checks if is time for the {@link #reportToVatican(int)}
+     * or to {@link #endgame()}.
+     * @throws InterruptedException is thrown if the current thread is interrupted
+     */
     private void turnController() throws InterruptedException {
         for (halfPeriod = 1; halfPeriod < 7; halfPeriod++) {
             this.turn();
@@ -268,7 +315,14 @@ public class Game implements Runnable {
         }
     }
 
-    private void turn() throws InterruptedException { //which is comprised of 4 rounds
+    /**
+     * The turn is comprised of 4 rounds. It fills the map of family member
+     * values to be use in {@link Player#famMembersBirth(Map)} ,
+     * reset the usages of {@link LeaderCard}s and calls {@link #round(List, int)}
+     * with the player order as param.
+     * @throws InterruptedException is thrown if the current thread is interrupted
+     */
+    private void turn() throws InterruptedException {
         this.famValues = new HashMap<>();
         //the order stays the same for the duration of the turn
         playersOrder = new ArrayList<>(players);
@@ -294,6 +348,13 @@ public class Game implements Runnable {
         }
     }
 
+    /**
+     * It basically checks if the player owns the excommunication
+     * making him to skip the turn; then calls {@link #operation(Player)}.
+     * @param playersOrder the order of the players
+     * @param round the number of the round (in a turn)
+     * @throws InterruptedException is thrown if the current thread is interrupted
+     */
     private void round(List<Player> playersOrder, int round) throws InterruptedException {
         List<Player> skippedPlayers = new ArrayList<>();
         for (Player pl : playersOrder) {
@@ -334,6 +395,10 @@ public class Game implements Runnable {
         pl.sOut("quit");
     }
 
+    /**
+     * Calls the leader cards birth and randomly assigns 4 of them to every
+     * player.
+     */
     private void assignLeaderCards() {
         Map<String, LeaderCard> leaderMap = LeaderUtils.leadersBirth();
         List<LeaderCard> valuesList = new ArrayList<>(leaderMap.values());

@@ -39,7 +39,6 @@ public class Harvest extends ActionProdHarv {
         return false;
     }
 
-    //TODO testing
     public boolean claimFamSec(FamilyMember fam) {
         Player p = fam.getParent();
         if (!("Blank".equals(fam.getSkinColour())) &&

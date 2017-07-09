@@ -30,7 +30,6 @@ public class PlayerIOSocket implements PlayerIO{
                         InputStreamReader(this.socket.getInputStream())));
             }
         } catch (IOException e) {
-            // FIXME handle this better
             log.log(Level.WARNING, e.getMessage(), e);
         }
     }
@@ -58,7 +57,7 @@ public class PlayerIOSocket implements PlayerIO{
 
     /**
      * @see PlayerIO#sInPromptConf()
-     * @return
+     * @return the boolean value representing the confirmation
      */
     public boolean sInPromptConf() {
         this.sInInit();
@@ -67,7 +66,8 @@ public class PlayerIOSocket implements PlayerIO{
 
     /**
      * {@link PlayerIO#sOut(String)} implementation.
-     * It creates a new PrintWriter from the socket output stream.
+     * If the PrintWriter does not exist yet, it is created from the socket output stream.
+     * The PrintWriter print and flush to the client the string to sent.
      * @param s the string to be sent
      */
     @Override
@@ -81,7 +81,6 @@ public class PlayerIOSocket implements PlayerIO{
             this.socketOut.println(s);
             this.socketOut.flush();
         } catch (IOException e) {
-            // FIXME handle this better
             log.log(Level.WARNING, e.getMessage(), e);
         }
     }

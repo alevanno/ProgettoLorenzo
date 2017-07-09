@@ -5,6 +5,9 @@ import it.polimi.ingsw.progettolorenzo.client.RmiClient;
 import java.rmi.RemoteException;
 import java.util.logging.Logger;
 
+/**
+ * Implementation of {@link PlayerIO} using RMI.
+ */
 public class PlayerIORMI implements PlayerIO {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private RmiClient rmi;
@@ -13,6 +16,10 @@ public class PlayerIORMI implements PlayerIO {
         this.rmi = rmi;
     }
 
+    /**
+     * {@link PlayerIO#sIn()} implementation using
+     * @return
+     */
     @Override
     public String sIn() {
         try {
@@ -23,6 +30,12 @@ public class PlayerIORMI implements PlayerIO {
         }
     }
 
+    /**
+     * @see PlayerIO#sInPrompt(int, int)
+     * @param minValue the minimum accepted value
+     * @param maxValue the maximum accepted value
+     * @return the inserted value
+     */
     @Override
     public int sInPrompt(int minValue, int maxValue) {
         try {
@@ -33,6 +46,10 @@ public class PlayerIORMI implements PlayerIO {
         }
     }
 
+    /**
+     * @see PlayerIO#sInPromptConf()
+     * @return the boolean value representing the confirmation
+     */
     @Override
     public boolean sInPromptConf() {
         try {
@@ -43,6 +60,10 @@ public class PlayerIORMI implements PlayerIO {
         }
     }
 
+    /**
+     * @see PlayerIO#sOut(String)
+     * @param s the string to be sent
+     */
     @Override
     public void sOut(String s) {
         try {

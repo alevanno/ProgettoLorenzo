@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 /**
  * This is one of the main classes of the model. It cannot be
  * instantiated; all the child classes (except for {@link Card}) have
- * a main method in which there are a series of {@link BaseAction}.
+ * a main method in which there are a series of {@link BaseAction} performed.
  * Every BaseAction is added in the actions ArrayList attribute of the class.
  * They are applied by {@link #apply()}, following a certain order.
  * The actions list can be empty to revert a macro action (i.e, when the

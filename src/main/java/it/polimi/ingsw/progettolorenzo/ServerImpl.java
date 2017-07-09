@@ -154,8 +154,6 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
                     break;
                 default:
                     log.severe("game.rules setting not valid");
-                    // FIXME properly handle
-                    break;
             }
             log.info(String.format(
                 "Game settings: %d players, %s boards, %s leader cards",
