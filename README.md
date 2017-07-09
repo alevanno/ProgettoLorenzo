@@ -34,10 +34,30 @@ The configuration of the game is stored in **settings.json**:
 To play one must at first run **ServerImpl**, then run the desired number of **Client**.
 The Client will be able to choose:
  1. Name
- 1. Colour
- 1. Type of connection (only if the parameter **mode** in settings.json is set to ask)
+ 1. Colour (note that this parameter is case sensitive)
+ 1. Type of connection (*socket* or *rmi*, only if the parameter **mode** in settings.json is set to *ask*)
  
-A connection will be established and the player will be able to choose which game to join, if more then one is one available
+A connection will be established and the player will be able to choose which game to join, if more then one available.
 If the player is the first to join a game,  he will be able to choose:
  1. Number of players
- 1. Type of rules (*basic* or *advanced*)
+ 1. Type of rules (*basic* or *advanced*, only if the parameter **rules** in settings.json is set to *ask*)
+
+The **command line interface** will show a console and, when needed, a textual version of the board in a separate window,
+through the use of the Lanterna library.
+To proceed, one must close the Lanterna window and choose the action that he wants to perform; he will be asked whether 
+he wants to increase the value of the chosen Family Member or not. 
+
+Before finishing his turn, the player will be able to confirm or discard his actions. In case of confirmation, the
+queued actions are performed and the turn ends; in case of rejection the changes will be ignored and the player is able
+to start the turn over.
+
+If the player does not confirm its actions before the timeout, he will be kicked out of the game and the other
+participants will be able to continue playing; the player's subsequent turns will be automatically skipped.
+
+The **graphical user interface** will show a window containing the board and various information relevant to the player.
+The text area in the bottom left corner acts like the console in the CLI so, to play, the user must write his choices
+in the text field and press Enter or click Send. The rules explained earlier regarding the CLI apply here as well 
+(except for the Lanterna library).
+
+If the player wants to zoom on a card present in the game board on in his own personal board, he can click on it and it
+will be displayed in the Information Pane. The same stands for the buttons above the current resources.
