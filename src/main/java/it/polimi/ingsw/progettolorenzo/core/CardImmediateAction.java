@@ -6,6 +6,11 @@ import com.google.gson.JsonObject;
 import java.util.Set;
 import java.util.logging.Logger;
 
+/**
+ * Class that calls another {@link Action} or adds some {@link BaseAction} to its actions list.
+ * It checks the type of immediate effect of the calling Card;
+ * then it handles it by calling the required Action.
+ */
 public class CardImmediateAction extends Action {
     private final Logger log = Logger.getLogger(this.getClass().getName());
 
