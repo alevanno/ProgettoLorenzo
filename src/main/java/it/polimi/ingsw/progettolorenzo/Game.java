@@ -55,7 +55,8 @@ public class Game implements Runnable {
     private final int maxPlayers;
     private final boolean personalBonusBoards;
     private final boolean leaderOn;
-    private List<Player> players = new ArrayList<>(); //active players and their order
+    private List<Player> players = new ArrayList<>(); //active players
+    private List<Player> playersOrder; //the order of the players during the round
     private int halfPeriod;
     private Player currPlayer;
     private List<JsonObject> excomms = new ArrayList<>();
@@ -270,7 +271,7 @@ public class Game implements Runnable {
     private void turn() throws InterruptedException { //which is comprised of 4 rounds
         this.famValues = new HashMap<>();
         //the order stays the same for the duration of the turn
-        List<Player> playersOrder = new ArrayList<>(players);
+        playersOrder = new ArrayList<>(players);
         this.resetBoard((halfPeriod +1) / 2);
         this.famValues.put("Orange", new Random().nextInt(5) + 1);
         this.famValues.put("Black", new Random().nextInt(5) + 1);
