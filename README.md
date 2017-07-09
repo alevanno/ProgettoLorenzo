@@ -1,5 +1,7 @@
 # Lorenzo il Magnifico
 
+**by Mattia Rizzolo, Luca Pierri, Alessandro Vannoni**
+
 This is the source code for our Software Engineering project, a videogame adaptation of the board game **Lorenzo il Magnifico**.
 
 ### Configuration
@@ -29,6 +31,18 @@ The configuration of the game is stored in **settings.json**:
      - *advanced*
    - timeout: specifies the maximum duration of a player's turn  in seconds
    
+The other configuration files loaded whenever a game starts are:
+ - **cards.json**: contains the development cards and their properties
+ - **bonusTile.json**: contains the bonus Tiles and their bonuses
+ - **council.json**: contains the available council privileges
+ - **excommunication.json**: contains the excommunications
+ - **faithTrack.json**: contains the rewards given to the player when supporting the Church, depending on the position on the faith
+ points track
+ - **market.json**: contains the bonuses given by the market booths
+ - **towers.json**: contains the floor bonuses given when claiming a floor
+ - **cardsModel.json**: contains a general model for the elements in cards.json (kept for reference purposes, but never
+ loaded)
+ 
 
 ### How to play
 To play one must at first run **ServerImpl**, then run the desired number of **Client**.
