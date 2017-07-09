@@ -177,6 +177,7 @@ public class GuiController {
         }
 
         private void updateFamMember(JsonArray famList) {
+            famMemHome.getChildren().clear();
             int row = 0;
             for (JsonElement famJ : famList) {
                 AnchorPane famMemIcon = addFamMember(famJ.getAsJsonObject());
