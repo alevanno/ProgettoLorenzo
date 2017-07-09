@@ -495,6 +495,7 @@ public class Player {
         this.famMemberList.forEach(f -> famMembersJ.add(f.serialize()));
         ret.put("famMembers", famMembersJ);
         ret.put("excomm", this.excommunications);
+        ret.put("bonusTile", this.bonusT.serialize());
         ret.put("cards", this.cards.serialize());
         return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
     }

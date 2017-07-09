@@ -1,7 +1,11 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * It basically is a data structure containing the {@link Production}
@@ -48,6 +52,14 @@ public class BonusTile {
     public String toString() {
         return String.format("%d: prod=%s | harv=%s",
                 this.number, this.productionRes, this.harvestRes);
+    }
+
+    public JsonObject serialize() {
+        Map<String, Object> ret = new HashMap<>();
+        ret.put("id", this.number);
+        ret.put("Production Bonus", this.productionRes);
+        ret.put("Harvest Bonus", this.harvestRes);
+        return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
     }
 }
 
