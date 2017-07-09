@@ -1,6 +1,7 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -187,5 +188,16 @@ public class Production extends ActionProdHarv {
         prodStaticCards(tempDeck, player);
         prodCouncPriv(tempDeck, player);
         return true;
+    }
+
+    public JsonObject serialize() {
+        Map<String, Object> ret = new HashMap<>();
+        List<JsonObject> secondaryJ = new ArrayList<>();
+        this.secondaryProduction.forEach(f -> secondaryJ.add(f.serialize()));
+        if (this.mainProduction != null) {
+            ret.put("main", this.mainProduction.serialize());
+        }
+        ret.put("secondary", secondaryJ);
+        return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
     }
 }

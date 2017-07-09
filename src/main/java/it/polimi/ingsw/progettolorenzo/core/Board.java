@@ -61,7 +61,7 @@ public class Board {
      * @return the JsonObject representing the serialized towers info
      */
     public JsonObject serialize() {
-        // TODO display all the things, now only the towers
+        // TODO council…
         Map<String, Object> ret = new HashMap<>();
         List<JsonObject> towersJ = new ArrayList<>();
         this.towers.forEach(
@@ -69,6 +69,8 @@ public class Board {
         );
         ret.put("towers", towersJ);
         ret.put("market", this.marketSpace.serialize());
+        ret.put("harvest", this.harvestArea.serialize());
+        ret.put("production", this.productionArea.serialize());
         return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
     }
 }

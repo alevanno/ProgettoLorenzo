@@ -52,6 +52,10 @@ public class GuiController {
     @FXML private Label whiteDice;
     @FXML private Label orangeDice;
     @FXML private GridPane famMemHome;
+    @FXML private AnchorPane prodSpace;
+    @FXML private GridPane secondaryProd;
+    @FXML private AnchorPane harvSpace;
+    @FXML private GridPane secondaryHarv;
     @FXML private AnchorPane marketBooth1;
     @FXML private AnchorPane marketBooth2;
     @FXML private AnchorPane marketBooth3;
@@ -252,6 +256,8 @@ public class GuiController {
         private void updateBoard(JsonObject boardJ) {
             this.updateTowers(boardJ.get("towers").getAsJsonArray());
             this.updateMarket(boardJ.get("market").getAsJsonArray());
+            this.updateProduction(boardJ.get("production").getAsJsonObject());
+            this.updateHarvest(boardJ.get("harvest").getAsJsonObject());
         }
 
         private void updateDices(JsonElement famValues) {
@@ -328,6 +334,36 @@ public class GuiController {
             }
         }
 
+        private void updateProduction(JsonObject prodJ) {
+            JsonElement mainE = prodJ.get("main");
+            if (mainE != null) {
+                prodSpace.getChildren().add(addFamMember(mainE.getAsJsonObject()));
+            }
+            JsonArray secondaryJ = prodJ.get("secondary").getAsJsonArray();
+            for (int i=0; i < secondaryJ.size(); i++) {
+                secondaryProd.add(
+                    addFamMember(secondaryJ.get(i).getAsJsonObject()),
+                    i,
+                    0
+                );
+            }
+        }
+
+        private void updateHarvest(JsonObject harvJ) {
+            JsonElement mainE = harvJ.get("main");
+            if (mainE != null) {
+                harvSpace.getChildren().add(addFamMember(mainE.getAsJsonObject
+                    ()));
+            }
+            JsonArray secondaryJ = harvJ.get("secondary").getAsJsonArray();
+            for (int i=0; i < secondaryJ.size(); i++) {
+                secondaryHarv.add(
+                    addFamMember(secondaryJ.get(i).getAsJsonObject()),
+                    i,
+                    0
+                );
+            }
+        }
         private AnchorPane addCard(Card card, double height) {
             Image img = new Image(
                 String.format("Gui/cards/%d.png", card.id),

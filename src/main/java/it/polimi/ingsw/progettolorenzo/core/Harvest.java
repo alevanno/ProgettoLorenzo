@@ -1,11 +1,10 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Logger;
 
 public class Harvest extends ActionProdHarv {
@@ -113,5 +112,16 @@ public class Harvest extends ActionProdHarv {
         harvStaticCards(tempDeck, player);
         harvCouncPriv(tempDeck, player);
         return true;
+    }
+
+    public JsonObject serialize() {
+        Map<String, Object> ret = new HashMap<>();
+        List<JsonObject> secondaryJ = new ArrayList<>();
+        this.secondaryHarvest.forEach(f -> secondaryJ.add(f.serialize()));
+        if (this.mainHarvest != null) {
+            ret.put("main", this.mainHarvest.serialize());
+        }
+        ret.put("secondary", secondaryJ);
+        return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
     }
 }
