@@ -54,15 +54,15 @@ public class GuiController {
     @FXML private Label whiteDice;
     @FXML private Label orangeDice;
     @FXML private GridPane famMemHome;
-    @FXML private AnchorPane prodSpace;
+    @FXML private StackPane prodSpace;
     @FXML private GridPane secondaryProd;
-    @FXML private AnchorPane harvSpace;
+    @FXML private StackPane harvSpace;
     @FXML private GridPane secondaryHarv;
-    @FXML private AnchorPane marketBooth1;
-    @FXML private AnchorPane marketBooth2;
-    @FXML private AnchorPane marketBooth3;
-    @FXML private AnchorPane marketBooth4;
-    List<AnchorPane> market = Arrays.asList(
+    @FXML private StackPane marketBooth1;
+    @FXML private StackPane marketBooth2;
+    @FXML private StackPane marketBooth3;
+    @FXML private StackPane marketBooth4;
+    private List<Pane> market = Arrays.asList(
         marketBooth1, marketBooth2, marketBooth3, marketBooth4
     );
 
@@ -97,7 +97,7 @@ public class GuiController {
 
     protected void updateBigPane(Background bg) {
         this.bigPane.setBackground(bg);
-        FadeTransition ft = new FadeTransition(Duration.millis(400), bigPane);
+        FadeTransition ft = new FadeTransition(Duration.millis(250), bigPane);
         ft.setFromValue(0.1);
         ft.setToValue(1.0);
         ft.setCycleCount(1);
@@ -217,7 +217,7 @@ public class GuiController {
             famMemHome.getChildren().clear();
             int row = 0;
             for (JsonElement famJ : famList) {
-                AnchorPane famMemIcon = addFamMember(famJ.getAsJsonObject());
+                HBox famMemIcon = addFamMember(famJ.getAsJsonObject());
                 famMemHome.add(famMemIcon, 0, row);
                 row++;
 
@@ -400,7 +400,7 @@ public class GuiController {
             return a;
         }
 
-        private AnchorPane addFamMember(JsonObject famMember) {
+        private HBox addFamMember(JsonObject famMember) {
             Circle external = new Circle(
                 18.0,
                 Paint.valueOf(famMember.get("parentColour").getAsString())
@@ -415,7 +415,16 @@ public class GuiController {
             Circle internal = new Circle(11.0, c);
             AnchorPane a = new AnchorPane(external, internal);
             a.setCenterShape(true);
-            return a;
+            VBox vb = new VBox(a);
+            vb.setAlignment(Pos.CENTER);
+            vb.setMinHeight(vb.getMaxHeight());
+            HBox hb = new HBox(vb);
+            hb.setAlignment(Pos.CENTER);
+            hb.setMinWidth(vb.getMaxWidth());
+
+
+
+            return hb;
         }
     }
 
