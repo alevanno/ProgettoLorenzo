@@ -18,9 +18,21 @@ import java.util.logging.Logger;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+/**
+ * This enum represents the status of the game.
+ */
 enum GameStatus {
+    /**
+     * The game has not started yet, it is waiting for players.
+     */
     INIT(" "),
+    /**
+     * The game is ongoing, it can't be joined anymore.
+     */
     STARTED("[STARTED]"),
+    /**
+     * The game has ended.
+     */
     ENDED("[ENDED]");
 
     private String str;

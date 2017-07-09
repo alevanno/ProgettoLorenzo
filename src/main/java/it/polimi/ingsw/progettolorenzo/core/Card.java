@@ -81,7 +81,7 @@ public class Card extends Action {
     /**
      *
      * @param pl the player who's has to be displayed the cost info.
-     * @return
+     * @return A Resources instance of the cost to pay.
      */
     public Resources getCardCost(Player pl) {
         if (this.cardCost.size() > 1) {

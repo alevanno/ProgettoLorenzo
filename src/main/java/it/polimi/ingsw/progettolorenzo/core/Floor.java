@@ -123,7 +123,7 @@ public class Floor extends Action {
     }
 
     /**
-     * It checks that player's current res are > than the card's cost.
+     * It checks that player's current res are major than the card's cost.
      * The boycottBonus represent one of the development card permanent effects.
      * If it is != null, the eventual floor bonus can't be used to satisfy the payment of the floor.
      * @param p the player who's accessing the floor.
