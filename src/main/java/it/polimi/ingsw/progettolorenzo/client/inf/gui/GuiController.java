@@ -8,11 +8,13 @@ import it.polimi.ingsw.progettolorenzo.core.Card;
 import it.polimi.ingsw.progettolorenzo.core.Resources;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
+import javafx.beans.binding.DoubleBinding;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.layout.*;
@@ -270,18 +272,18 @@ public class GuiController {
                     floorPane.setStyle("-fx-background-color: rgba(0, 0, 0, 0);");
 
                     JsonObject floorJ = floorsJ.get(j).getAsJsonObject();
+                    // card
                     JsonElement card = floorJ.get("card");
+                    AnchorPane p = new AnchorPane();
                     if (card != null) {
-                        floorPane.getItems().add(
-                            addCard(new Card(card.getAsJsonObject()), 170.0)
-                        );
-                    } else {
-                        floorPane.getItems().add(
-                            new AnchorPane(
-                                new Label()
-                            )
-                        );
+                        p = addCard(new Card(card.getAsJsonObject()), 170.0);
                     }
+                    DoubleBinding width = floorPane.widthProperty()
+                        .multiply(0.54545454545454);
+                    p.maxWidthProperty().bind(width);
+                    p.minWidthProperty().bind(width);
+                    floorPane.getItems().add(p);
+                    // fam member
                     JsonElement famMember = floorJ.get("famMember");
                     if (famMember != null) {
                         floorPane.getItems().add(
