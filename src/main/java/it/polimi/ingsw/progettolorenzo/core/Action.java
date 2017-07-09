@@ -39,16 +39,17 @@ public abstract class Action {
 
     /**
      * The method to empty the actions list in order to revert a macro action.
-     * It basically call the {@link ArrayList#clear()} method to clear the
+     * It basically calls the {@link ArrayList#clear()} method to clear the
      * ArrayList representing the actions.
      */
     public void emptyActions() {
         this.actions.forEach(a -> a.clear());
         this.actions.clear();
+        log.fine("Actions cleared");
     }
 
     /**
-     * The child class calling this method accomplish all the {@link BaseAction} effectively.
+     * The child class calling this method accomplishes all the {@link BaseAction} effectively.
      */
     public void apply() {
         for (int i=0; i < this.actions.size(); i++) {
