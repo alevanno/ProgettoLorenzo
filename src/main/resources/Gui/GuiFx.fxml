@@ -251,7 +251,7 @@
                           </rowConstraints>
                         </GridPane>
                         <Button fx:id="bonusTileBtn" layoutX="221.0" layoutY="637.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="133.0" text="Show Bonus Tile" />
-                        <Button fx:id="excommBtn" layoutX="427.0" layoutY="637.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="133.0" text="Show Excomms" />
+                        <Button layoutX="427.0" layoutY="637.0" mnemonicParsing="false" onAction="#showExcomm" prefHeight="25.0" prefWidth="133.0" text="Show Excomms" />
                         <Button layoutX="14.0" layoutY="637.0" mnemonicParsing="false" onAction="#showCouncil" prefHeight="25.0" prefWidth="133.0" text="Show Council" />
                         <Label layoutX="77.0" layoutY="488.0" rotate="-90.0" text="Family Members" />
                      </children></AnchorPane>

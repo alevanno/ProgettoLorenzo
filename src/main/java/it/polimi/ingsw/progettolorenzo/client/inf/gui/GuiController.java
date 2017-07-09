@@ -17,6 +17,7 @@ import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
@@ -38,6 +39,10 @@ public class GuiController {
 
     private SplitPane council = new SplitPane(
         new Label("The council palace is not yet known"));
+    private HBox excomm = new HBox(
+        new Label("the excommunications are not yet known")
+    );
+
     @FXML private TextArea mainLabel;
     @FXML private TextField userTextField;
     @FXML private Button sendBtn;
@@ -195,6 +200,11 @@ public class GuiController {
         this.bigPane.getChildren().add(council);
     }
 
+    @FXML
+    protected void showExcomm(ActionEvent event) {
+        this.bigPane.getChildren().clear();
+        this.bigPane.getChildren().add(excomm);
+    }
 
     private class UpdateBoard implements Runnable {
         private JsonObject gameIn;
@@ -225,6 +235,28 @@ public class GuiController {
             this.updateDices(gameIn.get("famValues"));
             // TODO display "players" too, somewhere
             this.updatePlayer(gameIn.get("you").getAsJsonObject());
+            this.updateExcomms(gameIn.get("excomms").getAsJsonArray());
+        }
+
+        private void updateExcomms(JsonArray excommsJ){
+           HBox h = new HBox();
+           excommsJ.forEach(e ->
+               h.getChildren().add(new ImageView(
+                   new Image(
+                       String.format(
+                           "Gui/excomms/excomm_%d_%d.png",
+                           e.getAsJsonObject().get("period").getAsBigInteger(),
+                           e.getAsJsonObject().get("number").getAsBigInteger()
+                       ),
+                       1000.0,  // arbitrary big
+                       140.0,
+                       true,
+                       false,
+                       true
+                   )
+               ))
+           );
+            excomm = h;
         }
 
         private void updatePlayer(JsonObject plJ) {
