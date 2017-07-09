@@ -1,10 +1,13 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
 
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MarketBooth extends Action {
     private List<Resources> bonus = new ArrayList<>();
@@ -67,5 +70,13 @@ public class MarketBooth extends Action {
         }
         p.sOut("This market place is already occupied!");
         return false;
+    }
+
+    public JsonObject serialize() {
+        Map<String, Object> ret = new HashMap<>();
+        if ( this.famMember != null) {
+            ret.put("famMember", this.famMember.serialize());
+        }
+        return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
     }
 }

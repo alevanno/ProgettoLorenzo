@@ -23,6 +23,9 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
+
+import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,6 +52,13 @@ public class GuiController {
     @FXML private Label whiteDice;
     @FXML private Label orangeDice;
     @FXML private GridPane famMemHome;
+    @FXML private AnchorPane marketBooth1;
+    @FXML private AnchorPane marketBooth2;
+    @FXML private AnchorPane marketBooth3;
+    @FXML private AnchorPane marketBooth4;
+    List<AnchorPane> market = Arrays.asList(
+        marketBooth1, marketBooth2, marketBooth3, marketBooth4
+    );
 
     @FXML
     public void initialize() {
@@ -240,8 +250,8 @@ public class GuiController {
         }
 
         private void updateBoard(JsonObject boardJ) {
-            JsonArray towersJ = boardJ.get("towers").getAsJsonArray();
-            this.updateTowers(towersJ);
+            this.updateTowers(boardJ.get("towers").getAsJsonArray());
+            this.updateMarket(boardJ.get("market").getAsJsonArray());
         }
 
         private void updateDices(JsonElement famValues) {
@@ -302,6 +312,18 @@ public class GuiController {
                     ft.setAutoReverse(false);
                     ft.play();
                     towers.add(floorPane, i, j);
+                }
+            }
+        }
+
+        private void updateMarket(JsonArray marketJ) {
+            for (int i=0; i < marketJ.size(); i++) {
+                JsonObject boothJ = marketJ.get(i).getAsJsonObject();
+                JsonElement fam = boothJ.get("famMember");
+                if (fam != null) {
+                    market.get(i).getChildren().add(
+                        addFamMember(fam.getAsJsonObject())
+                    );
                 }
             }
         }

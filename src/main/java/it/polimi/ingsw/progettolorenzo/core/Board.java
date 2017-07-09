@@ -68,6 +68,7 @@ public class Board {
                 t -> towersJ.add(t.serialize())
         );
         ret.put("towers", towersJ);
+        ret.put("market", this.marketSpace.serialize());
         return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
     }
 }

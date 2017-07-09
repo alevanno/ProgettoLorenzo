@@ -1,6 +1,8 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -42,5 +44,11 @@ public class Market {
                 }
             }
         }
+    }
+
+    public JsonArray serialize() {
+        List<JsonObject> ret = new ArrayList<>();
+        this.booths.forEach(b -> ret.add(b.serialize()));
+        return new Gson().fromJson(new Gson().toJson(ret), JsonArray.class);
     }
 }

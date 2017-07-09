@@ -53,6 +53,10 @@
                               <Insets bottom="22.0" />
                            </padding>
                         </Label>
+                        <AnchorPane fx:id="marketBooth1" layoutX="451.0" layoutY="43.0" prefHeight="60.0" prefWidth="60.0" />
+                        <AnchorPane fx:id="marketBooth2" layoutX="534.0" layoutY="43.0" prefHeight="60.0" prefWidth="60.0" />
+                        <AnchorPane fx:id="marketBooth3" layoutX="609.0" layoutY="66.0" prefHeight="60.0" prefWidth="60.0" />
+                        <AnchorPane fx:id="marketBooth4" layoutX="669.0" layoutY="123.0" prefHeight="60.0" prefWidth="60.0" />
                      </children></AnchorPane>
             </items>
           </SplitPane>
