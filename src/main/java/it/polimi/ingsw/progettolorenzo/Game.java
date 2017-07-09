@@ -525,6 +525,7 @@ public class Game implements Runnable {
             ret.put("famValues", this.famValues);
         }
         ret.put("board", this.board.serialize());
+        ret.put("excomms", this.excomms);
         return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
     }
 
