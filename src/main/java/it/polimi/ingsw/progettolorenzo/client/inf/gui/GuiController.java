@@ -28,10 +28,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.util.Duration;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,12 +38,15 @@ public class GuiController {
     private static final Object msgInObserver = new Object();
     private Map<String, Color> colourMapper = new HashMap<>();
 
+    // variables saving the state of the player, so it can easily be used by
+    // other methods not accessing all the player info
     private Pane bonusTile = new Pane(
         new Label("The bonus tile\nis not initialized yet"));
     private VBox council = new VBox(
         new Label("The council palace\nis not initialized yet"));
     private HBox excomm = new HBox(
         new Label("The excommunications\nare not initialized yet"));
+    private Set<JsonObject> excomms = new HashSet<>();
 
     @FXML private TextArea mainLabel;
     @FXML private TextField userTextField;
@@ -435,6 +435,9 @@ public class GuiController {
                true
                )
            ));
+            plJ.get("excomms").getAsJsonArray().forEach(e ->
+                excomms.add(e.getAsJsonObject())
+            );
         }
 
         private void updateFamMember(JsonArray famList) {

@@ -523,7 +523,7 @@ public class Player {
         List<JsonObject> famMembersJ = new ArrayList<>();
         this.famMemberList.forEach(f -> famMembersJ.add(f.serialize()));
         ret.put("famMembers", famMembersJ);
-        ret.put("excomm", this.excommunications);
+        ret.put("excomms", this.excommunications);
         ret.put("bonusTile", this.bonusT.serialize());
         ret.put("cards", this.cards.serialize());
         return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
