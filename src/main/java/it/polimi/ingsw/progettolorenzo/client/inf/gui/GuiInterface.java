@@ -17,6 +17,10 @@ public class GuiInterface extends Application implements Interface {
     private static final Object guiMonitor = new Object();
     private static GuiController controller;
 
+    public static void main(String[] args) throws Exception {
+        throw new Exception("Don't start this class, please start " +
+            "`it.polimi.ingsw.progettolorenzo.client.Client` instead");
+    }
 
     @Override
     public void start(Stage stage) throws IOException {
