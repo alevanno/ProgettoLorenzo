@@ -185,6 +185,7 @@ public class GuiController {
         red.setStyle("-fx-base: #990909;");
         Button yellow = new Button("Yellow");
         yellow.setStyle("-fx-base: #997709;");
+        yellow.setTextFill(Color.WHITE);
         Button green = new Button("Green");
         green.setStyle("-fx-base: #099934;");
         Button brown = new Button("Brown");
