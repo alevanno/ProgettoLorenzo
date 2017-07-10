@@ -117,11 +117,30 @@ public class Card extends Action {
                 discount = this.getCardCost(pl).coin;
             }
         }
+        Resources towerBonusDiscount = new Resources.ResBuilder().build();
+        for (Card c : pl.listCards()) {
+            JsonElement discountJ;
+            if (c.permanentEff.containsKey("towerBonus") &&
+                    (discountJ = c.permanentEff.get("towerBonus").getAsJsonObject().get("discount")) != null &&
+                    this.cardType.equals(c.permanentEff.get("towerBonus").getAsJsonObject().get("type").getAsString())) {
+                Resources discountRes = Resources.fromJson(discountJ);
+                for (Map.Entry<String, Integer> entry : this.cardCost.get(0).resourcesList.entrySet()) {
+                    String x = entry.getKey();
+                    int y = entry.getValue();
+                    int val = discountRes.getByString(x);
+                    System.out.println(x + y + val);
+                    if (y != 0 && val != 0) {
+                        towerBonusDiscount = new Resources.ResBuilder().setByString(x, val).build().inverse();
+                    }
+                }
+            }
+        }
         this.addAction(
             new ResourcesAction(
                 "Card cost", this.getCardCost(pl)
                     .merge(new Resources.ResBuilder()
-                            .coin(discount).build().inverse()).inverse(), pl
+                            .coin(discount).build().inverse())
+                    .merge(towerBonusDiscount).inverse(), pl
             )
         );
     }
