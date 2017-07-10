@@ -273,7 +273,7 @@ public class LeaderTest {
         gameTest.game.setBoard(new Board(tmpDeck, gameTest.game));
         Move.floorAction(gameTest.game.getBoard(), pl.getAvailableFamMembers().get(0));
         pl.getAvailableFamMembers().get(2).setActionValue(7);
-        pl.currentResMerge(new Resources.ResBuilder().stone(2).wood(2).build());
+        pl.currentResMerge(new Resources.ResBuilder().stone(2).wood(2).coin(10).build());
         assertTrue(Move.floorAction(gameTest.game.getBoard(), pl.getAvailableFamMembers().get(2)));
         // Moro test
         LeaderCard moro = testMap.get("Ludovico Il Moro");

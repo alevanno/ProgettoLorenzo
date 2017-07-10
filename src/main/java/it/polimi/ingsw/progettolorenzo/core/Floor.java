@@ -68,7 +68,9 @@ public class Floor extends Action {
         } else if (towerOcc == 1) {
             pl.sOut("Tower already occupied: ");
             pl.sOut("Current Res:" + pl.getCurrentRes().toString());
-            if (pl.getCurrentRes().coin < 3) {
+            Resources check = new Resources.ResBuilder().build();
+            check = check.merge(pl.getCurrentRes()).merge(floorCard.getCardCost(pl).inverse());
+            if (check.coin < 3) {
                 pl.sOut("You don't have enough coins to access this Floor");
                 return  false;
             } else {
