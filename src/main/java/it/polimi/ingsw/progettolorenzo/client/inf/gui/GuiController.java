@@ -200,7 +200,7 @@ public class GuiController {
                     (int) (y.getBlue() * 255)
             ));
             if ("Yellow".equals(x)) {
-                btn.setTextFill(Color.WHITE););
+                btn.setTextFill(Color.WHITE);
             }
             btn.setOnMouseClicked(e -> handlePromptBtnPress(e, btnSpace));
             btnSpace.getChildren().add(btn);
@@ -413,7 +413,7 @@ public class GuiController {
 
         private void updatePlayer(JsonObject plJ) {
             playerName.setText(plJ.get("playerName").getAsString());
-            playerName.setTextFill(Color.valueOf(plJ.get("playerColour").getAsString()));
+            playerName.setTextFill(colourMapper.get(plJ.get("playerColour").getAsString()));
             updatePlayerCards(plJ.get("cards").getAsJsonArray());
             updateFamMember(plJ.get("famMembers").getAsJsonArray());
             Resources curRes = Resources.fromJson(plJ.get("resources"));
