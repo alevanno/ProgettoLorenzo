@@ -77,6 +77,8 @@ public class Floor extends Action {
                     Resources coinToPay = new Resources.ResBuilder().coin(3).build().inverse();
                     this.addAction(new ResourcesAction("Floor access token", coinToPay, pl));
                     return true;
+                } else {
+                    return false;
                 }
             }
         } else if (towerOcc == 2) {
