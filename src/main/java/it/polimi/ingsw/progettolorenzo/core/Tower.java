@@ -9,12 +9,21 @@ import com.google.gson.JsonObject;
 import java.util.*;
 import java.util.logging.Logger;
 
+/**
+ * This class represents the container of the {@link Floor}s.
+ * It handles by itself the player's occupancy.
+ */
 public class Tower {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private final List<Floor> floors = new ArrayList<>();
     private final String type;
 
-
+    /**
+     * All fields info are loaded from file.
+     * @param type the type of development cards filling the tower
+     * @param floors the JsonArray containing the floors info
+     * @param cardList cards the tower has to be filled
+     */
     public Tower(String type, JsonArray floors, Deck cardList) {
         this.type = type;
 
@@ -59,6 +68,11 @@ public class Tower {
         return nameList;
     }
 
+    /**
+     * It serializes tower info
+     * @see Floor#serialize()
+     * @return the JsonObject with the serialized info
+     */
     public JsonObject serialize() {
         Map<String,Object> ret = new HashMap<>();
         ret.put("type", this.type);
@@ -70,7 +84,14 @@ public class Tower {
         return new Gson().fromJson(new Gson().toJson(ret), JsonObject.class);
     }
 
-    //3 statuses: 0: free (0 accessFloor); 1: occ by another player, or by own neutral FamMem (3 accessFloor); 2: occ by same player's colored famMem (unavailable)
+    /**
+     * It handles 3 different status:
+     *          0: free (0 {@link Floor#accessFloor(Player, int)}
+     *          1: occupied by another player, or by own neutral famMem (3 {@link Floor#accessFloor(Player, int)}
+     *          2: occupied by the same player's colored famMem (unavailable)
+     * @param fam the family member try accessing the tower
+     * @return the int representing the specific status
+     */
     public int checkTowerOcc(FamilyMember fam) {
         Player actionPl = fam.getParent();
         List<FamilyMember> occupantsList = new ArrayList<>();
@@ -92,9 +113,15 @@ public class Tower {
         }
     }
 
+    /**
+     * Private method that fills the list of the family member (so players) occupying the tower.
+     * Dummy family member aren't counted as occupants.
+     * @see Move#floorActionWithCard(Player, Card, String, int, Resources)
+     * @param list the list to fill
+     */
     private void fillOccupantList(List<FamilyMember> list) {
         for (Floor fl : floors) {
-            if(fl.isBusy() && !"Dummy".equals(fl.getFamMember().getSkinColour())) { //dummy famMem aren't counted as occupants
+            if(fl.isBusy() && !"Dummy".equals(fl.getFamMember().getSkinColour())) { 
                 list.add(fl.getFamMember());
             }
         }
