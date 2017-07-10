@@ -15,6 +15,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -38,11 +39,11 @@ public class GuiController {
     private static final Object msgInObserver = new Object();
 
     private Pane bonusTile = new Pane(
-        new Label("I don't yet know about your bonus tile"));
+        new Label("The bonus tile\nis not initialized yet"));
     private SplitPane council = new SplitPane(
-        new Label("The council palace is not yet known"));
+        new Label("The council palace\nis not initialized yet"));
     private HBox excomm = new HBox(
-        new Label("the excommunications are not yet known"));
+        new Label("The excommunications\nare not initialized yet"));
 
     @FXML private TextArea mainLabel;
     @FXML private TextField userTextField;
@@ -104,7 +105,7 @@ public class GuiController {
             };
         } else if (msg.startsWith("Input 'y'")) {
             op = () -> {
-//                this.btnPromptConf;
+                btnPromptConf();
             };
         } else {
             op = () -> mainLabel.appendText("\n" + msg);
@@ -118,18 +119,48 @@ public class GuiController {
     }
 
     protected void btnPromptConf() {
+        userTextField.setVisible(false);
+        sendBtn.setVisible(false);
+        AnchorPane anc = (AnchorPane) userTextField.getParent();
+        Button yesBtn = new Button("Yes");
+        yesBtn.setStyle("-fx-base: #90EE90;");
+        yesBtn.setMinWidth(133.0);
+        Button noBtn = new Button("No");
+        noBtn.setStyle("-fx-base: #FF6666;");
+        noBtn.setMinWidth(133.0);
+        HBox b = new HBox(50.0, noBtn, yesBtn);
+        b.setLayoutY(133.0);
+        b.setLayoutX(129.0);
+        anc.getChildren().add(b);
+        useFadeTransition(Duration.millis(300), b);
+        yesBtn.setOnMouseClicked(e -> handlePromptBtnPress(e, b));
+        noBtn.setOnMouseClicked(e -> handlePromptBtnPress(e, b));
 
     }
 
-    protected void updateBigPane(Background bg) {
-        this.bigPane.setBackground(bg);
-        this.bigPane.getChildren().clear();
-        FadeTransition ft = new FadeTransition(Duration.millis(250), bigPane);
+    protected void handlePromptBtnPress (MouseEvent e, HBox b) {
+        Button btn = (Button) e.getSource();
+        userTextField.setText(btn.getText());
+        sendBtn.fire();
+        AnchorPane anc = (AnchorPane) b.getParent();
+        anc.getChildren().removeAll(b);
+        sendBtn.setVisible(true);
+        userTextField.setVisible(true);
+    }
+
+    protected void useFadeTransition(Duration duration, Node node) {
+        FadeTransition ft = new FadeTransition(duration, node);
         ft.setFromValue(0.1);
         ft.setToValue(1.0);
         ft.setCycleCount(1);
         ft.setAutoReverse(false);
         ft.play();
+    }
+
+    protected void updateBigPane(Background bg) {
+        this.bigPane.setBackground(bg);
+        this.bigPane.getChildren().clear();
+
 
     }
 
@@ -141,6 +172,7 @@ public class GuiController {
             bigPane.setBackground(Background.EMPTY);
             bigPane.getChildren().add(lbl);
         });
+
     }
 
     protected String readForm() {
@@ -303,12 +335,7 @@ public class GuiController {
                 row++;
 
             }
-            FadeTransition ft = new FadeTransition(Duration.millis(1000), famMemHome);
-            ft.setFromValue(0.1);
-            ft.setToValue(1.0);
-            ft.setCycleCount(1);
-            ft.setAutoReverse(false);
-            ft.play();
+            useFadeTransition(Duration.millis(1000), famMemHome);
         }
 
         private void updatePlayerCards(JsonArray cardsJ) {
@@ -417,12 +444,7 @@ public class GuiController {
                         hb.setMinWidth(vb.getMaxWidth());
                         floorPane.getItems().add(hb);
                     }
-                    FadeTransition ft = new FadeTransition(Duration.millis(800), towers);
-                    ft.setFromValue(0.1);
-                    ft.setToValue(1.0);
-                    ft.setCycleCount(1);
-                    ft.setAutoReverse(false);
-                    ft.play();
+                    useFadeTransition(Duration.millis(800), towers);
                     towers.add(floorPane, i, j);
                 }
             }
@@ -502,9 +524,6 @@ public class GuiController {
             HBox hb = new HBox(vb);
             hb.setAlignment(Pos.CENTER);
             hb.setMinWidth(vb.getMaxWidth());
-
-
-
             return hb;
         }
     }
