@@ -548,14 +548,9 @@ public class GuiController {
                     // fam member
                     JsonElement famMember = floorJ.get("famMember");
                     if (famMember != null) {
-                        VBox vb = new VBox(
-                            addFamMember(famMember.getAsJsonObject()));
-                        vb.setAlignment(Pos.CENTER);
-                        vb.setMinHeight(vb.getMaxHeight());
-                        HBox hb = new HBox(vb);
-                        hb.setAlignment(Pos.CENTER);
-                        hb.setMinWidth(vb.getMaxWidth());
-                        floorPane.getItems().add(hb);
+                        floorPane.getItems().add(
+                            addFamMember(famMember.getAsJsonObject())
+                        );
                     }
                     useFadeInTransition(Duration.millis(800), towers);
                     towers.add(floorPane, i, j);
