@@ -21,6 +21,6 @@
     },
     "game": {
         "rules": "ask",
-        "timeout": 120
+        "timeout": 240
     }
 }
