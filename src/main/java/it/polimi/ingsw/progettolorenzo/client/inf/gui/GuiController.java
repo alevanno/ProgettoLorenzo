@@ -47,6 +47,7 @@ public class GuiController {
     private HBox excomm = new HBox(
         new Label("The excommunications\nare not initialized yet"));
     private Set<JsonObject> excomms = new HashSet<>();
+    private Color playerColour = Color.BLACK;   // tmp, updatePlayer will set it
 
     @FXML private TextArea mainLabel;
     @FXML private TextField userTextField;
@@ -411,7 +412,8 @@ public class GuiController {
 
         private void updatePlayer(JsonObject plJ) {
             playerName.setText(plJ.get("playerName").getAsString());
-            playerName.setTextFill(colourMapper.get(plJ.get("playerColour").getAsString()));
+            playerColour = colourMapper.get(plJ.get("playerColour").getAsString());
+            playerName.setTextFill(playerColour);
             updatePlayerCards(plJ.get("cards").getAsJsonArray());
             updateFamMember(plJ.get("famMembers").getAsJsonArray());
             Resources curRes = Resources.fromJson(plJ.get("resources"));
