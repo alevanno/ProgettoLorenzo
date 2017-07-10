@@ -625,6 +625,8 @@ public class GuiController {
             Paint c;
             if ("Blank".equals(skinColour)) {
                 c = new Color(1, 1, 1, 0.5);
+            } else if ("Dummy".equals(skinColour)){
+                return new HBox();
             } else {
                 c = Paint.valueOf(skinColour);
             }
