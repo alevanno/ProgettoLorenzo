@@ -313,24 +313,28 @@ public class GuiController {
         ImageView im = new ImageView(img);
         this.bigPane.getChildren().clear();
         this.bigPane.getChildren().add(im);
+        useFadeInTransition(Duration.millis(300), bigPane);
     }
 
     @FXML
     protected void showBonusTile(ActionEvent event) {
         this.bigPane.getChildren().clear();
         this.bigPane.getChildren().add(this.bonusTile);
+        useFadeInTransition(Duration.millis(300), bigPane);
     }
 
     @FXML
     protected void showCouncil(ActionEvent event) {
         this.bigPane.getChildren().clear();
         this.bigPane.getChildren().add(this.council);
+        useFadeInTransition(Duration.millis(300), bigPane);
     }
 
     @FXML
     protected void showExcomm(ActionEvent event) {
         this.bigPane.getChildren().clear();
         this.bigPane.getChildren().add(this.excomm);
+        useFadeInTransition(Duration.millis(300), bigPane);
     }
 
     private class UpdateBoard implements Runnable {
