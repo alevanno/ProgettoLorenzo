@@ -391,6 +391,8 @@ public class GuiController {
 
         private void updateExcomms(JsonArray excommsJ){
            HBox h = new HBox();
+           HBox circle = new HBox(new Circle(15.0, playerColour));
+           circle.setAlignment(Pos.CENTER);
            excommsJ.forEach(e ->
                h.getChildren().add(new VBox(
                    new ImageView(
@@ -408,7 +410,7 @@ public class GuiController {
                        )
                    ),
                    excomms.contains(e.getAsJsonObject())
-                       ? new Circle(18.0, playerColour)
+                       ? circle
                        : new AnchorPane()
                ))
            );
