@@ -341,13 +341,15 @@ public class Player {
      * It format a string in order to display leader cards information to the player.
      */
     public void displayLeaderCards() {
+        int i = 1;
         for (LeaderCard card : leaderCards) {
-            String toDisplay = card.getName() + " -> cost: " +
+            String toDisplay = i + " " + card.getName() + " -> cost: " +
                     card.getActivationCost() +" : " + card.getCardCostType();
             if (card.isActivated()) {
                 toDisplay += " activated";
             }
             this.sOut(toDisplay);
+            i++;
         }
     }
 
