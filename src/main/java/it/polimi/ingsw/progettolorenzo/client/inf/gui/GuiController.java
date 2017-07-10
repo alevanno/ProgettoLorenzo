@@ -133,7 +133,6 @@ public class GuiController {
 
     protected AnchorPane btnStartCommon() {
         useFadeOutTransition(Duration.millis(100), userTextField);
-        userTextField.setVisible(false);
         sendBtn.setVisible(false);
         return (AnchorPane) userTextField.getParent();
     }
@@ -144,6 +143,7 @@ public class GuiController {
         b.setLayoutY(133.0);
         b.setLayoutX(129.0);
         anc.getChildren().add(b);
+        userTextField.setVisible(false);
         useFadeInTransition(Duration.millis(300), b);
         first.setOnMouseClicked(e -> handlePromptBtnPress(e, b));
         second.setOnMouseClicked(e -> handlePromptBtnPress(e, b));
@@ -175,7 +175,30 @@ public class GuiController {
     }
 
     protected void btnPromptColour() {
-
+        AnchorPane anc = btnStartCommon();
+        HBox b = new HBox(50.0);
+        b.setLayoutX(13.0);
+        b.setLayoutY(133.0);
+        Button blue = new Button("Blue");
+        blue.setStyle("-fx-base: #095599;");
+        Button red = new Button("Red");
+        red.setStyle("-fx-base: #990909;");
+        Button yellow = new Button("Yellow");
+        yellow.setStyle("-fx-base: #997709;");
+        Button green = new Button("Green");
+        green.setStyle("-fx-base: #099934;");
+        Button brown = new Button("Brown");
+        brown.setStyle("-fx-base: #592c06;");
+        Button violet = new Button("Violet");
+        violet.setStyle("-fx-base: #660999;");
+        List<Button> colourBtnList = Arrays.asList(blue, red, yellow, green, brown,violet);
+        for (Button i : colourBtnList) {
+            i.setOnMouseClicked(e -> handlePromptBtnPress(e, b));
+            b.getChildren().add(i);
+        }
+        //i.setMinWidth(133.0);
+        anc.getChildren().add(b);
+        useFadeInTransition(Duration.millis(300), b);
     }
 
     protected void btnPromptConnection() {
