@@ -318,7 +318,7 @@ public class Player {
         int choice = this.sInPrompt(1, leaderCards.size());
         LeaderCard leader = leaderCards.get(choice - 1);
         this.sOut("You will discard " + leader.getName() + " leader card" +
-                "and you will immediately receive 1 council privilege");
+                " and you will immediately receive 1 council privilege");
         this.sOut("Confirm?");
         int counter = 0;
         if(this.sInPromptConf()) {

@@ -228,19 +228,11 @@ public class GuiController {
         ft.play();
     }
 
-    protected void updateBigPane(Background bg) {
-        this.bigPane.setBackground(bg);
-        this.bigPane.getChildren().clear();
-
-
-    }
-
     protected void updateBigPane(Label lbl) {
         this.bigPane.getChildren().clear();
         lbl.setWrapText(true);
         lbl.setFont(Font.font("bold", 14));
         Platform.runLater(() -> {
-            bigPane.setBackground(Background.EMPTY);
             bigPane.getChildren().add(lbl);
         });
         useFadeInTransition(Duration.millis(300), bigPane);
@@ -292,11 +284,9 @@ public class GuiController {
             false,
             true
         );
-
-        this.updateBigPane(new Background(new BackgroundImage(img,
-            BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
-            BackgroundPosition.DEFAULT, BackgroundSize.DEFAULT)
-        ));
+        ImageView im = new ImageView(img);
+        this.bigPane.getChildren().clear();
+        this.bigPane.getChildren().add(im);
     }
 
     @FXML

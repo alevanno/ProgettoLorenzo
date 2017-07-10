@@ -27,13 +27,13 @@
         "floors": [
             {
                 "bonus": {
-                    "victoryPoint": 2
+                    "stone": 2
                 },
                 "floorValue": 7
             },
             {
                 "bonus": {
-                    "victoryPoint": 1
+                    "stone": 1
                 },
                 "floorValue": 5
             },
@@ -50,13 +50,13 @@
         "floors": [
             {
                 "bonus": {
-                    "stone": 2
+                    "militaryPoint": 2
                 },
                 "floorValue": 7
             },
             {
                 "bonus": {
-                    "stone": 1
+                    "militaryPoint": 1
                 },
                 "floorValue": 5
             },
