@@ -43,7 +43,7 @@ public class GuiController {
 
     private Pane bonusTile = new Pane(
         new Label("The bonus tile\nis not initialized yet"));
-    private SplitPane council = new SplitPane(
+    private VBox council = new VBox(
         new Label("The council palace\nis not initialized yet"));
     private HBox excomm = new HBox(
         new Label("The excommunications\nare not initialized yet"));
@@ -492,17 +492,20 @@ public class GuiController {
         }
 
         private void updateCouncil(JsonArray councilJ) {
-            SplitPane sp = new SplitPane();
-            sp.setOrientation(Orientation.VERTICAL);
+            VBox councilVB = new VBox();
+            councilVB.setAlignment(Pos.CENTER);
 
             if (councilJ.size() == 0) {
                 updateBigPane(new Label("The council is empty!"));
             }
             councilJ.forEach(famJ ->
-                sp.getItems().add(addFamMember(famJ.getAsJsonObject()))
+                councilVB.getChildren().add(addFamMember(famJ.getAsJsonObject()))
             );
+            councilVB.setSpacing(35);
+            councilVB.setLayoutX(107);
+            councilVB.setLayoutY(40);
 
-            council = sp;
+            council = councilVB;
         }
 
         private void updateDices(JsonElement famValues) {

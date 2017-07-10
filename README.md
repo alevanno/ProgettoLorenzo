@@ -5,6 +5,8 @@
 This is the source code for our Software Engineering project, a videogame adaptation of the board
 game **Lorenzo il Magnifico**.
 
+The UML Class Diagram is located in the root directory of the project.
+
 ### Configuration
 The configuration of the game is stored in **settings.json**:
 
