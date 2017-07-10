@@ -195,8 +195,10 @@ public class ServerImpl extends UnicastRemoteObject implements Server {
             boolean personalBonusBoards = false;
             boolean leaderOn = false;
             switch(Config.game.get("rules").getAsString()) {
+                case "Basic":
                 case "basic":
                     break;
+                case "Advanced":
                 case "advanced":
                     personalBonusBoards = true;
                     leaderOn = true;

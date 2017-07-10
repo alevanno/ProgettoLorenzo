@@ -100,8 +100,21 @@ public class GuiController {
         Runnable op;
         if (msg.startsWith("☃")) {
             op = new UpdateBoard(msg.substring(1));
-        //} else if {
-        //} else if {
+        } else if (msg.startsWith("Please choose your colour")) {
+            op = () -> {
+                mainLabel.appendText("\n" + msg);
+                this.btnPromptColour();
+            };
+        } else if (msg.startsWith("RMI or socket")) {
+            op = () -> {
+                mainLabel.appendText("\n" + msg);
+                this.btnPromptConnection();
+            };
+        } else if (msg.startsWith("Basic or advanced")) {
+            op = () -> {
+                mainLabel.appendText("\n" + msg);
+                this.btnPromptRules();
+            };
         } else if (msg.startsWith("Input an int between")) {
             String[] minMax = msg.split(" ");
             int min = Integer.parseInt(minMax[4]);
@@ -116,10 +129,26 @@ public class GuiController {
         log.finest("Successfully updated the label");
     }
 
-    protected void btnPromptInt(int min, int max) {
+    protected AnchorPane btnStartCommon() {
         useFadeOutTransition(Duration.millis(100), userTextField);
+        userTextField.setVisible(false);
         sendBtn.setVisible(false);
-        AnchorPane anc = (AnchorPane) userTextField.getParent();
+        return (AnchorPane) userTextField.getParent();
+    }
+
+    protected void twoBtnCommon(Button first, Button second) {
+        AnchorPane anc = btnStartCommon();
+        HBox b = new HBox(50.0, first, second);
+        b.setLayoutY(133.0);
+        b.setLayoutX(129.0);
+        anc.getChildren().add(b);
+        useFadeInTransition(Duration.millis(300), b);
+        first.setOnMouseClicked(e -> handlePromptBtnPress(e, b));
+        second.setOnMouseClicked(e -> handlePromptBtnPress(e, b));
+    }
+
+    protected void btnPromptInt(int min, int max) {
+        AnchorPane anc = btnStartCommon();
         HBox b = new HBox(50.0);
         b.setLayoutX(13.0);
         b.setLayoutY(133.0);
@@ -128,29 +157,44 @@ public class GuiController {
             btn.setOnMouseClicked(e -> handlePromptBtnPress(e, b));
             b.getChildren().add(btn);
         }
-        //yesBtn.setMinWidth(133.0);
+        //btn.setMinWidth(133.0);
         anc.getChildren().add(b);
         useFadeInTransition(Duration.millis(300), b);
     }
 
     protected void btnPromptConf() {
-        useFadeOutTransition(Duration.millis(100), userTextField);
-        sendBtn.setVisible(false);
-        AnchorPane anc = (AnchorPane) userTextField.getParent();
         Button yesBtn = new Button("Yes");
         yesBtn.setStyle("-fx-base: #90EE90;");
         yesBtn.setMinWidth(133.0);
         Button noBtn = new Button("No");
         noBtn.setStyle("-fx-base: #FF6666;");
         noBtn.setMinWidth(133.0);
-        HBox b = new HBox(50.0, noBtn, yesBtn);
-        b.setLayoutY(133.0);
-        b.setLayoutX(129.0);
-        anc.getChildren().add(b);
-        useFadeInTransition(Duration.millis(300), b);
-        yesBtn.setOnMouseClicked(e -> handlePromptBtnPress(e, b));
-        noBtn.setOnMouseClicked(e -> handlePromptBtnPress(e, b));
+        twoBtnCommon(yesBtn, noBtn);
+    }
 
+    protected void btnPromptColour() {
+
+    }
+
+    protected void btnPromptConnection() {
+        Button socket = new Button("Socket");
+        socket.setStyle("-fx-base: #ffc37f;");
+        socket.setMinWidth(133.0);
+        Button rmi = new Button("Rmi");
+        rmi.setStyle("-fx-base: #bf7fff;");
+        rmi.setMinWidth(133.0);
+        twoBtnCommon(socket, rmi);
+    }
+
+    protected void btnPromptRules() {
+        Button basic = new Button("Basic");
+        basic.setStyle("-fx-base: #c7dde2;");
+        basic.setMinWidth(133.0);
+        Button advanced = new Button("Advanced");
+        advanced.setStyle("-fx-base: #517077;");
+        advanced.setTextFill(Color.WHITE);
+        advanced.setMinWidth(133.0);
+        twoBtnCommon(basic, advanced);
     }
 
     protected void handlePromptBtnPress (MouseEvent e, HBox b) {

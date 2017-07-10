@@ -44,17 +44,19 @@ public class Client {
 
         String mode = Config.client.get("mode").getAsString();
         if ("ask".equals(mode)) {
-            while (!"rmi".equals(mode) &&
-                   !"socket".equals(mode) &&
-                   !"local".equals(mode)) {
+            while (!"rmi".equalsIgnoreCase(mode) &&
+                   !"socket".equalsIgnoreCase(mode) &&
+                   !"local".equalsIgnoreCase(mode)) {
                 mode = c.readLine("RMI or socket? ").replace("\n", "");
             }
         }
         ClientInterface client;
         switch (mode) {
+            case "Rmi":
             case "rmi":
                 client = new RmiClientImpl(name, colour, c);
                 break;
+            case "Socket":
             case "socket":
                 client = new SocketClient(name, colour, c);
                 break;
