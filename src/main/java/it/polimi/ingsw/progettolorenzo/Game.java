@@ -78,7 +78,7 @@ public class Game implements Runnable {
         this.personalBonusBoards = personalBonusBoards;
         this.leaderOn = leaderOn;
         if (maxPlayers > 1) {
-            firstPlayer.sOut("The game is ready.  Waiting on the other players now");
+            firstPlayer.sOut("The game is ready.  Waiting for other players now");
         }
     }
 
@@ -487,7 +487,9 @@ public class Game implements Runnable {
             pl.endgame();
             String msg = String.format("%s scores %d",
                     pl.playerName, pl.getCurrentRes().victoryPoint);
-            pl.sOut(msg);
+            for (Player p: players) {
+                p.sOut(msg);
+            }
             log.info(msg);
             pl.sOut("quit");
         }
