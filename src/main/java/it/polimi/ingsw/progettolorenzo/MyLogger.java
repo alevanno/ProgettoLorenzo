@@ -42,6 +42,37 @@ public final class MyLogger {
 
 class MyConsoleFormatter extends Formatter {
     // log things in an actually readable way
+    /**
+     * Formatted used to print messages.  The formatter format is:
+     *      %[argument_index$][flags][width][.precision]conversion
+     * therefore this formatter means:
+     * <p><ul>
+     *     <li>
+     *         {@code %1$tF} → index: first, conversion: datetime as ISO 8601 complete date formatted as "%tY-%tm-%td"
+     *         <br> the date
+     *     </li>
+     *     <li>
+     *         {@code %1$tT} → index: first, conversion: datetime as 24-hour clock as "%tH:%tM:%tS"
+     *         <br> the hour
+     *     </li>
+     *     <li>
+     *         {@code %2$-30s} → index: second, flags: left justified, width: 30, conversion: string
+     *         <br> the class and method name, truncated to the 30th character
+     *     </li>
+     *     <li>
+     *         {@code %3$7s} → index: third, width: 7, conversion: string
+     *         <br> the log level
+     *     </li>
+     *     <li>
+     *         {@code %4$s} → index: fourth, conversion: string
+     *         <br> the actual log message
+     *     </li>
+     *     <li>
+     *         {@code %n} → a newline
+     *     </li>
+     *
+     * </ul></p>
+     */
     private static final String FORMATTER = "%1$tF %1$tT %2$-30s ⇒ %3$7s: %4$s%n";
 
     public synchronized String format(LogRecord rec) {
