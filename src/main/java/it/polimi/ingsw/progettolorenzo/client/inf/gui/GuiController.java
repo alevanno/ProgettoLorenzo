@@ -13,6 +13,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.HPos;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -99,14 +100,15 @@ public class GuiController {
         Runnable op;
         if (msg.startsWith("☃")) {
             op = new UpdateBoard(msg.substring(1));
+        //} else if {
+        //} else if {
         } else if (msg.startsWith("Input an int between")) {
-            op = () -> {
-//                op = this.btnPromptInt(min, max); //FIXME
-            };
+            String[] minMax = msg.split(" ");
+            int min = Integer.parseInt(minMax[4]);
+            int max = Integer.parseInt(minMax[6]);
+            op = () -> this.btnPromptInt(min, max);
         } else if (msg.startsWith("Input 'y'")) {
-            op = () -> {
-                btnPromptConf();
-            };
+            op = this::btnPromptConf;
         } else {
             op = () -> mainLabel.appendText("\n" + msg);
         }
@@ -115,11 +117,24 @@ public class GuiController {
     }
 
     protected void btnPromptInt(int min, int max) {
-
+        useFadeOutTransition(Duration.millis(100), userTextField);
+        sendBtn.setVisible(false);
+        AnchorPane anc = (AnchorPane) userTextField.getParent();
+        HBox b = new HBox(50.0);
+        b.setLayoutX(13.0);
+        b.setLayoutY(133.0);
+        for (int i = min; i <= max; i++) {
+            Button btn = new Button(String.valueOf(i));
+            btn.setOnMouseClicked(e -> handlePromptBtnPress(e, b));
+            b.getChildren().add(btn);
+        }
+        //yesBtn.setMinWidth(133.0);
+        anc.getChildren().add(b);
+        useFadeInTransition(Duration.millis(300), b);
     }
 
     protected void btnPromptConf() {
-        userTextField.setVisible(false);
+        useFadeOutTransition(Duration.millis(100), userTextField);
         sendBtn.setVisible(false);
         AnchorPane anc = (AnchorPane) userTextField.getParent();
         Button yesBtn = new Button("Yes");
@@ -132,7 +147,7 @@ public class GuiController {
         b.setLayoutY(133.0);
         b.setLayoutX(129.0);
         anc.getChildren().add(b);
-        useFadeTransition(Duration.millis(300), b);
+        useFadeInTransition(Duration.millis(300), b);
         yesBtn.setOnMouseClicked(e -> handlePromptBtnPress(e, b));
         noBtn.setOnMouseClicked(e -> handlePromptBtnPress(e, b));
 
@@ -146,12 +161,22 @@ public class GuiController {
         anc.getChildren().removeAll(b);
         sendBtn.setVisible(true);
         userTextField.setVisible(true);
+        useFadeInTransition(Duration.millis(100), userTextField);
     }
 
-    protected void useFadeTransition(Duration duration, Node node) {
+    protected void useFadeInTransition(Duration duration, Node node) {
         FadeTransition ft = new FadeTransition(duration, node);
         ft.setFromValue(0.1);
         ft.setToValue(1.0);
+        ft.setCycleCount(1);
+        ft.setAutoReverse(false);
+        ft.play();
+    }
+
+    protected void useFadeOutTransition(Duration duration, Node node) {
+        FadeTransition ft = new FadeTransition(duration, node);
+        ft.setFromValue(1.0);
+        ft.setToValue(0.0);
         ft.setCycleCount(1);
         ft.setAutoReverse(false);
         ft.play();
@@ -172,6 +197,7 @@ public class GuiController {
             bigPane.setBackground(Background.EMPTY);
             bigPane.getChildren().add(lbl);
         });
+        useFadeInTransition(Duration.millis(300), bigPane);
 
     }
 
@@ -332,10 +358,11 @@ public class GuiController {
             for (JsonElement famJ : famList) {
                 HBox famMemIcon = addFamMember(famJ.getAsJsonObject());
                 famMemHome.add(famMemIcon, 0, row);
+                famMemHome.setHalignment(famMemIcon, HPos.CENTER);
                 row++;
 
             }
-            useFadeTransition(Duration.millis(1000), famMemHome);
+            useFadeInTransition(Duration.millis(1000), famMemHome);
         }
 
         private void updatePlayerCards(JsonArray cardsJ) {
@@ -384,7 +411,7 @@ public class GuiController {
             sp.setOrientation(Orientation.VERTICAL);
 
             if (councilJ.size() == 0) {
-                sp.getItems().add(new Label("The council is empty!"));
+                updateBigPane(new Label("The council is empty!"));
             }
             councilJ.forEach(famJ ->
                 sp.getItems().add(addFamMember(famJ.getAsJsonObject()))
@@ -444,7 +471,7 @@ public class GuiController {
                         hb.setMinWidth(vb.getMaxWidth());
                         floorPane.getItems().add(hb);
                     }
-                    useFadeTransition(Duration.millis(800), towers);
+                    useFadeInTransition(Duration.millis(800), towers);
                     towers.add(floorPane, i, j);
                 }
             }
