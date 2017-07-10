@@ -305,7 +305,7 @@ public class GuiController {
         Image img = new Image(
             String.format("Gui/cards/%d.png", card.id),
             1000.0,  // arbitrary big
-            300.0,
+            317.0,
             true,
             false,
             true
