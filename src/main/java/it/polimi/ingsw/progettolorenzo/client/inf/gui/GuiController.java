@@ -29,7 +29,9 @@ import javafx.scene.text.Font;
 import javafx.util.Duration;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,6 +40,7 @@ public class GuiController {
     private GuiInterface inf;
     private static String msgIn;
     private static final Object msgInObserver = new Object();
+    private Map<String, Color> colourMapper = new HashMap<>();
 
     private Pane bonusTile = new Pane(
         new Label("The bonus tile\nis not initialized yet"));
@@ -84,6 +87,14 @@ public class GuiController {
             this.marketBooth1, this.marketBooth2,
             this.marketBooth3, this.marketBooth4
         );
+
+        this.colourMapper.put("Blue", Color.web("#095599"));
+        this.colourMapper.put("Red", Color.web("#990909"));
+        this.colourMapper.put("Yellow", Color.web("#997709"));
+        this.colourMapper.put("Green", Color.web("#099934"));
+        this.colourMapper.put("Brown", Color.web("#592c06"));
+        this.colourMapper.put("Violet", Color.web("#660999"));
+
         this.mainLabel.textProperty().addListener(new ChangeListener<Object>() {
             @Override
             public void changed(ObservableValue<?> observable, Object oldValue,
@@ -176,30 +187,26 @@ public class GuiController {
 
     protected void btnPromptColour() {
         AnchorPane anc = btnStartCommon();
-        HBox b = new HBox(50.0);
-        b.setLayoutX(13.0);
-        b.setLayoutY(133.0);
-        Button blue = new Button("Blue");
-        blue.setStyle("-fx-base: #095599;");
-        Button red = new Button("Red");
-        red.setStyle("-fx-base: #990909;");
-        Button yellow = new Button("Yellow");
-        yellow.setStyle("-fx-base: #997709;");
-        yellow.setTextFill(Color.WHITE);
-        Button green = new Button("Green");
-        green.setStyle("-fx-base: #099934;");
-        Button brown = new Button("Brown");
-        brown.setStyle("-fx-base: #592c06;");
-        Button violet = new Button("Violet");
-        violet.setStyle("-fx-base: #660999;");
-        List<Button> colourBtnList = Arrays.asList(blue, red, yellow, green, brown,violet);
-        for (Button i : colourBtnList) {
-            i.setOnMouseClicked(e -> handlePromptBtnPress(e, b));
-            b.getChildren().add(i);
-        }
-        //i.setMinWidth(133.0);
-        anc.getChildren().add(b);
-        useFadeInTransition(Duration.millis(300), b);
+        HBox btnSpace = new HBox(50.0);
+        btnSpace.setLayoutX(13.0);
+        btnSpace.setLayoutY(133.0);
+        this.colourMapper.forEach((x, y) -> {
+            Button btn = new Button(x);
+            btn.setStyle(
+                String.format(
+                "-fx-base: #%02x%02x%02x;",
+                    (int) (y.getRed() * 255),
+                    (int) (y.getGreen() * 255),
+                    (int) (y.getBlue() * 255)
+            ));
+            if ("Yellow".equals(x)) {
+                btn.setTextFill(Color.WHITE););
+            }
+            btn.setOnMouseClicked(e -> handlePromptBtnPress(e, btnSpace));
+            btnSpace.getChildren().add(btn);
+        });
+        anc.getChildren().add(btnSpace);
+        useFadeInTransition(Duration.millis(300), btnSpace);
     }
 
     protected void btnPromptConnection() {
@@ -367,7 +374,7 @@ public class GuiController {
 
         private void updateCurPlayer(JsonObject plJ) {
             playerStatus.setText(plJ.get("playerName").getAsString());
-            playerStatus.setTextFill(Color.valueOf(plJ.get("playerColour").getAsString()));
+            playerStatus.setTextFill(colourMapper.get(plJ.get("playerColour").getAsString()));
         }
 
         private void updatePlayers(JsonArray playersListJ) {
@@ -376,7 +383,7 @@ public class GuiController {
             playersListJ.forEach(plJ -> {
                 JsonObject p = plJ.getAsJsonObject();
                 Label lbl = new Label(p.get("playerName").getAsString());
-                lbl.setTextFill(Color.valueOf(p.get("playerColour").getAsString()));
+                lbl.setTextFill(colourMapper.get(p.get("playerColour").getAsString()));
                 vb.getChildren().add(lbl);
             });
             playersList.getChildren().clear();
@@ -613,7 +620,7 @@ public class GuiController {
         private HBox addFamMember(JsonObject famMember) {
             Circle external = new Circle(
                 18.0,
-                Paint.valueOf(famMember.get("parentColour").getAsString())
+                colourMapper.get(famMember.get("parentColour").getAsString())
             );
             String skinColour = famMember.get("skinColour").getAsString();
             Paint c;
