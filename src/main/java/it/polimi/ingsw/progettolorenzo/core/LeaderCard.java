@@ -116,6 +116,7 @@ public class LeaderCard {
         // it should be empty
     }
 
+    public void printAbility() {}
     public boolean hasOnePerRoundAbility() {
         return this.onePerRound;
     }
@@ -147,6 +148,10 @@ class FrancescoSforza extends LeaderCard {
      * @see Harvest#harv(Player, int);
      * It calls {@link LeaderUtils#oneHarvProd(String, Player, LeaderCard, int)}.
      */
+    public void printAbility() {
+        owner.sOut("It allows you to call an Harvest action of value 1");
+    }
+
     public void onePerRoundAbility(){
         LeaderUtils.oneHarvProd("harvest", owner, this, 1);
     }
@@ -164,10 +169,16 @@ class FilippoBrunelleschi extends LeaderCard {
         boolean checkT = LeaderUtils.checkMultiType(types, activationCost, owner);
         return LeaderUtils.commonApply(owner, this, checkT, false);
     }
+
+    public void printAbility() {
+        owner.sOut("You will never have to pay" +
+                " the additional cost if a tower is already occupied");
+    }
+
     @Override
     public void permanentAbility() {
-        owner.sOut("Permanent ability activated: you will never have to pay" +
-                " the additional cost if a tower is already occupied");
+        owner.sOut("Permanent ability activated");
+        printAbility();
     }
 }
 
@@ -190,10 +201,16 @@ class LucreziaBorgia extends LeaderCard {
      * It increase the action value of available fam members; next turn they will be increased
      * at their birth (not blank for both situations).
      */
+
+    public void printAbility() {
+        owner.sOut("Your colored family members" +
+                " have a bonus of +2 on their value");
+    }
+
     @Override
     public void permanentAbility() {
-        owner.sOut("Permanent ability activated: your colored family members" +
-                " have a bonus of +2 on their value");
+        owner.sOut("Permanent ability activated");
+        printAbility();
         for (FamilyMember fam : owner.getAvailableFamMembers()) {
             if (!"Blank".equals(fam.getSkinColour())) {
                 fam.setActionValue(fam.getActionValue() + 2);
@@ -214,10 +231,15 @@ class LudovicoAriosto extends LeaderCard {
         boolean checkT = LeaderUtils.checkMultiType(types, activationCost, owner);
         return LeaderUtils.commonApply(owner, this, checkT, false);
     }
+
+    public void printAbility() {
+        owner.sOut("You can place your " +
+                "family Members in occupied action spaces.");
+    }
     @Override
     public void permanentAbility() {
-        owner.sOut("Permanent ability activated: you can place your " +
-                "family Members in occupied action spaces. ");
+        owner.sOut("Permanent ability activated");
+        printAbility();
     }
 }
 
@@ -232,11 +254,16 @@ class FedericoDaMontefeltro extends LeaderCard {
         boolean checkT = LeaderUtils.checkMultiType(types, activationCost, owner);
         return LeaderUtils.commonApply(owner, this, checkT, false);
     }
+
+    public void printAbility() {
+        owner.sOut("One of your colored Family Members " +
+                "has a value of 6, regardless of its related die.");
+    }
+
     @Override
     public void onePerRoundAbility() {
         int increasedValue = 6;
-        owner.sOut("One of your colored family members has a value of 6, " +
-                "regardless of its related dice");
+        printAbility();
         owner.sOut("Which one do you want to increase?");
         owner.displayFamilyMembers();
         FamilyMember famMem = owner.getAvailableFamMembers().get(
@@ -261,13 +288,19 @@ class GirolamoSavonarola extends LeaderCard {
         return LeaderUtils.commonApply(owner, this, false, checkC);
 
     }
+
+    public void printAbility() {
+        owner.sOut("You gain 1 faith point.");
+
+    }
+
     /**
      * @see Resources#merge(Resources).
      * It merges the gained faith point with Player current resources.
      */
     @Override
     public void onePerRoundAbility() {
-        owner.sOut("You gained 1 faith point.");
+        printAbility();
         owner.currentResMerge(new Resources
                 .ResBuilder().faithPoint(1).build());
         onePerTurnUsage = true;
@@ -289,10 +322,15 @@ class SistoIV extends LeaderCard {
         return LeaderUtils.commonApply(owner, this, false, checkC);
     }
 
+    public void printAbility() {
+        owner.sOut("You gain 5 additional victory points when you support the" +
+                "Church in a Vatican Report phase");
+    }
+
     @Override
     public void permanentAbility() {
-        owner.sOut("You gain 5 additional victory points when you support the" +
-                "Church in a Vatican Report phase ");
+        owner.sOut("Permanent ability activated");
+        printAbility();
     }
 }
 
@@ -309,9 +347,15 @@ class SigismondoMalatesta extends LeaderCard {
                         .militaryPoint(7).faithPoint(3).build());
         return LeaderUtils.commonApply(owner, this, false, checkC);
     }
+
+    public void printAbility() {
+        owner.sOut("Your Blank family member has a bonus of +3 on its value");
+
+    }
     @Override
     public void permanentAbility() {
-        owner.sOut("Your Blank family member has a bonus of +3 on its value");
+        owner.sOut("Permanent ability activated");
+        printAbility();
         for (FamilyMember fam : owner.getAvailableFamMembers()) {
             if ("Blank".equals(fam.getSkinColour())) {
                 fam.setActionValue(fam.getActionValue() + 3);
@@ -334,10 +378,15 @@ class CesareBorgia extends LeaderCard {
         boolean checkT = LeaderUtils.checkMultiType(types, activationCost, owner);
         return LeaderUtils.commonApply(owner, this, checkT, checkC);
     }
-    @Override
-    public void permanentAbility() {
+
+    public void printAbility() {
         owner.sOut("You don’t need to satisfy the military points requirement when " +
                 "you take territory cards ");
+    }
+    @Override
+    public void permanentAbility() {
+        owner.sOut("Permanent ability activated");
+        printAbility();
     }
 }
 
@@ -352,10 +401,13 @@ class MichelangeloBuonarroti extends LeaderCard {
                 new Resources.ResBuilder().stone(10).build());
         return LeaderUtils.commonApply(owner, this, false, checkC);
     }
+    public void printAbility() {
+        owner.sOut("You gain 3 coin.");
 
+    }
     @Override
     public void onePerRoundAbility() {
-        owner.sOut("You gained 3 coin.");
+        printAbility();
         owner.currentResMerge(new Resources
                 .ResBuilder().coin(3).build());
         onePerTurnUsage = true;
@@ -375,11 +427,15 @@ class SantaRita extends LeaderCard {
                 new Resources.ResBuilder().faithPoint(8).build());
         return LeaderUtils.commonApply(owner, this, false, checkC);
     }
-    @Override
-    public void permanentAbility() {
+    public void printAbility() {
         owner.sOut("Each time you receive wood, stone, coins, or servants " +
                 "as an immediate effect from Development Cards (not from an action space), " +
                 "you receive the resources twice");
+    }
+    @Override
+    public void permanentAbility() {
+        owner.sOut("Permanent ability activated");
+        printAbility();
     }
 }
 
@@ -397,13 +453,15 @@ class GiovanniDalleBandeNere extends LeaderCard {
         return LeaderUtils.commonApply(owner, this, false, checkC);
     }
 
-
+    public void printAbility() {
+        owner.sOut("You gain 1 coin, 1 wood, 1 stone");
+    }
     /**
      * @see GirolamoSavonarola#onePerRoundAbility().
      */
     @Override
     public void onePerRoundAbility() {
-        owner.sOut("You gained 1 coin, 1 wood, 1 stone");
+        printAbility();
         owner.currentResMerge(new Resources
                 .ResBuilder().wood(1).stone(1).coin(1).build());
         onePerTurnUsage = true;
@@ -424,13 +482,15 @@ class CosimoDeMedici extends LeaderCard {
         return LeaderUtils.commonApply(owner, this, checkT, false);
     }
 
-
+    public void printAbility() {
+        owner.sOut("You receive 3 servant and gained 1 victoryPoint");
+    }
     /**
      * @see GirolamoSavonarola#onePerRoundAbility().
      */
     @Override
     public void onePerRoundAbility() {
-        owner.sOut("You received 3 servant and gained 1 victoryPoint");
+        printAbility();
         owner.currentResMerge(new Resources
                 .ResBuilder().servant(3).victoryPoint(1).build());
         onePerTurnUsage = true;
@@ -448,6 +508,11 @@ class LeonardoDaVinci extends LeaderCard {
     public boolean apply() {
         boolean checkT = LeaderUtils.checkMultiType(this.types,this.activationCost, owner);
         return LeaderUtils.commonApply(owner, this, checkT, false);
+    }
+
+    public void printAbility() {
+        owner.sOut("It allows to call a production of value 0");
+
     }
     /**
      * It allows for a production action of value 0.
@@ -473,12 +538,15 @@ class BartolomeoColleoni extends LeaderCard {
         return LeaderUtils.commonApply(owner, this, checkT, false);
     }
 
+    public void printAbility() {
+        owner.sOut("You gained 4 victoryPoint");
+    }
     /**
      * @see GirolamoSavonarola#onePerRoundAbility().
      */
     @Override
     public void onePerRoundAbility() {
-        owner.sOut("You gained 4 victoryPoint");
+        printAbility();
         owner.currentResMerge(new Resources
                 .ResBuilder().victoryPoint(4).build());
         onePerTurnUsage = true;
@@ -498,13 +566,16 @@ class SandroBotticelli extends LeaderCard {
                 new Resources.ResBuilder().wood(10).build());
         return LeaderUtils.commonApply(owner, this, false, checkC);
     }
+    public void printAbility() {
+        owner.sOut("You gain 2 militaryPoint and 1 victoryPoint");
 
+    }
     /**
      * @see GirolamoSavonarola#onePerRoundAbility().
      */
     @Override
     public void onePerRoundAbility() {
-        owner.sOut("You gained 2 militaryPoint and 1 victoryPoint");
+        printAbility();
         owner.currentResMerge(new Resources
                 .ResBuilder().militaryPoint(2).victoryPoint(1).build());
         onePerTurnUsage = true;
@@ -524,14 +595,16 @@ class LudovicoIIIGonzaga extends LeaderCard {
                 new Resources.ResBuilder().servant(15).build());
         return LeaderUtils.commonApply(owner, this, false, checkC);
     }
-
+    public void printAbility() {
+        owner.sOut("You gain 1 councilPrivilege");
+    }
     /**
      * Resources from council privilege are merged to the Player current res.
      * @see Council#choosePrivilege(Player);
      */
     @Override
     public void onePerRoundAbility() {
-        owner.sOut("You gained 1 councilPrivilege");
+        printAbility();
         Resources privRes = owner.getParentGame()
                 .getBoard().councilPalace.choosePrivilege(owner);
         owner.currentResMerge(privRes);
@@ -553,10 +626,15 @@ class LudovicoIlMoro extends LeaderCard {
                 owner);
         return LeaderUtils.commonApply(owner, this, checkT, false);
     }
-    @Override
-    public void permanentAbility() {
+
+    public void printAbility() {
         owner.sOut("Your colored Family Members has a value of 5, regardless of\n" +
                 "their related dice");
+    }
+    @Override
+    public void permanentAbility() {
+        owner.sOut("Permanent ability activated");
+        printAbility();
         for (FamilyMember fam : owner.getAvailableFamMembers()) {
             if (!"Blank".equals(fam.getSkinColour())) {
                 fam.setActionValue(5);
@@ -578,12 +656,18 @@ class PicoDellaMirandola extends LeaderCard {
                 owner);
         return LeaderUtils.commonApply(owner, this, checkT, false);
     }
-    @Override
-    public void permanentAbility() {
+
+    public void printAbility() {
         owner.sOut("When you take Development Cards, you get a discount of" +
                 "3 coins (if the card you are taking has coins in its cost.) This is not a discount on the\n" +
                 "coins you must spend if you take a Development Card from a Tower that’s already\n" +
                 "occupied");
+    }
+
+    @Override
+    public void permanentAbility() {
+        owner.sOut("Permanent ability activated");
+        printAbility();
     }
 }
 
@@ -601,6 +685,11 @@ class LorenzoDeMedici extends LeaderCard {
         return LeaderUtils.commonApply(owner, this, checkT, false);
     }
 
+    public void printAbility() {
+        owner.sOut("Copy the ability of another " +
+                "Leader Card already played by another player. " +
+                "Once you decide the ability to copy, it can’t be changed");
+    }
     /**
      * This is the most complex ability of all the leader cards.
      * First it displays to Player's client by {@link Player#sOut(String)}
@@ -615,10 +704,7 @@ class LorenzoDeMedici extends LeaderCard {
      */
     @Override
     public void permanentAbility() {
-        // needs testing
-        owner.sOut("Copy the ability of another " +
-                "Leader Card already played by another player. " +
-                "Once you decide the ability to copy, it can’t be changed");
+        printAbility();
         Game currentGame = owner.getParentGame();
         int counter = 0;
         List<LeaderCard> activatedCards = new ArrayList<>();

@@ -298,15 +298,21 @@ public class Player {
      * @return the boolean value representing the activation (or not) of a leader card.
      */
     public boolean activateLeaderCard() {
-        this.sOut("Which Leader card do you want to activate?");
+        this.sOut("Select to receive more info on the leader card or to activate it");
         if (leaderCards.isEmpty()) {
             this.sOut("You don't have any Leader Card anymore");
             return false;
         }
         this.displayLeaderCards();
         int choice = this.sInPrompt(1, leaderCards.size());
-        return leaderCards.get(choice - 1).apply();
-
+        LeaderCard toActivate = leaderCards.get(choice - 1);
+        toActivate.printAbility();
+        this.sOut("Do you want to activate it?");
+        if(this.sInPromptConf()) {
+            return leaderCards.get(choice - 1).apply();
+        } else {
+            return false;
+        }
     }
 
     /**
