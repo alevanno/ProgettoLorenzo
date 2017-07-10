@@ -364,7 +364,6 @@ public class GuiController {
         public void run() {
             this.updateBoard(gameIn.get("board").getAsJsonObject());
             this.updateDices(gameIn.get("famValues"));
-            // TODO display "players" too, somewhere
             this.updatePlayer(gameIn.get("you").getAsJsonObject());
             this.updateExcomms(gameIn.get("excomms").getAsJsonArray());
             this.updatePlayers(gameIn.get("players").getAsJsonArray());
