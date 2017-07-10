@@ -392,19 +392,24 @@ public class GuiController {
         private void updateExcomms(JsonArray excommsJ){
            HBox h = new HBox();
            excommsJ.forEach(e ->
-               h.getChildren().add(new ImageView(
-                   new Image(
-                       String.format(
-                           "Gui/excomms/excomm_%d_%d.png",
-                           e.getAsJsonObject().get("period").getAsBigInteger(),
-                           e.getAsJsonObject().get("number").getAsBigInteger()
-                       ),
-                       1000.0,  // arbitrary big
-                       140.0,
-                       true,
-                       false,
-                       true
-                   )
+               h.getChildren().add(new VBox(
+                   new ImageView(
+                       new Image(
+                           String.format(
+                               "Gui/excomms/excomm_%d_%d.png",
+                               e.getAsJsonObject().get("period").getAsBigInteger(),
+                               e.getAsJsonObject().get("number").getAsBigInteger()
+                           ),
+                           1000.0,  // arbitrary big
+                           140.0,
+                           true,
+                           false,
+                           true
+                       )
+                   ),
+                   excomms.contains(e.getAsJsonObject())
+                       ? new Circle(18.0, playerColour)
+                       : new AnchorPane()
                ))
            );
            h.setLayoutY(85);
