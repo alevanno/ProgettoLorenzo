@@ -44,6 +44,11 @@ enum GameStatus {
     }
 }
 
+/**
+ * This class represents a whole game.  It collects the users, deals with
+ * I/O with them, controls the turning, the final point counting, players
+ * timeouts and all the other aspects related to the actual game.
+ */
 public class Game implements Runnable {
     private final Logger log = Logger.getLogger(this.getClass().getName());
     private GameStatus state = GameStatus.INIT;
@@ -486,10 +491,6 @@ public class Game implements Runnable {
             log.info(msg);
             pl.sOut("quit");
         }
-    }
-
-    public Player getCurrPlayer() {
-        return currPlayer;
     }
 
     public void setCurrPlayer(Player pl) {
