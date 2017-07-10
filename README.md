@@ -73,9 +73,12 @@ If the player does not confirm its actions before the timeout, he will be kicked
 participants will be able to continue playing; the player's subsequent turns will be automatically skipped.
 
 The **graphical user interface** will show a window containing the board and various information relevant to the player.
-The text area in the bottom left corner acts like the console in the CLI so, to play, the user must write his choices
-in the text field and press Enter or click Send. The rules explained earlier regarding the CLI apply here as well 
-(except for the Lanterna library).
+The text area in the bottom left corner acts like the console in the CLI while the text field is only used when the 
+player inserts his name or if he wants to write the name of the card he chooses, instead of double clicking on it.
+The rules explained earlier regarding the CLI apply here as well.
+
+The actions are performed through the buttons appearing as needed under the text area. If the user wants to see the 
+bonus tile, the excommunications or the current occupation of the council, he can click on the relevant button.
 
 It is to note that, when choosing a card during a Floor action, the player can double click on the Card to make his 
 choice.
