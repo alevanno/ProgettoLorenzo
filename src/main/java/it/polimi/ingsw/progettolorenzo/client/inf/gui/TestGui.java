@@ -19,6 +19,7 @@ public class TestGui {
         InputStreamReader in = new InputStreamReader(fis, "UTF-8");
         String result = new BufferedReader(in)
             .lines().collect(Collectors.joining("\n"));
+        fis.close();
         g.printLine(result);
     }
 
