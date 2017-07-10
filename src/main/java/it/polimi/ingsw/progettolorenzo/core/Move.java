@@ -158,6 +158,12 @@ public class Move {
         } while (!ret);
     }
 
+    /**
+     * Represents the interaction between player and market
+     * @param board the game board
+     * @param fam the family member claiming the marketBooth
+     * @return the boolean value representing the result of the action
+     */
     public static boolean marketAction(Board board, FamilyMember fam) {
         Player pl = fam.getParent();
         pl.sOut("Select your market booth: ");
@@ -181,6 +187,12 @@ public class Move {
         return prodHarvCommon(board.harvestArea, fam);
     }
 
+    /**
+     * It handles common parts of Harvest\production moves.
+     * @param area it represents the productionArea or harvestArea
+     * @param fam the family membmer claiming the space.
+     * @return the boolean value representing the result of the action
+     */
     public static boolean prodHarvCommon(ActionProdHarv area, FamilyMember fam) {
         Player pl = fam.getParent();
         boolean ret = area.claimFamMain(fam);
