@@ -407,7 +407,8 @@ public class GuiController {
                    )
                ))
            );
-            excomm = h;
+           h.setLayoutY(85);
+           excomm = h;
         }
 
         private void updatePlayer(JsonObject plJ) {
