@@ -53,6 +53,8 @@ public class GuiController {
     @FXML private AnchorPane bigPane;
     @FXML private GridPane playerCards;
     @FXML private Label playerName;
+    @FXML private VBox playersList;
+    @FXML private Label playerStatus;
     @FXML private Label currCoin;
     @FXML private Label currWood;
     @FXML private Label currStone;
@@ -345,6 +347,26 @@ public class GuiController {
             // TODO display "players" too, somewhere
             this.updatePlayer(gameIn.get("you").getAsJsonObject());
             this.updateExcomms(gameIn.get("excomms").getAsJsonArray());
+            this.updatePlayers(gameIn.get("players").getAsJsonArray());
+            this.updateCurPlayer(gameIn.get("currentPlayer").getAsJsonObject());
+        }
+
+        private void updateCurPlayer(JsonObject plJ) {
+            playerStatus.setText(plJ.get("playerName").getAsString());
+            playerStatus.setTextFill(Color.valueOf(plJ.get("playerColour").getAsString()));
+        }
+
+        private void updatePlayers(JsonArray playersListJ) {
+            VBox vb = new VBox();
+            vb.setAlignment(Pos.TOP_RIGHT);
+            playersListJ.forEach(plJ -> {
+                JsonObject p = plJ.getAsJsonObject();
+                Label lbl = new Label(p.get("playerName").getAsString());
+                lbl.setTextFill(Color.valueOf(p.get("playerColour").getAsString()));
+                vb.getChildren().add(lbl);
+            });
+            playersList.getChildren().clear();
+            playersList.getChildren().add(vb);
         }
 
         private void updateExcomms(JsonArray excommsJ){

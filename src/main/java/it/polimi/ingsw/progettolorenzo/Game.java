@@ -522,6 +522,7 @@ public class Game implements Runnable {
         );
         ret.put("players", playersJ);
         ret.put("you", targetPlayer.serialize());
+        ret.put("currentPlayer", this.currPlayer.serialize());
         if (this.famValues != null) {
             ret.put("famValues", this.famValues);
         }
