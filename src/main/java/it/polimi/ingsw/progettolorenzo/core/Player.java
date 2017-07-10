@@ -147,6 +147,7 @@ public class Player {
      * @param famValues the map containing the colored family member values to assign
      */
     public void famMembersBirth(Map<String, Integer> famValues) {
+        this.famMemberList.removeAll(this.famMemberList);
         List <String> colorList = Arrays.asList("Orange", "Black", "White");
         int blankValue = 0;
         for (String s: colorList) {
