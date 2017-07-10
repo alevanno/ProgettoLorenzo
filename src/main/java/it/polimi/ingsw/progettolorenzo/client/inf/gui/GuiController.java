@@ -37,7 +37,6 @@ import java.util.logging.Logger;
 
 public class GuiController {
     private final Logger log = Logger.getLogger(this.getClass().getName());
-    private GuiInterface inf;
     private static String msgIn;
     private static final Object msgInObserver = new Object();
     private Map<String, Color> colourMapper = new HashMap<>();
@@ -103,10 +102,6 @@ public class GuiController {
                 mainLabel.setScrollTop(Double.MAX_VALUE);
             }
         });
-    }
-
-    protected void setInf(GuiInterface inf) {
-        this.inf = inf;
     }
 
     protected void updateMainLabel(String msg) {

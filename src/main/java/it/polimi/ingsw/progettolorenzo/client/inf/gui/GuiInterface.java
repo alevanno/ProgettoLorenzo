@@ -26,7 +26,6 @@ public class GuiInterface extends Application implements Interface {
         loader.setLocation(ClassLoader.class.getResource("/Gui/GuiFx.fxml"));
         Pane root = loader.load();
         controller = loader.getController();
-        controller.setInf(this);
 
         synchronized (guiMonitor) {
             guiStarted = true;
