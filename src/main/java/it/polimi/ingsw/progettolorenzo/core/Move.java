@@ -1,10 +1,26 @@
 package it.polimi.ingsw.progettolorenzo.core;
 
+/**
+ * The class contains all the different kinds of
+ * interaction between {@link it.polimi.ingsw.progettolorenzo.Game} and {@link Player}.
+ * This is not an instantiable class, but contains static methods representing interactions.
+ * {@link Player} (or one of his family members) is one of the param in every interaction.
+ */
 public class Move {
     private Move() {
         throw new IllegalStateException("Not designed to be instantiated");
     }
 
+    /**
+     * This method is called at the end of every action.
+     * It basically asks the player for confirmation, and he {@link Action#apply()} the
+     * Action and then {@link Action#emptyActions()} to give to the next player an empty
+     * ready one;
+     * In case of reversing, the actions list is cleared.
+     * @param pl the player to ask the confirmation
+     * @param act the action to confirm
+     * @return the boolean value representing the result of the confirmation
+     */
     public static boolean confirmation(Player pl, Action act) {
         pl.sOut("Action attempted successfully");
         act.logActions();
@@ -22,6 +38,17 @@ public class Move {
         }
     }
 
+    /**
+     * Utility method to search a Card in the Board, given its name.
+     * @see Board
+     * @see Floor
+     *
+     * @param cardName The card name
+     * @param board the Game Board
+     * @param pl the player attempting the search
+     * @param type it specify the type to match in case of constraints on the choice
+     * @return the Floor containing the card
+     */
     public static Floor searchCard(String cardName, Board board, Player pl, String type) {
         Floor floor = null;
         for (Tower t : board.towers) {
@@ -42,6 +69,16 @@ public class Move {
         return floor;
     }
 
+    /**
+     * It represents the interaction in which the player is claiming a {@link Floor}.
+     * It asks for the cards to obtain, searches ,it with {@link #searchCard(String, Board, Player, String)},
+     * checks the possibility to access first the Tower {@link Tower#checkTowerOcc(FamilyMember)}
+     * then the Floor {@link Floor#accessFloor(Player, int)}.
+     * If the action is allowed, it asks for {@link #confirmation(Player, Action)}
+     * @param board the Game Board
+     * @param famMem the family member attempting the claim
+     * @return the boolean value representing the result of the action
+     */
     public static boolean floorAction(Board board, FamilyMember famMem) {
         Player pl = famMem.getParent();
         Floor floor;
@@ -63,6 +100,19 @@ public class Move {
         }
     }
 
+    /**
+     * A specific variation of {@link #floorAction(Board, FamilyMember)}.
+     * It handles the action of taking a card from a {@link CardImmediateAction}.
+     * It instantiates a new "dummy" family member for the player
+     * in order to use it instead of a real one.
+     *
+     *
+     * @param pl the player attempting the action
+     * @param caller the Card calling the action
+     * @param type the type of the card to obtain
+     * @param value the value the dummy famMemb has to be set
+     * @param discount the eventual discount on the cost of the card
+     */
     public static void floorActionWithCard(Player pl, Card caller, String type, int value, Resources discount) {
         Board board = pl.getParentGame().getBoard();
         pl.sOut("Immediate floorActionWithCard from card " + caller + "\nDo you want to exploit it?");

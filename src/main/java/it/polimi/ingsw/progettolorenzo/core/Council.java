@@ -79,8 +79,8 @@ public class Council extends Action {
      * This is the macro Action builder. It add to the actions list
      * all the {@link BaseAction} to be in order applied.
      * It checks also the action value of the family member.
-     * @param fam
-     * @return
+     * @param fam the family member claiming the space
+     * @return the boolean value of the success (or not) of the claim.
      */
     //actionBuilder for Council class
     public boolean claimSpace(FamilyMember fam) {
@@ -101,7 +101,7 @@ public class Council extends Action {
     /**
      * It place the family member in council and increments the firstAvailSpace
      * field that is handle by {@link it.polimi.ingsw.progettolorenzo.Game}
-     * @param fam
+     * @param fam the family member claiming the space
      */
     protected void placeFamilyMember(FamilyMember fam) {
         councilSpace.add(fam);
@@ -110,6 +110,10 @@ public class Council extends Action {
         }
     }
 
+    /**
+     * @see Floor#serialize()
+     * @return the JsonArray containing the council info
+     */
     public JsonArray serialize() {
         List<JsonObject> ret = new ArrayList<>();
         this.councilSpace.forEach(f -> ret.add(f.serialize()));
